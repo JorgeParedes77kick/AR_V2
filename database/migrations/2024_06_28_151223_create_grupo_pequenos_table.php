@@ -19,7 +19,7 @@ class CreateGrupoPequenosTable extends Migration
             $table->enum('dia_curso', ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo', 'none'])->default('none');
             $table->time('hora_curso')->nullable();
             $table->boolean('activo_inscripcion')->default(true);
-            $table->foreignId('temporada_id_*')->constrained('temporadas');
+            $table->foreignId('temporada_id')->constrained('temporadas');
 
             $table->timestamps();
         });

@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class RolPermiso extends Model
 {
     use HasFactory;
+
+
+    protected $table = 'roles_permisos';
+
+    protected $fillable = [
+        'rol_id',
+        'permiso_id',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 }

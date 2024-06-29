@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helpers\Debug;
 use App\Http\Controllers\Controller;
-use App\Models\Role;
-use App\Models\User;
+use App\Models\Rol;
+use App\Models\Usuario;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -46,7 +46,7 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        $roles = Role::all();
+        $roles = Rol::all();
         $lastRole = $roles->pop(); // Extrae el último elemento de la colección
         $roles->prepend($lastRole); // Inserta el último elemento al principio de la colección
 
@@ -64,7 +64,7 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        $user = User::whereEmail($request->email)->first();
+        $user = Usuario::whereEmail($request->email)->first();
         if (!($user && $user->roles()->where('role_id', $request->role)->exists())) {
         }
         $credentials = $request->only('email', 'password');
@@ -79,7 +79,7 @@ class LoginController extends Controller
     }
     protected function guard(Request $request)
     {
-        $role = Role::whereId($request->role_id)->first();
+        $role = Rol::whereId($request->role_id)->first();
         if ($role) {
             return Auth::guard($role->name);
         }

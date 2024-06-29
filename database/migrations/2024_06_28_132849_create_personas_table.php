@@ -15,9 +15,10 @@ class CreatePersonasTable extends Migration
     {
         Schema::create('personas', function (Blueprint $table) {
             $table->id();
-            $table->string('correo', 250)->unique();
-            $table->string('password');
+            // $table->string('correo', 250)->unique();
+            // $table->string('password');
             $table->string('nombre', 250);
+            // $table->timestamp('email_verified_at')->nullable();
             $table->string('apellido', 250);
             $table->string('dni', 20)->nullable();
             $table->date('fecha_nacimiento');
@@ -29,7 +30,6 @@ class CreatePersonasTable extends Migration
             $table->string('direccion', 255);
             $table->string('codigo_postal', 100)->nullable();
             $table->string('telefono', 70);
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('fotografia')->nullable();
             $table->string('ocupacion');
             $table->string('informacion_adicional', 250)->nullable();

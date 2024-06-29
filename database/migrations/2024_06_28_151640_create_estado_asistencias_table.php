@@ -13,7 +13,7 @@ class CreateEstadoAsistenciasTable extends Migration
      */
     public function up()
     {
-        Schema::create('estado_asistencias', function (Blueprint $table) {
+        Schema::create('estados_asistencias', function (Blueprint $table) {
             $table->id();
             $table->string('estado', 25);
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateEstadoAsistenciasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_asistencias');
+        Schema::dropIfExists('estados_asistencias');
     }
 }

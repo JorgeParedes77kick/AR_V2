@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ciudad;
 use App\Models\Country;
+use App\Models\Nacionalidad;
 use App\Models\Nationality;
-use App\Models\User;
+use App\Models\Pais;
+use App\Models\Usuario;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -46,15 +49,13 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $nationalities = Nationality::all();
-        $countries = Country::orderBy('name')->with(['Regions' => function ($q) {
+        $nationalities = Nacionalidad::all();
+        $countries = Pais::orderBy('name')->with(['Regions' => function ($q) {
             $q->orderBy('name');
         }])->get();
         return view('auth.register')
             ->with('nationalities', $nationalities)
-            ->with('countries', $countries)
-        ;
-
+            ->with('countries', $countries);
     }
 
     /**
@@ -116,11 +117,11 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Models\User
+     * @return \App\Models\Usuario
      */
     protected function create(array $data)
     {
-        return User::create([
+        return Usuario::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsuarioGrupoPequenosTable extends Migration
+class CreateAdicionalInscripcionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateUsuarioGrupoPequenosTable extends Migration
      */
     public function up()
     {
-        Schema::create('usuario_grupo_pequenos', function (Blueprint $table) {
+        Schema::create('adicional_inscripciones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuario_id')->constrained('usuarios');
-            $table->foreignId('grupo_pequeno_id')->constrained('grupo_pequenos');
+            $table->foreignId('adicional_id')->constrained('adicionales');
+            $table->foreignId('inscripcion_id')->constrained('inscripciones');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateUsuarioGrupoPequenosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usuario_grupo_pequenos');
+        Schema::dropIfExists('adicional_inscripciones');
     }
 }

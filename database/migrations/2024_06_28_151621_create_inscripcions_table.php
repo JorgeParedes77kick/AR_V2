@@ -17,8 +17,9 @@ class CreateInscripcionsTable extends Migration
             $table->id();
             $table->date('fecha_inscripcion');
             $table->foreignId('usuario_id')->constrained('usuarios');
+            $table->foreignId('rol_id')->constrained('roles');
             $table->foreignId('grupo_pequeno_id')->constrained('grupo_pequenos');
-            $table->foreignId('estado_inscripcion_id')->constrained('estado_inscripciones');
+            $table->foreignId('estado_inscripcion_id')->constrained('estados_inscripciones');
             $table->timestamps();
         });
     }

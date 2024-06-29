@@ -22,6 +22,7 @@ class CreateCurriculaTable extends Migration
             $table->integer('cantidad_cupos');
             $table->text('imagen');
             $table->text('imagen_landing')->nullable();
+            $table->boolean('activo')->default(true);
             $table->timestamps();
         });
     }

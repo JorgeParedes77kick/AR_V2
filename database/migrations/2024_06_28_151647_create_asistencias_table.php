@@ -17,7 +17,7 @@ class CreateAsistenciasTable extends Migration
             $table->id();
             $table->foreignId('inscripcion_id')->constrained('inscripciones');
             $table->foreignId('semana_id')->constrained('semanas');
-            $table->foreignId('estado_asistencia_id')->constrained('estado_asistencias');
+            $table->foreignId('estado_asistencia_id')->constrained('estados_asistencias');
             $table->timestamps();
         });
     }
