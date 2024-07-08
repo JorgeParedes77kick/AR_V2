@@ -16,6 +16,7 @@ class CreateNacionalidadsTable extends Migration
         Schema::create('nacionalidades', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 50);
+            $table->string('iso', 5);
             $table->timestamps();
         });
     }

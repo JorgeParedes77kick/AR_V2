@@ -15,7 +15,7 @@ class CreateRequisitosTable extends Migration
     {
         Schema::create('requisitos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 100);
+            $table->string('nombre', 50)->nullable();
             $table->foreignId('ciclo_pre_id')->constrained('ciclos');
             $table->timestamps();
         });

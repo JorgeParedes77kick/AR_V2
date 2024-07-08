@@ -15,12 +15,14 @@ class CreateGrupoPequenosTable extends Migration
     {
         Schema::create('grupo_pequenos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ciclo_id')->constrained('ciclos');
-            $table->enum('dia_curso', ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo', 'none'])->default('none');
-            $table->time('hora_curso')->nullable();
-            $table->boolean('activo_inscripcion')->default(true);
             $table->foreignId('temporada_id')->constrained('temporadas');
-
+            $table->foreignId('ciclo_id')->constrained('ciclos');
+            $table->string('nombre_curso', 100)->nullable();
+            $table->enum('dia_curso', ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'none'])->default('none');
+            $table->time('hora_inicio')->nullable();
+            $table->time('hora_fin')->nullable();
+            $table->boolean('activo_inscripcion')->default(true);
+            $table->string('info_adicional')->nullable();
             $table->timestamps();
         });
     }

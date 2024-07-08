@@ -16,7 +16,7 @@ class CreateCiclosTable extends Migration
         Schema::create('ciclos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 100);
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->foreignId('curriculum_id')->constrained('curriculums');
             $table->timestamps();
         });

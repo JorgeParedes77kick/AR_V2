@@ -17,24 +17,26 @@ class CreatePersonasTable extends Migration
             $table->id();
             // $table->string('correo', 250)->unique();
             // $table->string('password');
-            $table->string('nombre', 250);
+            $table->string('nombre', 50);
             // $table->timestamp('email_verified_at')->nullable();
-            $table->string('apellido', 250);
+            $table->string('apellido', 50);
             $table->string('dni', 20)->nullable();
-            $table->date('fecha_nacimiento');
+            $table->date('fecha_nacimiento')->nullable();
             $table->foreignId('genero_id')->constrained('generos');
             $table->foreignId('estado_civil_id')->constrained('estados_civiles');
-            $table->foreignId('pais_id')->constrained('paises');
-            $table->foreignId('ciudad_id')->constrained('ciudades');
+            // $table->foreignId('pais_id')->constrained('paises');
+            $table->unsignedBigInteger('region_id')->nullable();
+            $table->string('ciudad', 100)->nullable();
             $table->foreignId('nacionalidad_id')->constrained('nacionalidades');
-            $table->string('direccion', 255);
+            $table->string('direccion', 255)->nullable();
             $table->string('codigo_postal', 100)->nullable();
-            $table->string('telefono', 70);
+            $table->string('telefono', 20)->nullable();
             $table->string('fotografia')->nullable();
-            $table->string('ocupacion');
+            $table->string('ocupacion')->nullable();
             $table->string('informacion_adicional', 250)->nullable();
-
             $table->timestamps();
+
+            $table->foreign('region_id')->references('id')->on('regiones');
         });
     }
 

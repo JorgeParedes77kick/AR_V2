@@ -17,11 +17,11 @@ class CreateTemporadasTable extends Migration
             $table->id();
             $table->string('nombre', 250);
             $table->string('prefijo', 100)->unique();
-            $table->string('titulo', 250);
+            $table->string('titulo', 250)->default('');
             $table->date('fecha_inicio');
             $table->date('fecha_cierre');
-            $table->date('inscripcion_inicio');
-            $table->date('inscripcion_cierre');
+            $table->date('inscripcion_inicio')->nullable();
+            $table->date('inscripcion_cierre')->nullable();
             $table->timestamps();
         });
     }

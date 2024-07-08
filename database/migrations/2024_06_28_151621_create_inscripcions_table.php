@@ -15,12 +15,14 @@ class CreateInscripcionsTable extends Migration
     {
         Schema::create('inscripciones', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha_inscripcion');
+            // $table->date('fecha_inscripcion');
             $table->foreignId('usuario_id')->constrained('usuarios');
             $table->foreignId('rol_id')->constrained('roles');
             $table->foreignId('grupo_pequeno_id')->constrained('grupo_pequenos');
             $table->foreignId('estado_inscripcion_id')->constrained('estados_inscripciones');
+            $table->string('info_adicional')->nullable();
             $table->timestamps();
+            $table->unique(['usuario_id', 'rol_id', 'grupo_pequeno_id'], 'inscripciones_unique_usuario_rol_grupo');
         });
     }
 

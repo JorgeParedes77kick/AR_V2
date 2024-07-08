@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Ciudad extends Model
+class Region extends Model
 {
     use HasFactory;
 
-    protected $table = 'ciudades';
+    protected $table = 'regiones';
 
     protected $fillable = [
         'nombre',
+        'pais_id',
     ];
 
     protected $casts = [
@@ -26,6 +27,6 @@ class Ciudad extends Model
      */
     public function personas(): HasMany
     {
-        return $this->hasMany(Persona::class, 'ciudad_id');
+        return $this->hasMany(Persona::class, 'region_id');
     }
 }

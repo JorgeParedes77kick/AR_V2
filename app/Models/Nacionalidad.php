@@ -14,6 +14,7 @@ class Nacionalidad extends Model
 
     protected $fillable = [
         'nombre',
+        'iso',
     ];
 
     protected $casts = [

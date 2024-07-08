@@ -15,9 +15,9 @@ class CreateRestriccionsTable extends Migration
     {
         Schema::create('restricciones', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 150);
+            $table->string('nombre', 100)->nullable();
             $table->foreignId('tipo_restriccion_id')->constrained('tipo_restricciones');
-            $table->integer('valor_restricion');
+            $table->string('valor_restricion', 50);
             $table->foreignId('curriculum_id')->constrained('curriculums');
 
             $table->timestamps();
