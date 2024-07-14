@@ -25,10 +25,15 @@ class Temporada extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'fecha_inicio' => 'date',
-        'fecha_cierre' => 'date',
-        'inscripcion_inicio' => 'date',
-        'inscripcion_cierre' => 'date',
+        'fecha_inicio' => 'string',
+        'fecha_cierre' => 'string',
+        'inscripcion_inicio' => 'string',
+        'inscripcion_cierre' => 'string',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
     ];
 
     /**
