@@ -1,13 +1,17 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 let currentTheme = ref('light');
 
 onMounted(() => {
-  currentTheme = localStorage.getItem('theme') || 'light';
+  currentTheme.value = localStorage.getItem('theme') || 'light';
 });
 
+onUnmounted(() => {});
+
 const toggleTheme = () => {
+  currentTheme.value = currentTheme.value === 'light' ? 'dark' : 'light';
+  console.log('currentTheme.value:', currentTheme.value);
   window.toggleTheme();
   // window.location.reload();
 };
@@ -18,14 +22,12 @@ const toggleTheme = () => {
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img
-          :src="
-            currentTheme === 'light'
-              ? '/img/logos/ar ministries_white.png'
-              : '/img/logos/ar ministries.png'
-          "
+          v-if="currentTheme == 'light'"
+          src="/img/logos/ar ministries.png"
           alt="LOGO"
           width="100"
         />
+        <img v-else src="/img/logos/ar ministries_white.png" alt="LOGO" width="100" />
       </a>
       <button
         class="navbar-toggler"
@@ -139,7 +141,7 @@ const toggleTheme = () => {
         </ul>
         <div>
           <button class="btn btn-secondary rounded-pill mx-2" @click="toggleTheme">
-            {{ currentTheme === 'light' ? 'Light Mode' : 'Dark Mode' }}
+            {{ currentTheme == 'light' ? 'Light Mode' : 'Dark Mode' }}
           </button>
         </div>
         <form class="d-flex" role="search">

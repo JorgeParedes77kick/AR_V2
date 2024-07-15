@@ -57,8 +57,10 @@ class TemporadaController extends Controller
      */
     public function show($id)
     {
+        $temporada = Temporada::find($id);
         return Inertia::render('Temporadas/form', [
-            "action" => 'show'
+            "action" => 'show',
+            'temporada' => $temporada
         ]);
     }
 
@@ -70,8 +72,10 @@ class TemporadaController extends Controller
      */
     public function edit($id)
     {
+        $temporada = Temporada::find($id);
         return Inertia::render('Temporadas/form', [
-            "action" => 'edit'
+            "action" => 'edit',
+            'temporada' => $temporada
         ]);
     }
 

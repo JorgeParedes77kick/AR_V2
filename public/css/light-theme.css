@@ -11999,3 +11999,6 @@ textarea.form-control-lg {
   font-weight: 500;
   font-style: normal;
 }
+.lh-0 {
+  line-height: 0 !important;
+}

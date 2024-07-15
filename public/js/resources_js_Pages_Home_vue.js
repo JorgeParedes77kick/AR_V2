@@ -55,9 +55,12 @@ __webpack_require__.r(__webpack_exports__);
     __expose();
     var currentTheme = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('light');
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
-      currentTheme = localStorage.getItem('theme') || 'light';
+      currentTheme.value = localStorage.getItem('theme') || 'light';
     });
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onUnmounted)(function () {});
     var toggleTheme = function toggleTheme() {
+      currentTheme.value = currentTheme.value === 'light' ? 'dark' : 'light';
+      console.log('currentTheme.value:', currentTheme.value);
       window.toggleTheme();
       // window.location.reload();
     };
@@ -70,6 +73,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       toggleTheme: toggleTheme,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
+      onUnmounted: vue__WEBPACK_IMPORTED_MODULE_0__.onUnmounted,
       ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
@@ -123,8 +127,19 @@ var _hoisted_3 = {
   "class": "navbar-brand",
   href: "#"
 };
-var _hoisted_4 = ["src"];
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+var _hoisted_4 = {
+  key: 0,
+  src: "/img/logos/ar ministries.png",
+  alt: "LOGO",
+  width: "100"
+};
+var _hoisted_5 = {
+  key: 1,
+  src: "/img/logos/ar ministries_white.png",
+  alt: "LOGO",
+  width: "100"
+};
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   "class": "navbar-toggler",
   type: "button",
   "data-bs-toggle": "collapse",
@@ -135,11 +150,11 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "navbar-toggler-icon"
 })], -1 /* HOISTED */);
-var _hoisted_6 = {
+var _hoisted_7 = {
   "class": "collapse navbar-collapse",
   id: "navbarSupportedContent"
 };
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
   "class": "navbar-nav me-auto mb-2 mb-lg-0"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
   "class": "nav-item dropdown"
@@ -254,7 +269,7 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 }, "Mis Recursos")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
   "class": "dropdown-item"
 }, "Mis Grupos Pequeños")])])])], -1 /* HOISTED */);
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
   "class": "d-flex",
   role: "search"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -267,14 +282,10 @@ var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   type: "submit"
 }, "Search")], -1 /* HOISTED */);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: $setup.currentTheme === 'light' ? '/img/logos/ar ministries_white.png' : '/img/logos/ar ministries.png',
-    alt: "LOGO",
-    width: "100"
-  }, null, 8 /* PROPS */, _hoisted_4)]), _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_3, [$setup.currentTheme == 'light' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", _hoisted_4)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", _hoisted_5))]), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-secondary rounded-pill mx-2",
     onClick: $setup.toggleTheme
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentTheme === 'light' ? 'Light Mode' : 'Dark Mode'), 1 /* TEXT */)]), _hoisted_8])])]);
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentTheme == 'light' ? 'Light Mode' : 'Dark Mode'), 1 /* TEXT */)]), _hoisted_9])])]);
 }
 
 /***/ }),

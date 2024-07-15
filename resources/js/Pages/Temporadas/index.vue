@@ -3,6 +3,8 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { FormatFecha } from '../../utils/date';
 import Navbar from '../../components/Navbar.vue';
+import { Link } from '@inertiajs/inertia-vue3';
+
 import { onMounted, ref, defineProps } from 'vue';
 dayjs.extend(isBetween);
 
@@ -22,15 +24,20 @@ const isActive = (fecha_ini, fecha_fin) => {
   return `${currentDate.isBetween(fecha_iniJS, fecha_finJS, 'day', '[]')}`;
   //   return 'TRUE';
 };
-
-const goToCreate = () => (window.location.href = `${window.location.origin}/temporadas/create`);
-const goToEdit = (id) => (window.location.href = `${window.location.origin}/temporadas/${id}/edit`);
 </script>
 
 <template>
   <Navbar />
   <div class="container-lg container-fluid">
     <h3>TEMPORADAS</h3>
+    <div class="row">
+      <div class="col d-flex">
+        <Link :href="route('temporada.create')" as="button" class="btn btn-success ms-auto">
+          Crear Nueva Temporada
+        </Link>
+      </div>
+    </div>
+
     <table class="table table-hover table-responsive">
       <thead class="no-seleccionable">
         <tr>
@@ -53,8 +60,12 @@ const goToEdit = (id) => (window.location.href = `${window.location.origin}/temp
           </td>
           <td class="text-center">{{ isActive(item.fecha_inicio, item.fecha_cierre) }}</td>
           <td class="d-flex column-gap-1 justify-content-center">
-            <button class="btn btn-info" @click="goToCreate">Ver</button>
-            <button class="btn btn-secondary" @click="goToEdit(item.idCrypt)">Editar</button>
+            <Link :href="route('temporada.show', item)" as="button" class="btn btn-info">
+              Ver
+            </Link>
+            <Link :href="route('temporada.edit', item)" as="button" class="btn btn-secondary">
+              Editar
+            </Link>
             <button class="btn btn-danger">Eliminar</button>
           </td>
         </tr>
