@@ -2,9 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Debug;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
+use Closure;
+use Inertia\Inertia;
+use Inertia\Support\Header;
 
 class HandleInertiaRequests extends Middleware
 {

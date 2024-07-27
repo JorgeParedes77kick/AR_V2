@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Temporada extends Model
-{
+class Temporada extends Model {
     use HasFactory;
 
     protected $table = 'temporadas';
@@ -35,20 +34,20 @@ class Temporada extends Model
         'created_at',
         'updated_at',
     ];
-
+    protected $attributes = [
+        'titulo' => '',
+    ];
     /**
      * Relación con los grupos pequeños
      */
-    public function gruposPequenos(): HasMany
-    {
+    public function gruposPequenos(): HasMany {
         return $this->hasMany(GrupoPequeno::class, 'temporada_id');
     }
 
     /**
      * Relación con las semanas
      */
-    public function semanas(): HasMany
-    {
+    public function semanas(): HasMany {
         return $this->hasMany(Semana::class, 'temporada_id');
     }
 }

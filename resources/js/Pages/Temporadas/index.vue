@@ -2,7 +2,7 @@
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { FormatFecha } from '../../utils/date';
-import Navbar from '../../components/Navbar.vue';
+import Navbar from '../../components/NavbarMaterialize';
 import { Link } from '@inertiajs/inertia-vue3';
 
 import { onMounted, ref, defineProps } from 'vue';
@@ -10,10 +10,13 @@ dayjs.extend(isBetween);
 
 const props = defineProps({
   temporadas: Object,
+  status: Number,
+  mensaje: String,
+  request: Object,
 });
 
 onMounted(() => {
-  console.log(props.temporadas);
+  console.log(props);
 });
 
 const isActive = (fecha_ini, fecha_fin) => {
