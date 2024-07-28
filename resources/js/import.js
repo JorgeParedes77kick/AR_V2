@@ -2,7 +2,6 @@ window._ = require('lodash');
 
 try {
   require('bootstrap');
-  //   require('materialize-css/dist/js/materialize.min.js');
 } catch (e) {}
 
 /**

@@ -1,15 +1,18 @@
 <script setup>
-import Navbar from '@/components/Navbar.vue';
-import { onMounted, ref } from 'vue';
-
-onMounted(() => {});
+const name = 'Inicio';
 </script>
 
 <template>
-  <Navbar />
-  <div>
-    <h2>TEXTO PRUEBA</h2>
-  </div>
+  <v-container class="">
+    <v-card color="yellow">
+      <v-card-title primary-title> Titulo de la pagina </v-card-title>
+      <v-card-text class="mt-10">
+        <h1 class="text-h1">Hola mundo - {{ name }}</h1>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn text color="primary"> Guardar </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-container>
 </template>
-<style>
-</style>
+

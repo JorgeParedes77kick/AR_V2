@@ -1,1 +1,54 @@
+@import url(https://fonts.googleapis.com/css?family=Nunito);
+@import url(https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap);
+@font-face {
+  font-family: "Gilroy";
+  /* src: url('/fonts/Gilroy-Bold.woff') format('woff'); */
+  src: url(/fonts/Gilroy-Bold.woff?29e8a00a2523137109fc437c948df95a) format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Gilroy";
+  src: url(/fonts/Gilroy-Light.woff?f08220ccb95672d5c17651f3f4c2e83c) format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Gilroy";
+  src: url(/fonts/Gilroy-Regular.woff?de88caa6b67b3d321011e57102caef0e) format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Gilroy";
+  src: url(/fonts/Gilroy-Heavy.woff?76014fe0badb88e06f87a85f89d3fe4a) format("woff");
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Gilroy";
+  src: url(/fonts/Gilroy-Medium.woff?3a98bbb5a6e14bbe2c27d480caf6628b) format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Objetive";
+  src: url(/fonts/Objective-Regular.otf?47cc4b71e1fc29a451d915c880c6bf54) format("otf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Objetive";
+  src: url(/fonts/Objective-ExtraBold.otf?c24948960098e12d0cbd33557ae9bd2b) format("otf");
+  font-weight: 900;
+  font-style: normal;
+}
+body {
+  font-family: "Objetive", "Gilroy", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.lh-0 {
+  line-height: 0 !important;
+}
 

@@ -4,8 +4,88 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 // Variables
 @import 'fonts';
+@import 'functions';
 
 .lh-0 {
   line-height: 0 !important;
+}
+
+:root {
+  // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --red-#{$shade}: #{generate-shade($red, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --pink-#{$shade}: #{generate-shade($pink, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --purple-#{$shade}: #{generate-shade($purple, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --deep-purple-#{$shade}: #{generate-shade($deep-purple, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --indigo-#{$shade}: #{generate-shade($indigo, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --blue-#{$shade}: #{generate-shade($blue, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --light-blue-#{$shade}: #{generate-shade($light-blue, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --cyan-#{$shade}: #{generate-shade($cyan, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --teal-#{$shade}: #{generate-shade($teal, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --green-#{$shade}: #{generate-shade($green, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --light-green-#{$shade}: #{generate-shade($light-green, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --lime-#{$shade}: #{generate-shade($lime, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --yellow-#{$shade}: #{generate-shade($yellow, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --amber-#{$shade}: #{generate-shade($amber, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --orange-#{$shade}: #{generate-shade($orange, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --deep-orange-#{$shade}: #{generate-shade($deep-orange, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --brown-#{$shade}: #{generate-shade($brown, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --grey-#{$shade}: #{generate-shade($grey, $shade)};
+  //   }
+  //   // Generar tonos para el color azul
+  //   @each $shade in (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700) {
+  //     --blue-grey-#{$shade}: #{generate-shade($blue-grey, $shade)};
+  //   }
 }
 

@@ -2,7 +2,7 @@
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { FormatFecha } from '../../utils/date';
-import Navbar from '../../components/NavbarMaterialize';
+import Navbar from '../../components/Navbar';
 import { Link } from '@inertiajs/inertia-vue3';
 
 import { onMounted, ref, defineProps } from 'vue';
