@@ -17,7 +17,7 @@ class CreateTemporadasTable extends Migration
             $table->id();
             $table->string('nombre', 250);
             $table->string('prefijo', 100)->unique();
-            $table->string('titulo', 250)->default('');
+            $table->string('titulo', 250)->default('')->nullable();
             $table->date('fecha_inicio');
             $table->date('fecha_cierre');
             $table->date('inscripcion_inicio')->nullable();

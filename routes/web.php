@@ -21,4 +21,4 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
+Route::resource('temporada', App\Http\Controllers\TemporadaController::class);
