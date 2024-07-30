@@ -49,7 +49,7 @@
     @endenv
 </body>
 
-<script>
+{{-- <script>
     function setTheme(theme) {
         const lightTheme = document.getElementById('light-theme');
         const darkTheme = document.getElementById('dark-theme');
@@ -75,6 +75,6 @@
         const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
     });
-</script>
+</script> --}}
 
 </html>

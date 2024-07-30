@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./import');
+require('./bootstrap.js');
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import { createApp, h } from 'vue';
@@ -29,5 +29,5 @@ createInertiaApp({
   },
 });
 
-InertiaProgress.init({ color: '#4B5563' });
+InertiaProgress.init();
 

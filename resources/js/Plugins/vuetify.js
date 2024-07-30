@@ -1,15 +1,24 @@
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
-import { aliases, mdi } from 'vuetify/iconsets/mdi';
+// import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
+import '@mdi/font/css/materialdesignicons.css';
 import 'vuetify/styles'; //Estilos de vuetify
 
 const light = {
   dark: false,
   colors: {
-    background: '#f4ede8',
-    surface: '#ffffff',
+    'navbar-color': '#222224',
+    'navbar-text': '#99c5c0',
+    'navbar-active': '#f4ede8',
+    'navbar-active-text': '#f4ede8',
+    'navbar-hover': '#99c5c0',
+    'navbar-hover-text': '#f4ede8',
+
+    // background: '#f4ede8',
+    background: '#fffdf8',
+    foreground: '#222222',
     primary: '#42a5f5',
     secondary: '#26a69a',
     success: '#66bb6a',
@@ -18,7 +27,6 @@ const light = {
     info: '#26c6da',
     light: '#f2ede7',
     dark: '#40251e',
-    'font-color': '#222222',
     red: '#e57373',
     pink: '#f06292',
     purple: '#ba68c8',
@@ -44,8 +52,15 @@ const light = {
 const dark = {
   dark: true,
   colors: {
-    background: '#121212',
-    surface: '#121212',
+    'navbar-color': '#0e0e0e',
+    'navbar-text': '#bad7d4',
+    'navbar-active': '#f4ede8',
+    'navbar-active-text': '#f4ede8',
+    'navbar-hover': '#bad7d4',
+    'navbar-hover-text': '#f4ede8',
+
+    background: '##161617',
+    foreground: '#fffdf8',
     primary: '#1565c0',
     secondary: '#00695c',
     success: '#2e7d32',
@@ -54,7 +69,6 @@ const dark = {
     info: '#00838f',
     light: '#d1ccc7',
     dark: '#4a3b33',
-    'font-color': '#f4ede8',
     red: '#b71c1c',
     pink: '#c2185b',
     purple: '#7b1fa2',
@@ -80,21 +94,10 @@ const dark = {
 const vuetify = createVuetify({
   components,
   directives,
-  //Indicamos el prefijo por defecto
-  //Vueitfy soporta varias bibliotecas de iconos, pero acuparemos mdi
-  icons: {
-    defaultSet: 'mdi',
-    aliases,
-    sets: {
-      mdi,
-    },
-  },
   theme: {
-    defaultTheme: 'lightTheme',
-
     themes: {
-      lightTheme: light,
-      darkTheme: dark,
+      light,
+      dark,
     },
   },
 });
