@@ -1,15 +1,23 @@
-<script setup>
-import Navbar from '@/components/Navbar.vue';
-import { onMounted, ref } from 'vue';
+<template>
+  <main-layout>
+    <v-container>
+      <v-card color="background">
+        <v-card-title>Bienvenido a Mi Aplicación</v-card-title>
+        <v-card-text> Este es el contenido de la página de ejemplo. </v-card-text>
+      </v-card>
+    </v-container>
+  </main-layout>
+</template>
 
-onMounted(() => {});
+<script>
+import MainLayout from '../components/Layout.vue';
+
+export default {
+  components: {
+    MainLayout,
+  },
+};
 </script>
 
-<template>
-  <Navbar />
-  <div>
-    <h2>TEXTO PRUEBA</h2>
-  </div>
-</template>
-<style>
-</style>
+<style scoped></style>
+

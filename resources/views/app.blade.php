@@ -21,14 +21,16 @@
 
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('css/light-theme.css') }}" id="light-theme">
-    <link rel="stylesheet" href="{{ mix('css/dark-theme.css') }}" id="dark-theme" disabled>
+    {{-- <link rel="stylesheet" href="{{ mix('css/light-theme.css') }}" id="light-theme">
+    <link rel="stylesheet" href="{{ mix('css/dark-theme.css') }}" id="dark-theme" disabled> --}}
 
-    {{-- <link rel="stylesheet" href="{{ mix('css/app.css') }}"> --}}
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
     @routes
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
+    {{-- @vite('resources/js/app.js') --}}
+
     @inertiaHead
 </head>
 
@@ -47,7 +49,7 @@
     @endenv
 </body>
 
-<script>
+{{-- <script>
     function setTheme(theme) {
         const lightTheme = document.getElementById('light-theme');
         const darkTheme = document.getElementById('dark-theme');
@@ -73,6 +75,6 @@
         const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
     });
-</script>
+</script> --}}
 
 </html>

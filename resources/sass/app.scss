@@ -4,8 +4,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 // Variables
 @import 'fonts';
+@import 'functions';
 
 .lh-0 {
   line-height: 0 !important;
+}
+
+.v-application.v-theme--dark #body-app {
+  background-image: url('../../public/img/fondo-dark.png');
+  background-repeat: repeat;
+  //   filter: invert(100%);
+}
+.v-application.v-theme--light #body-app {
+  background-image: url('../../public/img/fondo.jpg');
+  background-repeat: repeat;
+  //   filter: invert(100%);
 }
 
