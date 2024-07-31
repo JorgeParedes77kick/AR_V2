@@ -59,7 +59,7 @@ const dark = {
     'navbar-hover': '#bad7d4',
     'navbar-hover-text': '#f4ede8',
 
-    background: '##161617',
+    background: '#161617',
     foreground: '#fffdf8',
     primary: '#1565c0',
     secondary: '#00695c',
