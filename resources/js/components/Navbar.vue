@@ -130,7 +130,7 @@ const toggleTheme = () => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Lider
+              Alumno
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item">Home</a></li>
