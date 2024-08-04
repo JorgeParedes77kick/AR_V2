@@ -44,8 +44,8 @@ const light = {
     orange: '#ffa726',
     'deep-orange': '#ff7043',
     brown: '#8d6e63',
-    grey: '#bdbdbd',
-    'blue-grey': '#78909c',
+    gray: '#bdbdbd',
+    'blue-gray': '#78909c',
   },
 };
 
@@ -86,8 +86,8 @@ const dark = {
     orange: '#ef6c00',
     'deep-orange': '#d84315',
     brown: '#5d4037',
-    grey: '#424242',
-    'blue-grey': '#37474f',
+    gray: '#424242',
+    'blue-gray': '#37474f',
   },
 };
 
