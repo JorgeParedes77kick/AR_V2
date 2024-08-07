@@ -5,17 +5,18 @@ import isBetween from 'dayjs/plugin/isBetween';
 import { Link } from '@inertiajs/inertia-vue3';
 
 import MainLayout from '../../components/Layout';
-
 import { FormatFecha } from '../../utils/date';
+import { truncarTexto } from '../../utils/string';
+
 dayjs.extend(isBetween);
 
 const props = defineProps({
   temporadas: Object,
-  status: Number,
+  // status: Number,
 });
 
 onMounted(() => {
-  console.log(props);
+  // console.log(props);
 });
 
 const isActive = (fecha_ini, fecha_fin) => {
@@ -23,7 +24,7 @@ const isActive = (fecha_ini, fecha_fin) => {
   const fecha_finJS = dayjs(fecha_fin);
   const currentDate = dayjs();
   //   console.log('currentDate:', currentDate);
-  return `${currentDate.isBetween(fecha_iniJS, fecha_finJS, 'day', '[]')}`;
+  return currentDate.isBetween(fecha_iniJS, fecha_finJS, 'day', '[]');
   //   return 'TRUE';
 };
 
@@ -33,8 +34,8 @@ const headers = [
   { title: 'Fecha Inicio', key: 'fecha_inicio' },
   { title: 'Fecha Fin', key: 'fecha_cierre' },
   { title: 'Fecha Inscripcion', key: 'inscripcion_inicio' },
-  { title: 'Status', key: 'status' },
-  { title: 'Acciones', key: 'acciones' },
+  { title: 'Status', key: 'status', sortable: false },
+  { title: 'Acciones', key: 'acciones', sortable: false },
 ];
 const onClickDelete = async (item) => {
   console.log("item:", item)
@@ -56,8 +57,8 @@ const onClickDelete = async (item) => {
       }
     } catch (err) {
       if (err?.response?.data?.server) {
-        const { server: message } = err.response.data;
-        Swal.fire({ title: 'Error!', text: message, icon: 'error' });
+        const { server: msg, message } = err.response.data;
+        Swal.fire({ title: 'Error!', text: msg + '\n' + truncarTexto(message), icon: 'error' });
       }
     }
   }
@@ -93,10 +94,14 @@ const onClickDelete = async (item) => {
                   {{ FormatFecha(item.inscripcion_cierre, 3) }}
                 </template>
                 <template v-slot:[`item.status`]="{ item }">
-                  {{ isActive(item.fecha_inicio, item.fecha_cierre) }}
+                  <!-- {{ isActive(item.fecha_inicio, item.fecha_cierre) }} -->
+                  <!-- <v-badge color="info" :content="isActive(item.fecha_inicio, item.fecha_cierre)"> </v-badge> -->
+                  <v-chip v-if="isActive(item.fecha_inicio, item.fecha_cierre)" color="success">Activa</v-chip>
+                  <v-chip v-else color="error">Inactiva</v-chip>
+
                 </template>
                 <template v-slot:[`item.acciones`]="{ item }">
-                  <div class="d-flex flex-wrap ga-3">
+                  <div class="d-flex flex-wrap ga-1">
                     <Link :href="route('temporadas.show', item)">
                     <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>

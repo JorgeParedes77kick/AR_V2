@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Debug;
-use App\Http\Requests\TemporadaResquest;
+use App\Http\Requests\TemporadaRequest;
 use App\Models\Temporada;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,20 +13,10 @@ class TemporadaController extends Controller {
      *
      */
     public function index(Request $request) {
-        $status = session('status');
-        $message = session('message');
-        Debug::info($status);
-        Debug::info($message);
-        Debug::info($request->session()->all());
 
         $temporadas = Temporada::orderBy('prefijo', 'desc')->get();
-        // foreach ($temporadas as $i => $temp) {
-        //     // $temp->idCrypt = Crypt::encrypt($temp->id);
-        //     $temp->idCrypt = Str::slug($temp->id, '-');
-        // }
         return Inertia::render('Temporadas/index', [
             'temporadas' => $temporadas,
-            'status' => $status,
         ]);
     }
 
@@ -46,7 +35,7 @@ class TemporadaController extends Controller {
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public function store(TemporadaResquest $request) {
+    public function store(TemporadaRequest $request) {
         $input = $request->all();
         $temporada = Temporada::create($input);
 
@@ -89,7 +78,7 @@ class TemporadaController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      */
-    public function update(TemporadaResquest $request, $id) {
+    public function update(TemporadaRequest $request, $id) {
 
         $input = $request->all();
         $temporada = Temporada::find($id);

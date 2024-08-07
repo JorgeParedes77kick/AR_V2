@@ -50,7 +50,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     var props = __props;
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(props.action === _constants_form__WEBPACK_IMPORTED_MODULE_4__.CRUD.show);
-    var temporadaForm = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.useForm)(_objectSpread({
+    var inputForm = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.useForm)(_objectSpread({
       nombre: '',
       prefijo: '',
       titulo: '',
@@ -67,7 +67,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           while (1) switch (_context.prev = _context.next) {
             case 0:
               e.preventDefault();
-              temporadaForm.clearErrors();
+              inputForm.clearErrors();
               _context.next = 4;
               return form.value.validate();
             case 4:
@@ -94,10 +94,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               action = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_4__.CRUD.edit ? 'update' : 'store';
               method = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_4__.CRUD.edit ? 'put' : 'post';
               routeName = "temporadas.".concat(action);
-              id = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_4__.CRUD.edit ? temporadaForm.id : null;
+              id = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_4__.CRUD.edit ? inputForm.id : null;
               _context2.prev = 5;
               _context2.next = 8;
-              return (axios__WEBPACK_IMPORTED_MODULE_5___default())[method](route(routeName, id), temporadaForm);
+              return (axios__WEBPACK_IMPORTED_MODULE_5___default())[method](route(routeName, id), inputForm);
             case 8:
               response = _context2.sent;
               if (!(response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message)) {
@@ -130,7 +130,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               }
               if (_context2.t0 !== null && _context2.t0 !== void 0 && (_err$response2 = _context2.t0.response) !== null && _err$response2 !== void 0 && (_err$response2$data = _err$response2.data) !== null && _err$response2$data !== void 0 && _err$response2$data.errors) {
                 errors = _context2.t0.response.data.errors;
-                temporadaForm.errors = errors;
+                inputForm.errors = errors;
               }
             case 21:
               _context2.prev = 21;
@@ -151,7 +151,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       props: props,
       loading: loading,
       isDisabled: isDisabled,
-      temporadaForm: temporadaForm,
+      inputForm: inputForm,
       form: form,
       validateForm: validateForm,
       submit: submit,
@@ -470,7 +470,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["ButtonBack"], {
                     href: _ctx.route('temporadas.index')
-                  }, null, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" TEMPORADAS ")];
+                  }, null, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" TEMPORADAS " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.CRUD.create !== $props.action ? "#".concat($setup.inputForm.id) : ''), 1 /* TEXT */)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_subtitle, null, {
@@ -499,13 +499,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 id: "prefijo",
                                 name: "prefijo",
                                 label: "Prefijo",
-                                modelValue: $setup.temporadaForm.prefijo,
+                                modelValue: $setup.inputForm.prefijo,
                                 "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-                                  return $setup.temporadaForm.prefijo = $event;
+                                  return $setup.inputForm.prefijo = $event;
                                 }),
                                 disabled: $setup.isDisabled,
                                 rules: $setup.validate('Nombre', 'required'),
-                                "error-messages": $setup.temporadaForm.errors.prefijo
+                                "error-messages": $setup.inputForm.errors.prefijo
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
@@ -518,13 +518,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 id: "nombre",
                                 name: "nombre",
                                 label: "Nombre",
-                                modelValue: $setup.temporadaForm.nombre,
+                                modelValue: $setup.inputForm.nombre,
                                 "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-                                  return $setup.temporadaForm.nombre = $event;
+                                  return $setup.inputForm.nombre = $event;
                                 }),
                                 disabled: $setup.isDisabled,
                                 rules: $setup.validate('Temporada', 'required'),
-                                "error-messages": $setup.temporadaForm.errors.nombre
+                                "error-messages": $setup.inputForm.errors.nombre
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
@@ -538,13 +538,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "fecha_inicio",
                                 label: "Fecha de inicio",
                                 type: "date",
-                                modelValue: $setup.temporadaForm.fecha_inicio,
+                                modelValue: $setup.inputForm.fecha_inicio,
                                 "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-                                  return $setup.temporadaForm.fecha_inicio = $event;
+                                  return $setup.inputForm.fecha_inicio = $event;
                                 }),
                                 disabled: $setup.isDisabled,
                                 rules: $setup.validate('Fecha de inicio', 'required'),
-                                "error-messages": $setup.temporadaForm.errors.fecha_inicio
+                                "error-messages": $setup.inputForm.errors.fecha_inicio
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
@@ -558,13 +558,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "fecha_cierre",
                                 label: "Fecha de cierre",
                                 type: "date",
-                                modelValue: $setup.temporadaForm.fecha_cierre,
+                                modelValue: $setup.inputForm.fecha_cierre,
                                 "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-                                  return $setup.temporadaForm.fecha_cierre = $event;
+                                  return $setup.inputForm.fecha_cierre = $event;
                                 }),
                                 disabled: $setup.isDisabled,
                                 rules: $setup.validate('Fecha de cierre', 'required'),
-                                "error-messages": $setup.temporadaForm.errors.fecha_cierre
+                                "error-messages": $setup.inputForm.errors.fecha_cierre
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
@@ -578,12 +578,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "inscripcion_inicio",
                                 label: "Fecha de inicio de inscripcion",
                                 type: "date",
-                                modelValue: $setup.temporadaForm.inscripcion_inicio,
+                                modelValue: $setup.inputForm.inscripcion_inicio,
                                 "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-                                  return $setup.temporadaForm.inscripcion_inicio = $event;
+                                  return $setup.inputForm.inscripcion_inicio = $event;
                                 }),
                                 disabled: $setup.isDisabled,
-                                "error-messages": $setup.temporadaForm.errors.inscripcion_inicio
+                                "error-messages": $setup.inputForm.errors.inscripcion_inicio
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
@@ -597,12 +597,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "inscripcion_cierre",
                                 label: "Fecha de cierre de inscripcion",
                                 type: "date",
-                                modelValue: $setup.temporadaForm.inscripcion_cierre,
+                                modelValue: $setup.inputForm.inscripcion_cierre,
                                 "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-                                  return $setup.temporadaForm.inscripcion_cierre = $event;
+                                  return $setup.inputForm.inscripcion_cierre = $event;
                                 }),
                                 disabled: $setup.isDisabled,
-                                "error-messages": $setup.temporadaForm.errors.inscripcion_cierre
+                                "error-messages": $setup.inputForm.errors.inscripcion_cierre
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
