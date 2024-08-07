@@ -41,3 +41,17 @@ export const removeValid = (input) => {
   input.classList.remove('is-valid');
 };
 
+export const validateForm = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    let validForm = true;
+    form.querySelectorAll('.v-input--error').forEach((x) => { console.log(x); validForm = false;});
+    if (!validForm) {
+        e.stopPropagation();
+        return false;
+    } else {
+        return true;
+    }
+
+};
+

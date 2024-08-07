@@ -66,7 +66,7 @@ __webpack_require__.r(__webpack_exports__);
       localStorage.setItem('theme', isDarkTheme.value ? 'dark' : 'light');
     };
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      isDarkTheme.value = localStorage.getItem('theme') == 'dark';
+      isDarkTheme.value = localStorage.getItem('theme') === 'dark';
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
     });
     var __returned__ = {

@@ -19,7 +19,7 @@ const toggleTheme = () => {
 };
 
 onMounted(() => {
-  isDarkTheme.value = localStorage.getItem('theme') == 'dark';
+  isDarkTheme.value = localStorage.getItem('theme') === 'dark';
   theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
 });
 </script>

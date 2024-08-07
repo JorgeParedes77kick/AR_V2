@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class LoginController extends Controller
 {
@@ -50,7 +51,10 @@ class LoginController extends Controller
         $lastRole = $roles->pop(); // Extrae el último elemento de la colección
         $roles->prepend($lastRole); // Inserta el último elemento al principio de la colección
 
-        return view('auth.login')->with('roles', $roles);
+        //return view('auth.login')->with('roles', $roles);
+        return Inertia::render('Login/LoginPage', [
+            'roles' => $roles,
+        ]);
     }
     public function login(Request $request)
     {
@@ -58,11 +62,10 @@ class LoginController extends Controller
         $validator = Validator::make($input, [
             'email' => 'required|email',
             'password' => 'required',
-            'role' => 'required',
         ]);
         Debug::info($input);
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json(['message' => $validator->errors()], 422);
         }
         $user = Usuario::whereEmail($request->email)->first();
         if (!($user && $user->roles()->where('role_id', $request->role)->exists())) {
@@ -74,7 +77,7 @@ class LoginController extends Controller
             $response = $this->authenticated($request, $this->guard($request)->user());
             return response()->json(["user" => $response]);
         } else {
-            return response()->json(["error" => "Credenciales inválidas"], 403);
+            return response()->json(["message" => "Credenciales inválidas"], 403);
         }
     }
     protected function guard(Request $request)

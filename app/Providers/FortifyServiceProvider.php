@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -41,6 +42,18 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        });
+
+        Fortify::loginView(function () {
+            return Inertia::render('Login/LoginPage');
+        });
+
+        Fortify::registerView(function () {
+            return view('Login/RegisterPage');
+        });
+
+        Fortify::requestPasswordResetLinkView(function () {
+            return view('Login/ForgotPasswordPage');
         });
     }
 }

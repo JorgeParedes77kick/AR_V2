@@ -16,10 +16,13 @@ use Inertia\Inertia;
  */
 
 Route::get('/', function () {
-    return Inertia::render('Home');
+    return Inertia::render('Login/LoginPage');
 });
 
-Auth::routes();
+Route::post('auth.login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+
+//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('temporada', App\Http\Controllers\TemporadaController::class);
+

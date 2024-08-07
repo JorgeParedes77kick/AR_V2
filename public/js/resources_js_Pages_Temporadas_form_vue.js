@@ -668,7 +668,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "FORM_POST": () => (/* binding */ FORM_POST),
 /* harmony export */   "TEXT_BUTTON": () => (/* binding */ TEXT_BUTTON),
 /* harmony export */   "removeValid": () => (/* binding */ removeValid),
-/* harmony export */   "validInput": () => (/* binding */ validInput)
+/* harmony export */   "validInput": () => (/* binding */ validInput),
+/* harmony export */   "validateForm": () => (/* binding */ validateForm)
 /* harmony export */ });
 var CRUD = {
   index: 'index',
@@ -708,6 +709,21 @@ var validInput = function validInput(input, value) {
 var removeValid = function removeValid(input) {
   input.classList.remove('is-invalid');
   input.classList.remove('is-valid');
+};
+var validateForm = function validateForm(e) {
+  e.preventDefault();
+  var form = e.target;
+  var validForm = true;
+  form.querySelectorAll('.v-input--error').forEach(function (x) {
+    console.log(x);
+    validForm = false;
+  });
+  if (!validForm) {
+    e.stopPropagation();
+    return false;
+  } else {
+    return true;
+  }
 };
 
 /***/ }),

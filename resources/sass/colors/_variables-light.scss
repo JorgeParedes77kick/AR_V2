@@ -33,6 +33,10 @@
 // $yellowOld: #f6d689;
 // $orangeOld: #f1996a;
 
+$armBeige-base: #f4ede8 !default;
+$armBlack-base: #222222 !default;
+$armGreen-base: #99c5c0 !default;
+
 $white-base: #f3eee8 !default;
 $black-base: #343434 !default;
 
@@ -77,6 +81,9 @@ $blue-grey: generate-color-variants($blue-grey-base) !default;
 $grey: generate-color-variants($grey-base) !default;
 $blacken: generate-color-variants($black-base) !default;
 $whiten: generate-color-variants($white-base) !default;
+$armBeige: generate-color-variants($armBeige-base) !default;
+$armBlack: generate-color-variants($armBlack-base) !default;
+$armGreen: generate-color-variants($armGreen-base) !default;
 
 $shades: (
   'black': $black-base,
@@ -108,5 +115,9 @@ $colors: (
   'blacken': $blacken,
   'whiten': $whiten,
   'shades': $shades,
+  'armBeige': $armBeige,
+  'armBlack': $armBlack,
+  'armGreen': $armGreen,
+
 ) !default;
 
