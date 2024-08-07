@@ -47,19 +47,120 @@ __webpack_require__.r(__webpack_exports__);
     var theme = (0,vuetify__WEBPACK_IMPORTED_MODULE_2__.useTheme)();
     var isDarkTheme = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
     var drawer = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
-    var items = [{
-      title: 'Inicio',
-      link: '/',
-      isActive: true
+    var listGroup = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([{
+      label: 'Admin',
+      expanded: false,
+      items: [{
+        title: 'Home',
+        link: '/'
+      }, {
+        title: 'Globales',
+        link: '/'
+      }, {
+        title: 'Temporadas',
+        link: '/'
+      }, {
+        title: 'Registrar Horario',
+        link: '/'
+      }, {
+        title: 'Usuarios',
+        link: '/'
+      }, {
+        title: 'Asistencias',
+        link: '/'
+      }, {
+        title: 'Recursos',
+        link: '/'
+      }, {
+        title: 'Cumpleaños',
+        link: '/'
+      }, {
+        title: 'Adicionales ',
+        link: '/'
+      }, {
+        title: 'Exportar Data',
+        link: '/'
+      }, {
+        title: 'Inscribir Alumno',
+        link: '/'
+      }]
     }, {
-      title: 'Acerca de',
-      link: '/about',
-      isActive: false
+      label: 'Coordinador',
+      expanded: false,
+      items: [{
+        title: 'Asistencia',
+        link: '/'
+      }, {
+        title: 'Registrar Horario',
+        link: '/'
+      }, {
+        title: 'Usuarios AR',
+        link: '/'
+      }, {
+        title: 'Recursos',
+        link: '/'
+      }, {
+        title: 'Cumpleaños',
+        link: '/'
+      }, {
+        title: 'Exportar Data',
+        link: '/'
+      }, {
+        title: 'Reasignar alumnos',
+        link: '/'
+      }, {
+        title: 'Inscribir Alumno',
+        link: '/'
+      }]
     }, {
-      title: 'Contacto',
-      link: '/contact',
-      isActive: false
-    }];
+      label: 'Monitor',
+      expanded: false,
+      items: [{
+        title: 'Asistencia',
+        link: ''
+      }, {
+        title: 'Usuarios AR',
+        link: ''
+      }, {
+        title: 'Cumpleaños',
+        link: ''
+      }, {
+        title: 'Exportar Data',
+        link: ''
+      }, {
+        title: 'Reasignar alumnos',
+        link: ''
+      }, {
+        title: 'Inscribir Alumno',
+        link: ''
+      }]
+    }, {
+      label: 'Lider',
+      expanded: false,
+      items: [{
+        title: 'Mis Salones',
+        link: ''
+      }, {
+        title: 'Calificar alumnos',
+        link: ''
+      }, {
+        title: 'Cumpleaños',
+        link: ''
+      }]
+    }, {
+      label: 'Alumno',
+      expanded: false,
+      items: [{
+        title: 'Home',
+        link: ''
+      }, {
+        title: 'Mis Recursos',
+        link: ''
+      }, {
+        title: 'Mis Grupos Pequeños',
+        link: ''
+      }]
+    }]);
     var toggleTheme = function toggleTheme() {
       isDarkTheme.value = !isDarkTheme.value;
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
@@ -69,17 +170,24 @@ __webpack_require__.r(__webpack_exports__);
       isDarkTheme.value = localStorage.getItem('theme') === 'dark';
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
     });
+    var activeGroup = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+    function toggleGroup(index) {
+      activeGroup.value = activeGroup.value === index ? null : index;
+    }
     var __returned__ = {
       theme: theme,
       isDarkTheme: isDarkTheme,
       drawer: drawer,
-      items: items,
+      listGroup: listGroup,
       toggleTheme: toggleTheme,
+      activeGroup: activeGroup,
+      toggleGroup: toggleGroup,
       get classnames() {
         return (classnames__WEBPACK_IMPORTED_MODULE_0___default());
       },
       onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted,
       ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref,
+      reactive: vue__WEBPACK_IMPORTED_MODULE_1__.reactive,
       get useTheme() {
         return vuetify__WEBPACK_IMPORTED_MODULE_2__.useTheme;
       }
@@ -158,6 +266,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
+var _hoisted_1 = {
+  "class": "mr-auto ml-2"
+};
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "/img/logos/ar ministries_white.png",
+  width: "100",
+  "class": "px-2",
+  style: {
+    "filter": "drop-shadow(3px 3px 3px rgba(153, 197, 192, 1))"
+  }
+}, null, -1 /* HOISTED */);
+var _hoisted_3 = {
+  "class": "d-flex align-center ml-auto mr-2"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_app_bar_nav_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-app-bar-nav-icon");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
@@ -165,6 +287,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_app_bar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-app-bar");
   var _component_v_list_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-item");
   var _component_v_hover = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-hover");
+  var _component_v_list_group = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-group");
+  var _component_v_list = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list");
   var _component_v_navigation_drawer = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-navigation-drawer");
   var _component_v_main = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-main");
   var _component_v_app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-app");
@@ -176,11 +300,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_app_bar_nav_icon, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_app_bar_nav_icon, {
             onClick: _cache[0] || (_cache[0] = function ($event) {
               return $setup.drawer = !$setup.drawer;
             })
-          }), $setup.isDarkTheme ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, {
+          })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$setup.isDarkTheme ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, {
             key: 0,
             icon: "mdi-weather-night",
             onClick: $setup.toggleTheme
@@ -193,40 +317,66 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Mi Aplicación")];
             }),
             _: 1 /* STABLE */
-          })];
+          })])];
         }),
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_navigation_drawer, {
         color: "navbar-color",
         modelValue: $setup.drawer,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
           return $setup.drawer = $event;
         }),
         app: "",
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.items, function (item, index) {
-            return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_hover, {
-              key: index
-            }, {
-              "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
-                var isHovering = _ref.isHovering,
-                  props = _ref.props;
-                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
-                  title: item.title,
-                  to: item.link,
-                  ref_for: true
-                }, props, {
-                  "class": $setup.classnames({
-                    'bg-navbar-hover': isHovering,
-                    'text-navbar-hover-text': isHovering
-                  })
-                }), null, 16 /* FULL_PROPS */, ["title", "to", "class"])];
-              }),
-              _: 2 /* DYNAMIC */
-            }, 1024 /* DYNAMIC_SLOTS */);
-          }), 64 /* STABLE_FRAGMENT */))];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\r\n        <v-hover>\r\n          <template v-slot:default=\"{ isHovering, props }\">\r\n            <v-list-item\r\n              :title=\"item.title\"\r\n              :to=\"item.link\"\r\n              v-bind=\"props\"\r\n              :class=\"\r\n                classnames({\r\n                  'bg-navbar-hover': isHovering,\r\n                  'text-navbar-hover-text': isHovering,\r\n                })\r\n              \"\r\n            >\r\n            </v-list-item>\r\n          </template>\r\n        </v-hover>\r\n      </template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.listGroup, function (group, index) {
+                return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+                  key: index + 'group',
+                  modelValue: $setup.activeGroup,
+                  "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                    return $setup.activeGroup = $event;
+                  }),
+                  value: index
+                }, {
+                  activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+                    var props = _ref.props;
+                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
+                      ref_for: true
+                    }, props, {
+                      title: group.label
+                    }), null, 16 /* FULL_PROPS */, ["title"])];
+                  }),
+                  "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                    return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(group.items, function (item, i) {
+                      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_hover, {
+                        key: i + 'subItem'
+                      }, {
+                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
+                          var isHovering = _ref2.isHovering,
+                            props = _ref2.props;
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
+                            title: item.title,
+                            ref_for: true
+                          }, props, {
+                            "class": $setup.classnames({
+                              'bg-navbar-hover': isHovering,
+                              'text-navbar-hover-text': isHovering
+                            })
+                          }), null, 16 /* FULL_PROPS */, ["title", "class"])];
+                        }),
+                        _: 2 /* DYNAMIC */
+                      }, 1024 /* DYNAMIC_SLOTS */);
+                    }), 128 /* KEYED_FRAGMENT */))];
+                  }),
+                  _: 2 /* DYNAMIC */
+                }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["modelValue", "value"]);
+              }), 128 /* KEYED_FRAGMENT */))];
+            }),
+            _: 1 /* STABLE */
+          })];
         }),
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_main, {

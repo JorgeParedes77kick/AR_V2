@@ -1,22 +1,22 @@
 <script setup>
+import { onMounted, ref, defineProps } from 'vue';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { FormatFecha } from '../../utils/date';
-import Navbar from '../../components/Navbar';
 import { Link } from '@inertiajs/inertia-vue3';
 
-import { onMounted, ref, defineProps } from 'vue';
+import MainLayout from '../../components/Layout';
+import { FormatFecha } from '../../utils/date';
+import { truncarTexto } from '../../utils/string';
+
 dayjs.extend(isBetween);
 
 const props = defineProps({
   temporadas: Object,
-  status: Number,
-  mensaje: String,
-  request: Object,
+  // status: Number,
 });
 
 onMounted(() => {
-  console.log(props);
+  // console.log(props);
 });
 
 const isActive = (fecha_ini, fecha_fin) => {
@@ -24,57 +24,98 @@ const isActive = (fecha_ini, fecha_fin) => {
   const fecha_finJS = dayjs(fecha_fin);
   const currentDate = dayjs();
   //   console.log('currentDate:', currentDate);
-  return `${currentDate.isBetween(fecha_iniJS, fecha_finJS, 'day', '[]')}`;
+  return currentDate.isBetween(fecha_iniJS, fecha_finJS, 'day', '[]');
   //   return 'TRUE';
 };
+
+const headers = [
+  { title: 'Prefijo', key: 'prefijo' },
+  { title: 'Nombre', key: 'nombre' },
+  { title: 'Fecha Inicio', key: 'fecha_inicio' },
+  { title: 'Fecha Fin', key: 'fecha_cierre' },
+  { title: 'Fecha Inscripcion', key: 'inscripcion_inicio' },
+  { title: 'Status', key: 'status', sortable: false },
+  { title: 'Acciones', key: 'acciones', sortable: false },
+];
+const onClickDelete = async (item) => {
+  console.log("item:", item)
+  const { isConfirmed } = await Swal.fire({
+    title: 'Eliminar Temporada',
+    text: `Estas seguro de eliminar la temporada ${item.prefijo} ${item.nombre}?`,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Aceptar',
+    cancelButtonText: 'Cancelar',
+  });
+  if (isConfirmed) {
+    try {
+      const response = await axios.delete(route('temporadas.destroy', item.id))
+      if (response?.data?.message) {
+        const { message } = response.data;
+        await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+        window.location.href = route('temporadas.index');
+      }
+    } catch (err) {
+      if (err?.response?.data?.server) {
+        const { server: msg, message } = err.response.data;
+        Swal.fire({ title: 'Error!', text: msg + '\n' + truncarTexto(message), icon: 'error' });
+      }
+    }
+  }
+}
+
 </script>
-
 <template>
-  <Navbar />
-  <div class="container-lg container-fluid">
-    <h3>TEMPORADAS</h3>
-    <div class="row">
-      <div class="col d-flex">
-        <Link :href="route('temporada.create')" as="button" class="btn btn-success ms-auto">
-          Crear Nueva Temporada
-        </Link>
-      </div>
-    </div>
+  <MainLayout>
+    <v-container fluid>
+      <v-card color="background" class="px-4 py-2">
+        <v-card-title> TEMPORADAS </v-card-title>
+        <v-card-body>
+          <v-row>
+            <v-col class="d-flex justify-end">
+              <Link :href="route('temporadas.create')">
+              <v-btn :to="{ name: 'temporadas.create' }" color="success" class="ms-auto">
+                Crear Nueva Temporada
+              </v-btn>
+              </Link>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-data-table :headers="headers" :items="temporadas" :items-per-page="10" class="elevation-1 rounded">
+                <template v-slot:[`item.fecha_inicio`]="{ item }">
+                  {{ FormatFecha(item.fecha_inicio, 3) }}
+                </template>
+                <template v-slot:[`item.fecha_cierre`]="{ item }">
+                  {{ FormatFecha(item.fecha_cierre, 3) }}
+                </template>
+                <template v-slot:[`item.inscripcion_inicio`]="{ item }">
+                  {{ FormatFecha(item.inscripcion_inicio, 3) }} -
+                  {{ FormatFecha(item.inscripcion_cierre, 3) }}
+                </template>
+                <template v-slot:[`item.status`]="{ item }">
+                  <!-- {{ isActive(item.fecha_inicio, item.fecha_cierre) }} -->
+                  <!-- <v-badge color="info" :content="isActive(item.fecha_inicio, item.fecha_cierre)"> </v-badge> -->
+                  <v-chip v-if="isActive(item.fecha_inicio, item.fecha_cierre)" color="success">Activa</v-chip>
+                  <v-chip v-else color="error">Inactiva</v-chip>
 
-    <table class="table table-hover table-responsive">
-      <thead class="no-seleccionable">
-        <tr>
-          <th>Nombre</th>
-          <th class="text-center">Fecha Inicio</th>
-          <th class="text-center">Fecha Fin</th>
-          <th class="text-center">Fecha Inscripcion</th>
-          <th class="text-center">Status</th>
-          <th class="text-center">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in temporadas" :key="item.idCrypt">
-          <td>{{ item.prefijo }}</td>
-          <td class="text-center">{{ FormatFecha(item.fecha_inicio, 3) }}</td>
-          <td class="text-center">{{ FormatFecha(item.fecha_cierre, 3) }}</td>
-          <td class="text-center">
-            {{ FormatFecha(item.inscripcion_inicio, 3) }} -
-            {{ FormatFecha(item.inscripcion_cierre, 3) }}
-          </td>
-          <td class="text-center">{{ isActive(item.fecha_inicio, item.fecha_cierre) }}</td>
-          <td class="d-flex column-gap-1 justify-content-center">
-            <Link :href="route('temporada.show', item)" as="button" class="btn btn-info">
-              Ver
-            </Link>
-            <Link :href="route('temporada.edit', item)" as="button" class="btn btn-secondary">
-              Editar
-            </Link>
-            <button class="btn btn-danger">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+                </template>
+                <template v-slot:[`item.acciones`]="{ item }">
+                  <div class="d-flex flex-wrap ga-1">
+                    <Link :href="route('temporadas.show', item)">
+                    <v-btn as="v-btn" color="info" small> Ver </v-btn>
+                    </Link>
+                    <Link :href="route('temporadas.edit', item)">
+                    <v-btn :to="{ name: 'temporadas.edit', params: { id: item.idCrypt } }" color="secondary" small>
+                      Editar
+                    </v-btn></Link>
+                    <v-btn color="error" small @click="onClickDelete(item)">Eliminar</v-btn>
+                  </div>
+                </template>
+              </v-data-table>
+            </v-col>
+          </v-row></v-card-body>
+      </v-card>
+    </v-container>
+  </MainLayout>
 </template>
-<style></style>
-

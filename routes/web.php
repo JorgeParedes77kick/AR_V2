@@ -24,5 +24,8 @@ Route::post('auth.login', [App\Http\Controllers\Auth\LoginController::class, 'lo
 //Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('temporada', App\Http\Controllers\TemporadaController::class);
-
+Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
+Route::resource('roles', App\Http\Controllers\RolController::class);
+Route::resource('estados-asistencia', App\Http\Controllers\EstadoAsistenciaController::class);
+Route::resource('estados-inscripcion', App\Http\Controllers\EstadoInscripcionController::class);
+Route::resource('curriculums', App\Http\Controllers\CurriculumController::class);

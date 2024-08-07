@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Debug;
-use App\Http\Requests\TemporadaResquest;
+use App\Http\Requests\TemporadaRequest;
 use App\Models\Temporada;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class TemporadaController extends Controller {
@@ -15,25 +13,10 @@ class TemporadaController extends Controller {
      *
      */
     public function index(Request $request) {
-        $status = session('status');
-        $mensaje = session('mensaje');
-        Debug::info($status);
-        Debug::info($mensaje);
-        Debug::info($request->session()->all());
 
         $temporadas = Temporada::orderBy('prefijo', 'desc')->get();
-        foreach ($temporadas as $i => $temp) {
-            // $temp->idCrypt = Crypt::encrypt($temp->id);
-            $temp->idCrypt = Str::slug($temp->id, '-');
-        }
         return Inertia::render('Temporadas/index', [
             'temporadas' => $temporadas,
-            'status' => $status,
-            'mensaje' => $mensaje,
-            'request' => [
-                'status' => $status,
-                'mensaje' => $mensaje,
-            ],
         ]);
     }
 
@@ -52,33 +35,14 @@ class TemporadaController extends Controller {
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public function store(TemporadaResquest $request) {
+    public function store(TemporadaRequest $request) {
         $input = $request->all();
         $temporada = Temporada::create($input);
 
         if ($temporada) {
-            return redirect()->route('temporada.index')->with([
-                'status' => 200,
-                'mensaje' => 'La Temporada fue creada exitosamente!',
-            ]);
-
-            // return Inertia::location(route('temporada.index') . '?status=200&mensaje=La Temporada fue creada exitosamente!');
-            // return redirect()->back()->with([
-            //     'status' => 200,
-            //     'mensaje' => 'La Temporada fue creada exitosamente!'
-            // ]);
+            return response()->json(["message" => "La Temporada fue creada exitosamente!"], 200);
         } else {
-            // return Inertia::render('Temporadas/form', [
-            //     'action' => 'create',
-            //     'errors' => (object) [
-            //         'status' => 400,
-            //         'mensaje' => 'La Temporada no pudo ser creado, intente más tarde!'
-            //     ]
-            // ]);
-            return redirect()->back()->withErrors([
-                'status' => 400,
-                'mensaje' => 'La Temporada no pudo ser creada, intente más tarde!',
-            ]);
+            return response()->json(["message" => [], 'server' => '¡La Temporada no pudo ser creada, intente más tarde!'], 500);
         }
     }
 
@@ -114,38 +78,16 @@ class TemporadaController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      */
-    public function update(TemporadaResquest $request, $id) {
+    public function update(TemporadaRequest $request, $id) {
 
         $input = $request->all();
         $temporada = Temporada::find($id);
         $state = $temporada->update($input);
 
         if ($state) {
-            // return Inertia::render('Temporadas/form', [
-            //     'action' => 'edit',
-            //     'data' => [
-            //         'status' => 200,
-            //         'mensaje' => 'La Temporada fue actualizada exitosamente!',
-            //     ],
-            // ]);
-
-            // return Inertia::location(route('temporada.index') . '?status=200&mensaje=La Temporada fue creada exitosamente!');
-            // return redirect()->back()->([
-            //     'status' => 200,
-            //     'mensaje' => 'La Temporada fue actualizada exitosamente!',
-            // ]);
-            return redirect()->route('temporada.edit', [$id,
-                'status' => 200,
-                'mensaje' => 'La Temporada fue actualizada exitosamente!',
-            ])->with([
-                'status' => 200,
-                'mensaje' => 'La Temporada fue actualizada exitosamente!',
-            ]);
+            return response()->json(["message" => "La Temporada fue actualizada exitosamente!"], 200);
         } else {
-            return redirect()->back()->withErrors([
-                'status' => 400,
-                'mensaje' => 'La Temporada no pudo ser actualizada, intente más tarde!',
-            ]);
+            return response()->json(["message" => [], 'server' => '¡La Temporada no pudo ser actualizada, intente más tarde!'], 500);
         }
     }
 
@@ -155,6 +97,13 @@ class TemporadaController extends Controller {
      * @param  int  $id
      */
     public function destroy($id) {
-        //
+        $temporada = Temporada::find($id);
+        $state = $temporada->delete();
+
+        if ($state) {
+            return response()->json(["message" => "La Temporada fue eliminada exitosamente!"], 200);
+        } else {
+            return response()->json(["message" => [], 'server' => '¡La Temporada no pudo ser eliminada, intente más tarde!'], 500);
+        }
     }
 }

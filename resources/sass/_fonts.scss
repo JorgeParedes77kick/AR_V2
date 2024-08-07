@@ -54,7 +54,6 @@ $font-family-sans-serif: 'Objetive', 'Gilroy', system-ui, -apple-system, 'Segoe 
 body {
   font-family: $font-family-sans-serif;
   //   color: darken(#0a1117, 0.5);
-  color: color.adjust(#222222, $blue: 5);
   //   color: lighten(#f5eeea, 0.5);
 }
 
