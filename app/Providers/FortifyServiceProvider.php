@@ -52,7 +52,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::registerView(function () {
-            return view('Login/RegisterPage');
+          return Inertia::render('Register/RegisterPage');
         });
 
         Fortify::requestPasswordResetLinkView(function () {
