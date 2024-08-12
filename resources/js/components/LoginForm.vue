@@ -82,10 +82,16 @@ import logGP from '../../../public/images/logo_gp.png';
                         </v-col>
                         <v-col cols="12" class="h-100 text-center w-50">
                             <v-btn type="submit" large @click="validate" style="background-color: #99c5c0;
-                            font-weight: bold; font-size: 14pt; border-color: beige;
+                            font-weight: bolder; font-size: 14pt; border-color: beige;
                             border-width: 2pt; ">INICIAR SESI&Oacute;N</v-btn>
                         </v-col>
                     </v-row>
+                    <v-card-text class="text-center">
+                        <p style="color: beige;">A&uacute;n no tienes usuario? <a href="#" style="text-decoration: none; color: #99c5c0; font-weight: bold; font-size: 10pt;" >Registrate aqu&iacute;</a></p>
+                    </v-card-text>
+                    <v-card-text class="text-center">
+                      <p><a href="#" style="text-decoration: none; color: #99c5c0; font-weight: normal; font-size: 12pt;" >&iquest;Olvidaste tu contrase&ntilde;a&quest;</a></p>
+                    </v-card-text>
                 </v-form>
             </v-col>
         </v-row>
