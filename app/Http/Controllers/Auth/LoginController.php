@@ -68,7 +68,7 @@ class LoginController extends Controller
             return response()->json(['message' => $validator->errors()], 422);
         }
         $user = Usuario::whereEmail($request->email)->first();
-        if (!($user && $user->roles()->where('role_id', $request->role)->exists())) {
+        if (!($user && $user->roles()->where('rol_id', $request->role)->exists())) {
         }
         $credentials = $request->only('email', 'password');
         if ($this->guard($request)->attempt($credentials)) {

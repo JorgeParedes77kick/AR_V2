@@ -6,13 +6,16 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Models\Usuario;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Laravel\Fortify\Fortify;
+use function PHPUnit\Framework\isEmpty;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -54,6 +57,20 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::requestPasswordResetLinkView(function () {
             return view('Login/ForgotPasswordPage');
+        });
+
+        Fortify::authenticateUsing(function (Request $request) {
+          $user = Usuario::where('email', $request->email)->first();
+          if ($user && Hash::check($request->password, $user->password)) {
+            $roles = $user->roles()->first();
+            if($roles){
+                //$request->session()->put('rol_slug', $roles->slug);
+                $request->session()->put('rol_id', $roles->id);
+                return $user;
+            }else{
+              return false;
+            }
+          }
         });
     }
 }

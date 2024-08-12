@@ -24,13 +24,16 @@ function handleSubmit(e) {
     setMessage("");
     setOverlay(true);
     if (validateForm(e)){
-        axios.post('auth.login', form).then(result => {
+        axios.post('login', form).then(result => {
             setMessage("");
-            console.log(JSON.stringify(result));
-            window.location.href = "temporada.index";
+            window.location.href = "temporadas";
         }).catch(error => {
             console.log(JSON.stringify(error.response.data.message));
-            setMessage(error.response.data.message);
+            if(error.response.status >= 500){
+              setMessage("Error de Sistema, Favor contactar al administrador");
+            }else{
+              setMessage(error.response.data.message);
+            }
             setOverlay(false);
         });
     } else {
@@ -97,7 +100,6 @@ import logGP from '../../../public/images/logo_gp.png';
 </style>
 
 <script>
-import axios from "axios";
 import {ref} from "vue";
 
 export default {

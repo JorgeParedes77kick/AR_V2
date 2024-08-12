@@ -2,11 +2,18 @@
 import classnames from 'classnames';
 import { onMounted, ref, reactive } from 'vue';
 import { useTheme } from 'vuetify';
+import axios from "axios";
 
 const theme = useTheme();
 const isDarkTheme = ref(false);
 
 const drawer = ref(false);
+
+const csrf = ref(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+const formLogout = reactive({
+  _token: csrf,
+});
 
 const listGroup = ref([
   {
@@ -87,6 +94,21 @@ const activeGroup = ref(null);
 function toggleGroup(index) {
   activeGroup.value = activeGroup.value === index ? null : index;
 }
+
+function handleSubmit(e) {
+  axios.post('logout', formLogout).then(result => {
+    window.location.href = "login";
+  }).catch(error => {
+    console.log(JSON.stringify(error.response.data.message));
+  });
+}
+
+const myApp = ref([
+  { title: 'Click Me 1', icon: 'home', link: 'logout' },
+  { title: 'Click Me 2', icon: 'home', link: 'logout'  },
+  { title: 'Click Me 3', icon: 'home', link: 'logout'  },
+  { title: 'Click Me 4', icon: 'home', link: 'logout'  },
+]);
 </script>
 <template>
   <v-app>
@@ -103,7 +125,25 @@ function toggleGroup(index) {
       <div class="d-flex align-center ml-auto mr-2">
         <v-btn v-if="isDarkTheme" icon="mdi-weather-night" @click="toggleTheme" />
         <v-btn v-else icon="mdi-weather-sunny" @click="toggleTheme" />
-        <v-toolbar-title>Mi Aplicación</v-toolbar-title>
+        <v-menu activator="parent" transition="slide-y-transition">
+          <template v-slot:activator="{ props }">
+            <v-btn color="#99c5c0" v-bind="props">Mi Aplicaci&oacute;n </v-btn>
+          </template>
+          <v-list class="text-left">
+            <v-list-item v-for="(item, index) in myApp" :key="index" :value="index" >
+              <v-list-item-title >
+                <v-form @submit.prevent="handleSubmit" >
+                  <v-btn size="small" variant="plain" type="submit" prepend-icon="mdi-power">
+                    <template v-slot:prepend>
+                      <v-icon size="x-large" color="error"></v-icon>
+                    </template>
+                    {{ item.title }}
+                  </v-btn>
+                </v-form>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
     </v-app-bar>
     <v-navigation-drawer color="navbar-color" v-model="drawer" app class="text-navbar-text">

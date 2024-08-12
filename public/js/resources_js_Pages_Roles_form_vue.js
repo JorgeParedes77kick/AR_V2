@@ -233,7 +233,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuetify */ "./node_modules/vuetify/lib/composables/theme.mjs");
+/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuetify */ "./node_modules/vuetify/lib/composables/theme.mjs");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 
@@ -242,9 +245,13 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
-    var theme = (0,vuetify__WEBPACK_IMPORTED_MODULE_2__.useTheme)();
+    var theme = (0,vuetify__WEBPACK_IMPORTED_MODULE_3__.useTheme)();
     var isDarkTheme = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
     var drawer = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
+    var csrf = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+    var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
+      _token: csrf
+    });
     var listGroup = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([{
       label: 'Admin',
       expanded: false,
@@ -372,14 +379,42 @@ __webpack_require__.r(__webpack_exports__);
     function toggleGroup(index) {
       activeGroup.value = activeGroup.value === index ? null : index;
     }
+    function handleSubmit(e) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('logout', formLogout).then(function (result) {
+        window.location.href = "login";
+      })["catch"](function (error) {
+        console.log(JSON.stringify(error.response.data.message));
+      });
+    }
+    var myApp = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([{
+      title: 'Click Me 1',
+      icon: 'home',
+      link: 'logout'
+    }, {
+      title: 'Click Me 2',
+      icon: 'home',
+      link: 'logout'
+    }, {
+      title: 'Click Me 3',
+      icon: 'home',
+      link: 'logout'
+    }, {
+      title: 'Click Me 4',
+      icon: 'home',
+      link: 'logout'
+    }]);
     var __returned__ = {
       theme: theme,
       isDarkTheme: isDarkTheme,
       drawer: drawer,
+      csrf: csrf,
+      formLogout: formLogout,
       listGroup: listGroup,
       toggleTheme: toggleTheme,
       activeGroup: activeGroup,
       toggleGroup: toggleGroup,
+      handleSubmit: handleSubmit,
+      myApp: myApp,
       get classnames() {
         return (classnames__WEBPACK_IMPORTED_MODULE_0___default());
       },
@@ -387,7 +422,10 @@ __webpack_require__.r(__webpack_exports__);
       ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref,
       reactive: vue__WEBPACK_IMPORTED_MODULE_1__.reactive,
       get useTheme() {
-        return vuetify__WEBPACK_IMPORTED_MODULE_2__.useTheme;
+        return vuetify__WEBPACK_IMPORTED_MODULE_3__.useTheme;
+      },
+      get axios() {
+        return (axios__WEBPACK_IMPORTED_MODULE_2___default());
       }
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
@@ -618,12 +656,15 @@ var _hoisted_3 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_app_bar_nav_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-app-bar-nav-icon");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
-  var _component_v_toolbar_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-toolbar-title");
-  var _component_v_app_bar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-app-bar");
+  var _component_v_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-icon");
+  var _component_v_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-form");
+  var _component_v_list_item_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-item-title");
   var _component_v_list_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-item");
+  var _component_v_list = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list");
+  var _component_v_menu = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-menu");
+  var _component_v_app_bar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-app-bar");
   var _component_v_hover = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-hover");
   var _component_v_list_group = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-group");
-  var _component_v_list = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list");
   var _component_v_navigation_drawer = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-navigation-drawer");
   var _component_v_main = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-main");
   var _component_v_app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-app");
@@ -647,9 +688,68 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             key: 1,
             icon: "mdi-weather-sunny",
             onClick: $setup.toggleTheme
-          })), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_toolbar_title, null, {
+          })), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_menu, {
+            activator: "parent",
+            transition: "slide-y-transition"
+          }, {
+            activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+              var props = _ref.props;
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
+                color: "#99c5c0"
+              }, props), {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Mi Aplicación ")];
+                }),
+                _: 2 /* DYNAMIC */
+              }, 1040 /* FULL_PROPS, DYNAMIC_SLOTS */)];
+            }),
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Mi Aplicación")];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, {
+                "class": "text-left"
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.myApp, function (item, index) {
+                    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_item, {
+                      key: index,
+                      value: index
+                    }, {
+                      "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_title, null, {
+                          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_form, {
+                              onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.handleSubmit, ["prevent"])
+                            }, {
+                              "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
+                                  size: "small",
+                                  variant: "plain",
+                                  type: "submit",
+                                  "prepend-icon": "mdi-power"
+                                }, {
+                                  prepend: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_icon, {
+                                      size: "x-large",
+                                      color: "error"
+                                    })];
+                                  }),
+                                  "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */)];
+                                  }),
+                                  _: 2 /* DYNAMIC */
+                                }, 1024 /* DYNAMIC_SLOTS */)];
+                              }),
+                              _: 2 /* DYNAMIC */
+                            }, 1024 /* DYNAMIC_SLOTS */)];
+                          }),
+                          _: 2 /* DYNAMIC */
+                        }, 1024 /* DYNAMIC_SLOTS */)];
+                      }),
+                      _: 2 /* DYNAMIC */
+                    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["value"]);
+                  }), 128 /* KEYED_FRAGMENT */))];
+                }),
+                _: 1 /* STABLE */
+              })];
             }),
             _: 1 /* STABLE */
           })])];
@@ -676,8 +776,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }),
                   value: index
                 }, {
-                  activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
-                    var props = _ref.props;
+                  activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
+                    var props = _ref2.props;
                     return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
                       ref_for: true
                     }, props, {
@@ -689,9 +789,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_hover, {
                         key: i + 'subItem'
                       }, {
-                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
-                          var isHovering = _ref2.isHovering,
-                            props = _ref2.props;
+                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref3) {
+                          var isHovering = _ref3.isHovering,
+                            props = _ref3.props;
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
                             title: item.title,
                             ref_for: true

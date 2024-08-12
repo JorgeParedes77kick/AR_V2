@@ -47,9 +47,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _constants_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/form */ "./resources/js/constants/form.js");
-/* harmony import */ var _public_images_logo_gp_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../public/images/logo_gp.png */ "./public/images/logo_gp.png");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _public_images_logo_gp_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../public/images/logo_gp.png */ "./public/images/logo_gp.png");
 
 
 
@@ -102,13 +102,16 @@ var __default__ = {
       setMessage("");
       setOverlay(true);
       if ((0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.validateForm)(e)) {
-        axios__WEBPACK_IMPORTED_MODULE_3___default().post('auth.login', form).then(function (result) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().post('login', form).then(function (result) {
           setMessage("");
-          console.log(JSON.stringify(result));
-          window.location.href = "temporada.index";
+          window.location.href = "temporadas";
         })["catch"](function (error) {
           console.log(JSON.stringify(error.response.data.message));
-          setMessage(error.response.data.message);
+          if (error.response.status >= 500) {
+            setMessage("Error de Sistema, Favor contactar al administrador");
+          } else {
+            setMessage(error.response.data.message);
+          }
           setOverlay(false);
         });
       } else {
@@ -124,16 +127,16 @@ var __default__ = {
       setMessage: setMessage,
       form: form,
       handleSubmit: handleSubmit,
-      get axios() {
-        return (axios__WEBPACK_IMPORTED_MODULE_3___default());
-      },
       ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
       reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
       get validateForm() {
         return _constants_form__WEBPACK_IMPORTED_MODULE_1__.validateForm;
       },
+      get axios() {
+        return (axios__WEBPACK_IMPORTED_MODULE_2___default());
+      },
       get logGP() {
-        return _public_images_logo_gp_png__WEBPACK_IMPORTED_MODULE_2__["default"];
+        return _public_images_logo_gp_png__WEBPACK_IMPORTED_MODULE_3__["default"];
       }
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
