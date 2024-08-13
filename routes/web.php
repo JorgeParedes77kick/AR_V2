@@ -19,12 +19,14 @@ Route::get('/', function () {
     return Inertia::render('Login/LoginPage');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 Route::middleware(['auth', 'superadmin'])->group(function () {
+
+  Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
   Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
   Route::resource('roles', App\Http\Controllers\RolController::class);
   Route::resource('estados-asistencia', App\Http\Controllers\EstadoAsistenciaController::class);
   Route::resource('estados-inscripcion', App\Http\Controllers\EstadoInscripcionController::class);
   Route::resource('curriculums', App\Http\Controllers\CurriculumController::class);
+
 });

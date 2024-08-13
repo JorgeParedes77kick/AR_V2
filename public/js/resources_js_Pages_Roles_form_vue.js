@@ -388,20 +388,20 @@ __webpack_require__.r(__webpack_exports__);
     }
     var myApp = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([{
       title: 'Click Me 1',
-      icon: 'home',
+      icon: 'mdi-power',
       link: 'logout'
     }, {
       title: 'Click Me 2',
-      icon: 'home',
-      link: 'logout'
+      icon: 'mdi-home',
+      link: 'home'
     }, {
       title: 'Click Me 3',
-      icon: 'home',
+      icon: 'mdi-power',
       link: 'logout'
     }, {
       title: 'Click Me 4',
-      icon: 'home',
-      link: 'logout'
+      icon: 'mdi-home',
+      link: 'home'
     }]);
     var __returned__ = {
       theme: theme,
@@ -724,7 +724,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                   size: "small",
                                   variant: "plain",
                                   type: "submit",
-                                  "prepend-icon": "mdi-power"
+                                  "prepend-icon": item.icon
                                 }, {
                                   prepend: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                     return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_icon, {
@@ -736,7 +736,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                     return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */)];
                                   }),
                                   _: 2 /* DYNAMIC */
-                                }, 1024 /* DYNAMIC_SLOTS */)];
+                                }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["prepend-icon"])];
                               }),
                               _: 2 /* DYNAMIC */
                             }, 1024 /* DYNAMIC_SLOTS */)];

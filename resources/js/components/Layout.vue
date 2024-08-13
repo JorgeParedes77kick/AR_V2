@@ -104,10 +104,10 @@ function handleSubmit(e) {
 }
 
 const myApp = ref([
-  { title: 'Click Me 1', icon: 'home', link: 'logout' },
-  { title: 'Click Me 2', icon: 'home', link: 'logout'  },
-  { title: 'Click Me 3', icon: 'home', link: 'logout'  },
-  { title: 'Click Me 4', icon: 'home', link: 'logout'  },
+  { title: 'Click Me 1', icon: 'mdi-power', link: 'logout' },
+  { title: 'Click Me 2', icon: 'mdi-home', link: 'home'  },
+  { title: 'Click Me 3', icon: 'mdi-power', link: 'logout'  },
+  { title: 'Click Me 4', icon: 'mdi-home', link: 'home'  },
 ]);
 </script>
 <template>
@@ -133,7 +133,7 @@ const myApp = ref([
             <v-list-item v-for="(item, index) in myApp" :key="index" :value="index" >
               <v-list-item-title >
                 <v-form @submit.prevent="handleSubmit" >
-                  <v-btn size="small" variant="plain" type="submit" prepend-icon="mdi-power">
+                  <v-btn size="small" variant="plain" type="submit" :prepend-icon="item.icon">
                     <template v-slot:prepend>
                       <v-icon size="x-large" color="error"></v-icon>
                     </template>

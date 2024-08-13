@@ -232,7 +232,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 inline: "",
                 cover: "",
                 height: "auto",
-                width: "25%"
+                width: "15%"
               }, null, 8 /* PROPS */, ["src"])];
             }),
             _: 1 /* STABLE */
@@ -282,7 +282,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             },
                             "class": "rounded-l",
                             rules: [_ctx.rules.required, _ctx.rules.email],
-                            clearable: ""
+                            clearable: "",
+                            tabindex: "1"
                           }, null, 8 /* PROPS */, ["modelValue", "rules"])];
                         }),
                         _: 1 /* STABLE */
@@ -306,7 +307,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             },
                             "class": "rounded-l",
                             rules: [_ctx.rules.required, _ctx.rules.counter],
-                            clearable: ""
+                            clearable: "",
+                            tabindex: "2"
                           }, null, 8 /* PROPS */, ["modelValue", "rules"])];
                         }),
                         _: 1 /* STABLE */
@@ -328,7 +330,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             }
                           }, {
                             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("REGISTRARSE")];
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("REGISTRARME")];
                             }),
                             _: 1 /* STABLE */
                           }, 8 /* PROPS */, ["onClick"])];

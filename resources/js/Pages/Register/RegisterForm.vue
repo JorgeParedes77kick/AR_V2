@@ -48,7 +48,7 @@ import logGP from '../../../../public/images/logo_gp.png';
     <v-container fuild style="background-color: #222222" class="h-100 " fill-height>
         <v-row no-gutters>
             <v-col cols="12" class="h-100 text-center">
-                <v-img :src="logGP" inline cover height="auto" width="25%"></v-img>
+                <v-img :src="logGP" inline cover height="auto" width="15%"></v-img>
             </v-col>
             <v-alert dismissible title="Error Message" :model-value="message.length !== 0" :text="message" type="error" mode="slide-y-reverse-transition" class="elevation-7"></v-alert>
             <v-col cols="12" class="h-100 text-center">
@@ -65,6 +65,7 @@ import logGP from '../../../../public/images/logo_gp.png';
                                           class="rounded-l"
                                           :rules="[rules.required, rules.email]"
                                           clearable
+                                          tabindex="1"
                             />
                         </v-col>
                         <v-col cols="12" class="h-100 text-center w-50">
@@ -78,12 +79,13 @@ import logGP from '../../../../public/images/logo_gp.png';
                                           class="rounded-l"
                                           :rules="[rules.required, rules.counter]"
                                           clearable
+                                          tabindex="2"
                             />
                         </v-col>
                         <v-col cols="12" class="h-100 text-center w-50">
                             <v-btn type="submit" large @click="validate" style="background-color: #99c5c0;
                             font-weight: bolder; font-size: 14pt; border-color: beige;
-                            border-width: 2pt; ">REGISTRARSE</v-btn>
+                            border-width: 2pt; ">REGISTRARME</v-btn>
                         </v-col>
                     </v-row>
                 </v-form>

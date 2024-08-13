@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, ref } from "vue";
 import {validateForm} from "../../constants/form";
+import logGP from '../../../../public/images/logo_gp.png';
 
 import axios from "axios";
 
@@ -26,7 +27,7 @@ function handleSubmit(e) {
     if (validateForm(e)){
         axios.post('login', form).then(result => {
             setMessage("");
-            window.location.href = "temporadas";
+            window.location.href = "home";
         }).catch(error => {
             console.log(JSON.stringify(error.response.data.message));
             if(error.response.status >= 500){
@@ -41,7 +42,7 @@ function handleSubmit(e) {
     }
 
 };
-import logGP from '../../../../public/images/logo_gp.png';
+
 </script>
 
 <template>
@@ -65,6 +66,7 @@ import logGP from '../../../../public/images/logo_gp.png';
                                           class="rounded-l"
                                           :rules="[rules.required, rules.email]"
                                           clearable
+                                          tabindex="1"
                             />
                         </v-col>
                         <v-col cols="12" class="h-100 text-center w-50">
@@ -78,6 +80,7 @@ import logGP from '../../../../public/images/logo_gp.png';
                                           class="rounded-l"
                                           :rules="[rules.required, rules.counter]"
                                           clearable
+                                          tabindex="2"
                             />
                         </v-col>
                         <v-col cols="12" class="h-100 text-center w-50">
