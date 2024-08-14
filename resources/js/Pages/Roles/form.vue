@@ -12,7 +12,7 @@ const validate = inject('$validation');
 
 const props = defineProps({
   action: String,
-  rol: { Object, default: {} },
+  rol: { type: Object, default: {} },
   status: String,
 });
 
@@ -32,7 +32,7 @@ const validateForm = async (e) => {
   if (valid) submit();
 };
 
-const submit = async (form) => {
+const submit = async () => {
   loading.value = true;
   const action = props.action === CRUD.edit ? 'update' : 'store';
   const method = props.action === CRUD.edit ? 'put' : 'post';

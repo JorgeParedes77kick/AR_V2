@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Curriculum extends Model
-{
+class Curriculum extends Model {
     use HasFactory;
 
     protected $table = 'curriculums';
@@ -33,31 +32,27 @@ class Curriculum extends Model
     /**
      * Relación con las restricciones
      */
-    public function restricciones(): HasMany
-    {
+    public function restricciones(): HasMany {
         return $this->hasMany(Restriccion::class, 'curriculum_id');
     }
 
     /**
      * Relación con los ciclos
      */
-    public function ciclos(): HasMany
-    {
+    public function ciclos(): HasMany {
         return $this->hasMany(Ciclo::class, 'curriculum_id');
     }
 
     /**
      * Relación con los adicionales
      */
-    public function adicionales(): HasMany
-    {
+    public function adicionales(): HasMany {
         return $this->hasMany(Adicional::class, 'curriculum_id');
     }
     /**
      * Relación con los usuarios
      */
-    public function usuarios(): BelongsToMany
-    {
+    public function usuarios(): BelongsToMany {
         return $this->belongsToMany(Usuario::class, 'usuario_curriculums');
     }
 }

@@ -28,4 +28,6 @@ Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
 Route::resource('roles', App\Http\Controllers\RolController::class);
 Route::resource('estados-asistencia', App\Http\Controllers\EstadoAsistenciaController::class);
 Route::resource('estados-inscripcion', App\Http\Controllers\EstadoInscripcionController::class);
-Route::resource('curriculums', App\Http\Controllers\CurriculumController::class);
+Route::resource('curriculums', App\Http\Controllers\CurriculumController::class)->except(['update']);
+Route::post('curriculums/{curriculum}/update', [App\Http\Controllers\CurriculumController::class, 'update'])->name('curriculums.update');
+Route::resource('restricciones', App\Http\Controllers\RestriccionController::class);

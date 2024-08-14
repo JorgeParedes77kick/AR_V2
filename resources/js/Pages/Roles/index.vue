@@ -9,12 +9,12 @@ import { truncarTexto } from '../../utils/string';
 dayjs.extend(isBetween);
 
 const props = defineProps({
-  roles: Object,
+  roles: Array,
 });
 onMounted(() => { });
 
 const headers = [
-  { title: 'ID', key: 'id' },
+  { title: 'ID', key: 'id', fixed: true },
   { title: 'Nombre', key: 'nombre' },
   { title: 'Acciones', key: 'acciones', sortable: false },
 ];
@@ -31,12 +31,14 @@ const onClickDelete = async (item) => {
   if (isConfirmed) {
     try {
       const response = await axios.delete(route('roles.destroy', item.id));
+      const index = props.roles.findIndex(x => x.id === item.id)
       if (response?.data?.message) {
         const { message } = response.data;
-        await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-        window.location.href = route('roles.index');
+        Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+        props.roles.splice(index, 1)
       }
     } catch (err) {
+      console.log("err:", err)
       if (err?.response?.data?.server) {
         const { server: msg, message } = err.response.data;
         Swal.fire({ title: 'Error!', text: msg + '\n' + truncarTexto(message), icon: 'error' });
@@ -49,7 +51,7 @@ const onClickDelete = async (item) => {
   <MainLayout>
     <v-container fluid>
       <v-card color="background" class="px-4 py-2">
-        <v-card-title> Roles </v-card-title>
+        <v-card-title> ROLES </v-card-title>
         <v-card-body>
           <v-row>
             <v-col class="d-flex justify-end">
@@ -64,7 +66,7 @@ const onClickDelete = async (item) => {
             <v-col md="6">
               <v-data-table :headers="headers" :items="roles" :items-per-page="10" class="elevation-1 rounded">
                 <template v-slot:[`item.acciones`]="{ item }">
-                  <div class="d-flex flex-wrap ga-1">
+                  <div class="d-flex inline-flex ga-2">
                     <Link :href="route('roles.show', item)">
                     <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>

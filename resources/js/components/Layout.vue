@@ -92,12 +92,8 @@ function toggleGroup(index) {
   <v-app>
     <v-app-bar app color="navbar-color" class="text-navbar-text">
       <div class="mr-auto ml-2">
-        <img
-          src="/img/logos/ar ministries_white.png"
-          width="100"
-          class="px-2"
-          style="filter: drop-shadow(3px 3px 3px rgba(153, 197, 192, 1))"
-        />
+        <img src="/img/logos/ar ministries_white.png" width="100" class="px-2"
+          style="filter: drop-shadow(3px 3px 3px rgba(153, 197, 192, 1))" />
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       </div>
       <div class="d-flex align-center ml-auto mr-2">
@@ -124,8 +120,8 @@ function toggleGroup(index) {
             >
             </v-list-item>
           </template>
-        </v-hover>
-      </template> -->
+</v-hover>
+</template> -->
       <v-list>
         <template v-for="(group, index) in listGroup" :key="index + 'group'">
           <v-list-group v-model="activeGroup" :value="index">
@@ -134,17 +130,11 @@ function toggleGroup(index) {
             </template>
             <v-hover v-for="(item, i) in group.items" :key="i + 'subItem'">
               <template v-slot:default="{ isHovering, props }">
-                <v-list-item
-                  :title="item.title"
-                  v-bind="props"
-                  :class="
-                    classnames({
-                      'bg-navbar-hover': isHovering,
-                      'text-navbar-hover-text': isHovering,
-                    })
-                  "
-                ></v-list-item> </template
-            ></v-hover>
+                <v-list-item :title="item.title" v-bind="props" :class="classnames({
+                  'bg-navbar-hover': isHovering,
+                  'text-navbar-hover-text': isHovering,
+                })
+                  "></v-list-item> </template></v-hover>
           </v-list-group>
         </template>
       </v-list>
@@ -155,4 +145,3 @@ function toggleGroup(index) {
     </v-main>
   </v-app>
 </template>
-

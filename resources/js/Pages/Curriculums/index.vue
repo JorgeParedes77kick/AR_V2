@@ -6,11 +6,12 @@ import { Link } from '@inertiajs/inertia-vue3';
 
 import MainLayout from '../../components/Layout';
 
-import { FormatFecha } from '../../utils/date';
+import { truncarTexto } from '../../utils/string';
+
 dayjs.extend(isBetween);
 
 const props = defineProps({
-  temporadas: Object,
+  curriculums: Array,
   status: Number,
 });
 
@@ -18,29 +19,23 @@ onMounted(() => {
   console.log(props);
 });
 
-const isActive = (fecha_ini, fecha_fin) => {
-  const fecha_iniJS = dayjs(fecha_ini);
-  const fecha_finJS = dayjs(fecha_fin);
-  const currentDate = dayjs();
-  //   console.log('currentDate:', currentDate);
-  return currentDate.isBetween(fecha_iniJS, fecha_finJS, 'day', '[]');
-  //   return 'TRUE';
-};
-
 const headers = [
-  { title: 'Prefijo', key: 'prefijo' },
+  { title: 'ID', key: 'id', fixed: true },
   { title: 'Nombre', key: 'nombre' },
-  { title: 'Fecha Inicio', key: 'fecha_inicio' },
-  { title: 'Fecha Fin', key: 'fecha_cierre' },
-  { title: 'Fecha Inscripcion', key: 'inscripcion_inicio' },
-  { title: 'Status', key: 'status', sortable: false },
+  { title: 'Libro', key: 'libro' },
+  { title: 'Descripcion', key: 'descripcion', minWidth: '20rem' },
+  { title: 'Clases', key: 'cantidad_clases' },
+  { title: 'Cupos', key: 'cantidad_cupos' },
+  // { title: 'ID', key: 'imagen' },
+  // { title: 'ID', key: 'imagen_landing' },
+  { title: 'Status', key: 'activo' },
   { title: 'Acciones', key: 'acciones', sortable: false },
 ];
 const onClickDelete = async (item) => {
   console.log("item:", item)
   const { isConfirmed } = await Swal.fire({
-    title: 'Eliminar Temporada',
-    text: `Estas seguro de eliminar la temporada ${item.prefijo} ${item.nombre}?`,
+    title: 'Eliminar Estado Asistencia',
+    text: `Estas seguro de eliminar el curriculum?`,
     icon: 'question',
     showCancelButton: true,
     confirmButtonText: 'Aceptar',
@@ -48,16 +43,17 @@ const onClickDelete = async (item) => {
   });
   if (isConfirmed) {
     try {
-      const response = await axios.delete(route('temporadas.destroy', item.id))
+      const response = await axios.delete(route('curriculums.destroy', item.id))
+      const index = props.curriculums.findIndex(x => x.id === item.id)
       if (response?.data?.message) {
         const { message } = response.data;
         await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-        window.location.href = route('temporadas.index');
+        props.curriculums.splice(index, 1)
       }
     } catch (err) {
       if (err?.response?.data?.server) {
-        const { server: message } = err.response.data;
-        Swal.fire({ title: 'Error!', text: message, icon: 'error' });
+        const { server: msg, message } = err.response.data;
+        Swal.fire({ title: 'Error!', text: msg + '\n' + truncarTexto(message), icon: 'error' });
       }
     }
   }
@@ -68,47 +64,40 @@ const onClickDelete = async (item) => {
   <MainLayout>
     <v-container fluid>
       <v-card color="background" class="px-4 py-2">
-        <v-card-title> TEMPORADAS </v-card-title>
+        <v-card-title>ESTADOS DE CURRICULUM </v-card-title>
         <v-card-body>
           <v-row>
             <v-col class="d-flex justify-end">
-              <Link :href="route('temporadas.create')">
-              <v-btn :to="{ name: 'temporadas.create' }" color="success" class="ms-auto">
-                Crear Nueva Temporada
+              <Link :href="route('curriculums.create')">
+              <v-btn :to="{ name: 'curriculums.create' }" color="success" class="ms-auto">
+                Crear Nuevo Curriculum
               </v-btn>
               </Link>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row justify="center">
             <v-col>
-              <v-data-table :headers="headers" :items="temporadas" :items-per-page="10" class="elevation-1 rounded">
-                <template v-slot:[`item.fecha_inicio`]="{ item }">
-                  {{ FormatFecha(item.fecha_inicio, 3) }}
+              <v-data-table :headers="headers" :items="curriculums" :items-per-page="10" class="elevation-1 rounded">
+                <template v-slot:[`item.descripcion`]="{ item }">
+                  {{ truncarTexto(item.descripcion, 100) }}
                 </template>
-                <template v-slot:[`item.fecha_cierre`]="{ item }">
-                  {{ FormatFecha(item.fecha_cierre, 3) }}
-                </template>
-                <template v-slot:[`item.inscripcion_inicio`]="{ item }">
-                  {{ FormatFecha(item.inscripcion_inicio, 3) }} -
-                  {{ FormatFecha(item.inscripcion_cierre, 3) }}
-                </template>
-                <template v-slot:[`item.status`]="{ item }">
-                  <!-- {{ isActive(item.fecha_inicio, item.fecha_cierre) }} -->
-                  <!-- <v-badge color="info" :content="isActive(item.fecha_inicio, item.fecha_cierre)"> </v-badge> -->
-                  <v-chip v-if="isActive(item.fecha_inicio, item.fecha_cierre)" color="success">Activa</v-chip>
+                <template v-slot:[`item.activo`]="{ item }">
+                  <v-chip v-if="item.activo" color="success">Activa</v-chip>
                   <v-chip v-else color="error">Inactiva</v-chip>
 
                 </template>
                 <template v-slot:[`item.acciones`]="{ item }">
-                  <div class="d-flex flex-wrap ga-1">
-                    <Link :href="route('temporadas.show', item)">
+                  <div class="d-flex inline-flex ga-2">
+                    <Link :href="route('curriculums.show', item)">
                     <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
-                    <Link :href="route('temporadas.edit', item)">
-                    <v-btn :to="{ name: 'temporadas.edit', params: { id: item.idCrypt } }" color="secondary" small>
+                    <Link :href="route('curriculums.edit', item)">
+                    <v-btn :to="{ name: 'curriculums.edit', params: { id: item.idCrypt } }" color="secondary" small>
                       Editar
-                    </v-btn></Link>
-                    <v-btn color="error" small @click="onClickDelete(item)">Eliminar</v-btn>
+                    </v-btn>
+                    </Link>
+                    <v-btn color="error" small @click="onClickDelete(item)">Eliminar
+                    </v-btn>
                   </div>
                 </template>
               </v-data-table>

@@ -31,7 +31,7 @@ class TemporadaRequest extends FormRequest {
 
         if (in_array($this->method(), ['PUT', 'PATCH'])) {
             $rules['id'] = 'required:numeric';
-            $rules['prefijo'] = 'required:alpha_num';
+            $rules['prefijo'] = 'required:alpha_num|unique:temporadas,prefijo,' . $this->id;
         }
         return $rules;
     }

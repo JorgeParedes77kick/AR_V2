@@ -26,6 +26,7 @@ class RolRequest extends FormRequest {
         ];
         if (in_array($this->method(), ['PUT', 'PATCH'])) {
             $rules['id'] = 'required|numeric';
+            $rules['nombre'] = 'required|alpha_num|unique:roles,nombre,' . $this->id;
         }
         return $rules;
     }

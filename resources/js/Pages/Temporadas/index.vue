@@ -29,7 +29,7 @@ const isActive = (fecha_ini, fecha_fin) => {
 };
 
 const headers = [
-  { title: 'Prefijo', key: 'prefijo' },
+  { title: 'Prefijo', key: 'prefijo', fixed: true },
   { title: 'Nombre', key: 'nombre' },
   { title: 'Fecha Inicio', key: 'fecha_inicio' },
   { title: 'Fecha Fin', key: 'fecha_cierre' },
@@ -101,7 +101,7 @@ const onClickDelete = async (item) => {
 
                 </template>
                 <template v-slot:[`item.acciones`]="{ item }">
-                  <div class="d-flex flex-wrap ga-1">
+                  <div class="d-flex inline-flex ga-2">
                     <Link :href="route('temporadas.show', item)">
                     <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
