@@ -46,17 +46,17 @@ function handleSubmit(e) {
 </script>
 
 <template>
-    <v-container fuild style="background-color: #222222" class="h-100 " fill-height>
-        <v-row no-gutters>
-            <v-col cols="12" class="h-100 text-center">
+    <v-container style="background-color: #222222" class="h-100 ">
+        <v-row>
+            <v-col cols="12" class="h-100 text-center ">
                 <v-img :src="logGP" inline cover height="auto" width="25%"></v-img>
             </v-col>
             <v-alert dismissible title="Error Message" :model-value="message.length !== 0" :text="message" type="error" mode="slide-y-reverse-transition" class="elevation-7"></v-alert>
-            <v-col cols="12" class="h-100 text-center">
+            <v-col cols="12" >
                 <v-form @submit.prevent="handleSubmit" ref="formLogin" v-model="validLoginForm" class="h-100">
                     <legend>&nbsp;</legend>
                     <v-row no-gutters>
-                        <v-col cols="12" class="h-100 text-center w-50">
+                        <v-col cols="12" >
                             <v-text-field v-model="form.email"
                                           label="Correo Electr&oacute;nico"
                                           variant="outlined"
@@ -69,7 +69,7 @@ function handleSubmit(e) {
                                           tabindex="1"
                             />
                         </v-col>
-                        <v-col cols="12" class="h-100 text-center w-50">
+                        <v-col cols="12" >
                             <v-text-field v-model="form.password"
                                           label="Contrase&nacute;a"
                                           variant="outlined"
@@ -81,9 +81,10 @@ function handleSubmit(e) {
                                           :rules="[rules.required, rules.counter]"
                                           clearable
                                           tabindex="2"
+                                          hint="Enter your password to access this website"
                             />
                         </v-col>
-                        <v-col cols="12" class="h-100 text-center w-50">
+                        <v-col cols="12" class="text-center w-50">
                             <v-btn type="submit" large @click="validate" style="background-color: #99c5c0;
                             font-weight: bolder; font-size: 14pt; border-color: beige;
                             border-width: 2pt; ">INICIAR SESI&Oacute;N</v-btn>
