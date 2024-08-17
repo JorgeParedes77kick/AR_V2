@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
-import { inject, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 
 import ButtonBack from '../../components/ButtonBack';
 
@@ -23,9 +23,20 @@ const isDisabled = ref(props.action === CRUD.show);
 
 const inputForm = useForm({
   nombre: '',
+  valor_restriccion: '',
+  tipo_restriccion_id: '',
+  curriculum_id: '',
+  tipo_restriccion: null,
+  curriculum: null,
   ...props.restriccion,
 });
 const form = ref(null);
+
+onMounted(() => {
+  console.log(props.restriccion, props.curriculums)
+})
+
+
 
 const validateForm = async (e) => {
   e.preventDefault();
@@ -36,6 +47,10 @@ const validateForm = async (e) => {
 
 const submit = async () => {
   loading.value = true;
+  //
+  inputForm.curriculum_id = inputForm.curriculum.id
+  inputForm.tipo_restriccion_id = inputForm.tipo_restriccion.id
+  //
   const action = props.action === CRUD.edit ? 'update' : 'store';
   const method = props.action === CRUD.edit ? 'put' : 'post';
   const routeName = `restricciones.${action}`;
@@ -62,6 +77,7 @@ const submit = async () => {
     loading.value = false;
   }
 };
+
 </script>
 
 <template>
@@ -85,7 +101,25 @@ const submit = async () => {
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field id="nombre" name="nombre" label="Nombre" v-model="inputForm.nombre" :disabled="isDisabled"
-                  :rules="validate('Nombre', 'required')" :error-messages="inputForm.errors.nombre" />
+                  :error-messages="inputForm.errors.nombre" />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-combobox id="curriculum" name="curriculum" label="Curriculum" v-model="inputForm.curriculum"
+                  :disabled="isDisabled" :rules="validate('Curriculum', 'required')"
+                  :error-messages="inputForm.errors.curriculum_id" :items="curriculums" item-title="nombre"
+                  item-value="id" />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-combobox id="tipo_restriccion_id" name="tipo_restriccion_id" label="Tipo de Restricción"
+                  v-model="inputForm.tipo_restriccion" :disabled="isDisabled"
+                  :rules="validate('Tipo de Restricción', 'required')"
+                  :error-messages="inputForm.errors.tipo_restriccion_id" :items="tipos" item-title="nombre"
+                  item-value="id" />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field id="valor_restriccion" name="valor_restriccion" label="Valor Restricción"
+                  v-model="inputForm.valor_restriccion" :disabled="isDisabled"
+                  :error-messages="inputForm.errors.valor_restriccion" />
               </v-col>
             </v-row>
             <v-row class="my-3" v-if="!isDisabled">

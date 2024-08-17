@@ -49,7 +49,7 @@ const onClickDelete = async (item) => {
 </script>
 <template>
   <MainLayout>
-    <v-container fluid>
+    <v-container>
       <v-card color="background" class="px-4 py-2">
         <v-card-title> ROLES </v-card-title>
         <v-card-body>
@@ -62,8 +62,8 @@ const onClickDelete = async (item) => {
               </Link>
             </v-col>
           </v-row>
-          <v-row justify="center">
-            <v-col md="6">
+          <v-row>
+            <v-col>
               <v-data-table :headers="headers" :items="roles" :items-per-page="10" class="elevation-1 rounded">
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">

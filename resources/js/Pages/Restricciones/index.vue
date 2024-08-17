@@ -19,13 +19,13 @@ const headers = [
   { title: 'ID', key: 'id', fixed: true },
   { title: 'Curriculum', key: 'curriculum.nombre' },
   { title: 'Restricción', key: 'tipo_restriccion.nombre' },
-  { title: 'Valor', key: 'valor_restricion', sortable: false },
+  { title: 'Valor', key: 'valor_restriccion', sortable: false },
   { title: 'Acciones', key: 'acciones', sortable: false },
 ];
 const onClickDelete = async (item) => {
   const { isConfirmed } = await Swal.fire({
     title: 'Eliminar Rol',
-    text: `Estas seguro de eliminar la restriccion para el curriculum ${item.curriculum.nombre} de ${item.tipo_restriccion.nombre} con valor ${item.valor_restricion}?`,
+    text: `Estas seguro de eliminar la restriccion para el curriculum ${item.curriculum.nombre} de ${item.tipo_restriccion.nombre} con valor ${item.valor_restriccion}?`,
     icon: 'question',
     showCancelButton: true,
     confirmButtonText: 'Aceptar',
@@ -52,7 +52,7 @@ const onClickDelete = async (item) => {
 </script>
 <template>
   <MainLayout>
-    <v-container fluid>
+    <v-container>
       <v-card color="background" class="px-4 py-2">
         <v-card-title> RESTRICCIONES </v-card-title>
         <v-card-body>
@@ -65,8 +65,8 @@ const onClickDelete = async (item) => {
               </Link>
             </v-col>
           </v-row>
-          <v-row justify="center">
-            <v-col md="8">
+          <v-row>
+            <v-col>
               <v-data-table :headers="headers" :items="restricciones" :items-per-page="10" class="elevation-1 rounded">
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">

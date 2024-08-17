@@ -59,9 +59,17 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
     var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(props.action === _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD.show);
     var inputForm = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)(_objectSpread({
-      nombre: ''
+      nombre: '',
+      valor_restriccion: '',
+      tipo_restriccion_id: '',
+      curriculum_id: '',
+      tipo_restriccion: null,
+      curriculum: null
     }, props.restriccion));
     var form = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
+      console.log(props.restriccion, props.curriculums);
+    });
     var validateForm = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
         var _yield$form$value$val, valid;
@@ -93,34 +101,38 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               loading.value = true;
+              //
+              inputForm.curriculum_id = inputForm.curriculum.id;
+              inputForm.tipo_restriccion_id = inputForm.tipo_restriccion.id;
+              //
               action = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD.edit ? 'update' : 'store';
               method = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD.edit ? 'put' : 'post';
               routeName = "restricciones.".concat(action);
               id = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD.edit ? inputForm.id : undefined;
-              _context2.prev = 5;
-              _context2.next = 8;
+              _context2.prev = 7;
+              _context2.next = 10;
               return (axios__WEBPACK_IMPORTED_MODULE_3___default())[method](route(routeName, id), inputForm);
-            case 8:
+            case 10:
               response = _context2.sent;
               if (!(response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message)) {
-                _context2.next = 14;
+                _context2.next = 16;
                 break;
               }
               message = response.data.message;
-              _context2.next = 13;
+              _context2.next = 15;
               return Swal.fire({
                 title: 'Exito!',
                 text: message,
                 icon: 'success'
               });
-            case 13:
+            case 15:
               window.location.href = route('restricciones.index');
-            case 14:
-              _context2.next = 21;
-              break;
             case 16:
-              _context2.prev = 16;
-              _context2.t0 = _context2["catch"](5);
+              _context2.next = 23;
+              break;
+            case 18:
+              _context2.prev = 18;
+              _context2.t0 = _context2["catch"](7);
               console.log(_context2.t0 === null || _context2.t0 === void 0 ? void 0 : _context2.t0.response);
               if (_context2.t0 !== null && _context2.t0 !== void 0 && (_err$response = _context2.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
                 _message = _context2.t0.response.data.server;
@@ -134,15 +146,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 errors = _context2.t0.response.data.errors;
                 inputForm.errors = errors;
               }
-            case 21:
-              _context2.prev = 21;
+            case 23:
+              _context2.prev = 23;
               loading.value = false;
-              return _context2.finish(21);
-            case 24:
+              return _context2.finish(23);
+            case 26:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[5, 16, 21, 24]]);
+        }, _callee2, null, [[7, 18, 23, 26]]);
       }));
       return function submit() {
         return _ref3.apply(this, arguments);
@@ -161,6 +173,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm;
       },
       inject: vue__WEBPACK_IMPORTED_MODULE_1__.inject,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted,
       ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref,
       get ButtonBack() {
         return _components_ButtonBack__WEBPACK_IMPORTED_MODULE_2__["default"];
@@ -427,6 +440,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_card_subtitle = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-subtitle");
   var _component_v_text_field = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-text-field");
   var _component_v_col = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-col");
+  var _component_v_combobox = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-combobox");
   var _component_v_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-row");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
   var _component_v_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-form");
@@ -512,9 +526,70 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                   return $setup.inputForm.nombre = $event;
                                 }),
                                 disabled: $setup.isDisabled,
-                                rules: $setup.validate('Nombre', 'required'),
                                 "error-messages": $setup.inputForm.errors.nombre
-                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12",
+                            sm: "6"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_combobox, {
+                                id: "curriculum",
+                                name: "curriculum",
+                                label: "Curriculum",
+                                modelValue: $setup.inputForm.curriculum,
+                                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                                  return $setup.inputForm.curriculum = $event;
+                                }),
+                                disabled: $setup.isDisabled,
+                                rules: $setup.validate('Curriculum', 'required'),
+                                "error-messages": $setup.inputForm.errors.curriculum_id,
+                                items: $props.curriculums,
+                                "item-title": "nombre",
+                                "item-value": "id"
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages", "items"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12",
+                            sm: "6"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_combobox, {
+                                id: "tipo_restriccion_id",
+                                name: "tipo_restriccion_id",
+                                label: "Tipo de Restricción",
+                                modelValue: $setup.inputForm.tipo_restriccion,
+                                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                                  return $setup.inputForm.tipo_restriccion = $event;
+                                }),
+                                disabled: $setup.isDisabled,
+                                rules: $setup.validate('Tipo de Restricción', 'required'),
+                                "error-messages": $setup.inputForm.errors.tipo_restriccion_id,
+                                items: $props.tipos,
+                                "item-title": "nombre",
+                                "item-value": "id"
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages", "items"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12",
+                            sm: "6"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+                                id: "valor_restriccion",
+                                name: "valor_restriccion",
+                                label: "Valor Restricción",
+                                modelValue: $setup.inputForm.valor_restriccion,
+                                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+                                  return $setup.inputForm.valor_restriccion = $event;
+                                }),
+                                disabled: $setup.isDisabled,
+                                "error-messages": $setup.inputForm.errors.valor_restriccion
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
                           })];

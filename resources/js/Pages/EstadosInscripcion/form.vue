@@ -65,7 +65,7 @@ const submit = async (form) => {
 
 <template>
   <MainLayout>
-    <v-container fluid>
+    <v-container>
       <v-card color="background" class="" :disabled="loading" :loading="loading">
         <template v-slot:loader="{ isActive }">
           <v-progress-linear :active="isActive" color="primary" height="4" indeterminate />

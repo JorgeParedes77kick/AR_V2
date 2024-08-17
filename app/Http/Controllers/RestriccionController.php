@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RestriccionResquest;
 use App\Models\Curriculum;
 use App\Models\Restriccion;
 use App\Models\TipoRestriccion;
@@ -14,8 +15,7 @@ class RestriccionController extends Controller {
      *
      */
     public function index() {
-        $restricciones = Restriccion::with(['tipoRestriccion:id,nombre', 'curriculum:id,nombre'])
-            ->get();
+        $restricciones = Restriccion::all();
         $restricciones = $restricciones->sortBy(function ($restriccion) {
             return $restriccion->curriculum->id;
         })->values();
@@ -29,8 +29,8 @@ class RestriccionController extends Controller {
      *
      */
     public function create() {
-        $tipos = TipoRestriccion::all();
-        $curriculumns = Curriculum::all();
+        $tipos = TipoRestriccion::orderBy('nombre')->get();
+        $curriculumns = Curriculum::orderBy('nombre')->get();
         return Inertia::render('Restricciones/form', [
             'action' => 'create',
             'tipos' => $tipos,
@@ -43,8 +43,8 @@ class RestriccionController extends Controller {
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public function store(Request $request) {
-        $input = $request->all();
+    public function store(RestriccionResquest $request) {
+        $input = $request->only('nombre', 'tipo_restriccion_id', 'valor_restriccion', 'curriculum_id');
         $restriccion = Restriccion::create($input);
 
         if ($restriccion) {
@@ -61,8 +61,8 @@ class RestriccionController extends Controller {
      */
     public function show($id) {
         $restriccion = Restriccion::find($id);
-        $tipos = TipoRestriccion::all();
-        $curriculumns = Curriculum::all();
+        $tipos = TipoRestriccion::orderBy('nombre')->get();
+        $curriculumns = Curriculum::orderBy('nombre')->get();
         return Inertia::render('Restricciones/form', [
             'action' => 'show',
             'restriccion' => $restriccion,
@@ -78,8 +78,8 @@ class RestriccionController extends Controller {
      */
     public function edit($id) {
         $restriccion = Restriccion::find($id);
-        $tipos = TipoRestriccion::all();
-        $curriculumns = Curriculum::all();
+        $tipos = TipoRestriccion::orderBy('nombre')->get();
+        $curriculumns = Curriculum::orderBy('nombre')->get();
         return Inertia::render('Restricciones/form', [
             'action' => 'edit',
             'restriccion' => $restriccion,
@@ -94,9 +94,9 @@ class RestriccionController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      */
-    public function update(Request $request, $id) {
-        $input = $request->all();
-        $restriccion = Restriccion::find($id);
+    public function update(RestriccionResquest $request, $id) {
+        $input = $request->only('nombre', 'tipo_restriccion_id', 'valor_restriccion', 'curriculum_id');
+        $restriccion = Restriccion::whereId($id);
 
         try {
             $state = $restriccion->update($input);
@@ -118,7 +118,7 @@ class RestriccionController extends Controller {
      * @param  int  $id
      */
     public function destroy($id) {
-        $restriccion = Restriccion::find($id);
+        $restriccion = Restriccion::whereId($id);
         try {
             $state = $restriccion->delete();
             if ($state) {

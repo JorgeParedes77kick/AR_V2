@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +15,7 @@ class Restriccion extends Model {
     protected $fillable = [
         'nombre',
         'tipo_restriccion_id',
-        'valor_restricion',
+        'valor_restriccion',
         'curriculum_id',
     ];
 
@@ -35,5 +36,11 @@ class Restriccion extends Model {
      */
     public function curriculum(): BelongsTo {
         return $this->belongsTo(Curriculum::class, 'curriculum_id');
+    }
+
+    protected static function booted() {
+        static::addGlobalScope('withRelations', function (Builder $builder) {
+            $builder->with(['tipoRestriccion:id,nombre', 'curriculum:id,nombre']);
+        });
     }
 }

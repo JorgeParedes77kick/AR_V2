@@ -1,8 +1,8 @@
 <script setup>
-import { onMounted, ref, defineProps } from 'vue';
+import { Link } from '@inertiajs/inertia-vue3';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { Link } from '@inertiajs/inertia-vue3';
+import { defineProps, onMounted } from 'vue';
 
 import MainLayout from '../../components/Layout';
 
@@ -56,7 +56,7 @@ const onClickDelete = async (item) => {
 </script>
 <template>
   <MainLayout>
-    <v-container fluid>
+    <v-container>
       <v-card color="background" class="px-4 py-2">
         <v-card-title> ESTADOS DE ASISTENCIA </v-card-title>
         <v-card-body>
@@ -69,8 +69,8 @@ const onClickDelete = async (item) => {
               </Link>
             </v-col>
           </v-row>
-          <v-row justify="center">
-            <v-col md="6">
+          <v-row>
+            <v-col>
               <v-data-table :headers="headers" :items="estados" :items-per-page="10" class="elevation-1 rounded">
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
