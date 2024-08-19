@@ -11,7 +11,7 @@ class TemporadaRequest extends FormRequest {
      * @return bool
      */
     public function authorize() {
-        return true;
+        return isSuperAdmin();
     }
 
     /**

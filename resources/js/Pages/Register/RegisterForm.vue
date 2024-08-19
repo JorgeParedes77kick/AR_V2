@@ -1,6 +1,6 @@
 <script setup>
 import {reactive, ref, onMounted, onBeforeMount} from "vue";
-import {validateForm} from "../../constants/form";
+import {validateForm, getList} from "../../constants/form";
 import axios from "axios";
 import logGP from '../../../../public/images/logo_gp.png';
 import logoGlobal from "../../../../public/images/logo_global.png";
@@ -8,7 +8,6 @@ import women from "../../../../public/images/mujer.png";
 import book from "../../../../public/images/libro.png";
 import line from "../../../../public/images/linea.png";
 import tweens from "../../../../public/images/tweens.png";
-
 
 const loadingPage = ref(false);
 
@@ -41,12 +40,37 @@ const form = reactive({
   email: "",
   email_confirm: "",
   pass: "",
+  pass_confirm: "",
 });
 
-const mailConfirmEqualMail = () => form.email_confirm === form.email || "Correo Confirmacion no coincide";
+const mailConfirmEqualMail = () => form.email_confirm === form.email || "Correo Confirmación no coincide";
+const passConfirmEqualPass = () => form.pass_confirm === form.pass || "Contraseña Confirmación no coincide";
+
+const genderList = ref([]);
+const setGenders = v => (genderList.value = v);
+
+const civilStatusList = ref([]);
+const setCivilStatus = v => (civilStatusList.value = v);
+
+const nationalityList = ref([]);
+const setNationality = v => (nationalityList.value = v);
+
+const countryList = ref([]);
+const setCountry = v => (countryList.value = v);
+
+const regionList = ref([]);
+const setRegion = v => (regionList.value = v);
+
+const cityList = ref([]);
+const setCity = v => (cityList.value = v);
+
+const occupationList = ref([]);
+const setOccupation = v => (occupationList.value = v);
 
 const initialize = () => {
   setExpand(true);
+
+  setOverlay(false);
 };
 function handleSubmit(e) {
   // make api request
@@ -75,11 +99,30 @@ onBeforeMount(() =>
   setOverlay(true)
 );
 
-
 onMounted(() =>
-  setTimeout(function() {
+  setTimeout(function () {
+    getList('/gender/list').then((data)=>{
+      setGenders(data);
+      console.log("On " + JSON.stringify(data));
+    });
+    getList('/civilStatus/list').then((data)=>{
+      setCivilStatus(data);
+      console.log("On " + JSON.stringify(data));
+    });
+    getList('/nationality/list').then((data)=>{
+      setNationality(data);
+      console.log("On " + JSON.stringify(data));
+    });
+    getList('/country/list').then((data)=>{
+      setCountry(data);
+      console.log("On " + JSON.stringify(data));
+    });
+    getList('/region/list').then((data)=>{
+      setRegion(data);
+      console.log("On " + JSON.stringify(data));
+    });
+
     initialize();
-    setOverlay(false)
   }, 1700)
 );
 
@@ -111,7 +154,7 @@ onMounted(() =>
     <v-alert dismissible title="Error Message" :model-value="message.length !== 0" :text="message" type="error"
              mode="slide-y-reverse-transition" class="elevation-7"></v-alert>
     <v-expand-x-transition>
-      <v-form @submit.prevent="handleSubmit" ref="formRegister" v-model="validRegisterForm" v-show="expand">
+      <v-form @submit.prevent="handleSubmit" ref="formRegister" v-model="validRegisterForm" v-show="expand" lazy-validation>
         <v-row no-gutters>
           <v-col cols="3">
             <v-icon icon="mdi-notebook-edit-outline" style="color: #99c5c0; font-size: 20px;"></v-icon>&nbsp;<v-label
@@ -186,7 +229,9 @@ onMounted(() =>
             <v-select v-model="form.genero_id"
                       name="genero_id"
                       label="G&eacute;nero"
-                      :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                      :items="genderList"
+                      item-title="nombre"
+                      item-value="id"
                       variant="outlined"
                       style="color: #f4ede8"
                       class="rounded-l"
@@ -199,7 +244,9 @@ onMounted(() =>
             <v-select v-model="form.estado_civil_id"
                       name="estado_civil_id"
                       label="Estado Civil"
-                      :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                      :items="civilStatusList"
+                      item-title="estado"
+                      item-value="id"
                       variant="outlined"
                       style="color: #f4ede8"
                       class="rounded-l"
@@ -224,7 +271,9 @@ onMounted(() =>
             <v-select v-model="form.nacionalidad"
                       name="nacionalidad"
                       label="Nacionalidad"
-                      :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                      :items="nationalityList"
+                      item-title="nombre"
+                      item-value="id"
                       variant="outlined"
                       style="color: #f4ede8"
                       class="rounded-l"
@@ -237,7 +286,9 @@ onMounted(() =>
             <v-select v-model="form.pais_recidencia"
                       name="pais"
                       label="Pa&iacute;s"
-                      :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                      :items="countryList"
+                      item-title="nombre"
+                      item-value="id"
                       variant="outlined"
                       style="color: #f4ede8"
                       class="rounded-l"
@@ -250,7 +301,9 @@ onMounted(() =>
             <v-select v-model="form.region"
                       name="region"
                       label="Region"
-                      :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                      :items="regionList"
+                      item-title="nombre"
+                      item-value="id"
                       variant="outlined"
                       style="color: #f4ede8"
                       class="rounded-l"
@@ -263,7 +316,7 @@ onMounted(() =>
             <v-select v-model="form.ciudad"
                       name="ciudad"
                       label="Ciudad/Comuna"
-                      :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                      :items="['Falta', 'No Existe']"
                       variant="outlined"
                       style="color: #f4ede8"
                       class="rounded-l"
@@ -293,7 +346,7 @@ onMounted(() =>
             <v-select v-model="form.ocupacion"
                       name="ocupacion"
                       label="Ocupaci&oacute;n"
-                      :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                      :items="['Sin ocupacion', 'No existe']"
                       variant="outlined"
                       style="color: #f4ede8"
                       class="rounded-l"
@@ -328,7 +381,7 @@ onMounted(() =>
         <legend>&nbsp;</legend>
         <!-- row 5 -->
         <v-row>
-          <v-col cols="4" >
+          <v-col cols="3" >
             <v-text-field v-model="form.email"
                           label="Correo Electr&oacute;nico"
                           variant="outlined"
@@ -336,12 +389,12 @@ onMounted(() =>
                           name="mail"
                           style="color: #f4ede8"
                           class="rounded-l"
-                          :rules="[rules.required]"
+                          :rules="[rules.required, rules.email]"
                           clearable
                           tabindex="14"
             />
           </v-col>
-          <v-col cols="4" >
+          <v-col cols="3" >
             <v-text-field v-model="form.email_confirm"
                           label="Confirme Correo Electr&oacute;nico"
                           variant="outlined"
@@ -349,12 +402,12 @@ onMounted(() =>
                           name="mail"
                           style="color: #f4ede8"
                           class="rounded-l"
-                          :rules="[rules.required, mailConfirmEqualMail]"
+                          :rules="[rules.required, rules.email, mailConfirmEqualMail]"
                           clearable
                           tabindex="15"
             />
           </v-col>
-          <v-col cols="4" >
+          <v-col cols="3" >
             <v-text-field v-model="form.pass"
                           label="Contrase&nacute;a"
                           variant="outlined"
@@ -363,10 +416,23 @@ onMounted(() =>
                           type="password"
                           style="color: #f4ede8"
                           class="rounded-l"
-                          :rules="[rules.required, rules.counter]"
+                          :rules="[rules.required, rules.counter, rules.counter_pass]"
                           clearable
                           tabindex="16"
-                          hint="Enter your password to access this website"
+            />
+          </v-col>
+          <v-col cols="3" >
+            <v-text-field v-model="form.pass_confirm"
+                          label="Confirme Contrase&nacute;a"
+                          variant="outlined"
+                          placeholder="******"
+                          name="password"
+                          type="password"
+                          style="color: #f4ede8"
+                          class="rounded-l"
+                          :rules="[rules.required, passConfirmEqualPass, rules.counter_pass]"
+                          clearable
+                          tabindex="17"
             />
           </v-col>
         </v-row>
@@ -399,7 +465,7 @@ export default {
     email: '',
     rules: {
       required: value => !!value || 'Required.',
-      counter: value => value.length >= 5 || 'Min 5 characters',
+      counter_pass: value => value.length >= 5 || 'Min 5 characters',
       counter_dir: value => value.length < 250 || 'Max 250 characters',
       email: value => {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
