@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const CRUD = {
   index: 'index',
   show: 'show',
@@ -53,5 +55,22 @@ export const validateForm = (e) => {
         return true;
     }
 
+};
+
+export const getList = async function (url) {
+  return await axios.get(url).then(result => {
+    if (result) {
+      if (result.status === 200) {
+        return result.data;
+      }else{
+        return [];
+      }
+    }else {
+      return [];
+    }
+  }).catch(error => {
+    console.log(JSON.stringify(error.response.data.message));
+    return [];
+  });
 };
 
