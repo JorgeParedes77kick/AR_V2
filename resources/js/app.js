@@ -22,20 +22,20 @@ function resolvePageComponent(name) {
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
   resolve: (name) => resolvePageComponent(name),
-  setup({ el, app, props, plugin }) {
-    const vueApp = createApp({ render: () => h(app, props) })
+  setup({el, app, props, plugin}) {
+    const vueApp = createApp({render: () => h(app, props)})
       .use(plugin)
       .use(vuetify)
       .use(VueSweetalert2)
 
-      .mixin({ methods: { route } });
+      .mixin({methods: {route}});
 
     // Use provide to add the validation function globally
     vueApp.provide('$validation', validate);
 
     return vueApp.mount(el);
   },
-}).then(()=>{});
+}).then(r =>{});
 
 InertiaProgress.init();
 

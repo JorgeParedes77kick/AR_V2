@@ -72,3 +72,11 @@ body {
   height: 100vh;
 }
 
+#registerPanel {
+  background-image: url(/images/fondo.jpg?db547e7d854d373b0da35d94e1a56164);
+  background-repeat: repeat;
+  background-size: contain;
+  background-position: center;
+  height: 100%;
+}
+
