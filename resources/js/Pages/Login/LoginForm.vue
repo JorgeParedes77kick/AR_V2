@@ -29,7 +29,7 @@ function handleSubmit(e) {
             setMessage("");
             window.location.href = "home";
         }).catch(error => {
-            console.log(JSON.stringify(error.response.data.message));
+            console.log(JSON.stringify(error.response));
             if(error.response.status >= 500){
               setMessage("Error de Sistema, Favor contactar al administrador");
             }else{
@@ -46,14 +46,14 @@ function handleSubmit(e) {
 </script>
 
 <template>
-    <v-container style="background-color: #222222" class="h-100 ">
-        <v-row>
-            <v-col cols="12" class="h-100 text-center ">
+    <v-container style="background-color: #222222" class="h-100 d-flex justify-center align-center">
+        <v-row align="stretch">
+            <v-col cols="12" class="d-flex justify-center align-center">
                 <v-img :src="logGP" inline cover height="auto" width="25%"></v-img>
             </v-col>
             <v-alert dismissible title="Error Message" :model-value="message.length !== 0" :text="message" type="error" mode="slide-y-reverse-transition" class="elevation-7"></v-alert>
-            <v-col cols="12" >
-                <v-form @submit.prevent="handleSubmit" ref="formLogin" v-model="validLoginForm" class="h-100">
+            <v-col cols="12" class="d-flex justify-center align-center">
+                <v-form @submit.prevent="handleSubmit" ref="formLogin" v-model="validLoginForm" class="">
                     <legend>&nbsp;</legend>
                     <v-row no-gutters>
                         <v-col cols="12" >
@@ -84,7 +84,7 @@ function handleSubmit(e) {
                                           hint="Enter your password to access this website"
                             />
                         </v-col>
-                        <v-col cols="12" class="text-center w-50">
+                        <v-col cols="12" class="text-center">
                             <v-btn type="submit" large @click="validate" style="background-color: #99c5c0;
                             font-weight: bolder; font-size: 14pt; border-color: beige;
                             border-width: 2pt; ">INICIAR SESI&Oacute;N</v-btn>

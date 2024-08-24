@@ -6,6 +6,7 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Helpers\Debug;
 use App\Models\Usuario;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -64,13 +65,18 @@ class FortifyServiceProvider extends ServiceProvider
           if ($user && Hash::check($request->password, $user->password)) {
             $roles = $user->roles()->first();
             if($roles){
-                //$request->session()->put('rol_slug', $roles->slug);
                 $request->session()->put('rol_id', $roles->id);
                 return $user;
             }else{
+              Debug::info("Usuario sin roles, agregue rol");
               return false;
             }
+          }else{
+            Debug::info("Usuario no encontrado");
+            return false;
           }
         });
+
+
     }
 }
