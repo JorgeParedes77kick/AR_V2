@@ -72,7 +72,7 @@ var __default__ = {
           setMessage("");
           window.location.href = "home";
         })["catch"](function (error) {
-          console.log(JSON.stringify(error.response.data.message));
+          console.log(JSON.stringify(error.response));
           if (error.response.status >= 500) {
             setMessage("Error de Sistema, Favor contactar al administrador");
           } else {
@@ -237,14 +237,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "background-color": "#222222"
     },
-    "class": "h-100"
+    "class": "h-100 d-flex justify-center align-center"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
+        align: "stretch"
+      }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
             cols: "12",
-            "class": "h-100 text-center"
+            "class": "d-flex justify-center align-center"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_img, {
@@ -265,7 +267,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             mode: "slide-y-reverse-transition",
             "class": "elevation-7"
           }, null, 8 /* PROPS */, ["model-value", "text"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-            cols: "12"
+            cols: "12",
+            "class": "d-flex justify-center align-center"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_form, {
@@ -275,7 +278,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
                   return $setup.validLoginForm = $event;
                 }),
-                "class": "h-100"
+                "class": ""
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
@@ -332,7 +335,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         _: 1 /* STABLE */
                       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
                         cols: "12",
-                        "class": "text-center w-50"
+                        "class": "text-center"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {

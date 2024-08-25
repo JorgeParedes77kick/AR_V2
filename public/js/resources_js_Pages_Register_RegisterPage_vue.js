@@ -19,7 +19,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _public_images_logo_global_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../public/images/logo_global.png */ "./public/images/logo_global.png");
 /* harmony import */ var _public_images_mujer_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../public/images/mujer.png */ "./public/images/mujer.png");
 /* harmony import */ var _public_images_libro_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../public/images/libro.png */ "./public/images/libro.png");
-/* harmony import */ var _public_images_linea_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../public/images/linea.png */ "./public/images/linea.png");
+/* harmony import */ var _public_images_corona_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../public/images/corona.png */ "./public/images/corona.png");
 /* harmony import */ var _public_images_tweens_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../public/images/tweens.png */ "./public/images/tweens.png");
 
 
@@ -138,9 +138,20 @@ var __default__ = {
       setMessage("");
       setOverlay(true);
       if ((0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.validateForm)(e)) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().post('register', form).then(function (result) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().post('register/persona', form).then(function (result) {
           setMessage("");
-          window.location.href = "login";
+          axios__WEBPACK_IMPORTED_MODULE_2___default().post('register', form).then(function (result) {
+            setMessage("");
+            window.location.href = "login";
+          })["catch"](function (error) {
+            console.log(JSON.stringify(error.response.data.message));
+            if (error.response.status >= 500) {
+              setMessage("Error de Sistema, Favor contactar al administrador");
+            } else {
+              setMessage(error.response.data.message);
+            }
+            setOverlay(false);
+          });
         })["catch"](function (error) {
           console.log(JSON.stringify(error.response.data.message));
           if (error.response.status >= 500) {
@@ -234,8 +245,8 @@ var __default__ = {
       get book() {
         return _public_images_libro_png__WEBPACK_IMPORTED_MODULE_6__["default"];
       },
-      get line() {
-        return _public_images_linea_png__WEBPACK_IMPORTED_MODULE_7__["default"];
+      get corona() {
+        return _public_images_corona_png__WEBPACK_IMPORTED_MODULE_7__["default"];
       },
       get tweens() {
         return _public_images_tweens_png__WEBPACK_IMPORTED_MODULE_8__["default"];
@@ -413,17 +424,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             fuild: "",
             "class": "float-md-top position-absolute",
             style: {
-              "left": "40%",
+              "left": "38%",
               "top": "6%"
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_img, {
-                src: $setup.tweens,
+                src: $setup.corona,
                 inline: "",
                 cover: "",
                 height: "auto",
-                width: "2%"
+                width: "4%"
               }, null, 8 /* PROPS */, ["src"])];
             }),
             _: 1 /* STABLE */
@@ -449,7 +460,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             fuild: "",
             "class": "float-md-top position-absolute",
             style: {
-              "left": "56%",
+              "left": "57%",
               "top": "6%"
             }
           }, {
@@ -473,11 +484,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_img, {
-                src: $setup.line,
+                src: $setup.tweens,
                 inline: "",
                 cover: "",
                 height: "auto",
-                width: "5%"
+                width: "2%"
               }, null, 8 /* PROPS */, ["src"])];
             }),
             _: 1 /* STABLE */
@@ -813,20 +824,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     cols: "3"
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.form.ciudad,
                         "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
                           return $setup.form.ciudad = $event;
                         }),
-                        name: "ciudad",
                         label: "Ciudad/Comuna",
-                        items: ['Falta', 'No Existe'],
                         variant: "outlined",
+                        placeholder: "Mi comuna",
+                        name: "ciudad",
+                        type: "input",
                         style: {
                           "color": "#f4ede8"
                         },
                         "class": "rounded-l",
-                        rules: [_ctx.rules.required],
+                        rules: [_ctx.rules.required, _ctx.rules.counter_dir],
                         clearable: "",
                         tabindex: "10"
                       }, null, 8 /* PROPS */, ["modelValue", "rules"])];
@@ -848,7 +860,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         }),
                         label: "Dirección",
                         variant: "outlined",
-                        placeholder: "Jhon",
+                        placeholder: "Romano",
                         name: "direccion",
                         type: "input",
                         style: {
@@ -865,20 +877,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     cols: "3"
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.form.ocupacion,
                         "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
                           return $setup.form.ocupacion = $event;
                         }),
-                        name: "ocupacion",
                         label: "Ocupación",
-                        items: ['Sin ocupacion', 'No existe'],
                         variant: "outlined",
+                        placeholder: "Jhon",
+                        name: "ocupacion",
+                        type: "input",
                         style: {
                           "color": "#f4ede8"
                         },
                         "class": "rounded-l",
-                        rules: [_ctx.rules.required],
+                        rules: [_ctx.rules.required, _ctx.rules.counter_dir],
                         clearable: "",
                         tabindex: "12"
                       }, null, 8 /* PROPS */, ["modelValue", "rules"])];
@@ -1299,6 +1312,20 @@ var getList = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./public/images/corona.png":
+/*!**********************************!*\
+  !*** ./public/images/corona.png ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/corona.png?ad4513f3611a25ad55e71bfa21e8fe8e");
+
+/***/ }),
+
 /***/ "./public/images/hola.png":
 /*!********************************!*\
   !*** ./public/images/hola.png ***!
@@ -1324,20 +1351,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/libro.png?2f263a686e29ac488855e4466aaeceef");
-
-/***/ }),
-
-/***/ "./public/images/linea.png":
-/*!*********************************!*\
-  !*** ./public/images/linea.png ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/linea.png?697980e7682f9fd6852c03e3444fd87f");
 
 /***/ }),
 

@@ -6,7 +6,7 @@ import logGP from '../../../../public/images/logo_gp.png';
 import logoGlobal from "../../../../public/images/logo_global.png";
 import women from "../../../../public/images/mujer.png";
 import book from "../../../../public/images/libro.png";
-import line from "../../../../public/images/linea.png";
+import corona from "../../../../public/images/corona.png";
 import tweens from "../../../../public/images/tweens.png";
 
 const loadingPage = ref(false);
@@ -77,9 +77,20 @@ function handleSubmit(e) {
   setMessage("");
   setOverlay(true);
   if (validateForm(e)) {
-    axios.post('register', form).then(result => {
+    axios.post('register/persona', form).then(result => {
       setMessage("");
-      window.location.href = "login";
+      axios.post('register', form).then(result => {
+        setMessage("");
+        window.location.href = "login";
+      }).catch(error => {
+        console.log(JSON.stringify(error.response.data.message));
+        if (error.response.status >= 500) {
+          setMessage("Error de Sistema, Favor contactar al administrador");
+        } else {
+          setMessage(error.response.data.message);
+        }
+        setOverlay(false);
+      });
     }).catch(error => {
       console.log(JSON.stringify(error.response.data.message));
       if (error.response.status >= 500) {
@@ -138,17 +149,17 @@ onMounted(() =>
       <v-container fuild class="float-md-top position-absolute" style="left: 34%; top:0;">
         <v-img :src="women" inline cover height="auto" width="2%" ></v-img>
       </v-container>
-      <v-container fuild class="float-md-top position-absolute" style="left: 40%; top:6%;">
-        <v-img :src="tweens" inline cover height="auto" width="2%" ></v-img>
+      <v-container fuild class="float-md-top position-absolute" style="left: 38%; top:6%;">
+        <v-img :src="corona" inline cover height="auto" width="4%" ></v-img>
       </v-container>
       <v-container fuild class="float-md-top position-absolute" style="left: 4%; top:0;">
         <v-img :src="logoGlobal" inline cover height="auto" width="10%" ></v-img>
       </v-container>
-      <v-container fuild class="float-md-top position-absolute" style="left: 56%; top:6%;">
+      <v-container fuild class="float-md-top position-absolute" style="left: 57%; top:6%;">
         <v-img :src="book" inline cover height="auto" width="5%" ></v-img>
       </v-container>
       <v-container fuild class="float-md-top position-absolute" style="left: 63%; top:0;">
-        <v-img :src="line" inline cover height="auto" width="5%" ></v-img>
+        <v-img :src="tweens" inline cover height="auto" width="2%" ></v-img>
       </v-container>
     </v-row>
     <v-alert dismissible title="Error Message" :model-value="message.length !== 0" :text="message" type="error"
@@ -313,17 +324,18 @@ onMounted(() =>
             ></v-select>
           </v-col>
           <v-col cols="3" >
-            <v-select v-model="form.ciudad"
-                      name="ciudad"
-                      label="Ciudad/Comuna"
-                      :items="['Falta', 'No Existe']"
-                      variant="outlined"
-                      style="color: #f4ede8"
-                      class="rounded-l"
-                      :rules="[rules.required]"
-                      clearable
-                      tabindex="10"
-            ></v-select>
+            <v-text-field v-model="form.ciudad"
+                          label="Ciudad/Comuna"
+                          variant="outlined"
+                          placeholder="Mi comuna"
+                          name="ciudad"
+                          type="input"
+                          style="color: #f4ede8"
+                          class="rounded-l"
+                          :rules="[rules.required, rules.counter_dir]"
+                          clearable
+                          tabindex="10"
+            />
           </v-col>
         </v-row>
         <!-- row 4 -->
@@ -332,7 +344,7 @@ onMounted(() =>
             <v-text-field v-model="form.direccion"
                           label="Direcci&oacute;n"
                           variant="outlined"
-                          placeholder="Jhon"
+                          placeholder="Romano"
                           name="direccion"
                           type="input"
                           style="color: #f4ede8"
@@ -343,17 +355,18 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="3" >
-            <v-select v-model="form.ocupacion"
-                      name="ocupacion"
-                      label="Ocupaci&oacute;n"
-                      :items="['Sin ocupacion', 'No existe']"
-                      variant="outlined"
-                      style="color: #f4ede8"
-                      class="rounded-l"
-                      :rules="[rules.required]"
-                      clearable
-                      tabindex="12"
-            ></v-select>
+            <v-text-field v-model="form.ocupacion"
+                          label="Ocupaci&oacute;n"
+                          variant="outlined"
+                          placeholder="Jhon"
+                          name="ocupacion"
+                          type="input"
+                          style="color: #f4ede8"
+                          class="rounded-l"
+                          :rules="[rules.required, rules.counter_dir]"
+                          clearable
+                          tabindex="12"
+            />
           </v-col>
           <v-col cols="3" >
             <v-text-field v-model="form.telefono"
