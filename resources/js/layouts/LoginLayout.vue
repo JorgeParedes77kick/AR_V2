@@ -8,11 +8,11 @@ import hello from '../../../public/images/hola.png';
         <v-fade-transition mode="out-in">
             <v-row no-gutters>
                 <v-col cols="5" id="loginPanel">
-                    <v-container class="float-md-top position-absolute" style="left: 6%; top: 4%">
-                        <v-img :src="logoGlobal" inline cover height="auto" width="10%" ></v-img>
+                    <v-container class="float-md-top position-absolute" style="left: 6%; top: 4%; width: 30%">
+                        <v-img :src="logoGlobal" inline cover height="auto" width="30%" ></v-img>
                     </v-container>
-                    <v-container class="float-md-end position-absolute" style="left: 6%; bottom: 10%">
-                        <v-img :src="hello" inline cover height="auto" width="20%" ></v-img>
+                    <v-container class="float-md-end position-absolute" style="left: 6%; bottom: 10%; width: 30%">
+                        <v-img :src="hello" inline cover height="auto" width="70%" ></v-img>
                     </v-container>
                 </v-col>
                 <v-col cols="7" id="loginPanelForm">

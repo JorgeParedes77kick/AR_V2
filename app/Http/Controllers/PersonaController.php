@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Persona;
 use App\Http\Requests\StorePersonaRequest;
 use App\Http\Requests\UpdatePersonaRequest;
+use Illuminate\Http\JsonResponse;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class PersonaController extends Controller
 {
@@ -31,12 +34,18 @@ class PersonaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePersonaRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StorePersonaRequest $request
+     * @return JsonResponse
      */
     public function store(StorePersonaRequest $request)
     {
-        //
+        $validated = $request->validated();
+        if($validated){
+          $person = Persona::create($validated);
+          return response()->json(['person' => $person], 200);
+        }else{
+          abort(404);
+        }
     }
 
     /**
@@ -73,14 +82,15 @@ class PersonaController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Persona  $persona
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Persona $persona)
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param int $persona
+   * @return JsonResponse
+   */
+    public function destroy(int $persona)
     {
-        //
+      Persona::destroy($persona);
+      return response()->json(['message' => 'OK'], 200);
     }
 }

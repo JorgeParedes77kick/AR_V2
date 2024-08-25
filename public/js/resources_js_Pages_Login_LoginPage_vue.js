@@ -72,13 +72,33 @@ var __default__ = {
           setMessage("");
           window.location.href = "home";
         })["catch"](function (error) {
-          console.log(JSON.stringify(error.response));
-          if (error.response.status >= 500) {
-            setMessage("Error de Sistema, Favor contactar al administrador");
-          } else {
-            setMessage(error.response.data.message);
-          }
           setOverlay(false);
+          console.log(JSON.stringify(error));
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log("1 " + JSON.stringify(error.response.data));
+            console.log("2 " + JSON.stringify(error.response.status));
+            if (error.response.status >= 500) {
+              setMessage("Error de Sistema, Favor contactar al administrador");
+            } else {
+              if (error.response.status === 422) {
+                setMessage(JSON.stringify(error.response.data.errors));
+              } else {
+                setMessage("Error al Ingresar, Favor contactar al administrador");
+              }
+            }
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log("4 " + JSON.stringify(error.request));
+            setMessage("Error al Ingresar, Favor contactar al administrador");
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('5 Error', error.message);
+            setMessage("Error al Ingresar, Favor contactar al administrador");
+          }
         });
       } else {
         setOverlay(false);
@@ -278,7 +298,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
                   return $setup.validLoginForm = $event;
                 }),
-                "class": ""
+                "class": "justify-center align-center"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
@@ -286,7 +306,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                        cols: "12"
+                        cols: "12",
+                        "class": "d-flex justify-center align-center"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
@@ -309,7 +330,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         }),
                         _: 1 /* STABLE */
                       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                        cols: "12"
+                        cols: "12",
+                        "class": "d-flex justify-center align-center"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
@@ -329,18 +351,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             rules: [_ctx.rules.required, _ctx.rules.counter],
                             clearable: "",
                             tabindex: "2",
-                            hint: "Enter your password to access this website"
+                            hint: ""
                           }, null, 8 /* PROPS */, ["modelValue", "rules"])];
                         }),
                         _: 1 /* STABLE */
                       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
                         cols: "12",
-                        "class": "text-center"
+                        "class": "d-flex justify-center align-center"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
                             type: "submit",
-                            large: "",
+                            block: "",
                             onClick: $options.validate,
                             style: {
                               "background-color": "#99c5c0",
@@ -476,7 +498,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "class": "float-md-top position-absolute",
                     style: {
                       "left": "6%",
-                      "top": "4%"
+                      "top": "4%",
+                      "width": "30%"
                     }
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -485,7 +508,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         inline: "",
                         cover: "",
                         height: "auto",
-                        width: "10%"
+                        width: "30%"
                       }, null, 8 /* PROPS */, ["src"])];
                     }),
                     _: 1 /* STABLE */
@@ -493,7 +516,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "class": "float-md-end position-absolute",
                     style: {
                       "left": "6%",
-                      "bottom": "10%"
+                      "bottom": "10%",
+                      "width": "30%"
                     }
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -502,7 +526,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         inline: "",
                         cover: "",
                         height: "auto",
-                        width: "20%"
+                        width: "70%"
                       }, null, 8 /* PROPS */, ["src"])];
                     }),
                     _: 1 /* STABLE */

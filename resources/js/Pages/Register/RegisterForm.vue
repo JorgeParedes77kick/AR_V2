@@ -7,7 +7,7 @@ import logoGlobal from "../../../../public/images/logo_global.png";
 import women from "../../../../public/images/mujer.png";
 import book from "../../../../public/images/libro.png";
 import corona from "../../../../public/images/corona.png";
-import tweens from "../../../../public/images/tweens.png";
+import tween from "../../../../public/images/tweens.png";
 
 const loadingPage = ref(false);
 
@@ -30,17 +30,22 @@ const form = reactive({
   fecha_nacimiento: "",
   genero_id: "",
   estado_civil_id: "",
-  nacionalidad: "",
+  nacionalidad_id: "",
   pais_recidencia: "",
-  region: "",
+  region_id: "",
   ciudad: "",
   direccion: "",
   telefono: "",
   ocupacion: "",
+});
+
+const formUser = reactive({
   email: "",
   email_confirm: "",
-  pass: "",
-  pass_confirm: "",
+  password: "",
+  password_confirm: "",
+  persona_id: "",
+  nick_name: "",
 });
 
 const mailConfirmEqualMail = () => form.email_confirm === form.email || "Correo Confirmación no coincide";
@@ -77,33 +82,135 @@ function handleSubmit(e) {
   setMessage("");
   setOverlay(true);
   if (validateForm(e)) {
-    axios.post('register/persona', form).then(result => {
+    axios.post('/persona/store', form).then(result => {
+      console.log("1 "+JSON.stringify(result));
+      console.log("2 "+JSON.stringify(result.response));
+      console.log("3 "+JSON.stringify(result.data));
+      console.log("4 "+JSON.stringify(result.data.person));
+      console.log("5 "+JSON.stringify(result.data.person.id));
+      console.log("6 "+JSON.stringify(result.status));
       setMessage("");
-      axios.post('register', form).then(result => {
-        setMessage("");
-        window.location.href = "login";
-      }).catch(error => {
-        console.log(JSON.stringify(error.response.data.message));
+      if(result.status === 200){
+        formUser.persona_id = result.data.person.id;
+        formUser.nick_name = createNickName();
+        registerUser(result);
+      }else{
+        setMessage(JSON.stringify(result.data));
+        setOverlay(false);
+      }
+    }).catch(error => {
+      setOverlay(false);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log("1 " +JSON.stringify(error.response.data));
+        console.log("2 " +JSON.stringify(error.response.status));
+        console.log("3 " +JSON.stringify(error.response.headers));
         if (error.response.status >= 500) {
           setMessage("Error de Sistema, Favor contactar al administrador");
         } else {
-          setMessage(error.response.data.message);
+          if(error.response.status === 422) {
+            setMessage(JSON.stringify(error.response.data.errors));
+          }else{
+            setMessage("Error al Registrar, Favor contactar al administrador");
+          }
         }
-        setOverlay(false);
-      });
-    }).catch(error => {
-      console.log(JSON.stringify(error.response.data.message));
-      if (error.response.status >= 500) {
-        setMessage("Error de Sistema, Favor contactar al administrador");
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log("4 " +JSON.stringify(error.request));
+        setMessage("Error al Registrar, Favor contactar al administrador");
       } else {
-        setMessage(error.response.data.message);
+        // Something happened in setting up the request that triggered an Error
+        console.log('5 Error', error.message);
+        setMessage("Error al Registrar, Favor contactar al administrador");
       }
-      setOverlay(false);
     });
   } else {
     setOverlay(false);
   }
 
+}
+
+function registerUser() {
+  // make api request
+  axios.post('user/store', formUser).then(result => {
+    if(result.status === 200){
+      setMessage("");
+      window.location.href = "login";
+    }else{
+      setOverlay(false);
+      setMessage("Error al Registrar, "+JSON.stringify(result.data));
+    }
+  }).catch(error => {
+    setOverlay(false);
+    deletePerson();
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log("1 " +JSON.stringify(error.response.data));
+      console.log("2 " +JSON.stringify(error.response.status));
+      if (error.response.status >= 500) {
+        setMessage("Error de Sistema, Favor contactar al administrador");
+      } else {
+        if(error.response.status === 422) {
+          setMessage(JSON.stringify(error.response.data.errors));
+        }else{
+          setMessage("Error al Crear Usuario, Favor contactar al administrador");
+        }
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log("4 " +JSON.stringify(error.request));
+      setMessage("Error al Crear Usuario, Favor contactar al administrador");
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log('5 Error', error.message);
+      setMessage("Error al Crear Usuario, Favor contactar al administrador");
+    }
+  });
+}
+function deletePerson() {
+  // make api request
+  axios.delete('persona/'+formUser.persona_id+'/delete', form).then(result => {
+    setOverlay(false);
+  }).catch(error => {
+    setOverlay(false);
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log("1 " +JSON.stringify(error.response.data));
+      console.log("2 " +JSON.stringify(error.response.status));
+      if (error.response.status >= 500) {
+        setMessage("Error de Sistema, Favor contactar al administrador");
+      } else {
+        if(error.response.status === 422) {
+          setMessage(JSON.stringify(error.response.data.errors));
+        }else{
+          setMessage("Error al Borrar Datos, Favor contactar al administrador");
+        }
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log("4 " +JSON.stringify(error.request));
+      setMessage("Error al Borrar Datos, Favor contactar al administrador");
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log('5 Error', error.message);
+      setMessage("Error al Borrar Datos, Favor contactar al administrador");
+    }
+  });
+}
+function createNickName(){
+  var names = form.nombre.split(" ");
+  var apell = form.apellido.split(" ");
+  var nickName = names[0].trim()+"."+apell[0].trim();
+  return nickName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 onBeforeMount(() =>
@@ -114,25 +221,19 @@ onMounted(() =>
   setTimeout(function () {
     getList('/gender/list').then((data)=>{
       setGenders(data);
-      console.log("On " + JSON.stringify(data));
     });
     getList('/civilStatus/list').then((data)=>{
       setCivilStatus(data);
-      console.log("On " + JSON.stringify(data));
     });
     getList('/nationality/list').then((data)=>{
       setNationality(data);
-      console.log("On " + JSON.stringify(data));
     });
     getList('/country/list').then((data)=>{
-      setCountry(data);
-      console.log("On " + JSON.stringify(data));
+      setCountry(data);;
     });
     getList('/region/list').then((data)=>{
       setRegion(data);
-      console.log("On " + JSON.stringify(data));
     });
-
     initialize();
   }, 1700)
 );
@@ -159,7 +260,7 @@ onMounted(() =>
         <v-img :src="book" inline cover height="auto" width="5%" ></v-img>
       </v-container>
       <v-container fuild class="float-md-top position-absolute" style="left: 63%; top:0;">
-        <v-img :src="tweens" inline cover height="auto" width="2%" ></v-img>
+        <v-img :src="tween" inline cover height="auto" width="2%" ></v-img>
       </v-container>
     </v-row>
     <v-alert dismissible title="Error Message" :model-value="message.length !== 0" :text="message" type="error"
@@ -186,7 +287,7 @@ onMounted(() =>
                           type="input"
                           style="color: #f4ede8"
                           class="rounded-l"
-                          :rules="[rules.required]"
+                          :rules="[rules.required, rules.text_valid]"
                           clearable
                           tabindex="1"
             />
@@ -200,7 +301,7 @@ onMounted(() =>
                           type="input"
                           style="color: #f4ede8"
                           class="rounded-l"
-                          :rules="[rules.required]"
+                          :rules="[rules.required, rules.text_valid]"
                           clearable
                           tabindex="2"
             />
@@ -233,6 +334,10 @@ onMounted(() =>
                           class="rounded-l"
                           :rules="[rules.required]"
                           clearable
+                          elevation="15"
+                          :max="(new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000 ) - (87600 * 60) * 60000)).toISOString().substring(0, 10)"
+                          min="1950-01-01"
+                          active-picker.sync="YEAR"
                           tabindex="4"
             />
           </v-col>
@@ -279,7 +384,7 @@ onMounted(() =>
         <!-- row 3 -->
         <v-row>
           <v-col cols="3" >
-            <v-select v-model="form.nacionalidad"
+            <v-select v-model="form.nacionalidad_id"
                       name="nacionalidad"
                       label="Nacionalidad"
                       :items="nationalityList"
@@ -309,8 +414,8 @@ onMounted(() =>
             ></v-select>
           </v-col>
           <v-col cols="3" >
-            <v-select v-model="form.region"
-                      name="region"
+            <v-select v-model="form.region_id"
+                      name="region_id"
                       label="Region"
                       :items="regionList"
                       item-title="nombre"
@@ -395,7 +500,7 @@ onMounted(() =>
         <!-- row 5 -->
         <v-row>
           <v-col cols="3" >
-            <v-text-field v-model="form.email"
+            <v-text-field v-model="formUser.email"
                           label="Correo Electr&oacute;nico"
                           variant="outlined"
                           placeholder="johndoe@gmail.com"
@@ -408,7 +513,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="3" >
-            <v-text-field v-model="form.email_confirm"
+            <v-text-field v-model="formUser.email_confirm"
                           label="Confirme Correo Electr&oacute;nico"
                           variant="outlined"
                           placeholder="johndoe@gmail.com"
@@ -421,7 +526,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="3" >
-            <v-text-field v-model="form.pass"
+            <v-text-field v-model="formUser.password"
                           label="Contrase&nacute;a"
                           variant="outlined"
                           placeholder="******"
@@ -435,7 +540,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="3" >
-            <v-text-field v-model="form.pass_confirm"
+            <v-text-field v-model="formUser.password_confirm"
                           label="Confirme Contrase&nacute;a"
                           variant="outlined"
                           placeholder="******"
@@ -458,12 +563,11 @@ onMounted(() =>
         </v-row>
       </v-form>
     </v-expand-x-transition>
-    <v-overlay :model-value="loadingPage" opacity="0.80" :absolute="true" contained persistent
-               class="align-center justify-center">
-      <v-progress-circular style="color: #99c5c0 " size="37" indeterminate></v-progress-circular>
-    </v-overlay>
-
   </v-container>
+  <v-overlay :model-value="loadingPage" opacity="0.80" :absolute="true" contained persistent
+             class="align-center justify-center">
+    <v-progress-circular style="color: #99c5c0 " size="37" indeterminate></v-progress-circular>
+  </v-overlay>
 </template>
 
 <style lang="scss" scoped>
@@ -483,6 +587,10 @@ export default {
       email: value => {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return pattern.test(value) || 'Invalid e-mail.'
+      },
+      text_valid: value =>{
+        const pattern = /^[a-zA-Z_-]{3,15}$/
+        return pattern.test(value) || 'Letras mayusculas o minúsculas, guión bajo y guión medio'
       },
     },
   }),

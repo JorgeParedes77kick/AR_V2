@@ -64,6 +64,10 @@ body {
   background-repeat: repeat;
 }
 
+.v-text-field .v-input__details {
+  padding-inline: 0px !important;
+}
+
 #loginPanel {
   background-image: url(/images/fondo.jpg?db547e7d854d373b0da35d94e1a56164);
   background-repeat: repeat;

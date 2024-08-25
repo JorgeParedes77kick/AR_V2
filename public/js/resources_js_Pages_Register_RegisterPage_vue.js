@@ -48,6 +48,10 @@ var __default__ = {
         email: function email(value) {
           var pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return pattern.test(value) || 'Invalid e-mail.';
+        },
+        text_valid: function text_valid(value) {
+          var pattern = /^[a-zA-Z_-]{3,15}$/;
+          return pattern.test(value) || 'Letras mayusculas o minúsculas, guión bajo y guión medio';
         }
       }
     };
@@ -83,17 +87,21 @@ var __default__ = {
       fecha_nacimiento: "",
       genero_id: "",
       estado_civil_id: "",
-      nacionalidad: "",
+      nacionalidad_id: "",
       pais_recidencia: "",
-      region: "",
+      region_id: "",
       ciudad: "",
       direccion: "",
       telefono: "",
-      ocupacion: "",
+      ocupacion: ""
+    });
+    var formUser = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
       email: "",
       email_confirm: "",
-      pass: "",
-      pass_confirm: ""
+      password: "",
+      password_confirm: "",
+      persona_id: "",
+      nick_name: ""
     });
     var mailConfirmEqualMail = function mailConfirmEqualMail() {
       return form.email_confirm === form.email || "Correo Confirmación no coincide";
@@ -138,32 +146,133 @@ var __default__ = {
       setMessage("");
       setOverlay(true);
       if ((0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.validateForm)(e)) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().post('register/persona', form).then(function (result) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().post('/persona/store', form).then(function (result) {
+          console.log("1 " + JSON.stringify(result));
+          console.log("2 " + JSON.stringify(result.response));
+          console.log("3 " + JSON.stringify(result.data));
+          console.log("4 " + JSON.stringify(result.data.person));
+          console.log("5 " + JSON.stringify(result.data.person.id));
+          console.log("6 " + JSON.stringify(result.status));
           setMessage("");
-          axios__WEBPACK_IMPORTED_MODULE_2___default().post('register', form).then(function (result) {
-            setMessage("");
-            window.location.href = "login";
-          })["catch"](function (error) {
-            console.log(JSON.stringify(error.response.data.message));
+          if (result.status === 200) {
+            formUser.persona_id = result.data.person.id;
+            formUser.nick_name = createNickName();
+            registerUser(result);
+          } else {
+            setMessage(JSON.stringify(result.data));
+            setOverlay(false);
+          }
+        })["catch"](function (error) {
+          setOverlay(false);
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log("1 " + JSON.stringify(error.response.data));
+            console.log("2 " + JSON.stringify(error.response.status));
+            console.log("3 " + JSON.stringify(error.response.headers));
             if (error.response.status >= 500) {
               setMessage("Error de Sistema, Favor contactar al administrador");
             } else {
-              setMessage(error.response.data.message);
+              if (error.response.status === 422) {
+                setMessage(JSON.stringify(error.response.data.errors));
+              } else {
+                setMessage("Error al Registrar, Favor contactar al administrador");
+              }
             }
-            setOverlay(false);
-          });
-        })["catch"](function (error) {
-          console.log(JSON.stringify(error.response.data.message));
-          if (error.response.status >= 500) {
-            setMessage("Error de Sistema, Favor contactar al administrador");
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log("4 " + JSON.stringify(error.request));
+            setMessage("Error al Registrar, Favor contactar al administrador");
           } else {
-            setMessage(error.response.data.message);
+            // Something happened in setting up the request that triggered an Error
+            console.log('5 Error', error.message);
+            setMessage("Error al Registrar, Favor contactar al administrador");
           }
-          setOverlay(false);
         });
       } else {
         setOverlay(false);
       }
+    }
+    function registerUser() {
+      // make api request
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('user/store', formUser).then(function (result) {
+        if (result.status === 200) {
+          setMessage("");
+          window.location.href = "login";
+        } else {
+          setOverlay(false);
+          setMessage("Error al Registrar, " + JSON.stringify(result.data));
+        }
+      })["catch"](function (error) {
+        setOverlay(false);
+        deletePerson();
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log("1 " + JSON.stringify(error.response.data));
+          console.log("2 " + JSON.stringify(error.response.status));
+          if (error.response.status >= 500) {
+            setMessage("Error de Sistema, Favor contactar al administrador");
+          } else {
+            if (error.response.status === 422) {
+              setMessage(JSON.stringify(error.response.data.errors));
+            } else {
+              setMessage("Error al Crear Usuario, Favor contactar al administrador");
+            }
+          }
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log("4 " + JSON.stringify(error.request));
+          setMessage("Error al Crear Usuario, Favor contactar al administrador");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('5 Error', error.message);
+          setMessage("Error al Crear Usuario, Favor contactar al administrador");
+        }
+      });
+    }
+    function deletePerson() {
+      // make api request
+      axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]('persona/' + formUser.persona_id + '/delete', form).then(function (result) {
+        setOverlay(false);
+      })["catch"](function (error) {
+        setOverlay(false);
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log("1 " + JSON.stringify(error.response.data));
+          console.log("2 " + JSON.stringify(error.response.status));
+          if (error.response.status >= 500) {
+            setMessage("Error de Sistema, Favor contactar al administrador");
+          } else {
+            if (error.response.status === 422) {
+              setMessage(JSON.stringify(error.response.data.errors));
+            } else {
+              setMessage("Error al Borrar Datos, Favor contactar al administrador");
+            }
+          }
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log("4 " + JSON.stringify(error.request));
+          setMessage("Error al Borrar Datos, Favor contactar al administrador");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('5 Error', error.message);
+          setMessage("Error al Borrar Datos, Favor contactar al administrador");
+        }
+      });
+    }
+    function createNickName() {
+      var names = form.nombre.split(" ");
+      var apell = form.apellido.split(" ");
+      var nickName = names[0].trim() + "." + apell[0].trim();
+      return nickName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeMount)(function () {
       return setOverlay(true);
@@ -172,23 +281,19 @@ var __default__ = {
       return setTimeout(function () {
         (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/gender/list').then(function (data) {
           setGenders(data);
-          console.log("On " + JSON.stringify(data));
         });
         (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/civilStatus/list').then(function (data) {
           setCivilStatus(data);
-          console.log("On " + JSON.stringify(data));
         });
         (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/nationality/list').then(function (data) {
           setNationality(data);
-          console.log("On " + JSON.stringify(data));
         });
         (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/country/list').then(function (data) {
           setCountry(data);
-          console.log("On " + JSON.stringify(data));
+          ;
         });
         (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/region/list').then(function (data) {
           setRegion(data);
-          console.log("On " + JSON.stringify(data));
         });
         initialize();
       }, 1700);
@@ -202,6 +307,7 @@ var __default__ = {
       setOverlay: setOverlay,
       setMessage: setMessage,
       form: form,
+      formUser: formUser,
       mailConfirmEqualMail: mailConfirmEqualMail,
       passConfirmEqualPass: passConfirmEqualPass,
       genderList: genderList,
@@ -220,6 +326,9 @@ var __default__ = {
       setOccupation: setOccupation,
       initialize: initialize,
       handleSubmit: handleSubmit,
+      registerUser: registerUser,
+      deletePerson: deletePerson,
+      createNickName: createNickName,
       ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
       reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
@@ -248,7 +357,7 @@ var __default__ = {
       get corona() {
         return _public_images_corona_png__WEBPACK_IMPORTED_MODULE_7__["default"];
       },
-      get tweens() {
+      get tween() {
         return _public_images_tweens_png__WEBPACK_IMPORTED_MODULE_8__["default"];
       }
     };
@@ -364,7 +473,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_expand_x_transition = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-expand-x-transition");
   var _component_v_progress_circular = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-progress-circular");
   var _component_v_overlay = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-overlay");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_container, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_container, {
     id: "registerContainer",
     "fill-height": "",
     fuild: "",
@@ -484,7 +593,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_img, {
-                src: $setup.tweens,
+                src: $setup.tween,
                 inline: "",
                 cover: "",
                 height: "auto",
@@ -571,7 +680,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           "color": "#f4ede8"
                         },
                         "class": "rounded-l",
-                        rules: [_ctx.rules.required],
+                        rules: [_ctx.rules.required, _ctx.rules.text_valid],
                         clearable: "",
                         tabindex: "1"
                       }, null, 8 /* PROPS */, ["modelValue", "rules"])];
@@ -595,7 +704,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           "color": "#f4ede8"
                         },
                         "class": "rounded-l",
-                        rules: [_ctx.rules.required],
+                        rules: [_ctx.rules.required, _ctx.rules.text_valid],
                         clearable: "",
                         tabindex: "2"
                       }, null, 8 /* PROPS */, ["modelValue", "rules"])];
@@ -650,8 +759,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "class": "rounded-l",
                         rules: [_ctx.rules.required],
                         clearable: "",
+                        elevation: "15",
+                        max: new Date(Date.now() - new Date().getTimezoneOffset() * 60000 - 87600 * 60 * 60000).toISOString().substring(0, 10),
+                        min: "1950-01-01",
+                        "active-picker.sync": "YEAR",
                         tabindex: "4"
-                      }, null, 8 /* PROPS */, ["modelValue", "rules"])];
+                      }, null, 8 /* PROPS */, ["modelValue", "rules", "max"])];
                     }),
                     _: 1 /* STABLE */
                   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
@@ -750,9 +863,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                        modelValue: $setup.form.nacionalidad,
+                        modelValue: $setup.form.nacionalidad_id,
                         "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-                          return $setup.form.nacionalidad = $event;
+                          return $setup.form.nacionalidad_id = $event;
                         }),
                         name: "nacionalidad",
                         label: "Nacionalidad",
@@ -800,11 +913,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                        modelValue: $setup.form.region,
+                        modelValue: $setup.form.region_id,
                         "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-                          return $setup.form.region = $event;
+                          return $setup.form.region_id = $event;
                         }),
-                        name: "region",
+                        name: "region_id",
                         label: "Region",
                         items: $setup.regionList,
                         "item-title": "nombre",
@@ -967,9 +1080,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.email,
+                        modelValue: $setup.formUser.email,
                         "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
-                          return $setup.form.email = $event;
+                          return $setup.formUser.email = $event;
                         }),
                         label: "Correo Electrónico",
                         variant: "outlined",
@@ -990,9 +1103,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.email_confirm,
+                        modelValue: $setup.formUser.email_confirm,
                         "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-                          return $setup.form.email_confirm = $event;
+                          return $setup.formUser.email_confirm = $event;
                         }),
                         label: "Confirme Correo Electrónico",
                         variant: "outlined",
@@ -1013,9 +1126,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.pass,
+                        modelValue: $setup.formUser.password,
                         "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
-                          return $setup.form.pass = $event;
+                          return $setup.formUser.password = $event;
                         }),
                         label: "Contraseńa",
                         variant: "outlined",
@@ -1037,9 +1150,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.pass_confirm,
+                        modelValue: $setup.formUser.password_confirm,
                         "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
-                          return $setup.form.pass_confirm = $event;
+                          return $setup.formUser.password_confirm = $event;
                         }),
                         label: "Confirme Contraseńa",
                         variant: "outlined",
@@ -1094,28 +1207,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, 8 /* PROPS */, ["modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.expand]])];
         }),
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_overlay, {
-        "model-value": $setup.loadingPage,
-        opacity: "0.80",
-        absolute: true,
-        contained: "",
-        persistent: "",
-        "class": "align-center justify-center"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_progress_circular, {
-            style: {
-              "color": "#99c5c0"
-            },
-            size: "37",
-            indeterminate: ""
-          })];
-        }),
-        _: 1 /* STABLE */
-      }, 8 /* PROPS */, ["model-value"])];
+      })];
     }),
     _: 1 /* STABLE */
-  });
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_overlay, {
+    "model-value": $setup.loadingPage,
+    opacity: "0.80",
+    absolute: true,
+    contained: "",
+    persistent: "",
+    "class": "align-center justify-center"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_progress_circular, {
+        style: {
+          "color": "#99c5c0"
+        },
+        size: "37",
+        indeterminate: ""
+      })];
+    }),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["model-value"])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),

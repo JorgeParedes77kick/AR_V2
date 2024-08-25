@@ -29,13 +29,33 @@ function handleSubmit(e) {
             setMessage("");
             window.location.href = "home";
         }).catch(error => {
-            console.log(JSON.stringify(error.response));
-            if(error.response.status >= 500){
-              setMessage("Error de Sistema, Favor contactar al administrador");
-            }else{
-              setMessage(error.response.data.message);
-            }
             setOverlay(false);
+            console.log(JSON.stringify(error));
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log("1 " +JSON.stringify(error.response.data));
+              console.log("2 " +JSON.stringify(error.response.status));
+              if (error.response.status >= 500) {
+                setMessage("Error de Sistema, Favor contactar al administrador");
+              } else {
+                if(error.response.status === 422) {
+                  setMessage(JSON.stringify(error.response.data.errors));
+                }else{
+                  setMessage("Error al Ingresar, Favor contactar al administrador");
+                }
+              }
+            } else if (error.request) {
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log("4 " +JSON.stringify(error.request));
+              setMessage("Error al Ingresar, Favor contactar al administrador");
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('5 Error', error.message);
+              setMessage("Error al Ingresar, Favor contactar al administrador");
+            }
         });
     } else {
         setOverlay(false);
@@ -53,10 +73,10 @@ function handleSubmit(e) {
             </v-col>
             <v-alert dismissible title="Error Message" :model-value="message.length !== 0" :text="message" type="error" mode="slide-y-reverse-transition" class="elevation-7"></v-alert>
             <v-col cols="12" class="d-flex justify-center align-center">
-                <v-form @submit.prevent="handleSubmit" ref="formLogin" v-model="validLoginForm" class="">
+                <v-form @submit.prevent="handleSubmit" ref="formLogin" v-model="validLoginForm" class="justify-center align-center">
                     <legend>&nbsp;</legend>
                     <v-row no-gutters>
-                        <v-col cols="12" >
+                        <v-col cols="12" class="d-flex justify-center align-center">
                             <v-text-field v-model="form.email"
                                           label="Correo Electr&oacute;nico"
                                           variant="outlined"
@@ -69,7 +89,7 @@ function handleSubmit(e) {
                                           tabindex="1"
                             />
                         </v-col>
-                        <v-col cols="12" >
+                        <v-col cols="12" class="d-flex justify-center align-center">
                             <v-text-field v-model="form.password"
                                           label="Contrase&nacute;a"
                                           variant="outlined"
@@ -81,11 +101,11 @@ function handleSubmit(e) {
                                           :rules="[rules.required, rules.counter]"
                                           clearable
                                           tabindex="2"
-                                          hint="Enter your password to access this website"
+                                          hint=""
                             />
                         </v-col>
-                        <v-col cols="12" class="text-center">
-                            <v-btn type="submit" large @click="validate" style="background-color: #99c5c0;
+                        <v-col cols="12" class="d-flex justify-center align-center">
+                            <v-btn type="submit" block @click="validate" style="background-color: #99c5c0;
                             font-weight: bolder; font-size: 14pt; border-color: beige;
                             border-width: 2pt; ">INICIAR SESI&Oacute;N</v-btn>
                         </v-col>

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -25,10 +24,18 @@ Route::get('/nationality/list', [App\Http\Controllers\NacionalidadController::cl
 Route::get('/country/list', [App\Http\Controllers\PaisController::class, 'list'])->name('country.list');
 Route::get('/region/list', [App\Http\Controllers\RegionController::class, 'list'])->name('region.list');
 
+Route::post('/persona/store', [App\Http\Controllers\PersonaController::class, 'store'])->name('persona.store');
+Route::delete('persona/{persona_id}/delete', [App\Http\Controllers\PersonaController::class, 'destroy'])->name('persona.destroy');
 
-Route::middleware(['auth', 'superadmin'])->group(function () {
+Route::post('/user/store', [App\Http\Controllers\UsuarioController::class, 'store'])->name('user.store');
+
+Route::middleware(['auth'])->group(function () {
 
   Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+});
+
+Route::middleware(['auth', 'super.admin'])->group(function () {
 
   Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
   Route::resource('roles', App\Http\Controllers\RolController::class);

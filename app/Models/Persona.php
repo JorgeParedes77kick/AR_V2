@@ -11,19 +11,33 @@ class Persona extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
     protected $table = 'personas';
 
+  /**
+   * Columns used to insert
+   * @var string[]
+   */
     protected $fillable = [
-        'nombre',
-        'apellido',
-        'dni',
-        'fecha_nacimiento',
-        'direccion',
-        'codigo_postal',
-        'telefono',
-        'fotografia',
-        'ocupacion',
-        'informacion_adicional',
+      'nombre',
+      'apellido',
+      'dni',
+      'fecha_nacimiento',
+      'genero_id',
+      'estado_civil_id',
+      'region_id',
+      'ciudad',
+      'nacionalidad_id',
+      'direccion',
+      'telefono',
+      'ocupacion',
     ];
 
     protected $casts = [
