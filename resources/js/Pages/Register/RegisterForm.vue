@@ -213,6 +213,19 @@ function createNickName(){
   return nickName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
+function updateRegion(){
+  getList('/region/list/'+form.pais_recidencia).then((data)=>{
+    setRegion(data);
+  });
+}
+
+const checkDigit = (event) => {
+  const pattern = /^[\d\s()+-]+$/
+  if (!pattern.test(event.key) && (event.which !== 46 && event.which !== 8) ) {
+    event.preventDefault();
+  }
+};
+
 onBeforeMount(() =>
   setOverlay(true)
 );
@@ -230,9 +243,6 @@ onMounted(() =>
     });
     getList('/country/list').then((data)=>{
       setCountry(data);;
-    });
-    getList('/region/list').then((data)=>{
-      setRegion(data);
     });
     initialize();
   }, 1700)
@@ -409,6 +419,7 @@ onMounted(() =>
                       style="color: #f4ede8"
                       class="rounded-l"
                       :rules="[rules.required]"
+                      @update:modelValue="updateRegion"
                       clearable
                       tabindex="8"
             ></v-select>
@@ -477,13 +488,15 @@ onMounted(() =>
             <v-text-field v-model="form.telefono"
                           label="Tel&eacute;fono"
                           variant="outlined"
-                          placeholder="+## #######"
+                          placeholder="+## ###########"
+                          :maxlength="15"
                           name="telefono"
                           type="input"
                           style="color: #f4ede8"
                           class="rounded-l"
-                          :rules="[rules.required]"
+                          :rules="[rules.required, rules.phone]"
                           clearable
+                          @keydown="checkDigit"
                           tabindex="13"
             />
           </v-col>
@@ -589,9 +602,13 @@ export default {
         return pattern.test(value) || 'Invalid e-mail.'
       },
       text_valid: value =>{
-        const pattern = /^[a-zA-Z_-]{3,15}$/
-        return pattern.test(value) || 'Letras mayusculas o minúsculas, guión bajo y guión medio'
+        const pattern = /^[a-zA-Z\s]{3,50}$/
+        return pattern.test(value) || 'Letras mayusculas o minúsculas'
       },
+      phone: value =>{
+        const pattern = /\+[0-9\s-]+/
+        return pattern.test(value) || 'El número de teléfono debe ser válido +## ###########'
+      }
     },
   }),
   methods: {

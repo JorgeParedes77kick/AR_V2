@@ -50,8 +50,12 @@ var __default__ = {
           return pattern.test(value) || 'Invalid e-mail.';
         },
         text_valid: function text_valid(value) {
-          var pattern = /^[a-zA-Z_-]{3,15}$/;
-          return pattern.test(value) || 'Letras mayusculas o minúsculas, guión bajo y guión medio';
+          var pattern = /^[a-zA-Z\s]{3,50}$/;
+          return pattern.test(value) || 'Letras mayusculas o minúsculas';
+        },
+        phone: function phone(value) {
+          var pattern = /\+[0-9\s-]+/;
+          return pattern.test(value) || 'El número de teléfono debe ser válido +## ###########';
         }
       }
     };
@@ -274,6 +278,17 @@ var __default__ = {
       var nickName = names[0].trim() + "." + apell[0].trim();
       return nickName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
+    function updateRegion() {
+      (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/region/list/' + form.pais_recidencia).then(function (data) {
+        setRegion(data);
+      });
+    }
+    var checkDigit = function checkDigit(event) {
+      var pattern = /^[\d\s()+-]+$/;
+      if (!pattern.test(event.key) && event.which !== 46 && event.which !== 8) {
+        event.preventDefault();
+      }
+    };
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeMount)(function () {
       return setOverlay(true);
     });
@@ -291,9 +306,6 @@ var __default__ = {
         (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/country/list').then(function (data) {
           setCountry(data);
           ;
-        });
-        (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/region/list').then(function (data) {
-          setRegion(data);
         });
         initialize();
       }, 1700);
@@ -329,6 +341,8 @@ var __default__ = {
       registerUser: registerUser,
       deletePerson: deletePerson,
       createNickName: createNickName,
+      updateRegion: updateRegion,
+      checkDigit: checkDigit,
       ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
       reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
@@ -819,9 +833,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
                         modelValue: $setup.form.pais_recidencia,
-                        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+                        "onUpdate:modelValue": [_cache[7] || (_cache[7] = function ($event) {
                           return $setup.form.pais_recidencia = $event;
-                        }),
+                        }), $setup.updateRegion],
                         name: "pais",
                         label: "País",
                         items: $setup.countryList,
@@ -951,15 +965,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         }),
                         label: "Teléfono",
                         variant: "outlined",
-                        placeholder: "+## #######",
+                        placeholder: "+## ###########",
+                        maxlength: 15,
                         name: "telefono",
                         type: "input",
                         style: {
                           "color": "#f4ede8"
                         },
                         "class": "rounded-l",
-                        rules: [_ctx.rules.required],
+                        rules: [_ctx.rules.required, _ctx.rules.phone],
                         clearable: "",
+                        onKeydown: $setup.checkDigit,
                         tabindex: "13"
                       }, null, 8 /* PROPS */, ["modelValue", "rules"])];
                     }),

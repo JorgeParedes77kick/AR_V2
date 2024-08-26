@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 
 class RegionController extends Controller
 {
-  public function list() {
-    $regiones = Region::select('id', 'nombre')->orderBy('id', 'asc')->get();
+  public function list(int $pais) {
+    $regiones = Region::select('id', 'nombre')
+      ->where('pais_id', '=', $pais)
+      ->orderBy('nombre', 'asc')->get();
     return response($regiones, 200);
   }
 }
