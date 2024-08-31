@@ -24,7 +24,6 @@ Route::get('/nationality/list', [App\Http\Controllers\NacionalidadController::cl
 Route::get('/country/list', [App\Http\Controllers\PaisController::class, 'list'])->name('country.list');
 Route::get('/region/list', [App\Http\Controllers\RegionController::class, 'list'])->name('region.list');
 
-
 Route::middleware(['auth', 'superadmin'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
@@ -34,4 +33,8 @@ Route::middleware(['auth', 'superadmin'])->group(function () {
     Route::resource('curriculums', App\Http\Controllers\CurriculumController::class)->except(['update']);
     Route::post('curriculums/{curriculum}/update', [App\Http\Controllers\CurriculumController::class, 'update'])->name('curriculums.update');
     Route::resource('restricciones', App\Http\Controllers\RestriccionController::class);
+    Route::resource('adicionales-curriculum', App\Http\Controllers\AdicionalController::class)->except(['update', 'delete']);
+    Route::resource('ciclos', App\Http\Controllers\CicloController::class);
+    Route::resource('recursos', App\Http\Controllers\RecursoController::class);
+    Route::resource('usuarios-equipo', App\Http\Controllers\UsuarioController::class);
 });

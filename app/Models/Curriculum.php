@@ -56,7 +56,7 @@ class Curriculum extends Model {
         return $this->belongsToMany(Usuario::class, 'usuario_curriculums');
     }
 
-    public function scopeActive($query) {
+    public function scopeActivo($query) {
         return $query->where('activo', true);
     }
 }

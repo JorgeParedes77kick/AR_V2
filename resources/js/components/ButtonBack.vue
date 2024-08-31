@@ -8,11 +8,8 @@ defineProps({
 </script>
 
 <template>
-  <Link
-    :href="href"
-  >
-     <v-btn  icon="mdi-chevron-left" color='light'  />
+  <Link :href="href">
+  <v-btn icon="mdi-chevron-left" color='light' size="small" />
   </Link>
 
 </template>
-
