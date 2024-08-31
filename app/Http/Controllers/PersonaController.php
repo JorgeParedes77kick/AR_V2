@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Fortify\CreateNewUser;
 use App\Models\Persona;
 use App\Http\Requests\StorePersonaRequest;
 use App\Http\Requests\UpdatePersonaRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
+use Throwable;
 
 class PersonaController extends Controller
 {
@@ -42,7 +45,23 @@ class PersonaController extends Controller
         $validated = $request->validated();
         if($validated){
           $person = Persona::create($validated);
-          return response()->json(['person' => $person], 200);
+          $request->persona_id = $person->id;
+          try {
+            $createUser = new CreateNewUser();
+            $user = $createUser->create([
+              'nick_name' => $request->nick_name,
+              'email' => $request->email,
+              'password' => $request->password,
+              'persona_id' => $person->id,
+            ]);
+            $user->roles()->attach(5);
+            return response()->json(['person' => "Registro Exitoso"], 200);
+          } catch (Throwable $e) {
+            $this->destroy($person->id);
+            report($e);
+            abort(400, $e->getMessage());
+          }
+
         }else{
           abort(404);
         }

@@ -2,7 +2,8 @@
 
 namespace App\Actions\Fortify;
 
-use App\Models\User;
+use App\Helpers\Debug;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -17,24 +18,27 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array<string, string>  $input
      */
-    public function create(array $input): User
+    public function create(array $input): ?Usuario
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class),
-            ],
-            'password' => $this->passwordRules(),
-        ])->validate();
+        $validator = Validator::make($input, [
+            'nick_name' => 'required|max:100|regex:/^[a-z]+\.[a-z]+$/',
+            'email' => 'required|email|max:255|'.Rule::unique(Usuario::class),
+            'password' => 'required|regex:/^[a-zA-Z0-9_\-\.\*]{5,50}$/',
+            'persona_id' => 'required|numeric',
+        ]);
 
-        return User::create([
-            'name' => $input['name'],
+        if($validator->fails()){
+          echo($validator->errors()->toJson());
+          return null;
+        }
+
+        $validator->validated();
+
+        return Usuario::create([
+            'nick_name' => $input['nick_name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
+            'persona_id' => $input['persona_id'],
         ]);
     }
 }

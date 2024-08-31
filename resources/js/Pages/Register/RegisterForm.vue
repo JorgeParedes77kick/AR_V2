@@ -23,7 +23,7 @@ const setOverlay = v => (loadingPage.value = v);
 
 const setMessage = v => (message.value = v);
 
-const form = reactive({
+const personForm = reactive({
   nombre: "",
   apellido: "",
   dni: "",
@@ -37,9 +37,6 @@ const form = reactive({
   direccion: "",
   telefono: "",
   ocupacion: "",
-});
-
-const formUser = reactive({
   email: "",
   email_confirm: "",
   password: "",
@@ -48,8 +45,8 @@ const formUser = reactive({
   nick_name: "",
 });
 
-const mailConfirmEqualMail = () => form.email_confirm === form.email || "Correo Confirmación no coincide";
-const passConfirmEqualPass = () => form.pass_confirm === form.pass || "Contraseña Confirmación no coincide";
+const mailConfirmEqualMail = () => personForm.email_confirm === personForm.email || "Correo Confirmación no coincide";
+const passConfirmEqualPass = () => personForm.password_confirm === personForm.password || "Contraseña Confirmación no coincide";
 
 const genderList = ref([]);
 const setGenders = v => (genderList.value = v);
@@ -82,18 +79,20 @@ function handleSubmit(e) {
   setMessage("");
   setOverlay(true);
   if (validateForm(e)) {
-    axios.post('/persona/store', form).then(result => {
-      console.log("1 "+JSON.stringify(result));
+    createNickName();
+    axios.post('/persona/store', personForm).then(result => {
+      /*console.log("1 "+JSON.stringify(result));
       console.log("2 "+JSON.stringify(result.response));
       console.log("3 "+JSON.stringify(result.data));
       console.log("4 "+JSON.stringify(result.data.person));
       console.log("5 "+JSON.stringify(result.data.person.id));
-      console.log("6 "+JSON.stringify(result.status));
+      console.log("6 "+JSON.stringify(result.status));*/
       setMessage("");
       if(result.status === 200){
-        formUser.persona_id = result.data.person.id;
-        formUser.nick_name = createNickName();
-        registerUser(result);
+        //formUser.persona_id = result.data.person.id;
+        //formUser.nick_name = createNickName();
+        //registerUser(result);
+        //window.location.href = "login";
       }else{
         setMessage(JSON.stringify(result.data));
         setOverlay(false);
@@ -133,88 +132,15 @@ function handleSubmit(e) {
 
 }
 
-function registerUser() {
-  // make api request
-  axios.post('user/store', formUser).then(result => {
-    if(result.status === 200){
-      setMessage("");
-      window.location.href = "login";
-    }else{
-      setOverlay(false);
-      setMessage("Error al Registrar, "+JSON.stringify(result.data));
-    }
-  }).catch(error => {
-    setOverlay(false);
-    deletePerson();
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.log("1 " +JSON.stringify(error.response.data));
-      console.log("2 " +JSON.stringify(error.response.status));
-      if (error.response.status >= 500) {
-        setMessage("Error de Sistema, Favor contactar al administrador");
-      } else {
-        if(error.response.status === 422) {
-          setMessage(JSON.stringify(error.response.data.errors));
-        }else{
-          setMessage("Error al Crear Usuario, Favor contactar al administrador");
-        }
-      }
-    } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      // http.ClientRequest in node.js
-      console.log("4 " +JSON.stringify(error.request));
-      setMessage("Error al Crear Usuario, Favor contactar al administrador");
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.log('5 Error', error.message);
-      setMessage("Error al Crear Usuario, Favor contactar al administrador");
-    }
-  });
-}
-function deletePerson() {
-  // make api request
-  axios.delete('persona/'+formUser.persona_id+'/delete', form).then(result => {
-    setOverlay(false);
-  }).catch(error => {
-    setOverlay(false);
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.log("1 " +JSON.stringify(error.response.data));
-      console.log("2 " +JSON.stringify(error.response.status));
-      if (error.response.status >= 500) {
-        setMessage("Error de Sistema, Favor contactar al administrador");
-      } else {
-        if(error.response.status === 422) {
-          setMessage(JSON.stringify(error.response.data.errors));
-        }else{
-          setMessage("Error al Borrar Datos, Favor contactar al administrador");
-        }
-      }
-    } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      // http.ClientRequest in node.js
-      console.log("4 " +JSON.stringify(error.request));
-      setMessage("Error al Borrar Datos, Favor contactar al administrador");
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.log('5 Error', error.message);
-      setMessage("Error al Borrar Datos, Favor contactar al administrador");
-    }
-  });
-}
 function createNickName(){
-  var names = form.nombre.split(" ");
-  var apell = form.apellido.split(" ");
+  var names = personForm.nombre.split(" ");
+  var apell = personForm.apellido.split(" ");
   var nickName = names[0].trim()+"."+apell[0].trim();
-  return nickName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  personForm.nick_name = nickName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 function updateRegion(){
-  getList('/region/list/'+form.pais_recidencia).then((data)=>{
+  getList('/region/list/'+personForm.pais_recidencia).then((data)=>{
     setRegion(data);
   });
 }
@@ -289,7 +215,7 @@ onMounted(() =>
         <!-- row 1 -->
         <v-row>
           <v-col cols="4" >
-            <v-text-field v-model="form.nombre"
+            <v-text-field v-model="personForm.nombre"
                           label="Nombres"
                           variant="outlined"
                           placeholder="Jhon"
@@ -303,7 +229,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="4" >
-            <v-text-field v-model="form.apellido"
+            <v-text-field v-model="personForm.apellido"
                           label="Apellidos"
                           variant="outlined"
                           placeholder="Doe"
@@ -317,7 +243,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="4" >
-            <v-text-field v-model="form.dni"
+            <v-text-field v-model="personForm.dni"
                           label="DNI, C&eacute;dula,o RUT"
                           variant="outlined"
                           placeholder="1234567890"
@@ -334,7 +260,7 @@ onMounted(() =>
         <!-- row 2 -->
         <v-row>
           <v-col cols="4" >
-            <v-text-field v-model="form.fecha_nacimiento"
+            <v-text-field v-model="personForm.fecha_nacimiento"
                           label="Fecha Nacimiento"
                           variant="outlined"
                           placeholder="20/03/1999"
@@ -352,7 +278,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="4" >
-            <v-select v-model="form.genero_id"
+            <v-select v-model="personForm.genero_id"
                       name="genero_id"
                       label="G&eacute;nero"
                       :items="genderList"
@@ -367,7 +293,7 @@ onMounted(() =>
             ></v-select>
           </v-col>
           <v-col cols="4" >
-            <v-select v-model="form.estado_civil_id"
+            <v-select v-model="personForm.estado_civil_id"
                       name="estado_civil_id"
                       label="Estado Civil"
                       :items="civilStatusList"
@@ -394,7 +320,7 @@ onMounted(() =>
         <!-- row 3 -->
         <v-row>
           <v-col cols="3" >
-            <v-select v-model="form.nacionalidad_id"
+            <v-select v-model="personForm.nacionalidad_id"
                       name="nacionalidad"
                       label="Nacionalidad"
                       :items="nationalityList"
@@ -409,7 +335,7 @@ onMounted(() =>
             ></v-select>
           </v-col>
           <v-col cols="3" >
-            <v-select v-model="form.pais_recidencia"
+            <v-select v-model="personForm.pais_recidencia"
                       name="pais"
                       label="Pa&iacute;s"
                       :items="countryList"
@@ -425,7 +351,7 @@ onMounted(() =>
             ></v-select>
           </v-col>
           <v-col cols="3" >
-            <v-select v-model="form.region_id"
+            <v-select v-model="personForm.region_id"
                       name="region_id"
                       label="Region"
                       :items="regionList"
@@ -440,7 +366,7 @@ onMounted(() =>
             ></v-select>
           </v-col>
           <v-col cols="3" >
-            <v-text-field v-model="form.ciudad"
+            <v-text-field v-model="personForm.ciudad"
                           label="Ciudad/Comuna"
                           variant="outlined"
                           placeholder="Mi comuna"
@@ -457,7 +383,7 @@ onMounted(() =>
         <!-- row 4 -->
         <v-row>
           <v-col cols="6" >
-            <v-text-field v-model="form.direccion"
+            <v-text-field v-model="personForm.direccion"
                           label="Direcci&oacute;n"
                           variant="outlined"
                           placeholder="Romano"
@@ -471,7 +397,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="3" >
-            <v-text-field v-model="form.ocupacion"
+            <v-text-field v-model="personForm.ocupacion"
                           label="Ocupaci&oacute;n"
                           variant="outlined"
                           placeholder="Jhon"
@@ -485,7 +411,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="3" >
-            <v-text-field v-model="form.telefono"
+            <v-text-field v-model="personForm.telefono"
                           label="Tel&eacute;fono"
                           variant="outlined"
                           placeholder="+## ###########"
@@ -513,7 +439,7 @@ onMounted(() =>
         <!-- row 5 -->
         <v-row>
           <v-col cols="3" >
-            <v-text-field v-model="formUser.email"
+            <v-text-field v-model="personForm.email"
                           label="Correo Electr&oacute;nico"
                           variant="outlined"
                           placeholder="johndoe@gmail.com"
@@ -526,7 +452,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="3" >
-            <v-text-field v-model="formUser.email_confirm"
+            <v-text-field v-model="personForm.email_confirm"
                           label="Confirme Correo Electr&oacute;nico"
                           variant="outlined"
                           placeholder="johndoe@gmail.com"
@@ -539,7 +465,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="3" >
-            <v-text-field v-model="formUser.password"
+            <v-text-field v-model="personForm.password"
                           label="Contrase&nacute;a"
                           variant="outlined"
                           placeholder="******"
@@ -553,7 +479,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="3" >
-            <v-text-field v-model="formUser.password_confirm"
+            <v-text-field v-model="personForm.password_confirm"
                           label="Confirme Contrase&nacute;a"
                           variant="outlined"
                           placeholder="******"

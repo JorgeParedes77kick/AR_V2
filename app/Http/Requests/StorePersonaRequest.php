@@ -35,8 +35,22 @@ class StorePersonaRequest extends FormRequest
           'ciudad' => 'nullable|alpha|max:100',
           'nacionalidad_id' => 'required|numeric',
           'direccion' => 'nullable|alpha_num|max:250',
-          'telefono' => 'nullable|alpha_num|max:20',
+          'telefono' => 'nullable|max:20|regex:/\+[0-9\s-]+/',
           'ocupacion' => 'nullable|alpha|max:250',
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+      return [
+        'nombre.required' => 'Debe ingresar un nombre',
+        'apellido.required' => 'Debe ingresar un apellido',
+      ];
+    }
+
 }
