@@ -43,7 +43,7 @@ export const removeValid = (input) => {
   input.classList.remove('is-valid');
 };
 
-export const validateForm = (e) => {
+export const validateForm = async (e) => {
     e.preventDefault();
     const form = e.target;
     let validForm = true;

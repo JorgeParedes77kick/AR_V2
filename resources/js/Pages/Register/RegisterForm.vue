@@ -89,10 +89,13 @@ function handleSubmit(e) {
       console.log("6 "+JSON.stringify(result.status));*/
       setMessage("");
       if(result.status === 200){
-        //formUser.persona_id = result.data.person.id;
-        //formUser.nick_name = createNickName();
-        //registerUser(result);
-        //window.location.href = "login";
+        setOverlay(false);
+        Swal.fire({ title: 'Exito!', text: JSON.stringify(result.data.person), icon: 'success',
+          allowOutsideClick: false, allowEscapeKey: false
+        }).then((result) => {
+          window.location.href = route('login');
+        });
+
       }else{
         setMessage(JSON.stringify(result.data));
         setOverlay(false);
