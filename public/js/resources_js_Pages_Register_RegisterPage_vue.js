@@ -30,7 +30,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var __default__ = {
   data: function data() {
     return {
@@ -76,7 +75,6 @@ var __default__ = {
     var setExpand = function setExpand(v) {
       return expand.value = v;
     };
-    var validRegisterForm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(true);
     var message = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)("");
     var setOverlay = function setOverlay(v) {
       return loadingPage.value = v;
@@ -177,9 +175,9 @@ var __default__ = {
           if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
-            console.log("1 " + JSON.stringify(error.response.data));
-            console.log("2 " + JSON.stringify(error.response.status));
-            console.log("3 " + JSON.stringify(error.response.headers));
+            /* console.log("1 " +JSON.stringify(error.response.data));
+            console.log("2 " +JSON.stringify(error.response.status));
+            console.log("3 " +JSON.stringify(error.response.headers)); */
             if (error.response.status >= 500) {
               setMessage("Error de Sistema, Favor contactar al administrador");
             } else {
@@ -193,11 +191,11 @@ var __default__ = {
             // The request was made but no response was received
             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
             // http.ClientRequest in node.js
-            console.log("4 " + JSON.stringify(error.request));
+            // console.log("4 " +JSON.stringify(error.request));
             setMessage("Error al Registrar, Favor contactar al administrador");
           } else {
             // Something happened in setting up the request that triggered an Error
-            console.log('5 Error', error.message);
+            // console.log('5 Error', error.message);
             setMessage("Error al Registrar, Favor contactar al administrador");
           }
         });
@@ -247,7 +245,6 @@ var __default__ = {
       loadingPage: loadingPage,
       expand: expand,
       setExpand: setExpand,
-      validRegisterForm: validRegisterForm,
       message: message,
       setOverlay: setOverlay,
       setMessage: setMessage,
@@ -273,8 +270,8 @@ var __default__ = {
       createNickName: createNickName,
       updateRegion: updateRegion,
       checkDigit: checkDigit,
-      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
       reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
+      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
       onBeforeMount: vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeMount,
       get validateForm() {
@@ -561,10 +558,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_form, {
             onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.handleSubmit, ["prevent"]),
             ref: "formRegister",
-            modelValue: $setup.validRegisterForm,
-            "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
-              return $setup.validRegisterForm = $event;
-            }),
             "lazy-validation": ""
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -1150,7 +1143,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               })];
             }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.expand]])];
+          }, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.expand]])];
         }),
         _: 1 /* STABLE */
       })];

@@ -56,10 +56,6 @@ class FortifyServiceProvider extends ServiceProvider
           return Inertia::render('Register/RegisterPage');
         });
 
-        Fortify::requestPasswordResetLinkView(function () {
-            return view('Login/ForgotPasswordPage');
-        });
-
         Fortify::authenticateUsing(function (Request $request) {
           $user = Usuario::where('email', $request->email)->first();
           if ($user && Hash::check($request->password, $user->password)) {
@@ -76,6 +72,15 @@ class FortifyServiceProvider extends ServiceProvider
             return false;
           }
         });
+
+        Fortify::requestPasswordResetLinkView(function () {
+          return Inertia::render('Login/ForgotPassPage');
+        });
+
+        Fortify::resetPasswordView(function ($request) {
+          return Inertia::render('Login/ResetPasswordPage', ['request' => $request]);
+        });
+
 
 
     }

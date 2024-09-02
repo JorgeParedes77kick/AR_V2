@@ -154,7 +154,6 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
-    ;
     var __returned__ = {
       LoginLayout: _layouts_LoginLayout_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
       LoginForm: _LoginForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -218,8 +217,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("legend", null, " ", -1 /* HOISTED */);
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   style: {
     "color": "beige"
   }
@@ -232,8 +230,8 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
     "font-size": "10pt"
   }
 }, "Registrate aquí")], -1 /* HOISTED */);
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "#",
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  href: "forgot-password",
   style: {
     "text-decoration": "none",
     "color": "#99c5c0",
@@ -244,186 +242,167 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_img = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-img");
   var _component_v_col = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-col");
-  var _component_v_alert = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-alert");
   var _component_v_text_field = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-text-field");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
   var _component_v_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-row");
-  var _component_v_card_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-text");
   var _component_v_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-form");
-  var _component_v_progress_circular = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-progress-circular");
-  var _component_v_overlay = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-overlay");
+  var _component_v_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card");
   var _component_v_container = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-container");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_container, {
+    fluid: "",
+    "class": "py-0 px-0 fill-height",
+    color: "#222222",
     style: {
-      "background-color": "#222222"
-    },
-    "class": "h-100 d-flex justify-center align-center"
+      "height": "100vh",
+      "width": "100%"
+    }
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
-        align: "stretch"
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {
+        elevation: "12",
+        "class": "d-flex align-center justify-center",
+        color: "#222222",
+        style: {
+          "height": "100vh",
+          "width": "100%"
+        }
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-            cols: "12",
-            "class": "d-flex justify-center align-center"
-          }, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_img, {
-                src: $setup.logGP,
-                inline: "",
-                cover: "",
-                height: "auto",
-                width: "25%"
-              }, null, 8 /* PROPS */, ["src"])];
-            }),
-            _: 1 /* STABLE */
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_alert, {
-            dismissible: "",
-            title: "Error Message",
-            "model-value": $setup.message.length !== 0,
-            text: $setup.message,
-            type: "error",
-            mode: "slide-y-reverse-transition",
-            "class": "elevation-7"
-          }, null, 8 /* PROPS */, ["model-value", "text"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-            cols: "12",
-            "class": "d-flex justify-center align-center"
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_form, {
-                onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.handleSubmit, ["prevent"]),
-                ref: "formLogin",
-                modelValue: $setup.validLoginForm,
-                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-                  return $setup.validLoginForm = $event;
-                }),
-                "class": "justify-center align-center"
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                cols: "12",
+                "class": "d-flex justify-center"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
-                    "no-gutters": ""
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_img, {
+                    src: $setup.logGP,
+                    inline: "",
+                    cover: "",
+                    height: "auto",
+                    width: "25%"
+                  }, null, 8 /* PROPS */, ["src"])];
+                }),
+                _: 1 /* STABLE */
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                "class": "d-flex justify-center"
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_form, {
+                    onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.handleSubmit, ["prevent"]),
+                    ref: "formLogin",
+                    modelValue: $setup.validLoginForm,
+                    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                      return $setup.validLoginForm = $event;
+                    }),
+                    "class": "w-33"
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                        cols: "12",
-                        "class": "d-flex justify-center align-center"
-                      }, {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                            modelValue: $setup.form.email,
-                            "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-                              return $setup.form.email = $event;
-                            }),
-                            label: "Correo Electrónico",
-                            variant: "outlined",
-                            placeholder: "johndoe@gmail.com",
-                            name: "mail",
-                            style: {
-                              "color": "#f4ede8"
-                            },
-                            "class": "rounded-l",
-                            rules: [_ctx.rules.required, _ctx.rules.email],
-                            clearable: "",
-                            tabindex: "1"
-                          }, null, 8 /* PROPS */, ["modelValue", "rules"])];
-                        }),
-                        _: 1 /* STABLE */
-                      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                        cols: "12",
-                        "class": "d-flex justify-center align-center"
-                      }, {
-                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                            modelValue: $setup.form.password,
-                            "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-                              return $setup.form.password = $event;
-                            }),
-                            label: "Contraseńa",
-                            variant: "outlined",
-                            placeholder: "******",
-                            name: "password",
-                            type: "password",
-                            style: {
-                              "color": "#f4ede8"
-                            },
-                            "class": "rounded-l",
-                            rules: [_ctx.rules.required, _ctx.rules.counter],
-                            clearable: "",
-                            tabindex: "2",
-                            hint: ""
-                          }, null, 8 /* PROPS */, ["modelValue", "rules"])];
-                        }),
-                        _: 1 /* STABLE */
-                      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                        cols: "12",
-                        "class": "d-flex justify-center align-center"
-                      }, {
-                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
-                            type: "submit",
-                            block: "",
-                            onClick: $options.validate,
-                            style: {
-                              "background-color": "#99c5c0",
-                              "font-weight": "bolder",
-                              "font-size": "14pt",
-                              "border-color": "beige",
-                              "border-width": "2pt"
-                            }
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12"
                           }, {
                             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("INICIAR SESIÓN")];
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+                                modelValue: $setup.form.email,
+                                "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+                                  return $setup.form.email = $event;
+                                }),
+                                label: "Correo Electrónico",
+                                variant: "outlined",
+                                placeholder: "johndoe@gmail.com",
+                                name: "mail",
+                                style: {
+                                  "color": "#f4ede8"
+                                },
+                                "class": "rounded-l",
+                                rules: [_ctx.rules.required, _ctx.rules.email],
+                                clearable: "",
+                                tabindex: "1"
+                              }, null, 8 /* PROPS */, ["modelValue", "rules"])];
                             }),
                             _: 1 /* STABLE */
-                          }, 8 /* PROPS */, ["onClick"])];
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+                                modelValue: $setup.form.password,
+                                "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                                  return $setup.form.password = $event;
+                                }),
+                                label: "Contraseńa",
+                                variant: "outlined",
+                                placeholder: "******",
+                                name: "password",
+                                type: "password",
+                                style: {
+                                  "color": "#f4ede8"
+                                },
+                                "class": "rounded-l",
+                                rules: [_ctx.rules.required, _ctx.rules.counter],
+                                clearable: "",
+                                tabindex: "2",
+                                hint: ""
+                              }, null, 8 /* PROPS */, ["modelValue", "rules"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
+                                type: "submit",
+                                block: "",
+                                onClick: $options.validate,
+                                style: {
+                                  "background-color": "#99c5c0",
+                                  "font-weight": "bolder",
+                                  "font-size": "14pt",
+                                  "border-color": "beige",
+                                  "border-width": "2pt"
+                                }
+                              }, {
+                                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("INICIAR SESIÓN")];
+                                }),
+                                _: 1 /* STABLE */
+                              }, 8 /* PROPS */, ["onClick"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12",
+                            "class": "d-flex justify-center"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [_hoisted_1];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12",
+                            "class": "d-flex justify-center"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [_hoisted_2];
+                            }),
+                            _: 1 /* STABLE */
+                          })];
                         }),
                         _: 1 /* STABLE */
                       })];
                     }),
                     _: 1 /* STABLE */
-                  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_text, {
-                    "class": "text-center"
-                  }, {
-                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [_hoisted_2];
-                    }),
-                    _: 1 /* STABLE */
-                  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_text, {
-                    "class": "text-center"
-                  }, {
-                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [_hoisted_3];
-                    }),
-                    _: 1 /* STABLE */
-                  })];
+                  }, 8 /* PROPS */, ["modelValue"])];
                 }),
                 _: 1 /* STABLE */
-              }, 8 /* PROPS */, ["modelValue"])];
+              })];
             }),
             _: 1 /* STABLE */
           })];
         }),
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_overlay, {
-        "model-value": $setup.loadingPage,
-        opacity: "0.80",
-        absolute: true,
-        contained: "",
-        persistent: "",
-        "class": "align-center justify-center"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_progress_circular, {
-            style: {
-              "color": "#99c5c0"
-            },
-            size: "37",
-            indeterminate: ""
-          })];
-        }),
-        _: 1 /* STABLE */
-      }, 8 /* PROPS */, ["model-value"])];
+      })];
     }),
     _: 1 /* STABLE */
   });

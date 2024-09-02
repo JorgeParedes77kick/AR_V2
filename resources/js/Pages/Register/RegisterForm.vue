@@ -15,8 +15,6 @@ const expand = ref(false);
 
 const setExpand = v => (expand.value = v);
 
-const validRegisterForm = ref(true);
-
 const message = ref("");
 
 const setOverlay = v => (loadingPage.value = v);
@@ -105,9 +103,9 @@ function handleSubmit(e) {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        console.log("1 " +JSON.stringify(error.response.data));
+        /* console.log("1 " +JSON.stringify(error.response.data));
         console.log("2 " +JSON.stringify(error.response.status));
-        console.log("3 " +JSON.stringify(error.response.headers));
+        console.log("3 " +JSON.stringify(error.response.headers)); */
         if (error.response.status >= 500) {
           setMessage("Error de Sistema, Favor contactar al administrador");
         } else {
@@ -121,11 +119,11 @@ function handleSubmit(e) {
         // The request was made but no response was received
         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
         // http.ClientRequest in node.js
-        console.log("4 " +JSON.stringify(error.request));
+        // console.log("4 " +JSON.stringify(error.request));
         setMessage("Error al Registrar, Favor contactar al administrador");
       } else {
         // Something happened in setting up the request that triggered an Error
-        console.log('5 Error', error.message);
+        // console.log('5 Error', error.message);
         setMessage("Error al Registrar, Favor contactar al administrador");
       }
     });
@@ -205,7 +203,7 @@ onMounted(() =>
     <v-alert dismissible title="Error Message" :model-value="message.length !== 0" :text="message" type="error"
              mode="slide-y-reverse-transition" class="elevation-7"></v-alert>
     <v-expand-x-transition>
-      <v-form @submit.prevent="handleSubmit" ref="formRegister" v-model="validRegisterForm" v-show="expand" lazy-validation>
+      <v-form @submit.prevent="handleSubmit" ref="formRegister" v-show="expand" lazy-validation>
         <v-row no-gutters>
           <v-col cols="3">
             <v-icon icon="mdi-notebook-edit-outline" style="color: #99c5c0; font-size: 20px;"></v-icon>&nbsp;<v-label
@@ -517,8 +515,6 @@ onMounted(() =>
 </style>
 
 <script>
-import {ref} from "vue";
-
 export default {
   data: () => ({
     email: '',
