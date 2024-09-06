@@ -13,7 +13,7 @@ class StorePersonaRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,34 @@ class StorePersonaRequest extends FormRequest
      */
     public function rules()
     {
+        $idValidate = $this->route('personas') == NULL ? "": ','.($this->route('personas')->id. ',id' );
         return [
-            //
+          'nombre' => 'required|alpha|max:50',
+          'apellido' => 'required|alpha|max:50',
+          'dni' => 'required|alpha_num|max:20|unique:personas,dni,'.$idValidate,
+          'fecha_nacimiento' => 'required|date',
+          'genero_id' => 'required|numeric',
+          'estado_civil_id' => 'required|numeric',
+          'region_id' => 'required|numeric',
+          'ciudad' => 'nullable|alpha|max:100',
+          'nacionalidad_id' => 'required|numeric',
+          'direccion' => 'nullable|alpha_num|max:250',
+          'telefono' => 'nullable|max:20|regex:/\+[0-9\s-]+/',
+          'ocupacion' => 'nullable|alpha|max:250',
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+      return [
+        'nombre.required' => 'Debe ingresar un nombre',
+        'apellido.required' => 'Debe ingresar un apellido',
+      ];
+    }
+
 }

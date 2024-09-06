@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class EstadoCivilController extends Controller
 {
   public function list() {
-    $estadosCiviles = EstadoCivil::select('id', 'estado')->orderBy('id', 'asc')->get();
+    $estadosCiviles = EstadoCivil::select('id', 'estado')->orderBy('estado', 'asc')->get();
     return response($estadosCiviles, 200);
   }
 }

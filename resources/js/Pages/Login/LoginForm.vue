@@ -29,13 +29,33 @@ function handleSubmit(e) {
             setMessage("");
             window.location.href = "home";
         }).catch(error => {
-            console.log(JSON.stringify(error.response));
-            if(error.response.status >= 500){
-              setMessage("Error de Sistema, Favor contactar al administrador");
-            }else{
-              setMessage(error.response.data.message);
-            }
             setOverlay(false);
+            console.log(JSON.stringify(error));
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log("1 " +JSON.stringify(error.response.data));
+              console.log("2 " +JSON.stringify(error.response.status));
+              if (error.response.status >= 500) {
+                setMessage("Error de Sistema, Favor contactar al administrador");
+              } else {
+                if(error.response.status === 422) {
+                  setMessage(JSON.stringify(error.response.data.errors));
+                }else{
+                  setMessage("Error al Ingresar, Favor contactar al administrador");
+                }
+              }
+            } else if (error.request) {
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log("4 " +JSON.stringify(error.request));
+              setMessage("Error al Ingresar, Favor contactar al administrador");
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('5 Error', error.message);
+              setMessage("Error al Ingresar, Favor contactar al administrador");
+            }
         });
     } else {
         setOverlay(false);
@@ -46,63 +66,60 @@ function handleSubmit(e) {
 </script>
 
 <template>
-    <v-container style="background-color: #222222" class="h-100 d-flex justify-center align-center">
-        <v-row align="stretch">
-            <v-col cols="12" class="d-flex justify-center align-center">
-                <v-img :src="logGP" inline cover height="auto" width="25%"></v-img>
-            </v-col>
-            <v-alert dismissible title="Error Message" :model-value="message.length !== 0" :text="message" type="error" mode="slide-y-reverse-transition" class="elevation-7"></v-alert>
-            <v-col cols="12" class="d-flex justify-center align-center">
-                <v-form @submit.prevent="handleSubmit" ref="formLogin" v-model="validLoginForm" class="">
-                    <legend>&nbsp;</legend>
-                    <v-row no-gutters>
-                        <v-col cols="12" >
-                            <v-text-field v-model="form.email"
-                                          label="Correo Electr&oacute;nico"
-                                          variant="outlined"
-                                          placeholder="johndoe@gmail.com"
-                                          name="mail"
-                                          style="color: #f4ede8"
-                                          class="rounded-l"
-                                          :rules="[rules.required, rules.email]"
-                                          clearable
-                                          tabindex="1"
-                            />
-                        </v-col>
-                        <v-col cols="12" >
-                            <v-text-field v-model="form.password"
-                                          label="Contrase&nacute;a"
-                                          variant="outlined"
-                                          placeholder="******"
-                                          name="password"
-                                          type="password"
-                                          style="color: #f4ede8"
-                                          class="rounded-l"
-                                          :rules="[rules.required, rules.counter]"
-                                          clearable
-                                          tabindex="2"
-                                          hint="Enter your password to access this website"
-                            />
-                        </v-col>
-                        <v-col cols="12" class="text-center">
-                            <v-btn type="submit" large @click="validate" style="background-color: #99c5c0;
+  <v-container fluid class="py-0 px-0 fill-height" color="#222222" style="height: 100vh; width: 100%;"  >
+    <v-card elevation="12" class="d-flex align-center justify-center" color="#222222" style="height: 100vh; width: 100%;">
+      <v-row>
+        <v-col cols="12" class="d-flex justify-center">
+          <v-img :src="logGP" inline cover height="auto" width="25%"></v-img>
+        </v-col>
+        <v-col class="d-flex justify-center">
+          <v-form @submit.prevent="handleSubmit" ref="formLogin" v-model="validLoginForm" class="w-33">
+            <v-row>
+              <v-col cols="12" >
+                <v-text-field v-model="form.email"
+                              label="Correo Electr&oacute;nico"
+                              variant="outlined"
+                              placeholder="johndoe@gmail.com"
+                              name="mail"
+                              style="color: #f4ede8"
+                              class="rounded-l"
+                              :rules="[rules.required, rules.email]"
+                              clearable
+                              tabindex="1"
+                />
+              </v-col>
+              <v-col cols="12" >
+                <v-text-field v-model="form.password"
+                              label="Contrase&nacute;a"
+                              variant="outlined"
+                              placeholder="******"
+                              name="password"
+                              type="password"
+                              style="color: #f4ede8"
+                              class="rounded-l"
+                              :rules="[rules.required, rules.counter]"
+                              clearable
+                              tabindex="2"
+                              hint=""
+                />
+              </v-col>
+              <v-col cols="12" >
+                <v-btn type="submit" block @click="validate" style="background-color: #99c5c0;
                             font-weight: bolder; font-size: 14pt; border-color: beige;
                             border-width: 2pt; ">INICIAR SESI&Oacute;N</v-btn>
-                        </v-col>
-                    </v-row>
-                    <v-card-text class="text-center">
-                        <p style="color: beige;">A&uacute;n no tienes usuario? <a href="register" style="text-decoration: none; color: #99c5c0; font-weight: bold; font-size: 10pt;" >Registrate aqu&iacute;</a></p>
-                    </v-card-text>
-                    <v-card-text class="text-center">
-                      <p><a href="#" style="text-decoration: none; color: #99c5c0; font-weight: normal; font-size: 12pt;" >&iquest;Olvidaste tu contrase&ntilde;a&quest;</a></p>
-                    </v-card-text>
-                </v-form>
-            </v-col>
-        </v-row>
-        <v-overlay :model-value="loadingPage" opacity="0.80" :absolute="true" contained persistent class="align-center justify-center">
-            <v-progress-circular style="color: #99c5c0 " size="37" indeterminate></v-progress-circular>
-        </v-overlay>
-    </v-container>
+              </v-col>
+              <v-col cols="12" class="d-flex justify-center">
+                <p style="color: beige;">A&uacute;n no tienes usuario? <a href="register" style="text-decoration: none; color: #99c5c0; font-weight: bold; font-size: 10pt;" >Registrate aqu&iacute;</a></p>
+              </v-col>
+              <v-col cols="12" class="d-flex justify-center">
+                <p><a href="forgot-password" style="text-decoration: none; color: #99c5c0; font-weight: normal; font-size: 12pt;" >&iquest;Olvidaste tu contrase&ntilde;a&quest;</a></p>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-container>
 </template>
 
 <style lang="scss" scoped>

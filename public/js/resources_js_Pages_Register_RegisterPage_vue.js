@@ -22,7 +22,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _public_images_corona_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../public/images/corona.png */ "./public/images/corona.png");
 /* harmony import */ var _public_images_tweens_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../public/images/tweens.png */ "./public/images/tweens.png");
 
-
+// import { defineProps } from "vue";
 
 
 
@@ -48,6 +48,14 @@ var __default__ = {
         email: function email(value) {
           var pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return pattern.test(value) || 'Invalid e-mail.';
+        },
+        text_valid: function text_valid(value) {
+          var pattern = /^[a-zA-Z\s]{3,50}$/;
+          return pattern.test(value) || 'Letras mayusculas o minúsculas';
+        },
+        phone: function phone(value) {
+          var pattern = /\+[0-9\s-]+/;
+          return pattern.test(value) || 'El número de teléfono debe ser válido +## ###########';
         }
       }
     };
@@ -68,7 +76,6 @@ var __default__ = {
     var setExpand = function setExpand(v) {
       return expand.value = v;
     };
-    var validRegisterForm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(true);
     var message = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)("");
     var setOverlay = function setOverlay(v) {
       return loadingPage.value = v;
@@ -76,30 +83,32 @@ var __default__ = {
     var setMessage = function setMessage(v) {
       return message.value = v;
     };
-    var form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
+    var personForm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
       nombre: "",
       apellido: "",
       dni: "",
       fecha_nacimiento: "",
       genero_id: "",
       estado_civil_id: "",
-      nacionalidad: "",
+      nacionalidad_id: "",
       pais_recidencia: "",
-      region: "",
+      region_id: "",
       ciudad: "",
       direccion: "",
       telefono: "",
       ocupacion: "",
       email: "",
       email_confirm: "",
-      pass: "",
-      pass_confirm: ""
+      password: "",
+      password_confirm: "",
+      persona_id: "",
+      nick_name: ""
     });
     var mailConfirmEqualMail = function mailConfirmEqualMail() {
-      return form.email_confirm === form.email || "Correo Confirmación no coincide";
+      return personForm.email_confirm === personForm.email || "Correo Confirmación no coincide";
     };
     var passConfirmEqualPass = function passConfirmEqualPass() {
-      return form.pass_confirm === form.pass || "Contraseña Confirmación no coincide";
+      return personForm.password_confirm === personForm.password || "Contraseña Confirmación no coincide";
     };
     var genderList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
     var setGenders = function setGenders(v) {
@@ -138,57 +147,107 @@ var __default__ = {
       setMessage("");
       setOverlay(true);
       if ((0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.validateForm)(e)) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().post('register/persona', form).then(function (result) {
+        createNickName();
+        axios__WEBPACK_IMPORTED_MODULE_2___default().post('/persona/store', personForm).then(function (result) {
+          /*console.log("1 "+JSON.stringify(result));
+          console.log("2 "+JSON.stringify(result.response));
+          console.log("3 "+JSON.stringify(result.data));
+          console.log("4 "+JSON.stringify(result.data.person));
+          console.log("5 "+JSON.stringify(result.data.person.id));
+          console.log("6 "+JSON.stringify(result.status));*/
           setMessage("");
-          axios__WEBPACK_IMPORTED_MODULE_2___default().post('register', form).then(function (result) {
-            setMessage("");
-            window.location.href = "login";
-          })["catch"](function (error) {
-            console.log(JSON.stringify(error.response.data.message));
+          if (result.status === 200) {
+            setOverlay(false);
+            Swal.fire({
+              title: 'Exito!',
+              text: JSON.stringify(result.data.person),
+              icon: 'success',
+              allowOutsideClick: false,
+              allowEscapeKey: false
+            }).then(function (result) {
+              window.location.href = route('login');
+            });
+          } else {
+            setMessage(JSON.stringify(result.data));
+            setOverlay(false);
+          }
+        })["catch"](function (error) {
+          setOverlay(false);
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            /* console.log("1 " +JSON.stringify(error.response.data));
+            console.log("2 " +JSON.stringify(error.response.status));
+            console.log("3 " +JSON.stringify(error.response.headers)); */
             if (error.response.status >= 500) {
               setMessage("Error de Sistema, Favor contactar al administrador");
             } else {
-              setMessage(error.response.data.message);
+              if (error.response.status === 422) {
+                setMessage(JSON.stringify(error.response.data.errors));
+              } else {
+                setMessage("Error al Registrar, Favor contactar al administrador");
+              }
             }
-            setOverlay(false);
-          });
-        })["catch"](function (error) {
-          console.log(JSON.stringify(error.response.data.message));
-          if (error.response.status >= 500) {
-            setMessage("Error de Sistema, Favor contactar al administrador");
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            // console.log("4 " +JSON.stringify(error.request));
+            setMessage("Error al Registrar, Favor contactar al administrador");
           } else {
-            setMessage(error.response.data.message);
+            // Something happened in setting up the request that triggered an Error
+            // console.log('5 Error', error.message);
+            setMessage("Error al Registrar, Favor contactar al administrador");
           }
-          setOverlay(false);
         });
       } else {
         setOverlay(false);
       }
     }
+    function createNickName() {
+      var names = personForm.nombre.split(" ");
+      var apell = personForm.apellido.split(" ");
+      var nickName = names[0].trim() + "." + apell[0].trim();
+      personForm.nick_name = nickName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+    function updateRegion() {
+      (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/region/list/' + personForm.pais_recidencia).then(function (data) {
+        setRegion(data);
+      });
+    }
+    var checkDigit = function checkDigit(event) {
+      var pattern = /^[\d\s()+-]+$/;
+      if (!pattern.test(event.key) && event.which !== 46 && event.which !== 8) {
+        event.preventDefault();
+      }
+    };
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeMount)(function () {
       return setOverlay(true);
     });
+
+    /** En vez de hacer esto, esta información se obtiene automaticamente desde el renderizado de la pagina por el controllador
+     * const props = defineProps({
+      genders: { type: Array, default: [] },
+      civilStatus: { type: Array, default: [] },
+      nationalities: { type: Array, default: [] },
+      countries:{ type: Array, default: [] },
+      ...etc
+    });
+     */
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       return setTimeout(function () {
         (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/gender/list').then(function (data) {
           setGenders(data);
-          console.log("On " + JSON.stringify(data));
         });
         (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/civilStatus/list').then(function (data) {
           setCivilStatus(data);
-          console.log("On " + JSON.stringify(data));
         });
         (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/nationality/list').then(function (data) {
           setNationality(data);
-          console.log("On " + JSON.stringify(data));
         });
         (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/country/list').then(function (data) {
           setCountry(data);
-          console.log("On " + JSON.stringify(data));
-        });
-        (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/region/list').then(function (data) {
-          setRegion(data);
-          console.log("On " + JSON.stringify(data));
+          ;
         });
         initialize();
       }, 1700);
@@ -197,11 +256,10 @@ var __default__ = {
       loadingPage: loadingPage,
       expand: expand,
       setExpand: setExpand,
-      validRegisterForm: validRegisterForm,
       message: message,
       setOverlay: setOverlay,
       setMessage: setMessage,
-      form: form,
+      personForm: personForm,
       mailConfirmEqualMail: mailConfirmEqualMail,
       passConfirmEqualPass: passConfirmEqualPass,
       genderList: genderList,
@@ -220,8 +278,11 @@ var __default__ = {
       setOccupation: setOccupation,
       initialize: initialize,
       handleSubmit: handleSubmit,
-      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
+      createNickName: createNickName,
+      updateRegion: updateRegion,
+      checkDigit: checkDigit,
       reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
+      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
       onBeforeMount: vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeMount,
       get validateForm() {
@@ -248,7 +309,7 @@ var __default__ = {
       get corona() {
         return _public_images_corona_png__WEBPACK_IMPORTED_MODULE_7__["default"];
       },
-      get tweens() {
+      get tween() {
         return _public_images_tweens_png__WEBPACK_IMPORTED_MODULE_8__["default"];
       }
     };
@@ -364,7 +425,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_expand_x_transition = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-expand-x-transition");
   var _component_v_progress_circular = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-progress-circular");
   var _component_v_overlay = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-overlay");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_container, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_container, {
     id: "registerContainer",
     "fill-height": "",
     fuild: "",
@@ -484,7 +545,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_img, {
-                src: $setup.tweens,
+                src: $setup.tween,
                 inline: "",
                 cover: "",
                 height: "auto",
@@ -508,10 +569,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_form, {
             onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.handleSubmit, ["prevent"]),
             ref: "formRegister",
-            modelValue: $setup.validRegisterForm,
-            "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
-              return $setup.validRegisterForm = $event;
-            }),
             "lazy-validation": ""
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -558,9 +615,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.nombre,
+                        modelValue: $setup.personForm.nombre,
                         "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-                          return $setup.form.nombre = $event;
+                          return $setup.personForm.nombre = $event;
                         }),
                         label: "Nombres",
                         variant: "outlined",
@@ -571,7 +628,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           "color": "#f4ede8"
                         },
                         "class": "rounded-l",
-                        rules: [_ctx.rules.required],
+                        rules: [_ctx.rules.required, _ctx.rules.text_valid],
                         clearable: "",
                         tabindex: "1"
                       }, null, 8 /* PROPS */, ["modelValue", "rules"])];
@@ -582,9 +639,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.apellido,
+                        modelValue: $setup.personForm.apellido,
                         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-                          return $setup.form.apellido = $event;
+                          return $setup.personForm.apellido = $event;
                         }),
                         label: "Apellidos",
                         variant: "outlined",
@@ -595,7 +652,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           "color": "#f4ede8"
                         },
                         "class": "rounded-l",
-                        rules: [_ctx.rules.required],
+                        rules: [_ctx.rules.required, _ctx.rules.text_valid],
                         clearable: "",
                         tabindex: "2"
                       }, null, 8 /* PROPS */, ["modelValue", "rules"])];
@@ -606,9 +663,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.dni,
+                        modelValue: $setup.personForm.dni,
                         "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-                          return $setup.form.dni = $event;
+                          return $setup.personForm.dni = $event;
                         }),
                         label: "DNI, Cédula,o RUT",
                         variant: "outlined",
@@ -635,9 +692,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.fecha_nacimiento,
+                        modelValue: $setup.personForm.fecha_nacimiento,
                         "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-                          return $setup.form.fecha_nacimiento = $event;
+                          return $setup.personForm.fecha_nacimiento = $event;
                         }),
                         label: "Fecha Nacimiento",
                         variant: "outlined",
@@ -650,8 +707,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "class": "rounded-l",
                         rules: [_ctx.rules.required],
                         clearable: "",
+                        elevation: "15",
+                        max: new Date(Date.now() - new Date().getTimezoneOffset() * 60000 - 87600 * 60 * 60000).toISOString().substring(0, 10),
+                        min: "1950-01-01",
+                        "active-picker.sync": "YEAR",
                         tabindex: "4"
-                      }, null, 8 /* PROPS */, ["modelValue", "rules"])];
+                      }, null, 8 /* PROPS */, ["modelValue", "rules", "max"])];
                     }),
                     _: 1 /* STABLE */
                   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
@@ -659,9 +720,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                        modelValue: $setup.form.genero_id,
+                        modelValue: $setup.personForm.genero_id,
                         "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-                          return $setup.form.genero_id = $event;
+                          return $setup.personForm.genero_id = $event;
                         }),
                         name: "genero_id",
                         label: "Género",
@@ -684,9 +745,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                        modelValue: $setup.form.estado_civil_id,
+                        modelValue: $setup.personForm.estado_civil_id,
                         "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-                          return $setup.form.estado_civil_id = $event;
+                          return $setup.personForm.estado_civil_id = $event;
                         }),
                         name: "estado_civil_id",
                         label: "Estado Civil",
@@ -750,9 +811,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                        modelValue: $setup.form.nacionalidad,
+                        modelValue: $setup.personForm.nacionalidad_id,
                         "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-                          return $setup.form.nacionalidad = $event;
+                          return $setup.personForm.nacionalidad_id = $event;
                         }),
                         name: "nacionalidad",
                         label: "Nacionalidad",
@@ -775,10 +836,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                        modelValue: $setup.form.pais_recidencia,
-                        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-                          return $setup.form.pais_recidencia = $event;
-                        }),
+                        modelValue: $setup.personForm.pais_recidencia,
+                        "onUpdate:modelValue": [_cache[7] || (_cache[7] = function ($event) {
+                          return $setup.personForm.pais_recidencia = $event;
+                        }), $setup.updateRegion],
                         name: "pais",
                         label: "País",
                         items: $setup.countryList,
@@ -800,11 +861,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                        modelValue: $setup.form.region,
+                        modelValue: $setup.personForm.region_id,
                         "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-                          return $setup.form.region = $event;
+                          return $setup.personForm.region_id = $event;
                         }),
-                        name: "region",
+                        name: "region_id",
                         label: "Region",
                         items: $setup.regionList,
                         "item-title": "nombre",
@@ -825,9 +886,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.ciudad,
+                        modelValue: $setup.personForm.ciudad,
                         "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-                          return $setup.form.ciudad = $event;
+                          return $setup.personForm.ciudad = $event;
                         }),
                         label: "Ciudad/Comuna",
                         variant: "outlined",
@@ -854,9 +915,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.direccion,
+                        modelValue: $setup.personForm.direccion,
                         "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
-                          return $setup.form.direccion = $event;
+                          return $setup.personForm.direccion = $event;
                         }),
                         label: "Dirección",
                         variant: "outlined",
@@ -878,9 +939,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.ocupacion,
+                        modelValue: $setup.personForm.ocupacion,
                         "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
-                          return $setup.form.ocupacion = $event;
+                          return $setup.personForm.ocupacion = $event;
                         }),
                         label: "Ocupación",
                         variant: "outlined",
@@ -902,21 +963,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.telefono,
+                        modelValue: $setup.personForm.telefono,
                         "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
-                          return $setup.form.telefono = $event;
+                          return $setup.personForm.telefono = $event;
                         }),
                         label: "Teléfono",
                         variant: "outlined",
-                        placeholder: "+## #######",
+                        placeholder: "+## ###########",
+                        maxlength: 15,
                         name: "telefono",
                         type: "input",
                         style: {
                           "color": "#f4ede8"
                         },
                         "class": "rounded-l",
-                        rules: [_ctx.rules.required],
+                        rules: [_ctx.rules.required, _ctx.rules.phone],
                         clearable: "",
+                        onKeydown: $setup.checkDigit,
                         tabindex: "13"
                       }, null, 8 /* PROPS */, ["modelValue", "rules"])];
                     }),
@@ -967,9 +1030,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.email,
+                        modelValue: $setup.personForm.email,
                         "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
-                          return $setup.form.email = $event;
+                          return $setup.personForm.email = $event;
                         }),
                         label: "Correo Electrónico",
                         variant: "outlined",
@@ -990,9 +1053,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.email_confirm,
+                        modelValue: $setup.personForm.email_confirm,
                         "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-                          return $setup.form.email_confirm = $event;
+                          return $setup.personForm.email_confirm = $event;
                         }),
                         label: "Confirme Correo Electrónico",
                         variant: "outlined",
@@ -1013,9 +1076,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.pass,
+                        modelValue: $setup.personForm.password,
                         "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
-                          return $setup.form.pass = $event;
+                          return $setup.personForm.password = $event;
                         }),
                         label: "Contraseńa",
                         variant: "outlined",
@@ -1037,9 +1100,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                        modelValue: $setup.form.pass_confirm,
+                        modelValue: $setup.personForm.password_confirm,
                         "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
-                          return $setup.form.pass_confirm = $event;
+                          return $setup.personForm.password_confirm = $event;
                         }),
                         label: "Confirme Contraseńa",
                         variant: "outlined",
@@ -1091,31 +1154,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               })];
             }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.expand]])];
+          }, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.expand]])];
         }),
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_overlay, {
-        "model-value": $setup.loadingPage,
-        opacity: "0.80",
-        absolute: true,
-        contained: "",
-        persistent: "",
-        "class": "align-center justify-center"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_progress_circular, {
-            style: {
-              "color": "#99c5c0"
-            },
-            size: "37",
-            indeterminate: ""
-          })];
-        }),
-        _: 1 /* STABLE */
-      }, 8 /* PROPS */, ["model-value"])];
+      })];
     }),
     _: 1 /* STABLE */
-  });
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_overlay, {
+    "model-value": $setup.loadingPage,
+    opacity: "0.80",
+    absolute: true,
+    contained: "",
+    persistent: "",
+    "class": "align-center justify-center"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_progress_circular, {
+        style: {
+          "color": "#99c5c0"
+        },
+        size: "37",
+        indeterminate: ""
+      })];
+    }),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["model-value"])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -1262,27 +1325,43 @@ var removeValid = function removeValid(input) {
   input.classList.remove('is-invalid');
   input.classList.remove('is-valid');
 };
-var validateForm = function validateForm(e) {
-  e.preventDefault();
-  var form = e.target;
-  var validForm = true;
-  form.querySelectorAll('.v-input--error').forEach(function (x) {
-    console.log(x);
-    validForm = false;
-  });
-  if (!validForm) {
-    e.stopPropagation();
-    return false;
-  } else {
-    return true;
-  }
-};
-var getList = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(url) {
+var validateForm = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
+    var form, validForm;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          _context.next = 2;
+          e.preventDefault();
+          form = e.target;
+          validForm = true;
+          form.querySelectorAll('.v-input--error').forEach(function (x) {
+            console.log(x);
+            validForm = false;
+          });
+          if (validForm) {
+            _context.next = 9;
+            break;
+          }
+          e.stopPropagation();
+          return _context.abrupt("return", false);
+        case 9:
+          return _context.abrupt("return", true);
+        case 10:
+        case "end":
+          return _context.stop();
+      }
+    }, _callee);
+  }));
+  return function validateForm(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
+var getList = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(url) {
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          _context2.next = 2;
           return axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (result) {
             if (result) {
               if (result.status === 200) {
@@ -1298,15 +1377,15 @@ var getList = /*#__PURE__*/function () {
             return [];
           });
         case 2:
-          return _context.abrupt("return", _context.sent);
+          return _context2.abrupt("return", _context2.sent);
         case 3:
         case "end":
-          return _context.stop();
+          return _context2.stop();
       }
-    }, _callee);
+    }, _callee2);
   }));
-  return function getList(_x) {
-    return _ref.apply(this, arguments);
+  return function getList(_x2) {
+    return _ref2.apply(this, arguments);
   };
 }();
 

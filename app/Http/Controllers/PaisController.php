@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class PaisController extends Controller
 {
   public function list() {
-    $paises = Pais::select('id', 'nombre')->orderBy('id', 'asc')->get();
+    $paises = Pais::select('id', 'nombre')->orderBy('nombre', 'asc')->get();
     return response($paises, 200);
   }
 }

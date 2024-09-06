@@ -22,6 +22,10 @@
   //   filter: invert(100%);
 }
 
+.v-text-field .v-input__details {
+  padding-inline: 0px !important;
+}
+
 #loginPanel {
   background-image: url('../../public/img/fondo.jpg');
   background-repeat: repeat;

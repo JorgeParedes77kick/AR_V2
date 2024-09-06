@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Fortify\CreateNewUser;
 use App\Models\Persona;
 use App\Http\Requests\StorePersonaRequest;
 use App\Http\Requests\UpdatePersonaRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
+use Inertia\Response;
+use Throwable;
 
 class PersonaController extends Controller
 {
@@ -31,12 +37,34 @@ class PersonaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePersonaRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StorePersonaRequest $request
+     * @return JsonResponse
      */
     public function store(StorePersonaRequest $request)
     {
-        //
+        $validated = $request->validated();
+        if($validated){
+          $person = Persona::create($validated);
+          $request->persona_id = $person->id;
+          try {
+            $createUser = new CreateNewUser();
+            $user = $createUser->create([
+              'nick_name' => $request->nick_name,
+              'email' => $request->email,
+              'password' => $request->password,
+              'persona_id' => $person->id,
+            ]);
+            $user->roles()->attach(5);
+            return response()->json(['person' => "Registro Exitoso"], 200);
+          } catch (Throwable $e) {
+            $this->destroy($person->id);
+            report($e);
+            abort(400, $e->getMessage());
+          }
+
+        }else{
+          abort(404);
+        }
     }
 
     /**
@@ -73,14 +101,15 @@ class PersonaController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Persona  $persona
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Persona $persona)
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param int $persona
+   * @return JsonResponse
+   */
+    public function destroy(int $persona)
     {
-        //
+      Persona::destroy($persona);
+      return response()->json(['message' => 'OK'], 200);
     }
 }
