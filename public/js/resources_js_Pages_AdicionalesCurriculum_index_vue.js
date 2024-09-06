@@ -51,34 +51,6 @@ __webpack_require__.r(__webpack_exports__);
       key: 'acciones',
       sortable: false
     }];
-    // const onClickDelete = async (item) => {
-    //   const { isConfirmed } = await Swal.fire({
-    //     title: 'Eliminar Rol',
-    //     text: `Estas seguro de eliminar la restriccion para el curriculum ${item.curriculum.nombre} de ${item.tipo_restriccion.nombre} con valor ${item.valor_restriccion}?`,
-    //     icon: 'question',
-    //     showCancelButton: true,
-    //     confirmButtonText: 'Aceptar',
-    //     cancelButtonText: 'Cancelar',
-    //   });
-    //   if (isConfirmed) {
-    //     try {
-    //       const response = await axios.delete(route('adicionales-curriculum.destroy', item.id));
-    //       const index = props.restricciones.findIndex(x => x.id === item.id)
-    //       if (response?.data?.message) {
-    //         const { message } = response.data;
-    //         Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-    //         props.restricciones.splice(index, 1)
-    //       }
-    //     } catch (err) {
-    //       console.log("err:", err)
-    //       if (err?.response?.data?.server) {
-    //         const { server: msg, message } = err.response.data;
-    //         Swal.fire({ title: 'Error!', text: msg + '\n' + truncarTexto(message), icon: 'error' });
-    //       }
-    //     }
-    //   }
-    // };
-
     var __returned__ = {
       props: props,
       headers: headers,
@@ -357,9 +329,9 @@ var _hoisted_4 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_card_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-title");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
+  var _component_v_data_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-data-table");
   var _component_v_col = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-col");
   var _component_v_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-row");
-  var _component_v_data_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-data-table");
   var _component_v_card_body = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-body");
   var _component_v_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card");
   var _component_v_container = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-container");
@@ -379,37 +351,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_body, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
-                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                        "class": "d-flex justify-end"
-                      }, {
-                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-                            href: _ctx.route('adicionales-curriculum.create')
-                          }, {
-                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
-                                to: {
-                                  name: 'adicionales-curriculum.create'
-                                },
-                                color: "success",
-                                "class": "ms-auto"
-                              }, {
-                                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Crear Nuevas Adicionales ")];
-                                }),
-                                _: 1 /* STABLE */
-                              })];
-                            }),
-                            _: 1 /* STABLE */
-                          }, 8 /* PROPS */, ["href"])];
-                        }),
-                        _: 1 /* STABLE */
-                      })];
-                    }),
-                    _: 1 /* STABLE */
-                  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-row>\r\n            <v-col class=\"d-flex justify-end\">\r\n              <Link :href=\"route('adicionales-curriculum.create')\">\r\n              <v-btn :to=\"{ name: 'adicionales-curriculum.create' }\" color=\"success\" class=\"ms-auto\">\r\n                Crear Nuevas Adicionales\r\n              </v-btn>\r\n              </Link>\r\n            </v-col>\r\n          </v-row> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, null, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -417,7 +359,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_data_table, {
                             headers: $setup.headers,
                             items: $props.curriculums,
-                            "items-per-page": 10,
+                            "items-per-page": 15,
                             "class": "elevation-1 rounded",
                             "show-expand": ""
                           }, (_createVNode2 = {

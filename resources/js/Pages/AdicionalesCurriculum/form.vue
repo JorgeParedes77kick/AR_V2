@@ -110,8 +110,8 @@ const onChange = (item) => {
                   @update:modelValue="onChange" />
               </v-col>
               <v-col cols="4" sm="2" class="d-flex align-center justify-center">
-                <v-btn color="success" small @click="addItem"
-                  :disabled="CRUD.edit === action || typeof inputForm.nombre === 'string'">
+                <v-btn color="success" small @click="addItem" :disabled="(CRUD.edit !== action && typeof inputForm.nombre !== 'object')
+                  ">
                   <v-icon icon="mdi-plus-thick" />
                 </v-btn>
               </v-col>

@@ -40,7 +40,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_2___default()));
     var props = __props;
     (0,vue__WEBPACK_IMPORTED_MODULE_3__.onMounted)(function () {
-      console.log(props.ciclos);
+      // console.log(props.ciclos)
     });
     var headers = [{
       title: 'ID',
@@ -462,7 +462,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             var item = _ref.item;
                             return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.requisitos, function (requisito) {
                               var _requisito$ciclo_pre, _requisito$ciclo_pre$, _requisito$ciclo_pre2;
-                              return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+                              return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
                                 key: requisito.id
                               }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(requisito === null || requisito === void 0 ? void 0 : (_requisito$ciclo_pre = requisito.ciclo_pre) === null || _requisito$ciclo_pre === void 0 ? void 0 : (_requisito$ciclo_pre$ = _requisito$ciclo_pre.curriculum) === null || _requisito$ciclo_pre$ === void 0 ? void 0 : _requisito$ciclo_pre$.nombre) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(requisito === null || requisito === void 0 ? void 0 : (_requisito$ciclo_pre2 = requisito.ciclo_pre) === null || _requisito$ciclo_pre2 === void 0 ? void 0 : _requisito$ciclo_pre2.nombre), 1 /* TEXT */);
                             }), 128 /* KEYED_FRAGMENT */))];

@@ -36,5 +36,5 @@ Route::middleware(['auth', 'superadmin'])->group(function () {
     Route::resource('adicionales-curriculum', App\Http\Controllers\AdicionalController::class)->except(['update', 'delete']);
     Route::resource('ciclos', App\Http\Controllers\CicloController::class);
     Route::resource('recursos', App\Http\Controllers\RecursoController::class);
-    Route::resource('usuarios-equipo', App\Http\Controllers\UsuarioController::class);
+    Route::resource('usuarios-equipo', App\Http\Controllers\UsuarioController::class)->except(['delete']);
 });

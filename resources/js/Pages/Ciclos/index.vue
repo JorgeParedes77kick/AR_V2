@@ -12,7 +12,7 @@ const props = defineProps({
   ciclos: Array,
 });
 onMounted(() => {
-  console.log(props.ciclos)
+  // console.log(props.ciclos)
 });
 
 const headers = [
@@ -69,9 +69,9 @@ const onClickDelete = async (item) => {
             <v-col>
               <v-data-table :headers="headers" :items="ciclos" :items-per-page="25" class="elevation-1 rounded">
                 <template v-slot:[`item.previo`]="{ item }">
-                  <span v-for="requisito in item.requisitos" :key="requisito.id">
+                  <p v-for="requisito in item.requisitos" :key="requisito.id">
                     {{ requisito?.ciclo_pre?.curriculum?.nombre }} - {{ requisito?.ciclo_pre?.nombre }}
-                  </span>
+                  </p>
                 </template>
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">

@@ -25,19 +25,11 @@ class Ciclo extends Model {
     ];
 
     protected static function booted() {
-        // static::addGlobalScope('withRequisitos', function (Builder $builder) {
+        // static::addGlobalScope('withCurriculum', function (Builder $builder) {
         //     $builder->with([
-        //         'requisitos:ciclo_id,ciclo_pre_id',
-        //         'requisitos.cicloPre' => function ($query) {
-        //             $query->withoutGlobalScopes(['withRequisitos']);
-        //         },
+        //         'curriculum:id,nombre',
         //     ]);
         // });
-        static::addGlobalScope('withCurriculum', function (Builder $builder) {
-            $builder->with([
-                'curriculum:id,nombre',
-            ]);
-        });
     }
 
     /**
@@ -52,6 +44,12 @@ class Ciclo extends Model {
      */
     public function requisitos(): HasMany {
         return $this->hasMany(Requisito::class, 'ciclo_id');
+    }
+    /**
+     * Relación con los requisitos que lo tienen como pre-requisito
+     */
+    public function dependientes(): HasMany {
+        return $this->hasMany(Requisito::class, 'ciclo_pre_id');
     }
 
     /**
@@ -68,6 +66,9 @@ class Ciclo extends Model {
         return $this->hasMany(GrupoPequeno::class, 'ciclo_id');
     }
 
+    public function scopeWithCurriculum($query) {
+        return $query->with('curriculum:id,nombre');
+    }
     public function scopeWithRecursos($query) {
         return $query->with('recursos:id,nombre,link_lectura,link_escritura,clase,ciclo_id');
     }
@@ -79,12 +80,4 @@ class Ciclo extends Model {
             },
         ]);
     }
-
-    // Scope local para cargar el curriculum
-    // public function scopeWithCurriculum(Builder $query)
-    // {
-    //     return $query->with([
-    //         'curriculum:id,nombre',
-    //     ]);
-    // }
 }

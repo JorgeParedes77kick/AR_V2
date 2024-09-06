@@ -53,9 +53,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     __expose();
     var validate = (0,vue__WEBPACK_IMPORTED_MODULE_1__.inject)('$validation');
     var props = __props;
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      console.log(props);
-    });
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
     var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(props.action === _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD.show);
     var inputForm = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)(_objectSpread({
@@ -65,6 +62,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       requisitos: []
     }, props.ciclo));
     var form = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
+      // console.log(props)
+    });
     var validateForm = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
         var _yield$form$value$val, valid;
@@ -91,7 +91,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }();
     var submit = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var action, method, routeName, id, nombre, descripcion, requisitos, input, _response$data, response, message, _err$response, _err$response$data, _err$response2, _err$response2$data, _message, errors;
+        var action, method, routeName, id, _response$data, response, message, _err$response, _err$response$data, _err$response2, _err$response2$data, _message, errors;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
@@ -100,43 +100,31 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               method = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD.edit ? 'put' : 'post';
               routeName = "ciclos.".concat(action);
               id = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD.edit ? inputForm.id : undefined;
-              nombre = inputForm.nombre, descripcion = inputForm.descripcion, requisitos = inputForm.requisitos;
-              input = {
-                id: id,
-                curriculum_id: inputForm.curriculum.id,
-                nombre: nombre,
-                descripcion: descripcion,
-                requisitos: requisitos.map(function (_ref4) {
-                  var ciclo_pre_id = _ref4.ciclo_pre_id;
-                  return {
-                    ciclo_pre_id: ciclo_pre_id
-                  };
-                })
-              };
-              _context2.prev = 7;
-              _context2.next = 10;
-              return (axios__WEBPACK_IMPORTED_MODULE_3___default())[method](route(routeName, id), input);
-            case 10:
+              inputForm.curriculum_id = inputForm.curriculum.id;
+              _context2.prev = 6;
+              _context2.next = 9;
+              return (axios__WEBPACK_IMPORTED_MODULE_3___default())[method](route(routeName, id), inputForm);
+            case 9:
               response = _context2.sent;
               if (!(response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message)) {
-                _context2.next = 16;
+                _context2.next = 15;
                 break;
               }
               message = response.data.message;
-              _context2.next = 15;
+              _context2.next = 14;
               return Swal.fire({
                 title: 'Exito!',
                 text: message,
                 icon: 'success'
               });
-            case 15:
+            case 14:
               window.location.href = route('ciclos.index');
-            case 16:
-              _context2.next = 23;
+            case 15:
+              _context2.next = 22;
               break;
-            case 18:
-              _context2.prev = 18;
-              _context2.t0 = _context2["catch"](7);
+            case 17:
+              _context2.prev = 17;
+              _context2.t0 = _context2["catch"](6);
               console.log(_context2.t0 === null || _context2.t0 === void 0 ? void 0 : _context2.t0.response);
               if (_context2.t0 !== null && _context2.t0 !== void 0 && (_err$response = _context2.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
                 _message = _context2.t0.response.data.server;
@@ -150,15 +138,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 errors = _context2.t0.response.data.errors;
                 inputForm.errors = errors;
               }
-            case 23:
-              _context2.prev = 23;
+            case 22:
+              _context2.prev = 22;
               loading.value = false;
-              return _context2.finish(23);
-            case 26:
+              return _context2.finish(22);
+            case 25:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[7, 18, 23, 26]]);
+        }, _callee2, null, [[6, 17, 22, 25]]);
       }));
       return function submit() {
         return _ref3.apply(this, arguments);
@@ -543,7 +531,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["ButtonBack"], {
                     href: _ctx.route('ciclos.index')
-                  }, null, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" CICLOS " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.CRUD.create !== $props.action ? "#".concat($setup.inputForm.id) : ''), 1 /* TEXT */)];
+                  }, null, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" CICLO " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.CRUD.create !== $props.action ? "#".concat($setup.inputForm.id) : ''), 1 /* TEXT */)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_subtitle, null, {
@@ -682,8 +670,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                   "error-messages": $setup.inputForm.errors.curriculum,
                                   items: $props.curriculums,
                                   "item-title": "nombre",
-                                  "item-value": "id"
-                                }, null, 8 /* PROPS */, ["name", "modelValue", "onUpdate:modelValue", "rules", "error-messages", "items"])];
+                                  "item-value": "id",
+                                  disabled: $setup.isDisabled
+                                }, null, 8 /* PROPS */, ["name", "modelValue", "onUpdate:modelValue", "rules", "error-messages", "items", "disabled"])];
                               }),
                               _: 2 /* DYNAMIC */
                             }, 1024 /* DYNAMIC_SLOTS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
@@ -703,8 +692,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                   "error-messages": $setup.inputForm.errors.ciclo_pre_id,
                                   items: requi.curriculum.ciclos,
                                   "item-title": "nombre",
-                                  "item-value": "id"
-                                }, null, 8 /* PROPS */, ["name", "modelValue", "onUpdate:modelValue", "rules", "error-messages", "items"])];
+                                  "item-value": "id",
+                                  disabled: $setup.isDisabled
+                                }, null, 8 /* PROPS */, ["name", "modelValue", "onUpdate:modelValue", "rules", "error-messages", "items", "disabled"])];
                               }),
                               _: 2 /* DYNAMIC */
                             }, 1024 /* DYNAMIC_SLOTS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {

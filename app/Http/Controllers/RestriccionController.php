@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RestriccionResquest;
+use App\Http\Requests\RestriccionRequest;
 use App\Models\Curriculum;
 use App\Models\Restriccion;
 use App\Models\TipoRestriccion;
@@ -43,7 +43,7 @@ class RestriccionController extends Controller {
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public function store(RestriccionResquest $request) {
+    public function store(RestriccionRequest $request) {
         $input = $request->only('nombre', 'tipo_restriccion_id', 'valor_restriccion', 'curriculum_id');
         $restriccion = Restriccion::create($input);
 
@@ -94,7 +94,7 @@ class RestriccionController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      */
-    public function update(RestriccionResquest $request, $id) {
+    public function update(RestriccionRequest $request, $id) {
         $input = $request->only('nombre', 'tipo_restriccion_id', 'valor_restriccion', 'curriculum_id');
         $restriccion = Restriccion::whereId($id);
 

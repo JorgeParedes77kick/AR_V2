@@ -471,6 +471,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_progress_linear = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-progress-linear");
@@ -566,7 +567,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 color: "success",
                                 small: "",
                                 onClick: $setup.addItem,
-                                disabled: $setup.CRUD.edit === $props.action || typeof $setup.inputForm.nombre === 'string'
+                                disabled: $setup.CRUD.edit !== $props.action && _typeof($setup.inputForm.nombre) !== 'object'
                               }, {
                                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_icon, {

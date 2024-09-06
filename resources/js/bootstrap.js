@@ -12,7 +12,7 @@ try {
 
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.Swal = require('sweetalert2')
+window.Swal = require('sweetalert2');
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -31,3 +31,28 @@ window.Swal = require('sweetalert2')
 //     forceTLS: true
 // });
 
+// import { useTheme } from 'vuetify';
+
+// function configureSwalWithVuetify() {
+//   const theme = useTheme();
+//   const currentTheme = theme.current.value;
+
+//   return window.Swal.mixin({
+//     customClass: {
+//       popup: 'v-dialog',
+//       header: 'v-toolbar__title',
+//       title: 'text-h5',
+//       confirmButton: 'v-btn v-btn--is-elevated v-btn--elevated',
+//       cancelButton: 'v-btn v-btn--text',
+//     },
+//     buttonsStyling: false,
+//     background: currentTheme.dark
+//       ? currentTheme.colors['background-dark']
+//       : currentTheme.colors['background'],
+//     color: currentTheme.dark ? currentTheme.colors['font-dark'] : currentTheme.colors['font'],
+//     confirmButtonColor: currentTheme.colors['primary'],
+//     cancelButtonColor: currentTheme.colors['secondary'],
+//   });
+// }
+
+// window.SwalVuetify = configureSwalWithVuetify();

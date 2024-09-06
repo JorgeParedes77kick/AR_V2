@@ -14,10 +14,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _components_ButtonBack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/ButtonBack */ "./resources/js/components/ButtonBack.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/Layout */ "./resources/js/components/Layout.vue");
-/* harmony import */ var _constants_form__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants/form */ "./resources/js/constants/form.js");
+/* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/Layout */ "./resources/js/components/Layout.vue");
+/* harmony import */ var _constants_form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants/form */ "./resources/js/constants/form.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -32,16 +30,18 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'form',
   props: {
     action: String,
-    rol: {
+    recurso: {
       type: Object,
       "default": {}
     },
-    status: String
+    curriculums: {
+      type: Array,
+      "default": []
+    }
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
@@ -49,10 +49,32 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     var validate = (0,vue__WEBPACK_IMPORTED_MODULE_1__.inject)('$validation');
     var props = __props;
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
-    var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(props.action === _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD.show);
+    var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(props.action === _constants_form__WEBPACK_IMPORTED_MODULE_4__.CRUD.show);
     var inputForm = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)(_objectSpread({
-      nombre: ''
-    }, props.rol));
+      nombre: '',
+      link_lectura: '',
+      link_escritura: '',
+      clase: '',
+      ciclo: '',
+      ciclo_id: '',
+      curriculum: {
+        nombre: '',
+        ciclo: {},
+        ciclos: []
+      }
+    }, props.recurso));
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
+      var _inputForm$ciclo, _inputForm$ciclo$curr;
+      if (inputForm !== null && inputForm !== void 0 && (_inputForm$ciclo = inputForm.ciclo) !== null && _inputForm$ciclo !== void 0 && (_inputForm$ciclo$curr = _inputForm$ciclo.curriculum) !== null && _inputForm$ciclo$curr !== void 0 && _inputForm$ciclo$curr.id) {
+        var _inputForm$ciclo2;
+        var _inputForm$ciclo$curr2 = inputForm === null || inputForm === void 0 ? void 0 : (_inputForm$ciclo2 = inputForm.ciclo) === null || _inputForm$ciclo2 === void 0 ? void 0 : _inputForm$ciclo2.curriculum,
+          id = _inputForm$ciclo$curr2.id;
+        var item = props.curriculums.find(function (x) {
+          return x.id == id;
+        });
+        if (item) inputForm.curriculum = _objectSpread({}, item);
+      }
+    });
     var form = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
     var validateForm = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
@@ -85,34 +107,36 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               loading.value = true;
-              action = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD.edit ? 'update' : 'store';
-              method = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD.edit ? 'put' : 'post';
-              routeName = "roles.".concat(action);
-              id = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD.edit ? inputForm.id : undefined;
-              _context2.prev = 5;
-              _context2.next = 8;
-              return (axios__WEBPACK_IMPORTED_MODULE_3___default())[method](route(routeName, id), inputForm);
-            case 8:
+              action = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_4__.CRUD.edit ? 'update' : 'store';
+              method = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_4__.CRUD.edit ? 'put' : 'post';
+              routeName = "recursos.".concat(action);
+              id = props.action === _constants_form__WEBPACK_IMPORTED_MODULE_4__.CRUD.edit ? inputForm.id : undefined;
+              inputForm.ciclo_id = inputForm.ciclo.id;
+              console.log("inputForm:", inputForm);
+              _context2.prev = 7;
+              _context2.next = 10;
+              return axios[method](route(routeName, id), inputForm);
+            case 10:
               response = _context2.sent;
               if (!(response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message)) {
-                _context2.next = 14;
+                _context2.next = 16;
                 break;
               }
               message = response.data.message;
-              _context2.next = 13;
+              _context2.next = 15;
               return Swal.fire({
                 title: 'Exito!',
                 text: message,
                 icon: 'success'
               });
-            case 13:
-              window.location.href = route('roles.index');
-            case 14:
-              _context2.next = 21;
-              break;
+            case 15:
+              window.location.href = route('recursos.index');
             case 16:
-              _context2.prev = 16;
-              _context2.t0 = _context2["catch"](5);
+              _context2.next = 23;
+              break;
+            case 18:
+              _context2.prev = 18;
+              _context2.t0 = _context2["catch"](7);
               console.log(_context2.t0 === null || _context2.t0 === void 0 ? void 0 : _context2.t0.response);
               if (_context2.t0 !== null && _context2.t0 !== void 0 && (_err$response = _context2.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
                 _message = _context2.t0.response.data.server;
@@ -126,20 +150,27 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 errors = _context2.t0.response.data.errors;
                 inputForm.errors = errors;
               }
-            case 21:
-              _context2.prev = 21;
+            case 23:
+              _context2.prev = 23;
               loading.value = false;
-              return _context2.finish(21);
-            case 24:
+              return _context2.finish(23);
+            case 26:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[5, 16, 21, 24]]);
+        }, _callee2, null, [[7, 18, 23, 26]]);
       }));
       return function submit() {
         return _ref3.apply(this, arguments);
       };
     }();
+    var focus = function focus(state, name) {
+      if (!state && name == 'curriculum' && typeof inputForm.curriculum == 'string') {
+        inputForm.curriculum = '';
+      } else if (!state && name == 'ciclo' && typeof inputForm.ciclo == 'string') {
+        inputForm.ciclo = '';
+      }
+    };
     var __returned__ = {
       validate: validate,
       props: props,
@@ -149,28 +180,27 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       form: form,
       validateForm: validateForm,
       submit: submit,
+      focus: focus,
       get useForm() {
         return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm;
       },
       inject: vue__WEBPACK_IMPORTED_MODULE_1__.inject,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted,
       ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref,
       get ButtonBack() {
         return _components_ButtonBack__WEBPACK_IMPORTED_MODULE_2__["default"];
       },
-      get axios() {
-        return (axios__WEBPACK_IMPORTED_MODULE_3___default());
-      },
       get MainLayout() {
-        return _components_Layout__WEBPACK_IMPORTED_MODULE_4__["default"];
+        return _components_Layout__WEBPACK_IMPORTED_MODULE_3__["default"];
       },
       get ACCION() {
-        return _constants_form__WEBPACK_IMPORTED_MODULE_5__.ACCION;
+        return _constants_form__WEBPACK_IMPORTED_MODULE_4__.ACCION;
       },
       get CRUD() {
-        return _constants_form__WEBPACK_IMPORTED_MODULE_5__.CRUD;
+        return _constants_form__WEBPACK_IMPORTED_MODULE_4__.CRUD;
       },
       get TEXT_BUTTON() {
-        return _constants_form__WEBPACK_IMPORTED_MODULE_5__.TEXT_BUTTON;
+        return _constants_form__WEBPACK_IMPORTED_MODULE_4__.TEXT_BUTTON;
       }
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
@@ -458,6 +488,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_text_field = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-text-field");
   var _component_v_col = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-col");
   var _component_v_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-row");
+  var _component_v_combobox = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-combobox");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
   var _component_v_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-form");
   var _component_v_card_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-text");
@@ -486,13 +517,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["ButtonBack"], {
-                    href: _ctx.route('roles.index')
-                  }, null, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ROLES " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.CRUD.create !== $props.action ? "#".concat($setup.inputForm.id) : ''), 1 /* TEXT */)];
+                    href: _ctx.route('recursos.index')
+                  }, null, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" RECURSOS " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.CRUD.create !== $props.action ? "#".concat($setup.inputForm.id) : ''), 1 /* TEXT */)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_subtitle, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.ACCION[$props.action]) + " del Rol", 1 /* TEXT */)];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.ACCION[$props.action]) + " del Recurso", 1 /* TEXT */)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_text, null, {
@@ -526,22 +557,141 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                               }, null, 8 /* PROPS */, ["modelValue", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
-                          })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                          })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+                        }),
+                        _: 1 /* STABLE */
+                      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
+                        "class": "row-gap-2"
+                      }, {
+                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
                             cols: "12",
                             sm: "6"
                           }, {
                             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_combobox, {
+                                id: "curriculum",
+                                name: "curriculum",
+                                label: "Curriculum",
+                                modelValue: $setup.inputForm.curriculum,
+                                "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                                  return $setup.inputForm.curriculum = $event;
+                                }),
+                                disabled: $setup.CRUD.create !== $props.action,
+                                rules: $setup.validate('Curriculum', 'required'),
+                                "error-messages": $setup.inputForm.errors.curriculum,
+                                items: $props.curriculums,
+                                "item-title": "nombre",
+                                "item-value": "id",
+                                autocomplete: "off",
+                                "onUpdate:focused": _cache[2] || (_cache[2] = function (s) {
+                                  return $setup.focus(s, 'curriculum');
+                                })
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages", "items"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12",
+                            sm: "6"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              var _$setup$inputForm$cur, _$setup$inputForm$err, _$setup$inputForm$cur2;
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_combobox, {
+                                id: "ciclo",
+                                name: "ciclo",
+                                label: "Ciclo",
+                                modelValue: $setup.inputForm.ciclo,
+                                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                                  return $setup.inputForm.ciclo = $event;
+                                }),
+                                disabled: $setup.CRUD.create !== $props.action || !((_$setup$inputForm$cur = $setup.inputForm.curriculum) !== null && _$setup$inputForm$cur !== void 0 && _$setup$inputForm$cur.id),
+                                rules: $setup.validate('Ciclo', 'required'),
+                                "error-messages": (_$setup$inputForm$err = $setup.inputForm.errors.curriculum) === null || _$setup$inputForm$err === void 0 ? void 0 : _$setup$inputForm$err.ciclo,
+                                items: ((_$setup$inputForm$cur2 = $setup.inputForm.curriculum) === null || _$setup$inputForm$cur2 === void 0 ? void 0 : _$setup$inputForm$cur2.ciclos) || [],
+                                "item-title": "nombre",
+                                "item-value": "id",
+                                autocomplete: "off",
+                                "onUpdate:focused": _cache[4] || (_cache[4] = function (s) {
+                                  return $setup.focus(s, 'ciclo');
+                                })
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages", "items"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12",
+                            sm: "6"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              var _$setup$inputForm$cur3;
                               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                                 id: "nombre",
                                 name: "nombre",
                                 label: "Nombre",
                                 modelValue: $setup.inputForm.nombre,
-                                "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
                                   return $setup.inputForm.nombre = $event;
                                 }),
-                                disabled: $setup.isDisabled,
+                                disabled: $setup.isDisabled || !((_$setup$inputForm$cur3 = $setup.inputForm.curriculum) !== null && _$setup$inputForm$cur3 !== void 0 && _$setup$inputForm$cur3.id),
                                 rules: $setup.validate('Nombre', 'required'),
                                 "error-messages": $setup.inputForm.errors.nombre
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12",
+                            sm: "6"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              var _$setup$inputForm$cur4;
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+                                id: "clase",
+                                name: "clase",
+                                label: "Clase",
+                                modelValue: $setup.inputForm.clase,
+                                "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+                                  return $setup.inputForm.clase = $event;
+                                }),
+                                disabled: $setup.isDisabled || !((_$setup$inputForm$cur4 = $setup.inputForm.curriculum) !== null && _$setup$inputForm$cur4 !== void 0 && _$setup$inputForm$cur4.id),
+                                rules: $setup.validate('Clase', 'required'),
+                                "error-messages": $setup.inputForm.errors.clase
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              var _$setup$inputForm$cur5;
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+                                id: "link_lectura",
+                                name: "link_lectura",
+                                label: "Link de Lectura",
+                                modelValue: $setup.inputForm.link_lectura,
+                                "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+                                  return $setup.inputForm.link_lectura = $event;
+                                }),
+                                disabled: $setup.isDisabled || !((_$setup$inputForm$cur5 = $setup.inputForm.curriculum) !== null && _$setup$inputForm$cur5 !== void 0 && _$setup$inputForm$cur5.id),
+                                rules: $setup.validate('Link de Lectura', 'required'),
+                                "error-messages": $setup.inputForm.errors.link_lectura
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              var _$setup$inputForm$cur6;
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+                                id: "link_escritura",
+                                name: "link_escritura",
+                                label: "Link de Escritura",
+                                modelValue: $setup.inputForm.link_escritura,
+                                "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+                                  return $setup.inputForm.link_escritura = $event;
+                                }),
+                                disabled: $setup.isDisabled || !((_$setup$inputForm$cur6 = $setup.inputForm.curriculum) !== null && _$setup$inputForm$cur6 !== void 0 && _$setup$inputForm$cur6.id),
+                                rules: $setup.validate('Link de Escritura', 'required'),
+                                "error-messages": $setup.inputForm.errors.link_escritura
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
