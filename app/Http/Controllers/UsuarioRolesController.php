@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
-class UsuarioController extends Controller {
+class UsuarioRolesController extends Controller {
     /**
      * Display a listing of the resource.
      *
