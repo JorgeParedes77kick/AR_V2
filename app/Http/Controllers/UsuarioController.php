@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
 use App\Http\Requests\StoreUsuarioRequest;
 use App\Http\Requests\UpdateUsuarioRequest;
+use App\Models\PasswordResets;
+use App\Models\Usuario;
+use Illuminate\Auth\Passwords\PasswordBrokerManager;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
@@ -13,7 +17,7 @@ class UsuarioController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -23,7 +27,7 @@ class UsuarioController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -34,30 +38,18 @@ class UsuarioController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreUsuarioRequest $request
-     * @return JsonResponse
+     * @return Response
      */
     public function store(StoreUsuarioRequest $request)
     {
-      $validated = $request->validated();
-      if($validated){
-        $user = Usuario::create([
-          'nick_name' => $request->nick_name,
-          'email' => $request->email,
-          'password' => Hash::make($request->password),
-          'persona_id' => $request->persona_id,
-        ]);
-        $user->roles()->attach(5);
-        return response()->json(['messages' => "OK"], 200);
-      }else{
-        abort(404);
-      }
+      //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Usuario  $usuario
-     * @return \Illuminate\Http\Response
+     * @param Usuario $usuario
+     * @return Response
      */
     public function show(Usuario $usuario)
     {
@@ -67,8 +59,8 @@ class UsuarioController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Usuario  $usuario
-     * @return \Illuminate\Http\Response
+     * @param Usuario $usuario
+     * @return Response
      */
     public function edit(Usuario $usuario)
     {
@@ -78,9 +70,9 @@ class UsuarioController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateUsuarioRequest  $request
-     * @param  \App\Models\Usuario  $usuario
-     * @return \Illuminate\Http\Response
+     * @param UpdateUsuarioRequest $request
+     * @param Usuario $usuario
+     * @return Response
      */
     public function update(UpdateUsuarioRequest $request, Usuario $usuario)
     {
@@ -90,11 +82,29 @@ class UsuarioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Usuario  $usuario
-     * @return \Illuminate\Http\Response
+     * @param Usuario $usuario
+     * @return Response
      */
     public function destroy(Usuario $usuario)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param string $email
+     * @param string $token
+     * @return JsonResponse
+     */
+    public function canResetPass(string $email, string $token)
+    {
+      $reset = PasswordResets::where('email', $email)->first();
+      if($reset){
+        if((!Carbon::parse($reset->created_at)->addSeconds(60 * 60)->isPast() && Hash::check($token, $reset->token) )){
+          return response()->json(['canResetPass' => true], 200);
+        }
+      }
+      return response()->json(['canResetPass' => false], 200);
     }
 }

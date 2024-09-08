@@ -31,7 +31,7 @@ Route::get('/region/list/{country}', [App\Http\Controllers\RegionController::cla
 
 Route::post('/persona/store', [App\Http\Controllers\PersonaController::class, 'store'])->name('persona.store');
 Route::delete('persona/{persona_id}/delete', [App\Http\Controllers\PersonaController::class, 'destroy'])->name('persona.destroy');
-Route::post('/user/store', [App\Http\Controllers\UsuarioController::class, 'store'])->name('user.store');
+Route::get('/user/validate-token/{email}/{token}', [App\Http\Controllers\UsuarioController::class, 'canResetPass'])->name('user.validate-token');
 
 /**
  * Rutas Usuario Autrizado

@@ -15,6 +15,10 @@ class Usuario extends Authenticatable
 
     protected $table = 'usuarios';
 
+    /**
+     * Columns used to insert
+     * @var string[]
+     */
     protected $fillable = [
         'nick_name',
         'email',

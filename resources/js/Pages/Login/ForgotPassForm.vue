@@ -42,7 +42,7 @@ const submitForm = async (form) => {
     if (result?.data?.message) {
       setOverlay(false);
       const { message } = result.data;
-      await Swal.fire({ title: 'Exito!', text: "Le hemos enviado al correo electrónico <b>"+fieldsForm.email+"</b>, su enlace de restablecimiento de contraseña", icon: 'success' });
+      await Swal.fire({ title: '<i>Exito!</i>', html: "Le hemos enviado al correo electrónico <b>"+fieldsForm.email+"</b>, su enlace de restablecimiento de contraseña", icon: 'success' });
       window.location.href = route('login');
     }
   } catch (err) {
@@ -65,25 +65,37 @@ const submitForm = async (form) => {
 
 <template>
   <v-container fluid class="py-0 px-0" color="#222222" style=" height: 100vh; width: 40%"  >
+    <v-row no-gutters>
+      <v-fab color="light" icon="mdi-reply-circle" variant="flat" href="login" location="top start" absolute style="right: 24px; top: 0;"></v-fab>
+    </v-row>
     <v-card elevation="12" class="d-flex align-center justify-center" color="#222222" style="height: 100vh;">
       <v-row>
-        <v-container fuild class="float-md position-absolute" style="left: 14%; ">
+        <v-container fuild class="float-md position-absolute" style="left: 22%; ">
           <v-img :src="women" inline cover height="auto" width="4%" ></v-img>
         </v-container>
-        <v-container fuild class="float-md position-absolute" style="left: 22%; ">
+        <v-container fuild class="float-md position-absolute" style="left: 28%; ">
           <v-img :src="corona" inline cover height="auto" width="6%" ></v-img>
         </v-container>
-        <v-container fuild class="float-md position-absolute" style="left: 67%; ">
+        <v-container fuild class="float-md position-absolute" style="left: 61%; ">
           <v-img :src="book" inline cover height="auto" width="7%" ></v-img>
         </v-container>
-        <v-container fuild class="float-md position-absolute" style="left: 75%; ">
+        <v-container fuild class="float-md position-absolute" style="left: 69%; ">
           <v-img :src="tween" inline cover height="auto" width="4%" ></v-img>
         </v-container>
         <v-col cols="12" class="d-flex justify-center">
-          <v-img :src="logGP" inline cover height="auto" width="33%"></v-img>
+          <v-img :src="logGP" inline cover height="auto" width="25%"></v-img>
         </v-col>
         <v-col class="d-flex justify-center">
           <v-form  @submit="validateForm" ref="formForgotPass" class="w-50">
+            <v-row no-gutters>
+              <v-col cols="12">
+                <v-icon icon="mdi-email-heart-outline" style="color: #99c5c0; font-size: 23px;"></v-icon>&nbsp;<v-label
+                style="color: #99c5c0; font-size: 17px;">Solicitud Nueva Contraseña
+              </v-label>
+                <v-divider style="color:#f4ede8; padding-top: 2pt; margin-inline-start: 8%;"></v-divider>
+              </v-col>
+            </v-row>
+            <legend>&nbsp;</legend>
             <v-row>
               <v-col cols="12" >
                 <v-text-field v-model="fieldsForm.email"
@@ -122,6 +134,10 @@ const submitForm = async (form) => {
       </v-row>
     </v-card>
   </v-container>
+  <v-overlay :model-value="loadingPage" opacity="0.80" :absolute="true" contained persistent
+             class="align-center justify-center">
+    <v-progress-circular style="color: #99c5c0 " size="37" indeterminate></v-progress-circular>
+  </v-overlay>
 </template>
 
 <style lang="scss" scoped>
