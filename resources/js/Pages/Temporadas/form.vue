@@ -1,25 +1,22 @@
 <script setup>
-import { onMounted, ref, inject } from 'vue';
-import { useForm, Link } from '@inertiajs/inertia-vue3';
+import { useForm } from '@inertiajs/inertia-vue3';
+import { inject, ref } from 'vue';
 
 import ButtonBack from '../../components/ButtonBack';
 
+import axios from 'axios';
 import MainLayout from '../../components/Layout';
 import {
   ACCION,
-  TEXT_BUTTON,
-  FORM_POST,
   CRUD,
-  validInput,
-  removeValid,
+  TEXT_BUTTON
 } from '../../constants/form';
-import axios from 'axios';
 
 const validate = inject('$validation');
 
 const props = defineProps({
   action: String,
-  temporada: { Object, default: {} },
+  temporada: { type: Object, default: {} },
   status: String,
 });
 

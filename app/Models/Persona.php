@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Persona extends Model
-{
+class Persona extends Model {
     use HasFactory;
 
     protected $guarded = [];
@@ -21,23 +20,23 @@ class Persona extends Model
 
     protected $table = 'personas';
 
-  /**
-   * Columns used to insert
-   * @var string[]
-   */
+    /**
+     * Columns used to insert
+     * @var string[]
+     */
     protected $fillable = [
-      'nombre',
-      'apellido',
-      'dni',
-      'fecha_nacimiento',
-      'genero_id',
-      'estado_civil_id',
-      'region_id',
-      'ciudad',
-      'nacionalidad_id',
-      'direccion',
-      'telefono',
-      'ocupacion',
+        'nombre',
+        'apellido',
+        'dni',
+        'fecha_nacimiento',
+        'genero_id',
+        'estado_civil_id',
+        'region_id',
+        'ciudad',
+        'nacionalidad_id',
+        'direccion',
+        'telefono',
+        'ocupacion',
     ];
 
     protected $casts = [
@@ -49,48 +48,43 @@ class Persona extends Model
     /**
      * Relación con el género
      */
-    public function genero(): BelongsTo
-    {
+    public function genero(): BelongsTo {
         return $this->belongsTo(Genero::class, 'genero_id');
     }
 
     /**
      * Relación con el estado civil
      */
-    public function estadoCivil(): BelongsTo
-    {
+    public function estadoCivil(): BelongsTo {
         return $this->belongsTo(EstadoCivil::class, 'estado_civil_id');
     }
 
     /**
      * Relación con el país
      */
-    public function pais(): BelongsTo
-    {
-        return $this->belongsTo(Pais::class, 'pais_id');
+    public function region(): BelongsTo {
+        return $this->belongsTo(Region::class, 'pais_id');
     }
 
-    /**
-     * Relación con la ciudad
-     */
-    public function ciudad(): BelongsTo
-    {
-        return $this->belongsTo(Ciudad::class, 'ciudad_id');
-    }
+    // /**
+    //  * Relación con la ciudad
+    //  */
+    // public function ciudad(): BelongsTo
+    // {
+    //     return $this->belongsTo(Ciudad::class, 'ciudad_id');
+    // }
 
     /**
      * Relación con la nacionalidad
      */
-    public function nacionalidad(): BelongsTo
-    {
+    public function nacionalidad(): BelongsTo {
         return $this->belongsTo(Nacionalidad::class, 'nacionalidad_id');
     }
 
     /**
      * Relación con el usuario asociado a la persona
      */
-    public function user(): HasOne
-    {
+    public function user(): HasOne {
         return $this->hasOne(Usuario::class, 'persona_id');
     }
 }

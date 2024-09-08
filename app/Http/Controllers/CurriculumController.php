@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Debug;
 use App\Http\Requests\CurriculumRequest;
 use App\Models\Curriculum;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\File;
 use Inertia\Inertia;
 
 class CurriculumController extends Controller {
@@ -36,13 +39,23 @@ class CurriculumController extends Controller {
      */
     public function store(CurriculumRequest $request) {
         $input = $request->all();
-        $curriculum = Curriculum::create($input);
+        $imagen = $request->file('imagenFile');
+        $name = $this->updateImage($imagen, 'no_name', $input['nombre']);
+        $input['imagen'] = $name;
+        $input['activo'] = (bool) $input['activo'];
 
-        if ($curriculum) {
-            return response()->json(["message" => "El Curriculum fue creada exitosamente!"], 200);
-        } else {
-            return response()->json(["message" => "", 'server' => '¡El Curriculum no pudo ser creada, intente más tarde!'], 400);
+        try {
+
+            $curriculum = Curriculum::create($input);
+            if ($curriculum) {
+                return response()->json(["message" => "El Curriculum fue creada exitosamente!"], 200);
+            } else {
+                return response()->json(["message" => "", 'server' => '¡El Curriculum no pudo ser creada, intente más tarde!'], 400);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th->getMessage(), 'server' => '¡El Curriculum no pudo ser creada, intente más tarde!'], 500);
         }
+
     }
 
     /**
@@ -79,8 +92,13 @@ class CurriculumController extends Controller {
      */
     public function update(CurriculumRequest $request, $id) {
         $input = $request->all();
+        $imagen = $request->file('imagenFile');
         $curriculum = Curriculum::find($id);
 
+        $name = $this->updateImage($imagen, $curriculum->imagen, $input['nombre']);
+        $input['imagen'] = $name;
+
+        $input['activo'] = (bool) $input['activo'];
         try {
             $state = $curriculum->update($input);
 
@@ -114,5 +132,29 @@ class CurriculumController extends Controller {
             return response()->json(["message" => $th->getMessage(), 'server' => '¡El Curriculum no pudo ser eliminada, intente más tarde!'], 500);
         }
 
+    }
+
+    function updateImage(UploadedFile $imagen, $nameOldImage, $nombreDirty) {
+        $nameNewImage = $nameOldImage;
+        if (!is_null($imagen) && $imagen->getSize() > 0) {
+            $backFilePath = storage_path('app/public/img/curriculums/' . $nameOldImage . 'bk');
+            if (File::exists($backFilePath)) {
+                File::delete($backFilePath);
+            }
+            $currentFilePath = public_path('app/public/img/curriculums/' . $nameOldImage);
+            Debug::info($currentFilePath);
+            if (File::exists($currentFilePath)) {
+                File::move($currentFilePath, $backFilePath);
+            }
+            // Crear un nuevo nombre de archivo
+            $nameFile = preg_replace("/[^a-zA-Z0-9]/", "", $nombreDirty);
+            $nameFile = strtolower($nameFile);
+            $ext = $imagen->getClientOriginalExtension();
+            $nameNewImage = $nameFile . '.' . $ext; //NOMBRE QUE SE RETORNA
+            // Almacenar la nueva imagen en storage/app/public/img/curriculums
+            $imagen->storeAs('img/curriculums', $nameNewImage, 'public');
+            // $input['imagen'] = $nameNewImage;
+        }
+        return $nameNewImage;
     }
 }

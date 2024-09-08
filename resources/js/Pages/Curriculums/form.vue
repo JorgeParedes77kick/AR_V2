@@ -1,58 +1,78 @@
 <script setup>
-import { onMounted, ref, inject } from 'vue';
-import { useForm, Link } from '@inertiajs/inertia-vue3';
+import { useForm } from '@inertiajs/inertia-vue3';
+import axios from 'axios';
+import { inject, onMounted, ref } from 'vue';
 
 import ButtonBack from '../../components/ButtonBack';
 
 import MainLayout from '../../components/Layout';
-import {
-  ACCION, TEXT_BUTTON, FORM_POST, CRUD, validInput, removeValid,
-} from '../../constants/form';
-import axios from 'axios';
+import { ACCION, CRUD, TEXT_BUTTON } from '../../constants/form';
+import { previewImage } from '../../utils/image';
+
+
+
 
 const validate = inject('$validation');
 
 const props = defineProps({
   action: String,
-  temporada: { Object, default: {} },
+  curriculum: { type: Object, default: {} },
   status: String,
 });
 
 const loading = ref(false);
 const isDisabled = ref(props.action === CRUD.show);
 
-const temporadaForm = useForm({
+const inputForm = useForm({
   nombre: '',
-  prefijo: '',
-  titulo: '',
-  fecha_inicio: '',
-  fecha_cierre: '',
-  inscripcion_inicio: '',
-  inscripcion_cierre: '',
-  ...props.temporada,
+  libro: '',
+  descripcion: '',
+  cantidad_clases: '',
+  cantidad_cupos: '',
+  imagen: '',
+  imagen_landing: '',
+  activo: '',
+  ...props.curriculum,
+  imagenFile: null,
 });
 const form = ref(null);
 
+onMounted(() => {
+  if (props.curriculum.id) inputForm.imagenFile = new File([''], props.curriculum.imagen)
+})
+
+const onChangeFile = () => {
+  inputForm.imagen = ''
+}
+
 const validateForm = async (e) => {
   e.preventDefault();
-  temporadaForm.clearErrors()
+  inputForm.clearErrors()
   const { valid } = await form.value.validate();
   if (valid) submit();
 };
 
-const submit = async (form) => {
+const submit = async () => {
   loading.value = true;
   const action = props.action === CRUD.edit ? 'update' : 'store';
-  const method = props.action === CRUD.edit ? 'put' : 'post';
-  const routeName = `temporadas.${action}`;
-  const id = props.action === CRUD.edit ? temporadaForm.id : null;
+  const routeName = `curriculums.${action}`;
+  const id = props.action === CRUD.edit ? inputForm.id : null;
+  const config = { headers: { "Content-Type": "multipart/form-data" } };
+  const formData = new FormData();
+  const keys = Object.keys(inputForm)
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    formData.append(key, inputForm[key])
+    if (key === 'imagenFile') break;
+
+  }
 
   try {
-    const response = await axios[method](route(routeName, id), temporadaForm);
+    const response = await axios.post(route(routeName, id), formData, config);
     if (response?.data?.message) {
       const { message } = response.data;
       await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-      window.location.href = route('temporadas.index');
+      window.location.href = route('curriculums.index');
     }
   } catch (err) {
     console.log(err?.response);
@@ -62,7 +82,7 @@ const submit = async (form) => {
     }
     if (err?.response?.data?.errors) {
       const { errors } = err.response.data;
-      temporadaForm.errors = errors;
+      inputForm.errors = errors;
     }
   } finally {
     loading.value = false;
@@ -79,43 +99,64 @@ const submit = async (form) => {
           <v-progress-linear :active="isActive" color="primary" height="4" indeterminate />
         </template>
         <v-card-title>
-          <ButtonBack :href="route('temporadas.index')" /> TEMPORADAS
+          <ButtonBack :href="route('curriculums.index')" /> CURRICULUM
+          {{ CRUD.create !== action ? `#${inputForm.id}` : '' }}
+
         </v-card-title>
-        <v-card-subtitle>{{ ACCION[action] }} de Temporada</v-card-subtitle>
+        <v-card-subtitle>{{ ACCION[action] }} de Curriculum</v-card-subtitle>
         <v-card-text>
           <v-form @submit="validateForm" ref="form" lazy-validation>
             <v-row class="row-gap-2">
               <v-col cols="12" sm="6">
-                <v-text-field id="prefijo" name="prefijo" label="Prefijo" v-model="temporadaForm.prefijo"
-                  :disabled="isDisabled" :rules="validate('Nombre', 'required')"
-                  :error-messages="temporadaForm.errors.prefijo" />
+                <v-text-field id="nombre" name="nombre" label="Nombre" v-model="inputForm.nombre" :disabled="isDisabled"
+                  :rules="validate('Nombre', 'required')" :error-messages="inputForm.errors.nombre" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field id="nombre" name="nombre" label="Nombre" v-model="temporadaForm.nombre"
-                  :disabled="isDisabled" :rules="validate('Temporada', 'required')"
-                  :error-messages="temporadaForm.errors.nombre" />
+                <v-text-field id="libro" name="libro" label="Libro" v-model="inputForm.libro" :disabled="isDisabled"
+                  :rules="validate('Libro', 'required')" :error-messages="inputForm.errors.libro" />
+              </v-col>
+              <v-col cols="12" sm="12">
+                <v-textarea id="descripcion" name="descripcion" label="Descripción" v-model="inputForm.descripcion"
+                  :disabled="isDisabled" :rules="validate('Descripción', 'required')"
+                  :error-messages="inputForm.errors.descripcion" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field id="fecha_inicio" name="fecha_inicio" label="Fecha de inicio" type="date"
-                  v-model="temporadaForm.fecha_inicio" :disabled="isDisabled"
-                  :rules="validate('Fecha de inicio', 'required')"
-                  :error-messages="temporadaForm.errors.fecha_inicio" />
+                <v-text-field id="cantidad_clases" name="cantidad_clases" label="Cantidad de clases" type="number"
+                  v-model="inputForm.cantidad_clases" :disabled="isDisabled"
+                  :rules="validate('Cantidad de clases', 'required')"
+                  :error-messages="inputForm.errors.cantidad_clases" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field id="fecha_cierre" name="fecha_cierre" label="Fecha de cierre" type="date"
-                  v-model="temporadaForm.fecha_cierre" :disabled="isDisabled"
-                  :rules="validate('Fecha de cierre', 'required')"
-                  :error-messages="temporadaForm.errors.fecha_cierre" />
+                <v-text-field id="cantidad_cupos" name="cantidad_cupos" label="Cantidad de cupos" type="number"
+                  v-model="inputForm.cantidad_cupos" :disabled="isDisabled"
+                  :rules="validate('Cantidad de cupos', 'required')"
+                  :error-messages="inputForm.errors.cantidad_cupos" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field id="inscripcion_inicio" name="inscripcion_inicio" label="Fecha de inicio de inscripcion"
-                  type="date" v-model="temporadaForm.inscripcion_inicio" :disabled="isDisabled"
-                  :error-messages="temporadaForm.errors.inscripcion_inicio" />
+                <v-file-input id="imagen" name="imagen" label="Imagen" v-model="inputForm.imagenFile"
+                  :disabled="isDisabled" :error-messages="inputForm.errors.imagen" accept="image/*"
+                  prepend-icon="mdi-camera" @update:modelValue="onChangeFile" />
+                <v-img v-if="inputForm.imagenFile" :src="previewImage(inputForm.imagenFile)" max-width="500"
+                  max-height="500" class="d-block mx-auto" />
+                <v-img v-if="typeof inputForm.imagen == 'string' && inputForm.imagen.length > 0"
+                  :src="`/storage/img/curriculums/${inputForm.imagen}`" max-width="500" max-height="500"
+                  class="d-block mx-auto" />
+
               </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field id="inscripcion_cierre" name="inscripcion_cierre" label="Fecha de cierre de inscripcion"
-                  type="date" v-model="temporadaForm.inscripcion_cierre" :disabled="isDisabled"
-                  :error-messages="temporadaForm.errors.inscripcion_cierre" />
+              <!-- <v-col cols="12" sm="6">
+                <v-file-input id="imagen_landing" name="imagen_landing" label="Imagen de landing"
+                  v-model="inputForm.imagen_landing" :disabled="isDisabled"
+                  :error-messages="inputForm.errors.imagen_landing" accept="image/*" prepend-icon="mdi-camera" />
+                <v-img v-if="inputForm.imagen_landing" :src="previewImage(inputForm.imagen_landing)" max-width="500"
+                  max-height="500" class="d-block mx-auto" />
+                <v-img v-if="typeof inputForm.imagen_landing == 'string' && inputForm.imagen_landing.length > 0"
+                  :src="`/img/curriculums/${inputForm.imagen_landing}`" max-width="500" max-height="500"
+                  class="d-block mx-auto" />
+
+              </v-col> -->
+              <v-col cols="6" class="justify-end">
+                <v-switch id="activo" name="activo" v-model="inputForm.activo" :disabled="isDisabled"
+                  :label="inputForm.activo ? 'Activo' : 'Inactivo'" color="primary" />
               </v-col>
             </v-row>
             <v-row class="my-3" v-if="!isDisabled">

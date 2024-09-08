@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Usuario extends Authenticatable
-{
+class Usuario extends Authenticatable {
     use HasFactory, Notifiable;
 
     protected $table = 'usuarios';
@@ -40,32 +39,28 @@ class Usuario extends Authenticatable
     /**
      * Relación con la persona asociada al usuario
      */
-    public function persona(): BelongsTo
-    {
+    public function persona(): BelongsTo {
         return $this->belongsTo(Persona::class, 'persona_id');
     }
 
     /**
      * Relación con los roles asignados al usuario
      */
-    public function roles(): BelongsToMany
-    {
+    public function roles(): BelongsToMany {
         return $this->belongsToMany(Rol::class, 'usuario_roles', 'usuario_id', 'rol_id');
     }
 
     /**
      * Relación con las inscripciones
      */
-    public function inscripciones(): HasMany
-    {
+    public function inscripciones(): HasMany {
         return $this->hasMany(Inscripcion::class, 'usuario_id');
     }
 
     /**
      * Relación con los curriculums
      */
-    public function curriculums(): BelongsToMany
-    {
+    public function curriculums(): BelongsToMany {
         return $this->belongsToMany(Curriculum::class, 'usuario_curriculums');
     }
 }

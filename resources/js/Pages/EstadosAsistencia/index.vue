@@ -1,16 +1,17 @@
 <script setup>
-import { onMounted, ref, defineProps } from 'vue';
+import { Link } from '@inertiajs/inertia-vue3';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { Link } from '@inertiajs/inertia-vue3';
+import { defineProps, onMounted } from 'vue';
 
 import MainLayout from '../../components/Layout';
 
-import { FormatFecha } from '../../utils/date';
+import { truncarTexto } from '../../utils/string';
+
 dayjs.extend(isBetween);
 
 const props = defineProps({
-  estados: Object,
+  estados: Array,
   status: Number,
 });
 
@@ -19,7 +20,7 @@ onMounted(() => {
 });
 
 const headers = [
-  { title: 'ID', key: 'id' },
+  { title: 'ID', key: 'id', fixed: true },
   { title: 'Estado', key: 'estado' },
   { title: 'Acciones', key: 'acciones', sortable: false },
 ];
@@ -36,15 +37,17 @@ const onClickDelete = async (item) => {
   if (isConfirmed) {
     try {
       const response = await axios.delete(route('estados-asistencia.destroy', item.id))
+      const index = props.estados.findIndex(x => x.id === item.id)
+
       if (response?.data?.message) {
         const { message } = response.data;
         await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-        window.location.href = route('estados-asistencia.index');
+        props.estados.splice(index, 1)
       }
     } catch (err) {
       if (err?.response?.data?.server) {
-        const { server: message } = err.response.data;
-        Swal.fire({ title: 'Error!', text: message, icon: 'error' });
+        const { server: msg, message } = err.response.data;
+        Swal.fire({ title: 'Error!', text: msg + '\n' + truncarTexto(message), icon: 'error' });
       }
     }
   }
@@ -53,7 +56,7 @@ const onClickDelete = async (item) => {
 </script>
 <template>
   <MainLayout>
-    <v-container fluid>
+    <v-container>
       <v-card color="background" class="px-4 py-2">
         <v-card-title> ESTADOS DE ASISTENCIA </v-card-title>
         <v-card-body>
@@ -66,11 +69,11 @@ const onClickDelete = async (item) => {
               </Link>
             </v-col>
           </v-row>
-          <v-row justify="center">
-            <v-col md="6">
+          <v-row>
+            <v-col>
               <v-data-table :headers="headers" :items="estados" :items-per-page="10" class="elevation-1 rounded">
                 <template v-slot:[`item.acciones`]="{ item }">
-                  <div class="d-flex flex-wrap ga-1">
+                  <div class="d-flex inline-flex ga-2">
                     <Link :href="route('estados-asistencia.show', item)">
                     <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>

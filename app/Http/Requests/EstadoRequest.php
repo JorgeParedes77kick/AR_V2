@@ -37,6 +37,8 @@ class EstadoRequest extends FormRequest {
         // Debug::info($this->is('estados-inscripcion*'));
         if (in_array($this->method(), ['PUT', 'PATCH'])) {
             $rules['id'] = 'required:number';
+            $rules['estado'] = 'required:string|unique:' . $table . ',estado,' . $this->id;
+
         }
         return $rules;
     }

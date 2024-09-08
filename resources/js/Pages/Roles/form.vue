@@ -12,7 +12,7 @@ const validate = inject('$validation');
 
 const props = defineProps({
   action: String,
-  rol: { Object, default: {} },
+  rol: { type: Object, default: {} },
   status: String,
 });
 
@@ -32,7 +32,7 @@ const validateForm = async (e) => {
   if (valid) submit();
 };
 
-const submit = async (form) => {
+const submit = async () => {
   loading.value = true;
   const action = props.action === CRUD.edit ? 'update' : 'store';
   const method = props.action === CRUD.edit ? 'put' : 'post';
@@ -64,7 +64,7 @@ const submit = async (form) => {
 
 <template>
   <MainLayout>
-    <v-container fluid>
+    <v-container>
       <v-card color="background" class="" :disabled="loading" :loading="loading">
         <template v-slot:loader="{ isActive }">
           <v-progress-linear :active="isActive" color="primary" height="4" indeterminate />

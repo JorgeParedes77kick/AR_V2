@@ -32,7 +32,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'index',
   props: {
-    roles: Object
+    roles: Array
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
@@ -42,7 +42,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     (0,vue__WEBPACK_IMPORTED_MODULE_3__.onMounted)(function () {});
     var headers = [{
       title: 'ID',
-      key: 'id'
+      key: 'id',
+      fixed: true
     }, {
       title: 'Nombre',
       key: 'nombre'
@@ -53,7 +54,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }];
     var onClickDelete = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(item) {
-        var _yield$Swal$fire, isConfirmed, _response$data, response, message, _err$response, _err$response$data, _err$response$data2, msg, _message;
+        var _yield$Swal$fire, isConfirmed, _response$data, response, index, message, _err$response, _err$response$data, _err$response$data2, msg, _message;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -71,7 +72,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _yield$Swal$fire = _context.sent;
               isConfirmed = _yield$Swal$fire.isConfirmed;
               if (!isConfirmed) {
-                _context.next = 20;
+                _context.next = 18;
                 break;
               }
               _context.prev = 6;
@@ -79,25 +80,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return axios["delete"](route('roles.destroy', item.id));
             case 9:
               response = _context.sent;
-              if (!(response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message)) {
-                _context.next = 15;
-                break;
-              }
-              message = response.data.message;
-              _context.next = 14;
-              return Swal.fire({
-                title: 'Exito!',
-                text: message,
-                icon: 'success'
+              index = props.roles.findIndex(function (x) {
+                return x.id === item.id;
               });
-            case 14:
-              window.location.href = route('roles.index');
-            case 15:
-              _context.next = 20;
+              if (response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message) {
+                message = response.data.message;
+                Swal.fire({
+                  title: 'Exito!',
+                  text: message,
+                  icon: 'success'
+                });
+                props.roles.splice(index, 1);
+              }
+              _context.next = 18;
               break;
-            case 17:
-              _context.prev = 17;
+            case 14:
+              _context.prev = 14;
               _context.t0 = _context["catch"](6);
+              console.log("err:", _context.t0);
               if (_context.t0 !== null && _context.t0 !== void 0 && (_err$response = _context.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
                 _err$response$data2 = _context.t0.response.data, msg = _err$response$data2.server, _message = _err$response$data2.message;
                 Swal.fire({
@@ -106,11 +106,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   icon: 'error'
                 });
               }
-            case 20:
+            case 18:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[6, 17]]);
+        }, _callee, null, [[6, 14]]);
       }));
       return function onClickDelete(_x) {
         return _ref2.apply(this, arguments);
@@ -384,7 +384,7 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 var _hoisted_1 = {
-  "class": "d-flex flex-wrap ga-1"
+  "class": "d-flex inline-flex ga-2"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_card_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-title");
@@ -397,9 +397,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_container = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-container");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["MainLayout"], null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_container, {
-        fluid: ""
-      }, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_container, null, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {
             color: "background",
@@ -408,7 +406,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Roles ")];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ROLES ")];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_body, null, {
@@ -443,13 +441,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       })];
                     }),
                     _: 1 /* STABLE */
-                  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
-                    justify: "center"
-                  }, {
+                  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                        md: "6"
-                      }, {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, null, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           var _createVNode2;
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_data_table, {
@@ -671,7 +665,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\r\n        <v-hover>\r\n          <template v-slot:default=\"{ isHovering, props }\">\r\n            <v-list-item\r\n              :title=\"item.title\"\r\n              :to=\"item.link\"\r\n              v-bind=\"props\"\r\n              :class=\"\r\n                classnames({\r\n                  'bg-navbar-hover': isHovering,\r\n                  'text-navbar-hover-text': isHovering,\r\n                })\r\n              \"\r\n            >\r\n            </v-list-item>\r\n          </template>\r\n        </v-hover>\r\n      </template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\r\n        <v-hover>\r\n          <template v-slot:default=\"{ isHovering, props }\">\r\n            <v-list-item\r\n              :title=\"item.title\"\r\n              :to=\"item.link\"\r\n              v-bind=\"props\"\r\n              :class=\"\r\n                classnames({\r\n                  'bg-navbar-hover': isHovering,\r\n                  'text-navbar-hover-text': isHovering,\r\n                })\r\n              \"\r\n            >\r\n            </v-list-item>\r\n          </template>\r\n</v-hover>\r\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.listGroup, function (group, index) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
@@ -749,7 +743,7 @@ __webpack_require__.r(__webpack_exports__);
 var truncarTexto = function truncarTexto(texto) {
   var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 150;
   if (texto.length > length) {
-    return texto.substring(0, 147) + '...';
+    return texto.substring(0, length - 3) + '...';
   } else {
     return texto;
   }

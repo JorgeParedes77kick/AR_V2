@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Pais extends Model
-{
+class Pais extends Model {
     use HasFactory;
 
     protected $table = 'paises';
@@ -21,11 +20,17 @@ class Pais extends Model
         'updated_at' => 'datetime',
     ];
 
+    // /**
+    //  * Relación con las personas - DEPRECATED
+    //  */
+    // public function personas(): HasMany
+    // {
+    //     return $this->hasMany(Persona::class, 'pais_id');
+    // }
     /**
      * Relación con las personas
      */
-    public function personas(): HasMany
-    {
-        return $this->hasMany(Persona::class, 'pais_id');
+    public function regiones(): HasMany {
+        return $this->hasMany(Region::class, 'pais_id');
     }
 }

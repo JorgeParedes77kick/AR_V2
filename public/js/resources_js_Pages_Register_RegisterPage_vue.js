@@ -254,6 +254,16 @@ var __default__ = {
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeMount)(function () {
       return setOverlay(true);
     });
+
+    /** En vez de hacer esto, esta información se obtiene automaticamente desde el renderizado de la pagina por el controllador
+     * const props = defineProps({
+      genders: { type: Array, default: [] },
+      civilStatus: { type: Array, default: [] },
+      nationalities: { type: Array, default: [] },
+      countries:{ type: Array, default: [] },
+      ...etc
+    });
+     */
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       return setTimeout(function () {
         (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/gender/list').then(function (data) {

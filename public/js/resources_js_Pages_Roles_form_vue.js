@@ -38,7 +38,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   props: {
     action: String,
     rol: {
-      Object: Object,
+      type: Object,
       "default": {}
     },
     status: String
@@ -79,7 +79,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       };
     }();
     var submit = /*#__PURE__*/function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(form) {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var action, method, routeName, id, _response$data, response, message, _err$response, _err$response$data, _err$response2, _err$response2$data, _message, errors;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
@@ -136,7 +136,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           }
         }, _callee2, null, [[5, 16, 21, 24]]);
       }));
-      return function submit(_x2) {
+      return function submit() {
         return _ref3.apply(this, arguments);
       };
     }();
@@ -465,9 +465,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_container = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-container");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["MainLayout"], null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_container, {
-        fluid: ""
-      }, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_container, null, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {
             color: "background",
@@ -617,7 +615,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
         icon: "mdi-chevron-left",
-        color: "light"
+        color: "light",
+        size: "small"
       })];
     }),
     _: 1 /* STABLE */
@@ -765,7 +764,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\r\n        <v-hover>\r\n          <template v-slot:default=\"{ isHovering, props }\">\r\n            <v-list-item\r\n              :title=\"item.title\"\r\n              :to=\"item.link\"\r\n              v-bind=\"props\"\r\n              :class=\"\r\n                classnames({\r\n                  'bg-navbar-hover': isHovering,\r\n                  'text-navbar-hover-text': isHovering,\r\n                })\r\n              \"\r\n            >\r\n            </v-list-item>\r\n          </template>\r\n        </v-hover>\r\n      </template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\r\n        <v-hover>\r\n          <template v-slot:default=\"{ isHovering, props }\">\r\n            <v-list-item\r\n              :title=\"item.title\"\r\n              :to=\"item.link\"\r\n              v-bind=\"props\"\r\n              :class=\"\r\n                classnames({\r\n                  'bg-navbar-hover': isHovering,\r\n                  'text-navbar-hover-text': isHovering,\r\n                })\r\n              \"\r\n            >\r\n            </v-list-item>\r\n          </template>\r\n</v-hover>\r\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.listGroup, function (group, index) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {

@@ -10,11 +10,9 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
-class LoginController extends Controller
-{
+class LoginController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -40,13 +38,11 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest')->except('logout');
     }
 
-    public function showLoginForm()
-    {
+    public function showLoginForm() {
         $roles = Rol::all();
         $lastRole = $roles->pop(); // Extrae el último elemento de la colección
         $roles->prepend($lastRole); // Inserta el último elemento al principio de la colección
@@ -56,17 +52,17 @@ class LoginController extends Controller
             'roles' => $roles,
         ]);
     }
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         $input = $request->all();
-        $validator = Validator::make($input, [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
         Debug::info($input);
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()], 422);
-        }
+        // $validator = Validator::make($input, [
+        //     'email' => 'required|email',
+        //     'password' => 'required',
+        // ]);
+        Debug::info($input);
+        // if ($validator->fails()) {
+        //     return response()->json(['message' => $validator->errors()], 422);
+        // }
         $user = Usuario::whereEmail($request->email)->first();
         if (!($user && $user->roles()->where('rol_id', $request->role)->exists())) {
         }
@@ -80,8 +76,7 @@ class LoginController extends Controller
             return response()->json(["message" => "Credenciales inválidas"], 403);
         }
     }
-    protected function guard(Request $request)
-    {
+    protected function guard(Request $request) {
         $role = Rol::whereId($request->role_id)->first();
         if ($role) {
             return Auth::guard($role->name);
