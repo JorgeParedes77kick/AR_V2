@@ -203,7 +203,7 @@ var __default__ = {
           setOverlay(false);
         }
       })["catch"](function (error) {
-        console.log(JSON.stringify(error));
+        console.log("catch ", error);
         setOverlay(false);
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -214,7 +214,8 @@ var __default__ = {
           if (error.response.status >= 500) {
             setMessage("Error de Sistema, Favor contactar al administrador");
           } else {
-            if (error.response.status === 422) {
+            var _error$response, _error$response$data;
+            if (error !== null && error !== void 0 && (_error$response = error.response) !== null && _error$response !== void 0 && (_error$response$data = _error$response.data) !== null && _error$response$data !== void 0 && _error$response$data.errors) {
               var errors = error.response.data.errors;
               fieldsForm.errors = errors;
             } else {

@@ -109,7 +109,7 @@ function handleSubmit(e) {
       setOverlay(false);
     }
   }).catch(error => {
-    console.log(JSON.stringify(error));
+    console.log("catch ", error );
     setOverlay(false);
     if (error.response) {
       // The request was made and the server responded with a status code
@@ -120,7 +120,7 @@ function handleSubmit(e) {
       if (error.response.status >= 500) {
         setMessage("Error de Sistema, Favor contactar al administrador");
       } else {
-        if(error.response.status === 422) {
+        if (error?.response?.data?.errors) {
           const { errors } = error.response.data;
           fieldsForm.errors = errors
         }else{

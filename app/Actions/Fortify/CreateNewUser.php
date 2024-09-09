@@ -6,6 +6,7 @@ use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
@@ -27,8 +28,7 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         if($validator->fails()){
-          echo($validator->errors()->toJson());
-          return null;
+          throw ValidationException::withMessages($validator->getMessageBag()->getMessages());
         }
 
         $validator->validated();

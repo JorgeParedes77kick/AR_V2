@@ -84,20 +84,18 @@ var __default__ = {
             case 0:
               e.preventDefault();
               fieldsForm.clearErrors();
-              console.log("1 ");
-              _context.next = 5;
+              _context.next = 4;
               return formForgotPass.value.validate();
-            case 5:
+            case 4:
               _yield$formForgotPass = _context.sent;
               valid = _yield$formForgotPass.valid;
-              console.log("2 ");
               if (!valid) {
-                _context.next = 11;
+                _context.next = 9;
                 break;
               }
-              _context.next = 11;
+              _context.next = 9;
               return submitForm();
-            case 11:
+            case 9:
             case "end":
               return _context.stop();
           }
@@ -109,44 +107,38 @@ var __default__ = {
     }();
     var submitForm = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(form) {
-        var _result$data, result, _message, _err$response, _err$response$data, _err$response2, _err$response2$data, _message2, errors;
+        var _result$data, result, _message, _error$response, _error$response$data, _error$response2, _error$response2$data, _message2, errors;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               setOverlay(true);
-              console.log("3 ");
-              _context2.prev = 2;
-              console.log(fieldsForm);
-              _context2.next = 6;
+              _context2.prev = 1;
+              _context2.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_2___default().post(route('password.email'), fieldsForm);
-            case 6:
+            case 4:
               result = _context2.sent;
-              console.log("1 " + JSON.stringify(result));
-              console.log("2 " + JSON.stringify(result.response));
-              console.log("3 " + JSON.stringify(result.data));
-              console.log("6 " + JSON.stringify(result.status));
               if (!(result !== null && result !== void 0 && (_result$data = result.data) !== null && _result$data !== void 0 && _result$data.message)) {
-                _context2.next = 17;
+                _context2.next = 11;
                 break;
               }
               setOverlay(false);
               _message = result.data.message;
-              _context2.next = 16;
+              _context2.next = 10;
               return Swal.fire({
                 title: '<i>Exito!</i>',
                 html: "Le hemos enviado al correo electrónico <b>" + fieldsForm.email + "</b>, su enlace de restablecimiento de contraseña",
                 icon: 'success'
               });
-            case 16:
+            case 10:
               window.location.href = route('login');
-            case 17:
-              _context2.next = 24;
+            case 11:
+              _context2.next = 18;
               break;
-            case 19:
-              _context2.prev = 19;
-              _context2.t0 = _context2["catch"](2);
+            case 13:
+              _context2.prev = 13;
+              _context2.t0 = _context2["catch"](1);
               console.log(_context2.t0 === null || _context2.t0 === void 0 ? void 0 : _context2.t0.response);
-              if (_context2.t0 !== null && _context2.t0 !== void 0 && (_err$response = _context2.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
+              if (_context2.t0 !== null && _context2.t0 !== void 0 && (_error$response = _context2.t0.response) !== null && _error$response !== void 0 && (_error$response$data = _error$response.data) !== null && _error$response$data !== void 0 && _error$response$data.server) {
                 _message2 = _context2.t0.response.data.server;
                 Swal.fire({
                   title: 'Error!',
@@ -154,20 +146,19 @@ var __default__ = {
                   icon: 'error'
                 });
               }
-              if (_context2.t0 !== null && _context2.t0 !== void 0 && (_err$response2 = _context2.t0.response) !== null && _err$response2 !== void 0 && (_err$response2$data = _err$response2.data) !== null && _err$response2$data !== void 0 && _err$response2$data.errors) {
+              if (_context2.t0 !== null && _context2.t0 !== void 0 && (_error$response2 = _context2.t0.response) !== null && _error$response2 !== void 0 && (_error$response2$data = _error$response2.data) !== null && _error$response2$data !== void 0 && _error$response2$data.errors) {
                 errors = _context2.t0.response.data.errors;
                 fieldsForm.errors = errors;
               }
-            case 24:
-              _context2.prev = 24;
-              console.log("finally ");
+            case 18:
+              _context2.prev = 18;
               setOverlay(false);
-              return _context2.finish(24);
-            case 28:
+              return _context2.finish(18);
+            case 21:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[2, 19, 24, 28]]);
+        }, _callee2, null, [[1, 13, 18, 21]]);
       }));
       return function submitForm(_x2) {
         return _ref3.apply(this, arguments);
@@ -437,9 +428,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 },
                                 "class": "rounded-l",
                                 rules: [_ctx.rules.required, _ctx.rules.email],
+                                "error-messages": $setup.fieldsForm.errors.email,
                                 clearable: "",
                                 tabindex: "1"
-                              }, null, 8 /* PROPS */, ["modelValue", "rules"])];
+                              }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
                           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {

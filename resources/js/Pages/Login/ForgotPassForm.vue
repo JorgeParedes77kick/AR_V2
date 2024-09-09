@@ -24,39 +24,32 @@ const formForgotPass = ref(null);
 const validateForm = async (e) => {
   e.preventDefault();
   fieldsForm.clearErrors();
-  console.log("1 ");
+
   const { valid } = await formForgotPass.value.validate();
-  console.log("2 ");
+
   if (valid) await submitForm();
 };
 const submitForm = async (form) => {
   setOverlay(true);
-  console.log("3 ");
   try {
-    console.log(fieldsForm);
     const result = await axios['post'](route('password.email'), fieldsForm);
-    console.log("1 "+JSON.stringify(result));
-    console.log("2 "+JSON.stringify(result.response));
-    console.log("3 "+JSON.stringify(result.data));
-    console.log("6 "+JSON.stringify(result.status));
     if (result?.data?.message) {
       setOverlay(false);
       const { message } = result.data;
       await Swal.fire({ title: '<i>Exito!</i>', html: "Le hemos enviado al correo electrónico <b>"+fieldsForm.email+"</b>, su enlace de restablecimiento de contraseña", icon: 'success' });
       window.location.href = route('login');
     }
-  } catch (err) {
-    console.log(err?.response);
-    if (err?.response?.data?.server) {
-      const { server: message } = err.response.data;
+  } catch (error) {
+    console.log(error?.response);
+    if (error?.response?.data?.server) {
+      const { server: message } = error.response.data;
       Swal.fire({ title: 'Error!', text: message, icon: 'error' });
     }
-    if (err?.response?.data?.errors) {
-      const { errors } = err.response.data;
+    if (error?.response?.data?.errors) {
+      const { errors } = error.response.data;
       fieldsForm.errors = errors;
     }
   } finally {
-    console.log("finally ");
     setOverlay(false);
   }
 };
@@ -106,6 +99,7 @@ const submitForm = async (form) => {
                               style="color: #f4ede8;"
                               class="rounded-l"
                               :rules="[rules.required, rules.email]"
+                              :error-messages="fieldsForm.errors.email"
                               clearable
                               tabindex="1"
                 />

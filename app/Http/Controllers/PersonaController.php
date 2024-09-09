@@ -6,6 +6,7 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Models\Persona;
 use App\Http\Requests\StorePersonaRequest;
 use App\Http\Requests\UpdatePersonaRequest;
+use App\Models\Usuario;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
@@ -34,12 +35,13 @@ class PersonaController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StorePersonaRequest $request
-     * @return JsonResponse
-     */
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param StorePersonaRequest $request
+   * @return JsonResponse
+   * @throws Throwable
+   */
     public function store(StorePersonaRequest $request)
     {
         $validated = $request->validated();
@@ -54,12 +56,13 @@ class PersonaController extends Controller
               'password' => $request->password,
               'persona_id' => $person->id,
             ]);
-            $user->roles()->attach(5);
-            return response()->json(['person' => "Registro Exitoso"], 200);
+            if($user instanceof Usuario ){
+              $user->roles()->attach(5);
+              return response()->json(['person' => "Registro Exitoso"], 200);
+            }
           } catch (Throwable $e) {
             $this->destroy($person->id);
-            report($e);
-            abort(400, $e->getMessage());
+            throw $e;
           }
 
         }else{
