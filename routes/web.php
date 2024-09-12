@@ -47,6 +47,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'super.admin'])->group(function () {
 
     Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
+    Route::post('temporadas/${id}/toggleActivo', [App\Http\Controllers\TemporadaController::class, 'toggleActivo'])->name('temporada.toggleActivo');
+    Route::post('temporadas/${id}/toggleInscripcion', [App\Http\Controllers\TemporadaController::class, 'toggleInscripcion'])->name('temporada.toggleInscripcion');
     Route::resource('roles', App\Http\Controllers\RolController::class);
     Route::resource('estados-asistencia', App\Http\Controllers\EstadoAsistenciaController::class);
     Route::resource('estados-inscripcion', App\Http\Controllers\EstadoInscripcionController::class);
@@ -57,5 +59,7 @@ Route::middleware(['auth', 'super.admin'])->group(function () {
     Route::resource('ciclos', App\Http\Controllers\CicloController::class);
     Route::resource('recursos', App\Http\Controllers\RecursoController::class);
     Route::resource('usuarios-equipo', App\Http\Controllers\UsuarioRolesController::class)->except(['delete']);
+    Route::resource('grupos-pequenos/horario', App\Http\Controllers\GrupoPequenoHorarioController::class)->except(['delete']);
+    Route::resource('grupos-pequenos', App\Http\Controllers\GrupoPequenoController::class)->except(['delete']);
 
 });

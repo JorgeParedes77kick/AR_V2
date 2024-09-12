@@ -19,6 +19,8 @@ class Temporada extends Model {
         'fecha_cierre',
         'inscripcion_inicio',
         'inscripcion_cierre',
+        'activo',
+        'activo_inscripcion',
     ];
 
     protected $casts = [

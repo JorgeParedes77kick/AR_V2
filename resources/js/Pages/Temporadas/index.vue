@@ -1,8 +1,8 @@
 <script setup>
-import { onMounted, ref, defineProps } from 'vue';
+import { Link } from '@inertiajs/inertia-vue3';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { Link } from '@inertiajs/inertia-vue3';
+import { defineProps, onMounted } from 'vue';
 
 import MainLayout from '../../components/Layout';
 import { FormatFecha } from '../../utils/date';
@@ -31,14 +31,15 @@ const isActive = (fecha_ini, fecha_fin) => {
 const headers = [
   { title: 'Prefijo', key: 'prefijo', fixed: true },
   { title: 'Nombre', key: 'nombre' },
-  { title: 'Fecha Inicio', key: 'fecha_inicio' },
-  { title: 'Fecha Fin', key: 'fecha_cierre' },
-  { title: 'Fecha Inscripcion', key: 'inscripcion_inicio' },
-  { title: 'Status', key: 'status', sortable: false },
+  { title: 'Fecha Inicio', key: 'fecha_inicio', minWidth: '8rem' },
+  { title: 'Fecha Fin', key: 'fecha_cierre', minWidth: '8rem' },
+  { title: 'Fecha Inscripcion', key: 'inscripcion_inicio', minWidth: '8rem' },
+  { title: 'Activo', key: 'activo', sortable: false },
+  { title: 'Inscripciones', key: 'activo_inscripcion', sortable: false },
+  { title: '', key: 'toggle', sortable: false },
   { title: 'Acciones', key: 'acciones', sortable: false },
 ];
 const onClickDelete = async (item) => {
-  console.log("item:", item)
   const { isConfirmed } = await Swal.fire({
     title: 'Eliminar Temporada',
     text: `Estas seguro de eliminar la temporada ${item.prefijo} ${item.nombre}?`,
@@ -62,6 +63,19 @@ const onClickDelete = async (item) => {
       }
     }
   }
+}
+const onClickToggle = async (item, name) => {
+  const index = props.temporadas.findIndex(x => x.id === item.id)
+  try {
+    const response = await axios.post(route(`temporada.${name}`, item.id));
+    const { temporada } = response.data
+    props.temporadas[index] = temporada;
+
+  } catch (error) {
+
+  }
+
+
 }
 
 </script>
@@ -93,12 +107,36 @@ const onClickDelete = async (item) => {
                   {{ FormatFecha(item.inscripcion_inicio, 3) }} -
                   {{ FormatFecha(item.inscripcion_cierre, 3) }}
                 </template>
-                <template v-slot:[`item.status`]="{ item }">
-                  <!-- {{ isActive(item.fecha_inicio, item.fecha_cierre) }} -->
-                  <!-- <v-badge color="info" :content="isActive(item.fecha_inicio, item.fecha_cierre)"> </v-badge> -->
-                  <v-chip v-if="isActive(item.fecha_inicio, item.fecha_cierre)" color="success">Activa</v-chip>
+                <template v-slot:[`item.activo`]="{ item }">
+                  <v-chip v-if="item.activo" color="success">Activa</v-chip>
                   <v-chip v-else color="error">Inactiva</v-chip>
-
+                </template>
+                <template v-slot:[`item.activo_inscripcion`]="{ item }">
+                  <v-chip v-if="item.activo_inscripcion" color="success">En inscripción</v-chip>
+                  <v-chip v-else color="error">Cerrada</v-chip>
+                </template>
+                <template v-slot:[`item.toggle`]="{ item }">
+                  <div class="d-flex inline-flex ga-2">
+                    <!-- <Link :href="route('temporadas.show', item)"> -->
+                    <v-btn v-if="item.activo" color="error" small variant="outlined"
+                      @click="onClickToggle(item, 'toggleActivo')">
+                      cerrar
+                    </v-btn>
+                    <v-btn v-else color="success" small variant="outlined" @click="onClickToggle(item, 'toggleActivo')">
+                      activar
+                    </v-btn>
+                    <!-- </Link>
+                    <Link :href="route('temporadas.edit', item)"> -->
+                    <v-btn v-if="item.activo_inscripcion" color="error" small variant="outlined"
+                      @click="onClickToggle(item, 'toggleInscripcion')">
+                      cerrar inscripción
+                    </v-btn>
+                    <v-btn v-else color="success" small variant="outlined"
+                      @click="onClickToggle(item, 'toggleInscripcion')">
+                      activar inscripción
+                    </v-btn>
+                    <!-- </Link> -->
+                  </div>
                 </template>
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">

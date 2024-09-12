@@ -106,4 +106,27 @@ class TemporadaController extends Controller {
             return response()->json(["message" => [], 'server' => '¡La Temporada no pudo ser eliminada, intente más tarde!'], 500);
         }
     }
+
+    public function toggleActivo($id) {
+        $temporada = Temporada::find($id);
+        $temporada->activo = !$temporada->activo;
+        $state = $temporada->save();
+
+        if ($state) {
+            return response()->json(["message" => "La Temporada fue actualizada exitosamente!", "temporada" => $temporada], 200);
+        } else {
+            return response()->json(["message" => [], 'server' => '¡La Temporada no pudo ser actualizada, intente más tarde!'], 500);
+        }
+    }
+    public function toggleInscripcion($id) {
+        $temporada = Temporada::find($id);
+        $temporada->activo_inscripcion = !$temporada->activo_inscripcion;
+        $state = $temporada->save();
+
+        if ($state) {
+            return response()->json(["message" => "La Temporada fue actualizada exitosamente!", "temporada" => $temporada], 200);
+        } else {
+            return response()->json(["message" => [], 'server' => '¡La Temporada no pudo ser actualizada, intente más tarde!'], 500);
+        }
+    }
 }

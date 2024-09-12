@@ -11,12 +11,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs/plugin/isBetween */ "./node_modules/dayjs/plugin/isBetween.js");
 /* harmony import */ var dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/Layout */ "./resources/js/components/Layout.vue");
 /* harmony import */ var _utils_date__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/date */ "./resources/js/utils/date.js");
 /* harmony import */ var _utils_string__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/string */ "./resources/js/utils/string.js");
@@ -42,7 +42,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     __expose();
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_2___default()));
     var props = __props;
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
+    (0,vue__WEBPACK_IMPORTED_MODULE_3__.onMounted)(function () {
       // console.log(props);
     });
     var isActive = function isActive(fecha_ini, fecha_fin) {
@@ -62,16 +62,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       key: 'nombre'
     }, {
       title: 'Fecha Inicio',
-      key: 'fecha_inicio'
+      key: 'fecha_inicio',
+      minWidth: '8rem'
     }, {
       title: 'Fecha Fin',
-      key: 'fecha_cierre'
+      key: 'fecha_cierre',
+      minWidth: '8rem'
     }, {
       title: 'Fecha Inscripcion',
-      key: 'inscripcion_inicio'
+      key: 'inscripcion_inicio',
+      minWidth: '8rem'
     }, {
-      title: 'Status',
-      key: 'status',
+      title: 'Activo',
+      key: 'activo',
+      sortable: false
+    }, {
+      title: 'Inscripciones',
+      key: 'activo_inscripcion',
+      sortable: false
+    }, {
+      title: '',
+      key: 'toggle',
       sortable: false
     }, {
       title: 'Acciones',
@@ -84,8 +95,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              console.log("item:", item);
-              _context.next = 3;
+              _context.next = 2;
               return Swal.fire({
                 title: 'Eliminar Temporada',
                 text: "Estas seguro de eliminar la temporada ".concat(item.prefijo, " ").concat(item.nombre, "?"),
@@ -94,37 +104,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 confirmButtonText: 'Aceptar',
                 cancelButtonText: 'Cancelar'
               });
-            case 3:
+            case 2:
               _yield$Swal$fire = _context.sent;
               isConfirmed = _yield$Swal$fire.isConfirmed;
               if (!isConfirmed) {
-                _context.next = 20;
+                _context.next = 19;
                 break;
               }
-              _context.prev = 6;
-              _context.next = 9;
+              _context.prev = 5;
+              _context.next = 8;
               return axios["delete"](route('temporadas.destroy', item.id));
-            case 9:
+            case 8:
               response = _context.sent;
               if (!(response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message)) {
-                _context.next = 15;
+                _context.next = 14;
                 break;
               }
               message = response.data.message;
-              _context.next = 14;
+              _context.next = 13;
               return Swal.fire({
                 title: 'Exito!',
                 text: message,
                 icon: 'success'
               });
-            case 14:
+            case 13:
               window.location.href = route('temporadas.index');
-            case 15:
-              _context.next = 20;
+            case 14:
+              _context.next = 19;
               break;
-            case 17:
-              _context.prev = 17;
-              _context.t0 = _context["catch"](6);
+            case 16:
+              _context.prev = 16;
+              _context.t0 = _context["catch"](5);
               if (_context.t0 !== null && _context.t0 !== void 0 && (_err$response = _context.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
                 _err$response$data2 = _context.t0.response.data, msg = _err$response$data2.server, _message = _err$response$data2.message;
                 Swal.fire({
@@ -133,14 +143,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   icon: 'error'
                 });
               }
-            case 20:
+            case 19:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[6, 17]]);
+        }, _callee, null, [[5, 16]]);
       }));
       return function onClickDelete(_x) {
         return _ref2.apply(this, arguments);
+      };
+    }();
+    var onClickToggle = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(item, name) {
+        var index, response, temporada;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              index = props.temporadas.findIndex(function (x) {
+                return x.id === item.id;
+              });
+              _context2.prev = 1;
+              _context2.next = 4;
+              return axios.post(route("temporada.".concat(name), item.id));
+            case 4:
+              response = _context2.sent;
+              temporada = response.data.temporada;
+              props.temporadas[index] = temporada;
+              _context2.next = 11;
+              break;
+            case 9:
+              _context2.prev = 9;
+              _context2.t0 = _context2["catch"](1);
+            case 11:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[1, 9]]);
+      }));
+      return function onClickToggle(_x2, _x3) {
+        return _ref3.apply(this, arguments);
       };
     }();
     var __returned__ = {
@@ -148,17 +189,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isActive: isActive,
       headers: headers,
       onClickDelete: onClickDelete,
-      onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
-      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
+      onClickToggle: onClickToggle,
+      get Link() {
+        return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.Link;
+      },
       get dayjs() {
         return (dayjs__WEBPACK_IMPORTED_MODULE_1___default());
       },
       get isBetween() {
         return (dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_2___default());
       },
-      get Link() {
-        return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__.Link;
-      },
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_3__.onMounted,
       get MainLayout() {
         return _components_Layout__WEBPACK_IMPORTED_MODULE_4__["default"];
       },
@@ -418,6 +459,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 var _hoisted_1 = {
   "class": "d-flex inline-flex ga-2"
 };
+var _hoisted_2 = {
+  "class": "d-flex inline-flex ga-2"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_card_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-title");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
@@ -495,9 +539,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           })), _defineProperty(_createVNode2, "item.inscripcion_inicio", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref3) {
                             var item = _ref3.item;
                             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.FormatFecha(item.inscripcion_inicio, 3)) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.FormatFecha(item.inscripcion_cierre, 3)), 1 /* TEXT */)];
-                          })), _defineProperty(_createVNode2, "item.status", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref4) {
+                          })), _defineProperty(_createVNode2, "item.activo", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref4) {
                             var item = _ref4.item;
-                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ isActive(item.fecha_inicio, item.fecha_cierre) }} "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-badge color=\"info\" :content=\"isActive(item.fecha_inicio, item.fecha_cierre)\"> </v-badge> "), $setup.isActive(item.fecha_inicio, item.fecha_cierre) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
+                            return [item.activo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
                               key: 0,
                               color: "success"
                             }, {
@@ -514,9 +558,83 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                               }),
                               _: 1 /* STABLE */
                             }))];
-                          })), _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref5) {
+                          })), _defineProperty(_createVNode2, "item.activo_inscripcion", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref5) {
                             var item = _ref5.item;
-                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+                            return [item.activo_inscripcion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
+                              key: 0,
+                              color: "success"
+                            }, {
+                              "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("En inscripción")];
+                              }),
+                              _: 1 /* STABLE */
+                            })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
+                              key: 1,
+                              color: "error"
+                            }, {
+                              "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cerrada")];
+                              }),
+                              _: 1 /* STABLE */
+                            }))];
+                          })), _defineProperty(_createVNode2, "item.toggle", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref6) {
+                            var item = _ref6.item;
+                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Link :href=\"route('temporadas.show', item)\"> "), item.activo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, {
+                              key: 0,
+                              color: "error",
+                              small: "",
+                              variant: "outlined",
+                              onClick: function onClick($event) {
+                                return $setup.onClickToggle(item, 'toggleActivo');
+                              }
+                            }, {
+                              "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" cerrar ")];
+                              }),
+                              _: 2 /* DYNAMIC */
+                            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, {
+                              key: 1,
+                              color: "success",
+                              small: "",
+                              variant: "outlined",
+                              onClick: function onClick($event) {
+                                return $setup.onClickToggle(item, 'toggleActivo');
+                              }
+                            }, {
+                              "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" activar ")];
+                              }),
+                              _: 2 /* DYNAMIC */
+                            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </Link>\r\n                    <Link :href=\"route('temporadas.edit', item)\"> "), item.activo_inscripcion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, {
+                              key: 2,
+                              color: "error",
+                              small: "",
+                              variant: "outlined",
+                              onClick: function onClick($event) {
+                                return $setup.onClickToggle(item, 'toggleInscripcion');
+                              }
+                            }, {
+                              "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" cerrar inscripción ")];
+                              }),
+                              _: 2 /* DYNAMIC */
+                            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, {
+                              key: 3,
+                              color: "success",
+                              small: "",
+                              variant: "outlined",
+                              onClick: function onClick($event) {
+                                return $setup.onClickToggle(item, 'toggleInscripcion');
+                              }
+                            }, {
+                              "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" activar inscripción ")];
+                              }),
+                              _: 2 /* DYNAMIC */
+                            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </Link> ")])];
+                          })), _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref7) {
+                            var item = _ref7.item;
+                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
                               href: _ctx.route('temporadas.show', item)
                             }, {
                               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -805,6 +923,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
+
+// import customParseFormat from 'dayjs/plugin/customParseFormat'
 
 var DATE = {
   YYYYMMDD: 'YYYYMMDD',
