@@ -59,7 +59,13 @@ Route::middleware(['auth', 'super.admin'])->group(function () {
     Route::resource('ciclos', App\Http\Controllers\CicloController::class);
     Route::resource('recursos', App\Http\Controllers\RecursoController::class);
     Route::resource('usuarios-equipo', App\Http\Controllers\UsuarioRolesController::class)->except(['delete']);
-    Route::resource('grupos-pequenos/horario', App\Http\Controllers\GrupoPequenoHorarioController::class)->except(['delete']);
-    Route::resource('grupos-pequenos', App\Http\Controllers\GrupoPequenoController::class)->except(['delete']);
+
+    Route::resource('inscripcion', App\Http\Controllers\InscripcionController::class);
+    Route::get('inscripcion/find-email/{email}', [App\Http\Controllers\InscripcionController::class, 'findEmail'])->name('inscripcion.find-email');
+    Route::post('inscripcion/find-lideres', [App\Http\Controllers\InscripcionController::class, 'findGrupos'])->name('inscripcion.find-lideres');
+    Route::post('inscripcion/find-grupos', [App\Http\Controllers\InscripcionController::class, 'findGrupos'])->name('inscripcion.find-grupos');
+
+    Route::get('grupos-pequenos/horario', [App\Http\Controllers\GrupoPequenoController::class, 'horario']);
+    Route::resource('grupos-pequenos', App\Http\Controllers\GrupoPequenoController::class);
 
 });

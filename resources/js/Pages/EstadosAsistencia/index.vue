@@ -25,7 +25,7 @@ const headers = [
   { title: 'Acciones', key: 'acciones', sortable: false },
 ];
 const onClickDelete = async (item) => {
-  console.log("item:", item)
+  console.log('item:', item);
   const { isConfirmed } = await Swal.fire({
     title: 'Eliminar Estado Asistencia',
     text: `Estas seguro de eliminar la temporada ${item.estado}?`,
@@ -36,13 +36,13 @@ const onClickDelete = async (item) => {
   });
   if (isConfirmed) {
     try {
-      const response = await axios.delete(route('estados-asistencia.destroy', item.id))
-      const index = props.estados.findIndex(x => x.id === item.id)
+      const response = await axios.delete(route('estados-asistencia.destroy', item.id));
+      const index = props.estados.findIndex((x) => x.id === item.id);
 
       if (response?.data?.message) {
         const { message } = response.data;
         await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-        props.estados.splice(index, 1)
+        props.estados.splice(index, 1);
       }
     } catch (err) {
       if (err?.response?.data?.server) {
@@ -51,8 +51,7 @@ const onClickDelete = async (item) => {
       }
     }
   }
-}
-
+};
 </script>
 <template>
   <MainLayout>
@@ -63,33 +62,43 @@ const onClickDelete = async (item) => {
           <v-row>
             <v-col class="d-flex justify-end">
               <Link :href="route('estados-asistencia.create')">
-              <v-btn :to="{ name: 'estados-asistencia.create' }" color="success" class="ms-auto">
-                Crear Nuevo Estado de Asistencia
-              </v-btn>
+                <v-btn :to="{ name: 'estados-asistencia.create' }" color="success" class="ms-auto">
+                  Crear Nuevo Estado de Asistencia
+                </v-btn>
               </Link>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-data-table :headers="headers" :items="estados" :items-per-page="10" class="elevation-1 rounded">
+              <v-data-table
+                :headers="headers"
+                :items="estados"
+                :items-per-page="10"
+                class="elevation-1 rounded"
+              >
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <Link :href="route('estados-asistencia.show', item)">
-                    <v-btn as="v-btn" color="info" small> Ver </v-btn>
+                      <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
                     <Link :href="route('estados-asistencia.edit', item)">
-                    <v-btn :to="{ name: 'estados-asistencia.edit', params: { id: item.idCrypt } }" color="secondary"
-                      small>
-                      Editar
-                    </v-btn>
+                      <v-btn
+                        :to="{ name: 'estados-asistencia.edit', params: { id: item.idCrypt } }"
+                        color="secondary"
+                        small
+                      >
+                        Editar
+                      </v-btn>
                     </Link>
-                    <v-btn v-if="item.id > 5" color="error" small @click="onClickDelete(item)">Eliminar
+                    <v-btn v-if="item.id > 5" color="error" small @click="onClickDelete(item)"
+                      >Eliminar
                     </v-btn>
                   </div>
                 </template>
               </v-data-table>
             </v-col>
-          </v-row></v-card-body>
+          </v-row></v-card-body
+        >
       </v-card>
     </v-container>
   </MainLayout>

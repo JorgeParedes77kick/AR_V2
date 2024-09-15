@@ -8,11 +8,11 @@ import MainLayout from '../../components/Layout';
 dayjs.extend(isBetween);
 
 const props = defineProps({
-  'adicionales': Array,
-  'curriculums': Array,
+  adicionales: Array,
+  curriculums: Array,
 });
 onMounted(() => {
-  console.log(props)
+  console.log(props);
 });
 
 const headers = [
@@ -21,7 +21,6 @@ const headers = [
   { title: 'Con Adicional', key: 'adicionales.length' },
   { title: 'Acciones', key: 'acciones', sortable: false },
 ];
-
 </script>
 <template>
   <MainLayout>
@@ -40,26 +39,33 @@ const headers = [
           </v-row> -->
           <v-row>
             <v-col>
-              <v-data-table :headers="headers" :items="curriculums" :items-per-page="15" class="elevation-1 rounded"
-                show-expand>
+              <v-data-table
+                :headers="headers"
+                :items="curriculums"
+                :items-per-page="15"
+                class="elevation-1 rounded"
+                show-expand
+              >
                 <template v-slot:expanded-row="{ item }">
-
                   <tr v-for="adi in item.adicionales" :key="adi.id">
                     <td :colspan="2"></td>
-                    <td :colspan="1">{{ adi.nombre }} </td>
-                    <td :colspan="1">{{ adi.type_value }} </td>
+                    <td :colspan="1">{{ adi.nombre }}</td>
+                    <td :colspan="1">{{ adi.type_value }}</td>
                   </tr>
                 </template>
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <Link :href="route('adicionales-curriculum.show', item)">
-                    <v-btn as="v-btn" color="info" small> Ver </v-btn>
+                      <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
                     <Link :href="route('adicionales-curriculum.edit', item)">
-                    <v-btn :to="{ name: 'adicionales-curriculum.edit', params: { id: item.idCrypt } }" color="secondary"
-                      small>
-                      Editar
-                    </v-btn>
+                      <v-btn
+                        :to="{ name: 'adicionales-curriculum.edit', params: { id: item.idCrypt } }"
+                        color="secondary"
+                        small
+                      >
+                        Editar
+                      </v-btn>
                     </Link>
                     <!-- <v-btn color="error" small @click="onClickDelete(item)">Eliminar
                     </v-btn> -->
@@ -67,7 +73,8 @@ const headers = [
                 </template>
               </v-data-table>
             </v-col>
-          </v-row></v-card-body>
+          </v-row></v-card-body
+        >
       </v-card>
     </v-container>
   </MainLayout>

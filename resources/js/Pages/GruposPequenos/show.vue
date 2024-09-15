@@ -25,9 +25,8 @@ const inputForm = useForm({
 const form = ref(null);
 
 onMounted(() => {
-  console.log(props)
-})
-
+  console.log(props);
+});
 </script>
 
 <template>
@@ -38,22 +37,38 @@ onMounted(() => {
           <v-progress-linear :active="isActive" color="primary" height="4" indeterminate />
         </template>
         <v-card-title>
-          <ButtonBack :href="route('grupos-pequenos.index')" /> GRUPO PEQUEÑO - {{ `#${grupoPequeno.id}` }}
+          <ButtonBack /> GRUPO PEQUEÑO -
+          {{ `#${grupoPequeno.id}` }}
         </v-card-title>
         <v-card-text>
           <v-form ref="form" lazy-validation>
-
             <v-row class="row-gap-2">
               <v-col cols="12" sm="4">
-                <v-text-field id="Temporada" name="Temporada" label="Temporada" v-model="grupoPequeno.temporada.prefijo"
-                  disabled />
+                <v-text-field
+                  id="Temporada"
+                  name="Temporada"
+                  label="Temporada"
+                  v-model="grupoPequeno.temporada.prefijo"
+                  disabled
+                />
               </v-col>
               <v-col cols="12" sm="4">
-                <v-text-field id="Curriculum" name="Curriculum" label="Curriculum"
-                  v-model="grupoPequeno.ciclo.curriculum.nombre" disabled />
+                <v-text-field
+                  id="Curriculum"
+                  name="Curriculum"
+                  label="Curriculum"
+                  v-model="grupoPequeno.ciclo.curriculum.nombre"
+                  disabled
+                />
               </v-col>
               <v-col cols="12" sm="4">
-                <v-text-field id="Ciclo" name="Ciclo" label="Ciclo" v-model="grupoPequeno.ciclo.nombre" disabled />
+                <v-text-field
+                  id="Ciclo"
+                  name="Ciclo"
+                  label="Ciclo"
+                  v-model="grupoPequeno.ciclo.nombre"
+                  disabled
+                />
               </v-col>
             </v-row>
             <v-row class="row-gap-2">
@@ -63,9 +78,9 @@ onMounted(() => {
               <v-col cols="12" class="py-0">
                 <v-list>
                   <v-list-item v-for="monitor in grupoPequeno.monitores" :key="monitor.id">
-                    <div class="d-grid" style="grid-template-columns: 2fr 2fr 1fr;">
-                      <div> {{ `${monitor.persona.nombre} ${monitor.persona.apellido}` }} </div>
-                      <div> {{ monitor.email }} </div>
+                    <div class="d-grid" style="grid-template-columns: 2fr 2fr 1fr">
+                      <div>{{ `${monitor.persona.nombre} ${monitor.persona.apellido}` }}</div>
+                      <div>{{ monitor.email }}</div>
                     </div>
                   </v-list-item>
                 </v-list>
@@ -78,9 +93,9 @@ onMounted(() => {
               <v-col cols="12" class="py-0">
                 <v-list>
                   <v-list-item v-for="lider in grupoPequeno.lideres" :key="lider.id">
-                    <div class="d-grid" style="grid-template-columns: 2fr 2fr 1fr;">
-                      <div> {{ `${lider.persona.nombre} ${lider.persona.apellido}` }} </div>
-                      <div> {{ lider.email }} </div>
+                    <div class="d-grid" style="grid-template-columns: 2fr 2fr 1fr">
+                      <div>{{ `${lider.persona.nombre} ${lider.persona.apellido}` }}</div>
+                      <div>{{ lider.email }}</div>
                     </div>
                   </v-list-item>
                 </v-list>
@@ -94,11 +109,13 @@ onMounted(() => {
                 <v-list>
                   <v-list-item v-for="alumno in grupoPequeno.alumnos" :key="alumno.id">
                     <template v-slot:subtitle>
-                      <div class="d-grid" style="grid-template-columns: 2fr 2fr 1fr;">
-                        <div> {{ `${alumno.persona.nombre} ${alumno.persona.apellido}` }} </div>
-                        <div> {{ alumno.email }} </div>
+                      <div class="d-grid" style="grid-template-columns: 2fr 2fr 1fr">
+                        <div>{{ `${alumno.persona.nombre} ${alumno.persona.apellido}` }}</div>
+                        <div>{{ alumno.email }}</div>
                         <!-- <div> {{ alumno.persona.telefono }} </div> -->
-                        <div class="text-right"> {{ alumno.inscripcion.estado_inscripcion.estado }} </div>
+                        <div class="text-right">
+                          {{ alumno.inscripcion.estado_inscripcion.estado }}
+                        </div>
                       </div>
                     </template>
                   </v-list-item>

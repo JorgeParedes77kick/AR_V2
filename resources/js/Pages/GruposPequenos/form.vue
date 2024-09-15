@@ -1,5 +1,7 @@
 <script setup>
+import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
+
 import { defineProps, inject, onMounted, ref } from 'vue';
 
 import ButtonBack from '../../components/ButtonBack';
@@ -23,23 +25,28 @@ const props = defineProps({
 });
 
 const loading = ref(false);
-const isDisabled = ref(props.action === CRUD.show);
 
 const inputForm = useForm({
+  temporada_id: '',
+  temporada: null,
   curriculum_id: '',
-  ciclo_id: '',
   curriculum: null,
+  ciclo_id: '',
   ciclo: null,
   lideres: [],
   monitores: [],
-  dia: '',
+  dia_curso: '',
   hora_inicio: '',
   hora_fin: '',
   activo_inscripcion: true,
+  info_adicional: '',
+  alumnos_contar: 0,
   ...props.grupoPequeno,
 });
 const form = ref(null);
 const ciclos = ref([]);
+
+const isDisabled = ref(inputForm.alumnos_contar > 0);
 
 const rules = {
   isValidTime: (value) => {
@@ -50,7 +57,12 @@ const rules = {
 };
 
 onMounted(() => {
-  console.log(props);
+  if (Truthty(props.grupoPequeno)) {
+    const {
+      grupoPequeno: { ciclo },
+    } = props;
+    inputForm.curriculum = ciclo.curriculum;
+  }
   // const { usuario, roles } = props
 });
 
@@ -65,15 +77,16 @@ const submit = async () => {
   loading.value = true;
   const action = props.action === CRUD.edit ? 'update' : 'store';
   const method = props.action === CRUD.edit ? 'put' : 'post';
-  const routeName = `horario.${action}`;
+  const routeName = `grupos-pequenos.${action}`;
   const id = props.action === CRUD.edit ? inputForm.id : undefined;
   inputForm.ciclo_id = inputForm.ciclo.id;
+  inputForm.temporada_id = inputForm.temporada.id;
   try {
     const response = await axios[method](route(routeName, id), inputForm);
     if (response?.data?.message) {
       const { message } = response.data;
       await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-      window.location.href = route('horario.index');
+      Inertia.visit(route('grupos-pequenos.index'));
     }
   } catch (err) {
     console.log(err?.response);
@@ -95,8 +108,11 @@ const focus = (state, name) => {
   const { curriculum, ciclo } = inputForm;
   if (!state && name == 'curriculum' && typeof curriculum == 'string') {
     inputForm.curriculum = null;
+    inputForm.ciclo = null;
   } else if (!state && name == 'ciclo' && typeof ciclo == 'string') {
     inputForm.ciclo = null;
+  } else if (!state && name == 'temporada' && typeof ciclo == 'string') {
+    inputForm.temporada = null;
   }
 };
 
@@ -128,8 +144,13 @@ const onChangeUsuarios = (newValue) => {
           <ButtonBack /> GRUPOS PEQUEÑOS - HORARIOS
           {{ CRUD.create !== action ? `#${inputForm.id}` : '' }}
         </v-card-title>
+
         <!-- <v-card-subtitle>{{ ACCION[action] }} del Rol</v-card-subtitle> -->
         <v-card-text>
+          <v-alert color="error" v-if="inputForm.alumnos_contar > 0" class="mb-3">
+            Algunas Propiedades no se pueden cambiar por que ya se inscribieron alumnos a esta
+            clase.
+          </v-alert>
           <v-form @submit="validateForm" ref="form" lazy-validation>
             <v-row class="row-gap-2">
               <v-col v-if="action !== CRUD.create" cols="12" sm="6">
@@ -142,21 +163,31 @@ const onChangeUsuarios = (newValue) => {
                   :error-messages="inputForm.errors.id"
                 />
               </v-col>
+              <v-col cols="12" sm="6">
+                <v-combobox
+                  id="temporada"
+                  name="temporada"
+                  label="Temporada"
+                  v-model="inputForm.temporada"
+                  :disabled="isDisabled"
+                  :rules="validate('Temporada', 'required')"
+                  :error-messages="inputForm.errors.temporada"
+                  :items="temporadas"
+                  item-title="prefijo"
+                  item-value="id"
+                  @update:focused="(s) => focus(s, 'temporada')"
+                  autocomplete="off"
+                />
+              </v-col>
             </v-row>
             <v-row class="row-gap-2">
-              <!-- <v-col cols="12" sm="6">
-                <v-combobox id="temporada" name="temporada" label="Temporada" v-model="inputForm.temporada"
-                  :disabled="CRUD.create !== action" :rules="validate('Curriculum', 'required')"
-                  :error-messages="inputForm.errors.curriculum" :items="temporadas" item-title="nombre" item-value="id"
-                  @update:modelValue="onChange" />
-              </v-col> -->
               <v-col cols="12" sm="6">
                 <v-combobox
                   id="curriculum"
                   name="curriculum"
                   label="Curriculum"
                   v-model="inputForm.curriculum"
-                  :disabled="CRUD.create !== action"
+                  :disabled="isDisabled"
                   :rules="validate('Curriculum', 'required')"
                   @update:focused="(s) => focus(s, 'curriculum')"
                   :error-messages="inputForm.errors.curriculum"
@@ -164,6 +195,7 @@ const onChangeUsuarios = (newValue) => {
                   item-title="nombre"
                   item-value="id"
                   @update:modelValue="onChange"
+                  autocomplete="off"
                 />
               </v-col>
               <v-col cols="12" sm="6">
@@ -172,13 +204,14 @@ const onChangeUsuarios = (newValue) => {
                   name="ciclo"
                   label="Ciclo"
                   v-model="inputForm.ciclo"
-                  :disabled="CRUD.create !== action"
+                  :disabled="isDisabled"
                   :rules="validate('Ciclo', 'required')"
                   @update:focused="(s) => focus(s, 'ciclo')"
                   :error-messages="inputForm.errors.ciclo"
                   :items="ciclos"
                   item-title="nombre"
                   item-value="id"
+                  autocomplete="off"
                 />
               </v-col>
               <v-col cols="12">
@@ -187,7 +220,6 @@ const onChangeUsuarios = (newValue) => {
                   name="monitores"
                   label="Monitores"
                   v-model="inputForm.monitores"
-                  :disabled="CRUD.create !== action"
                   @update:modelValue="onChangeUsuarios"
                   :rules="validate('Monitores', 'required')"
                   :error-messages="inputForm.errors.monitores"
@@ -210,7 +242,6 @@ const onChangeUsuarios = (newValue) => {
                   name="lideres"
                   label="Lideres"
                   v-model="inputForm.lideres"
-                  :disabled="CRUD.create !== action"
                   :rules="validate('Lideres', 'required')"
                   @update:modelValue="onChangeUsuarios"
                   :error-messages="inputForm.errors.lideres"
@@ -234,11 +265,12 @@ const onChangeUsuarios = (newValue) => {
                   id="dia"
                   name="dia"
                   label="Día"
-                  v-model="inputForm.dia"
+                  v-model="inputForm.dia_curso"
                   :disabled="isDisabled"
                   :rules="validate('Dia', 'required')"
-                  :error-messages="inputForm.errors.dia"
+                  :error-messages="inputForm.errors.dia_curso"
                   :items="dias"
+                  autocomplete="off"
                 /> </v-col
             ></v-row>
             <v-row class="row-gap-2">
@@ -277,7 +309,6 @@ const onChangeUsuarios = (newValue) => {
                   id="activo_inscripcion"
                   name="activo_inscripcion"
                   v-model="inputForm.activo_inscripcion"
-                  :disabled="isDisabled"
                   :label="
                     inputForm.activo_inscripcion
                       ? 'Activo para inscripciones'
@@ -287,8 +318,18 @@ const onChangeUsuarios = (newValue) => {
                 />
               </v-col>
             </v-row>
-
-            <v-row class="my-3" v-if="!isDisabled">
+            <v-row>
+              <v-col>
+                <v-textarea
+                  id="info_adicional"
+                  name="info_adicional"
+                  label="Adicional"
+                  v-model="inputForm.info_adicional"
+                  autocomplete="off"
+                />
+              </v-col>
+            </v-row>
+            <v-row class="my-3">
               <v-col cols="12" class="d-flex">
                 <v-btn class="ms-auto" type="submit" color="primary" :loading="loading">
                   {{ TEXT_BUTTON[action] }}

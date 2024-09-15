@@ -36,6 +36,8 @@ class Usuario extends Authenticatable {
         'updated_at' => 'datetime',
     ];
 
+    protected $appends = ['fullNombre', 'nombreCompleto'];
+
     /**
      * Relación con la persona asociada al usuario
      */
@@ -62,5 +64,26 @@ class Usuario extends Authenticatable {
      */
     public function curriculums(): BelongsToMany {
         return $this->belongsToMany(Curriculum::class, 'usuario_curriculums');
+    }
+
+    /*
+     * Accessor para el atributo "fullNombre".
+     * Si existe una persona asociada, devuelve el nombre completo; de lo contrario, solo el email.
+     */
+    public function getFullNombreAttribute() {
+        if ($this->persona) {
+            return "{$this->persona->nombre} {$this->persona->apellido} - {$this->email}";
+        }
+        return $this->email;
+    }
+    /*
+     * Accessor para el atributo "fullNombre".
+     * Si existe una persona asociada, devuelve el nombre completo; de lo contrario, solo el email.
+     */
+    public function getNombreCompletoAttribute() {
+        if ($this->persona) {
+            return "{$this->persona->nombre} {$this->persona->apellido}";
+        }
+        return '';
     }
 }

@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3';
+import { Inertia, Link } from '@inertiajs/inertia-vue3';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { defineProps, onMounted } from 'vue';
@@ -50,11 +50,11 @@ const onClickDelete = async (item) => {
   });
   if (isConfirmed) {
     try {
-      const response = await axios.delete(route('temporadas.destroy', item.id))
+      const response = await axios.delete(route('temporadas.destroy', item.id));
       if (response?.data?.message) {
         const { message } = response.data;
         await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-        window.location.href = route('temporadas.index');
+        Inertia.visit(route('temporadas.index'));
       }
     } catch (err) {
       if (err?.response?.data?.server) {
@@ -63,21 +63,15 @@ const onClickDelete = async (item) => {
       }
     }
   }
-}
+};
 const onClickToggle = async (item, name) => {
-  const index = props.temporadas.findIndex(x => x.id === item.id)
+  const index = props.temporadas.findIndex((x) => x.id === item.id);
   try {
     const response = await axios.post(route(`temporada.${name}`, item.id));
-    const { temporada } = response.data
+    const { temporada } = response.data;
     props.temporadas[index] = temporada;
-
-  } catch (error) {
-
-  }
-
-
-}
-
+  } catch (error) {}
+};
 </script>
 <template>
   <MainLayout>
@@ -88,15 +82,20 @@ const onClickToggle = async (item, name) => {
           <v-row>
             <v-col class="d-flex justify-end">
               <Link :href="route('temporadas.create')">
-              <v-btn :to="{ name: 'temporadas.create' }" color="success" class="ms-auto">
-                Crear Nueva Temporada
-              </v-btn>
+                <v-btn :to="{ name: 'temporadas.create' }" color="success" class="ms-auto">
+                  Crear Nueva Temporada
+                </v-btn>
               </Link>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-data-table :headers="headers" :items="temporadas" :items-per-page="10" class="elevation-1 rounded">
+              <v-data-table
+                :headers="headers"
+                :items="temporadas"
+                :items-per-page="10"
+                class="elevation-1 rounded"
+              >
                 <template v-slot:[`item.fecha_inicio`]="{ item }">
                   {{ FormatFecha(item.fecha_inicio, 3) }}
                 </template>
@@ -118,21 +117,42 @@ const onClickToggle = async (item, name) => {
                 <template v-slot:[`item.toggle`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <!-- <Link :href="route('temporadas.show', item)"> -->
-                    <v-btn v-if="item.activo" color="error" small variant="outlined"
-                      @click="onClickToggle(item, 'toggleActivo')">
+                    <v-btn
+                      v-if="item.activo"
+                      color="error"
+                      small
+                      variant="outlined"
+                      @click="onClickToggle(item, 'toggleActivo')"
+                    >
                       cerrar
                     </v-btn>
-                    <v-btn v-else color="success" small variant="outlined" @click="onClickToggle(item, 'toggleActivo')">
+                    <v-btn
+                      v-else
+                      color="success"
+                      small
+                      variant="outlined"
+                      @click="onClickToggle(item, 'toggleActivo')"
+                    >
                       activar
                     </v-btn>
                     <!-- </Link>
                     <Link :href="route('temporadas.edit', item)"> -->
-                    <v-btn v-if="item.activo_inscripcion" color="error" small variant="outlined"
-                      @click="onClickToggle(item, 'toggleInscripcion')">
+                    <v-btn
+                      v-if="item.activo_inscripcion"
+                      color="error"
+                      small
+                      variant="outlined"
+                      @click="onClickToggle(item, 'toggleInscripcion')"
+                    >
                       cerrar inscripción
                     </v-btn>
-                    <v-btn v-else color="success" small variant="outlined"
-                      @click="onClickToggle(item, 'toggleInscripcion')">
+                    <v-btn
+                      v-else
+                      color="success"
+                      small
+                      variant="outlined"
+                      @click="onClickToggle(item, 'toggleInscripcion')"
+                    >
                       activar inscripción
                     </v-btn>
                     <!-- </Link> -->
@@ -141,18 +161,24 @@ const onClickToggle = async (item, name) => {
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <Link :href="route('temporadas.show', item)">
-                    <v-btn as="v-btn" color="info" small> Ver </v-btn>
+                      <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
                     <Link :href="route('temporadas.edit', item)">
-                    <v-btn :to="{ name: 'temporadas.edit', params: { id: item.idCrypt } }" color="secondary" small>
-                      Editar
-                    </v-btn></Link>
+                      <v-btn
+                        :to="{ name: 'temporadas.edit', params: { id: item.idCrypt } }"
+                        color="secondary"
+                        small
+                      >
+                        Editar
+                      </v-btn></Link
+                    >
                     <v-btn color="error" small @click="onClickDelete(item)">Eliminar</v-btn>
                   </div>
                 </template>
               </v-data-table>
             </v-col>
-          </v-row></v-card-body>
+          </v-row></v-card-body
+        >
       </v-card>
     </v-container>
   </MainLayout>

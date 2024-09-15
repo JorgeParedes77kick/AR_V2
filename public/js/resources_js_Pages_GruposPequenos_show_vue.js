@@ -139,12 +139,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuetify */ "./node_modules/vuetify/lib/composables/theme.mjs");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
@@ -155,13 +155,13 @@ __webpack_require__.r(__webpack_exports__);
     var __expose = _ref.expose;
     __expose();
     var theme = (0,vuetify__WEBPACK_IMPORTED_MODULE_3__.useTheme)();
-    var isDarkTheme = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
-    var drawer = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
-    var csrf = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-    var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
+    var isDarkTheme = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
+    var drawer = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
+    var csrf = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+    var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_2__.reactive)({
       _token: csrf
     });
-    var listGroup = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([{
+    var listGroup = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([{
       label: 'Admin',
       expanded: false,
       items: [{
@@ -171,19 +171,19 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Globales',
         link: '/'
       }, {
-        title: 'Temporadas',
+        title: 'Temporadas R',
         link: '/'
       }, {
-        title: 'Registrar Horario',
+        title: 'Registrar Horario R',
         link: '/'
       }, {
-        title: 'Usuarios',
+        title: 'Usuarios R',
         link: '/'
       }, {
         title: 'Asistencias',
         link: '/'
       }, {
-        title: 'Recursos',
+        title: 'Recursos R',
         link: '/'
       }, {
         title: 'Cumpleaños',
@@ -205,13 +205,13 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Asistencia',
         link: '/'
       }, {
-        title: 'Registrar Horario',
+        title: 'Registrar Horario R',
         link: '/'
       }, {
-        title: 'Usuarios AR',
+        title: 'Usuarios AR -',
         link: '/'
       }, {
-        title: 'Recursos',
+        title: 'Recursos R',
         link: '/'
       }, {
         title: 'Cumpleaños',
@@ -233,7 +233,7 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Asistencia',
         link: ''
       }, {
-        title: 'Usuarios AR',
+        title: 'Usuarios AR -',
         link: ''
       }, {
         title: 'Cumpleaños',
@@ -280,22 +280,22 @@ __webpack_require__.r(__webpack_exports__);
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
       localStorage.setItem('theme', isDarkTheme.value ? 'dark' : 'light');
     };
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
+    (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)(function () {
       isDarkTheme.value = localStorage.getItem('theme') === 'dark';
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
     });
-    var activeGroup = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+    var activeGroup = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(null);
     function toggleGroup(index) {
       activeGroup.value = activeGroup.value === index ? null : index;
     }
     function handleSubmit(e) {
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post('logout', formLogout).then(function (result) {
-        window.location.href = "login";
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('logout', formLogout).then(function (result) {
+        window.location.href = 'login';
       })["catch"](function (error) {
         console.log(JSON.stringify(error.response.data.message));
       });
     }
-    var myApp = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([{
+    var myApp = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([{
       title: 'Click Me 1',
       icon: 'mdi-power',
       link: 'logout'
@@ -324,17 +324,17 @@ __webpack_require__.r(__webpack_exports__);
       toggleGroup: toggleGroup,
       handleSubmit: handleSubmit,
       myApp: myApp,
-      get classnames() {
-        return (classnames__WEBPACK_IMPORTED_MODULE_0___default());
+      get axios() {
+        return (axios__WEBPACK_IMPORTED_MODULE_0___default());
       },
-      onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted,
-      ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref,
-      reactive: vue__WEBPACK_IMPORTED_MODULE_1__.reactive,
+      get classnames() {
+        return (classnames__WEBPACK_IMPORTED_MODULE_1___default());
+      },
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_2__.onMounted,
+      reactive: vue__WEBPACK_IMPORTED_MODULE_2__.reactive,
+      ref: vue__WEBPACK_IMPORTED_MODULE_2__.ref,
       get useTheme() {
         return vuetify__WEBPACK_IMPORTED_MODULE_3__.useTheme;
-      },
-      get axios() {
-        return (axios__WEBPACK_IMPORTED_MODULE_2___default());
       }
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
@@ -425,9 +425,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["ButtonBack"], {
-                    href: _ctx.route('grupos-pequenos.index')
-                  }, null, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" GRUPO PEQUEÑO - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("#".concat($props.grupoPequeno.id)), 1 /* TEXT */)];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["ButtonBack"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" GRUPO PEQUEÑO - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("#".concat($props.grupoPequeno.id)), 1 /* TEXT */)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_text, null, {
@@ -904,9 +902,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "FORM_POST": () => (/* binding */ FORM_POST),
 /* harmony export */   "TEXT_BUTTON": () => (/* binding */ TEXT_BUTTON),
 /* harmony export */   "getList": () => (/* binding */ getList),
+/* harmony export */   "getQueryMap": () => (/* binding */ getQueryMap),
 /* harmony export */   "removeValid": () => (/* binding */ removeValid),
-/* harmony export */   "validInput": () => (/* binding */ validInput),
-/* harmony export */   "validateForm": () => (/* binding */ validateForm)
+/* harmony export */   "validInput": () => (/* binding */ validInput)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -954,43 +952,12 @@ var removeValid = function removeValid(input) {
   input.classList.remove('is-invalid');
   input.classList.remove('is-valid');
 };
-var validateForm = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
-    var form, validForm;
+var getList = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(url) {
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          e.preventDefault();
-          form = e.target;
-          validForm = true;
-          form.querySelectorAll('.v-input--error').forEach(function (x) {
-            console.log(x);
-            validForm = false;
-          });
-          if (validForm) {
-            _context.next = 9;
-            break;
-          }
-          e.stopPropagation();
-          return _context.abrupt("return", false);
-        case 9:
-          return _context.abrupt("return", true);
-        case 10:
-        case "end":
-          return _context.stop();
-      }
-    }, _callee);
-  }));
-  return function validateForm(_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
-var getList = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(url) {
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
-        case 0:
-          _context2.next = 2;
+          _context.next = 2;
           return axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (result) {
             if (result) {
               if (result.status === 200) {
@@ -1006,17 +973,54 @@ var getList = /*#__PURE__*/function () {
             return [];
           });
         case 2:
-          return _context2.abrupt("return", _context2.sent);
+          return _context.abrupt("return", _context.sent);
         case 3:
         case "end":
-          return _context2.stop();
+          return _context.stop();
       }
-    }, _callee2);
+    }, _callee);
   }));
-  return function getList(_x2) {
-    return _ref2.apply(this, arguments);
+  return function getList(_x) {
+    return _ref.apply(this, arguments);
   };
 }();
+
+/**
+ * Get a query map based on a query string.
+ *
+ * The function will populate a map variable with key value pairs of the parameters.
+ *
+ * If there is more than one of the same key, the function will populate an array in the map with the multiple values within it
+ *
+ * @param  {string} query The query string - the question mark is optional
+ * @return {object}       key value pairs of the parameter / value of the parameter
+ */
+var getQueryMap = function getQueryMap(query) {
+  if (typeof query !== 'string') {
+    return null;
+  }
+  var toType = function toType(a) {
+      return {}.toString.call(a).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+    },
+    map = {};
+
+  // map the hit query into a proper object
+  query.replace(/([^&|\?=]+)=?([^&]*)(?:&+|$)/g, function (match, key, value) {
+    if (key in map) {
+      // the key already exists, so we need to check if it is an array, if not, make it an array and add the new value
+      if (toType(map[key]) !== 'array') {
+        // it's not an array - make it an array
+        map[key] = [map[key]];
+      }
+      // push the new value into the array
+      map[key].push(decodeURIComponent(value));
+    } else {
+      // put the value into the map
+      map[key] = decodeURIComponent(value);
+    }
+  });
+  return map;
+};
 
 /***/ }),
 
