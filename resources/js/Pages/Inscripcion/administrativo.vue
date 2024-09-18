@@ -1,31 +1,27 @@
 <script setup>
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import isBetween from 'dayjs/plugin/isBetween';
-
 import { defineProps, inject, onMounted, ref } from 'vue';
 
-import { useForm } from '@inertiajs/inertia-vue3';
+import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import MainLayout from '../../components/Layout';
 import { Truthty } from '../../utils/isType';
-
-dayjs.extend(isBetween);
-dayjs.extend(customParseFormat);
+import FormInscripcion from './formInscripcion';
 
 const validate = inject('$validation');
+const { flash } = usePage().props.value;
 
 const props = defineProps({
   temporadas: { type: Array, default: [] },
   curriculums: { type: Array, default: [] },
   dias: { type: Array, default: [] },
   estados: { type: Array, default: [] },
+  error: String,
   // action: String,
 });
 const loading = ref(false);
 const isDisabled = ref(false);
 
 onMounted(() => {
-  console.log(props);
+  // console.log(props);
 });
 const formEmail = ref(null);
 const formGrupo = ref(null);
@@ -61,6 +57,7 @@ const headers = [
   { title: 'Día', key: 'grupo_pequeno.dia_curso' },
   { title: 'Hora', key: 'hora', minWidth: '6rem' },
   { title: 'Status', key: 'estado_inscripcion.estado' },
+  { title: 'Reasignar', key: 'reasignar' },
 ];
 const headersGrupos = [
   { title: 'ID', key: 'id', fixed: true },
@@ -229,8 +226,11 @@ const callMsgError = async (msg) => {
   <MainLayout>
     <v-container>
       <v-card color="background" class="px-4 py-2">
-        <v-card-title>INSCRIPCIÓN ALUMNO</v-card-title>
+        <v-alert v-if="flash?.error" closable color="error" variant="outlined">
+          {{ flash.error }}
+        </v-alert>
 
+        <v-card-title>INSCRIPCIÓN ALUMNO</v-card-title>
         <v-form @submit="buscarPorEmail" ref="formEmail" lazy-validation>
           <v-row>
             <v-col>
@@ -267,178 +267,24 @@ const callMsgError = async (msg) => {
             <p v-if="item.grupo_pequeno.dia_curso == 'none'">none</p>
             <p v-else>{{ item.grupo_pequeno.hora }}</p>
           </template>
+          <template v-slot:[`item.reasignar`]="{ item }">
+            <!-- <div class="d-flex inline-flex ga-2">
+              <Link :href="route('inscripcion.edit', item)">
+                <v-btn color="secondary" small> reasignar </v-btn>
+              </Link>
+            </div> -->
+            <v-btn color="secondary" small>
+              <pre>{{ item.grupo_pequeno.temporada.activo }}</pre>
+            </v-btn>
+          </template>
         </v-data-table>
-
-        <v-form @submit="buscarLideres" v-if="Truthty(usuario.id)" ref="formGrupo" lazy-validation>
-          <v-card-title>INSCRIBIR A GP</v-card-title>
-          <v-row>
-            <v-col sm="6" md="4">
-              <v-combobox
-                id="temporada"
-                name="temporada"
-                label="Temporada"
-                v-model="inputFormGrupo.temporada"
-                :disabled="isDisabled"
-                :rules="validate('Temporada', 'required')"
-                :error-messages="inputFormGrupo.errors.temporada"
-                :items="temporadas"
-                item-title="prefijo"
-                item-value="id"
-                @update:focused="(s) => focus(s, 'temporada')"
-                autocomplete="off"
-                clearable
-              />
-            </v-col>
-            <v-col sm="6" md="4">
-              <v-combobox
-                id="curriculum"
-                name="curriculum"
-                label="Curriculum"
-                v-model="inputFormGrupo.curriculum"
-                :disabled="isDisabled"
-                :rules="validate('Curriculum', 'required')"
-                @update:focused="(s) => focus(s, 'curriculum')"
-                :error-messages="inputFormGrupo.errors.curriculum"
-                :items="curriculums"
-                item-title="nombre"
-                item-value="id"
-                @update:modelValue="onChangeCurriculum"
-                autocomplete="off"
-                clearable
-              />
-            </v-col>
-            <v-col sm="6" md="4">
-              <v-combobox
-                id="ciclo"
-                name="ciclo"
-                label="Ciclo"
-                v-model="inputFormGrupo.ciclo"
-                :disabled="isDisabled"
-                :rules="validate('Ciclo', 'required')"
-                @update:focused="(s) => focus(s, 'ciclo')"
-                :error-messages="inputFormGrupo.errors.ciclo"
-                :items="ciclos"
-                item-title="nombre"
-                item-value="id"
-                @update:modelValue="onChangeCiclo"
-                autocomplete="off"
-                clearable
-              />
-            </v-col>
-            <!-- <v-col sm="6" md="4">
-              <v-select
-                id="dia"
-                name="dia"
-                label="Día"
-                v-model="inputForm.dia_curso"
-                :disabled="!Truthty(inputForm.ciclo)"
-                :rules="validate('Dia', 'required')"
-                :error-messages="inputForm.errors.dia_curso"
-                :items="filterDia"
-                autocomplete="off"
-              >
-              </v-select>
-            </v-col>
-
-            <v-col sm="6" md="4">
-              <v-select
-                id="horario"
-                name="horario"
-                label="Horario"
-                v-model="inputForm.horario"
-                :disabled="!Truthty(inputForm.dia_curso)"
-                :rules="validate('Horario', 'required')"
-                :error-messages="inputForm.errors.horario"
-                :items="filterHora"
-                item-title="horario"
-                item-value="id"
-                autocomplete="off"
-              ></v-select>
-            </v-col> -->
-            <v-col cols="12" class="d-flex justify-end">
-              <!-- :disabled="!Truthty(inputForm.dia_curso) || !Truthty(inputForm.horario)" -->
-              <v-btn color="info" @click="buscarLideres"> Buscar Grupos Pequeños </v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
-        <v-form
-          v-if="Truthty(usuario.id)"
-          @submit="inscribirSumbit"
-          ref="formInscripcion"
-          lazy-validation
-        >
-          <v-row>
-            <v-col>
-              <v-data-table
-                :headers="headersGrupos"
-                :items="grupos_pequenos"
-                class="elevation-1 rounded"
-                hide-default-footer
-                hide-default-header
-                show-select
-                select-strategy="single"
-                v-model="grupo_pequeno"
-                @update:modelValue="onChangeGrupo"
-                :rules="validate('Grupo Pequeño', 'required')"
-                return-object
-              >
-                <template v-slot:no-data> No hay grupos pequeños disponibles </template>
-                <template
-                  v-slot:item.data-table-select="{ internalItem, isSelected, toggleSelect }"
-                >
-                  <v-checkbox-btn
-                    :model-value="isSelected(internalItem)"
-                    color="primary"
-                    @update:model-value="toggleSelect(internalItem)"
-                  ></v-checkbox-btn>
-                </template>
-                <template v-slot:[`item.id`]="{ item }"> #{{ item.id }} </template>
-                <template v-slot:[`item.monitores`]="{ item }">
-                  <p v-for="monitor in item.monitores" :key="monitor.id">
-                    {{ monitor?.persona?.nombre }}
-                    {{ monitor?.persona?.apellido }}
-                  </p>
-                </template>
-                <template v-slot:[`item.lideres`]="{ item }">
-                  <p v-for="lider in item.lideres" :key="lider.id">
-                    {{ lider?.persona?.nombre }} {{ lider?.persona?.apellido }}
-                  </p>
-                </template>
-                <template v-slot:[`item.hora`]="{ item }">
-                  <p v-if="item.dia_curso == 'none'">none</p>
-                  <p v-else>{{ item.hora }}</p>
-                </template>
-              </v-data-table>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col sm="6" md="4">
-              <v-select
-                id="estado"
-                name="estado"
-                label="Estado de Inscripción"
-                v-model="inputInscripcion.estado_inscripcion_id"
-                :rules="validate('Estado de Inscripción', 'required')"
-                :error-messages="inputInscripcion.errors.estado_inscripcion_id"
-                :items="estados"
-                item-title="estado"
-                item-value="id"
-                autocomplete="off"
-              ></v-select>
-            </v-col>
-            <v-col cols="6" md="8" class="d-flex align-end">
-              <v-btn
-                class="ms-auto"
-                type="submit"
-                color="primary"
-                :disabled="!Truthty(inputInscripcion.estado_inscripcion_id)"
-                :loading="loading"
-              >
-                Inscribir
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
+        <FormInscripcion
+          :temporadas="temporadas"
+          :curriculums="curriculums"
+          :dias="dias"
+          :estados="estados"
+          :usuario="usuario"
+        />
       </v-card>
     </v-container>
   </MainLayout>

@@ -31,6 +31,8 @@ class Temporada extends Model {
         'fecha_cierre' => 'string',
         'inscripcion_inicio' => 'string',
         'inscripcion_cierre' => 'string',
+        'activo' => 'boolean',
+        'activo_inscripcion' => 'boolean',
     ];
 
     protected $hidden = [

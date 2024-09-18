@@ -54,7 +54,7 @@ class InscripcionController extends Controller {
                 ->with(
                     ['grupoPequeno.ciclo:id,nombre,curriculum_id',
                         'grupoPequeno.ciclo.curriculum:id,nombre',
-                        'grupoPequeno.temporada:id,prefijo',
+                        'grupoPequeno.temporada:id,prefijo,activo',
                         'estadoInscripcion:id,estado',
                         'grupoPequeno.lideres',
                     ])
@@ -133,4 +133,54 @@ class InscripcionController extends Controller {
             ], 500);
         }
     }
+    public function edit($id) {
+
+        $inscripcion = Inscripcion::whereId($id)->with(
+            'usuario',
+            'grupoPequeno.temporada:id,prefijo,activo',
+            'grupoPequeno.ciclo:id,nombre,curriculum_id',
+            'grupoPequeno.ciclo.curriculum:id,nombre',
+            'grupoPequeno.lideres',
+            'grupoPequeno.monitores',
+        )->first();
+        if (is_null($inscripcion)) {
+            return redirect()->route('inscripcion.index')->with([
+                'error' => 'Inscripción no encontrada',
+            ]);
+        }
+        if (!$inscripcion->grupoPequeno->temporada->activo) {
+            return redirect()->route('inscripcion.index')->with([
+                'error' => 'No tienes acceso a esta inscripción.',
+            ]);
+        }
+
+        //CASO ACTUAL PARA REALIZAR UNA REASIGNACION DE LA INSCRIPCION DENTRO DE LOS MISMOS GRUPOS PEQUEÑOES
+        //  DISPONIBLES DEL CURRICULUM Y CICLO
+        $grupos_pequenos = GrupoPequeno::with('lideres')
+            ->where('temporada_id', $inscripcion->grupoPequeno->temporada_id)
+            ->where('ciclo_id', $inscripcion->grupoPequeno->ciclo_id)
+            ->where('id', '!=', $inscripcion->grupoPequeno->id)
+            ->get();
+
+        $message = $grupos_pequenos->isEmpty()
+        ? "No existen inscripciones en el sistema para este email"
+        : "Grupos pequeños encontrados";
+
+        return Inertia::render('Inscripcion/reasignacion', [
+            'inscripcion' => $inscripcion,
+            'message' => $message,
+            'grupos_pequenos' => $grupos_pequenos,
+        ]);
+    }
+    // ESTOS EN CASO DE QUE SE PUDIERA EDITAR POR COMPLEJO INCLUSO UNA ANTIGUA
+    // $temporadas = Temporada::select(['id', 'prefijo'])->orderBy('prefijo', 'desc')->get();
+    // $curriculums = Curriculum::with(
+    //     'ciclos:id,nombre,curriculum_id',
+    //     'ciclos.gruposPequenos:id,ciclo_id,dia_curso,hora_inicio,hora_fin,temporada_id',
+    //     // 'ciclos.gruposPequenos.lideres',
+    // )
+    //     ->select(['id', 'nombre'])->get();
+    // $dias = collect(GlobalApp::$DIAS);
+    // $estados = EstadoInscripcion::whereNotIn('id', [InscripcionHelper::$LIDER, InscripcionHelper::$MONITOR])->get();
+
 }
