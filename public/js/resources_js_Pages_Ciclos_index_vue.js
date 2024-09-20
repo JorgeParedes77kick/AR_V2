@@ -104,7 +104,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 13:
               _context.prev = 13;
               _context.t0 = _context["catch"](5);
-              console.log("err:", _context.t0);
+              console.log('err:', _context.t0);
               if (_context.t0 !== null && _context.t0 !== void 0 && (_err$response = _context.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
                 _err$response$data2 = _context.t0.response.data, msg = _err$response$data2.server, _message = _err$response$data2.message;
                 Swal.fire({
@@ -165,12 +165,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuetify */ "./node_modules/vuetify/lib/composables/theme.mjs");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
@@ -181,13 +181,13 @@ __webpack_require__.r(__webpack_exports__);
     var __expose = _ref.expose;
     __expose();
     var theme = (0,vuetify__WEBPACK_IMPORTED_MODULE_3__.useTheme)();
-    var isDarkTheme = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
-    var drawer = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
-    var csrf = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-    var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
+    var isDarkTheme = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
+    var drawer = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
+    var csrf = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+    var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_2__.reactive)({
       _token: csrf
     });
-    var listGroup = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([{
+    var listGroup = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([{
       label: 'Admin',
       expanded: false,
       items: [{
@@ -197,19 +197,19 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Globales',
         link: '/'
       }, {
-        title: 'Temporadas',
+        title: 'Temporadas R',
         link: '/'
       }, {
-        title: 'Registrar Horario',
+        title: 'Registrar Horario R',
         link: '/'
       }, {
-        title: 'Usuarios',
+        title: 'Usuarios R',
         link: '/'
       }, {
         title: 'Asistencias',
         link: '/'
       }, {
-        title: 'Recursos',
+        title: 'Recursos R',
         link: '/'
       }, {
         title: 'Cumpleaños',
@@ -231,13 +231,13 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Asistencia',
         link: '/'
       }, {
-        title: 'Registrar Horario',
+        title: 'Registrar Horario R',
         link: '/'
       }, {
-        title: 'Usuarios AR',
+        title: 'Usuarios AR -',
         link: '/'
       }, {
-        title: 'Recursos',
+        title: 'Recursos R',
         link: '/'
       }, {
         title: 'Cumpleaños',
@@ -259,7 +259,7 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Asistencia',
         link: ''
       }, {
-        title: 'Usuarios AR',
+        title: 'Usuarios AR -',
         link: ''
       }, {
         title: 'Cumpleaños',
@@ -306,22 +306,22 @@ __webpack_require__.r(__webpack_exports__);
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
       localStorage.setItem('theme', isDarkTheme.value ? 'dark' : 'light');
     };
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
+    (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)(function () {
       isDarkTheme.value = localStorage.getItem('theme') === 'dark';
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
     });
-    var activeGroup = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+    var activeGroup = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(null);
     function toggleGroup(index) {
       activeGroup.value = activeGroup.value === index ? null : index;
     }
     function handleSubmit(e) {
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post('logout', formLogout).then(function (result) {
-        window.location.href = "login";
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('logout', formLogout).then(function (result) {
+        window.location.href = 'login';
       })["catch"](function (error) {
         console.log(JSON.stringify(error.response.data.message));
       });
     }
-    var myApp = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([{
+    var myApp = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([{
       title: 'Click Me 1',
       icon: 'mdi-power',
       link: 'logout'
@@ -350,17 +350,17 @@ __webpack_require__.r(__webpack_exports__);
       toggleGroup: toggleGroup,
       handleSubmit: handleSubmit,
       myApp: myApp,
-      get classnames() {
-        return (classnames__WEBPACK_IMPORTED_MODULE_0___default());
+      get axios() {
+        return (axios__WEBPACK_IMPORTED_MODULE_0___default());
       },
-      onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted,
-      ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref,
-      reactive: vue__WEBPACK_IMPORTED_MODULE_1__.reactive,
+      get classnames() {
+        return (classnames__WEBPACK_IMPORTED_MODULE_1___default());
+      },
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_2__.onMounted,
+      reactive: vue__WEBPACK_IMPORTED_MODULE_2__.reactive,
+      ref: vue__WEBPACK_IMPORTED_MODULE_2__.ref,
       get useTheme() {
         return vuetify__WEBPACK_IMPORTED_MODULE_3__.useTheme;
-      },
-      get axios() {
-        return (axios__WEBPACK_IMPORTED_MODULE_2___default());
       }
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {

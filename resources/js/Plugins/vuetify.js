@@ -17,7 +17,8 @@ const light = {
     'navbar-hover-text': '#f4ede8',
 
     // background: '#f4ede8',
-    background: '#fffdf8',
+    // background: '#fffdf8',
+    background: '#fefefe',
     foreground: '#222222',
     primary: '#42a5f5',
     secondary: '#26a69a',
@@ -26,6 +27,7 @@ const light = {
     error: '#e57373',
     info: '#26c6da',
     light: '#f2ede7',
+    surface: '#fbfbff',
     dark: '#40251e',
     red: '#e57373',
     pink: '#f06292',
@@ -68,6 +70,7 @@ const dark = {
     error: '#b71c1c',
     info: '#00838f',
     light: '#d1ccc7',
+    surface: '#212121',
     dark: '#4a3b33',
     red: '#b71c1c',
     pink: '#c2185b',
@@ -103,4 +106,3 @@ const vuetify = createVuetify({
 });
 
 export default vuetify;
-

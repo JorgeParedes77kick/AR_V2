@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -12,25 +13,15 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
 
-
-    <!-- Styles -->
-    {{-- <link rel="stylesheet" href="{{ mix('css/light-theme.css') }}" id="light-theme">
-    <link rel="stylesheet" href="{{ mix('css/dark-theme.css') }}" id="dark-theme" disabled> --}}
-
+    <link rel="stylesheet" href="{{ mix('css/preloader.css') }}">
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
     @routes
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
-    {{-- @vite('resources/js/app.js') --}}
-
     @inertiaHead
 </head>
 
@@ -43,7 +34,14 @@
 </body> --}}
 
 <body class="antialiased">
+    <div name="load_container">
+
+        @include('layout.preloader')
+    </div>
+
+    <!-- Contenedor de Inertia -->
     @inertia
+
     @env('local')
     <script src="http://localhost:8080/js/bundle.js"></script>
     @endenv

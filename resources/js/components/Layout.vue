@@ -1,8 +1,8 @@
 <script setup>
+import axios from 'axios';
 import classnames from 'classnames';
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useTheme } from 'vuetify';
-import axios from "axios";
 
 const theme = useTheme();
 const isDarkTheme = ref(false);
@@ -22,11 +22,11 @@ const listGroup = ref([
     items: [
       { title: 'Home', link: '/' },
       { title: 'Globales', link: '/' },
-      { title: 'Temporadas', link: '/' },
-      { title: 'Registrar Horario', link: '/' },
-      { title: 'Usuarios', link: '/' },
+      { title: 'Temporadas R', link: '/' },
+      { title: 'Registrar Horario R', link: '/' },
+      { title: 'Usuarios R', link: '/' },
       { title: 'Asistencias', link: '/' },
-      { title: 'Recursos', link: '/' },
+      { title: 'Recursos R', link: '/' },
       { title: 'Cumpleaños', link: '/' },
       { title: 'Adicionales ', link: '/' },
       { title: 'Exportar Data', link: '/' },
@@ -38,9 +38,9 @@ const listGroup = ref([
     expanded: false,
     items: [
       { title: 'Asistencia', link: '/' },
-      { title: 'Registrar Horario', link: '/' },
-      { title: 'Usuarios AR', link: '/' },
-      { title: 'Recursos', link: '/' },
+      { title: 'Registrar Horario R', link: '/' },
+      { title: 'Usuarios AR -', link: '/' },
+      { title: 'Recursos R', link: '/' },
       { title: 'Cumpleaños', link: '/' },
       { title: 'Exportar Data', link: '/' },
       { title: 'Reasignar alumnos', link: '/' },
@@ -52,7 +52,7 @@ const listGroup = ref([
     expanded: false,
     items: [
       { title: 'Asistencia', link: '' },
-      { title: 'Usuarios AR', link: '' },
+      { title: 'Usuarios AR -', link: '' },
       { title: 'Cumpleaños', link: '' },
       { title: 'Exportar Data', link: '' },
       { title: 'Reasignar alumnos', link: '' },
@@ -96,26 +96,33 @@ function toggleGroup(index) {
 }
 
 function handleSubmit(e) {
-  axios.post('logout', formLogout).then(result => {
-    window.location.href = "login";
-  }).catch(error => {
-    console.log(JSON.stringify(error.response.data.message));
-  });
+  axios
+    .post('logout', formLogout)
+    .then((result) => {
+      window.location.href = 'login';
+    })
+    .catch((error) => {
+      console.log(JSON.stringify(error.response.data.message));
+    });
 }
 
 const myApp = ref([
   { title: 'Click Me 1', icon: 'mdi-power', link: 'logout' },
-  { title: 'Click Me 2', icon: 'mdi-home', link: 'home'  },
-  { title: 'Click Me 3', icon: 'mdi-power', link: 'logout'  },
-  { title: 'Click Me 4', icon: 'mdi-home', link: 'home'  },
+  { title: 'Click Me 2', icon: 'mdi-home', link: 'home' },
+  { title: 'Click Me 3', icon: 'mdi-power', link: 'logout' },
+  { title: 'Click Me 4', icon: 'mdi-home', link: 'home' },
 ]);
 </script>
 <template>
   <v-app>
     <v-app-bar app color="navbar-color" class="text-navbar-text">
       <div class="mr-auto ml-2">
-        <img src="/img/logos/ar ministries_white.png" width="100" class="px-2"
-          style="filter: drop-shadow(3px 3px 3px rgba(153, 197, 192, 1))" />
+        <img
+          src="/img/logos/ar ministries_white.png"
+          width="100"
+          class="px-2"
+          style="filter: drop-shadow(3px 3px 3px rgba(153, 197, 192, 1))"
+        />
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       </div>
       <div class="d-flex align-center ml-auto mr-2">
@@ -126,9 +133,9 @@ const myApp = ref([
             <v-btn color="#99c5c0" v-bind="props">Mi Aplicaci&oacute;n </v-btn>
           </template>
           <v-list class="text-left">
-            <v-list-item v-for="(item, index) in myApp" :key="index" :value="index" >
-              <v-list-item-title >
-                <v-form @submit.prevent="handleSubmit" >
+            <v-list-item v-for="(item, index) in myApp" :key="index" :value="index">
+              <v-list-item-title>
+                <v-form @submit.prevent="handleSubmit">
                   <v-btn size="small" variant="plain" type="submit" :prepend-icon="item.icon">
                     <template v-slot:prepend>
                       <v-icon size="x-large" color="error"></v-icon>
@@ -170,11 +177,17 @@ const myApp = ref([
             </template>
             <v-hover v-for="(item, i) in group.items" :key="i + 'subItem'">
               <template v-slot:default="{ isHovering, props }">
-                <v-list-item :title="item.title" v-bind="props" :class="classnames({
-                  'bg-navbar-hover': isHovering,
-                  'text-navbar-hover-text': isHovering,
-                })
-                  "></v-list-item> </template></v-hover>
+                <v-list-item
+                  :title="item.title"
+                  v-bind="props"
+                  :class="
+                    classnames({
+                      'bg-navbar-hover': isHovering,
+                      'text-navbar-hover-text': isHovering,
+                    })
+                  "
+                ></v-list-item> </template
+            ></v-hover>
           </v-list-group>
         </template>
       </v-list>

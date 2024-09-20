@@ -11,7 +11,7 @@ dayjs.extend(isBetween);
 const props = defineProps({
   roles: Array,
 });
-onMounted(() => { });
+onMounted(() => {});
 
 const headers = [
   { title: 'ID', key: 'id', fixed: true },
@@ -31,14 +31,14 @@ const onClickDelete = async (item) => {
   if (isConfirmed) {
     try {
       const response = await axios.delete(route('roles.destroy', item.id));
-      const index = props.roles.findIndex(x => x.id === item.id)
+      const index = props.roles.findIndex((x) => x.id === item.id);
       if (response?.data?.message) {
         const { message } = response.data;
         Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-        props.roles.splice(index, 1)
+        props.roles.splice(index, 1);
       }
     } catch (err) {
-      console.log("err:", err)
+      console.log('err:', err);
       if (err?.response?.data?.server) {
         const { server: msg, message } = err.response.data;
         Swal.fire({ title: 'Error!', text: msg + '\n' + truncarTexto(message), icon: 'error' });
@@ -56,32 +56,43 @@ const onClickDelete = async (item) => {
           <v-row>
             <v-col class="d-flex justify-end">
               <Link :href="route('roles.create')">
-              <v-btn :to="{ name: 'roles.create' }" color="success" class="ms-auto">
-                Crear Nuevo Rol
-              </v-btn>
+                <v-btn :to="{ name: 'roles.create' }" color="success" class="ms-auto">
+                  Crear Nuevo Rol
+                </v-btn>
               </Link>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-data-table :headers="headers" :items="roles" :items-per-page="10" class="elevation-1 rounded">
+              <v-data-table
+                :headers="headers"
+                :items="roles"
+                :items-per-page="10"
+                class="elevation-1 rounded"
+              >
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <Link :href="route('roles.show', item)">
-                    <v-btn as="v-btn" color="info" small> Ver </v-btn>
+                      <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
                     <Link :href="route('roles.edit', item)">
-                    <v-btn :to="{ name: 'roles.edit', params: { id: item.idCrypt } }" color="secondary" small>
-                      Editar
-                    </v-btn>
+                      <v-btn
+                        :to="{ name: 'roles.edit', params: { id: item.idCrypt } }"
+                        color="secondary"
+                        small
+                      >
+                        Editar
+                      </v-btn>
                     </Link>
-                    <v-btn v-if="item.id > 5" color="error" small @click="onClickDelete(item)">Eliminar
+                    <v-btn v-if="item.id > 5" color="error" small @click="onClickDelete(item)"
+                      >Eliminar
                     </v-btn>
                   </div>
                 </template>
               </v-data-table>
             </v-col>
-          </v-row></v-card-body>
+          </v-row></v-card-body
+        >
       </v-card>
     </v-container>
   </MainLayout>

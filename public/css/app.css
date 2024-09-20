@@ -84,3 +84,7 @@ body {
   height: 100%;
 }
 
+.d-grid {
+  display: grid;
+}
+

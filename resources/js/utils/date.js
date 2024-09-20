@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+// import customParseFormat from 'dayjs/plugin/customParseFormat'
 
 export const DATE = {
   YYYYMMDD: 'YYYYMMDD',
@@ -19,4 +20,3 @@ export const FormatFecha = (fecha, type, DateTypeIn = DATE.YYYY_MM_DD) => {
   };
   return FechaFormat[type];
 };
-

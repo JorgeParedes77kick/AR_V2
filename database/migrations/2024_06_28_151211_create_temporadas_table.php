@@ -4,15 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTemporadasTable extends Migration
-{
+class CreateTemporadasTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('temporadas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 250);
@@ -22,6 +20,8 @@ class CreateTemporadasTable extends Migration
             $table->date('fecha_cierre');
             $table->date('inscripcion_inicio')->nullable();
             $table->date('inscripcion_cierre')->nullable();
+            $table->boolean('activo')->default(false);
+            $table->boolean('activo_inscripcion')->default(false);
             $table->timestamps();
         });
     }
@@ -31,8 +31,7 @@ class CreateTemporadasTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('temporadas');
     }
 }

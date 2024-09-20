@@ -9,7 +9,7 @@ dayjs.extend(isBetween);
 
 const props = defineProps({
   usuarios: Array,
-  roles: Array
+  roles: Array,
 });
 onMounted(() => {
   // console.log(props.usuarios)
@@ -26,12 +26,12 @@ const headers = [
 const search = ref('');
 const nameFilter = ref([]);
 
-
 const filteredItems = computed(() => {
-  return props.usuarios.filter(item => {
+  return props.usuarios.filter((item) => {
     // Filtro por nombre
-    const roles = item.roles.map(x => x.id)
-    const nameMatch = nameFilter.value.length === 0 || roles.some(x => nameFilter.value.includes(x));
+    const roles = item.roles.map((x) => x.id);
+    const nameMatch =
+      nameFilter.value.length === 0 || roles.some((x) => nameFilter.value.includes(x));
     // const roles = item.roles.map(x => x.nombre.toLowerCase())
     // const nameMatch = roles.some(x => x.includes(nameFilter.value.toLowerCase()));
 
@@ -39,10 +39,9 @@ const filteredItems = computed(() => {
     const fullName = `${item.persona.nombre} ${item.persona.apellido}`.toLowerCase();
     // Filtro global
     const globalMatch = search.value
-      ?
-      item.nick_name.toLowerCase().includes(searchL) ||
-      item.email.toLowerCase().includes(searchL) ||
-      fullName.includes(searchL)
+      ? item.nick_name.toLowerCase().includes(searchL) ||
+        item.email.toLowerCase().includes(searchL) ||
+        fullName.includes(searchL)
       : true;
 
     // // Retornar elementos que coincidan con ambos filtros
@@ -78,11 +77,9 @@ const filteredItems = computed(() => {
 //   }
 // };
 const onChange = (item) => {
-  console.log("item:", item)
-  return {
-  }
-
-}
+  console.log('item:', item);
+  return {};
+};
 </script>
 <template>
   <MainLayout>
@@ -101,18 +98,39 @@ const onChange = (item) => {
           </v-row> -->
           <v-row>
             <v-col>
-              <v-data-table :headers="headers" :items="filteredItems" :items-per-page="20" class="elevation-1 rounded">
+              <v-data-table
+                :headers="headers"
+                :items="filteredItems"
+                :items-per-page="20"
+                class="elevation-1 rounded"
+              >
                 <template v-slot:top>
-                  <v-row><v-col cols="12" sm="6" md="5">
-                      <v-text-field v-model="search" label="Filtrar" class="mx-3 mt-2" append-icon="mdi-magnify"
-                        variant="underlined" hide-details></v-text-field>
-
-                    </v-col></v-row>
+                  <v-row
+                    ><v-col cols="12" sm="6" md="5">
+                      <v-text-field
+                        v-model="search"
+                        label="Filtrar"
+                        class="mx-3 mt-2"
+                        append-icon="mdi-magnify"
+                        variant="underlined"
+                        hide-details
+                      ></v-text-field> </v-col
+                  ></v-row>
                 </template>
                 <template v-slot:header.roles="{ props }">
                   <!-- <span class="mt-2">Rol</span> -->
-                  <v-select v-model="nameFilter" label="Roles" persistent-placeholder hide-details variant="underlined"
-                    :items="roles" multiple item-title="nombre" item-value="id" @update:modelValue="onChange" />
+                  <v-select
+                    v-model="nameFilter"
+                    label="Roles"
+                    persistent-placeholder
+                    hide-details
+                    variant="underlined"
+                    :items="roles"
+                    multiple
+                    item-title="nombre"
+                    item-value="id"
+                    @update:modelValue="onChange"
+                  />
                 </template>
                 <template v-slot:[`item.roles`]="{ item }">
                   <span v-for="(rol, i) in item.roles" :key="rol.id">
@@ -128,9 +146,7 @@ const onChange = (item) => {
                     <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link> -->
                     <Link :href="route('usuarios-equipo.edit', item)">
-                    <v-btn color="secondary" small>
-                      Editar
-                    </v-btn>
+                      <v-btn color="secondary" small> Editar </v-btn>
                     </Link>
                     <!-- <v-btn color="error" small @click="onClickDelete(item)">Eliminar
                     </v-btn> -->
@@ -138,7 +154,8 @@ const onChange = (item) => {
                 </template>
               </v-data-table>
             </v-col>
-          </v-row></v-card-body>
+          </v-row></v-card-body
+        >
       </v-card>
     </v-container>
   </MainLayout>

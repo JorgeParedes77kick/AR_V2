@@ -1,6 +1,7 @@
 <script setup>
+import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
-import { inject, ref } from 'vue';
+import { defineProps, inject, ref } from 'vue';
 
 import ButtonBack from '../../components/ButtonBack';
 
@@ -27,7 +28,7 @@ const form = ref(null);
 
 const validateForm = async (e) => {
   e.preventDefault();
-  inputForm.clearErrors()
+  inputForm.clearErrors();
   const { valid } = await form.value.validate();
   if (valid) submit();
 };
@@ -44,7 +45,7 @@ const submit = async (form) => {
     if (response?.data?.message) {
       const { message } = response.data;
       await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-      window.location.href = route('estados-inscripcion.index');
+      Inertia.visit(route('estados-inscripcion.index'));
     }
   } catch (err) {
     console.log(err?.response);
@@ -60,7 +61,6 @@ const submit = async (form) => {
     loading.value = false;
   }
 };
-
 </script>
 
 <template>
@@ -79,12 +79,25 @@ const submit = async (form) => {
           <v-form @submit="validateForm" ref="form" lazy-validation>
             <v-row class="row-gap-2">
               <v-col v-if="action !== CRUD.create" cols="12" sm="6">
-                <v-text-field id="id" name="id" label="ID" v-model="inputForm.id" disabled
-                  :error-messages="inputForm.errors.id" />
+                <v-text-field
+                  id="id"
+                  name="id"
+                  label="ID"
+                  v-model="inputForm.id"
+                  disabled
+                  :error-messages="inputForm.errors.id"
+                />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field id="estado" name="estado" label="Estado" v-model="inputForm.estado" :disabled="isDisabled"
-                  :rules="validate('Estado', 'required')" :error-messages="inputForm.errors.estado" />
+                <v-text-field
+                  id="estado"
+                  name="estado"
+                  label="Estado"
+                  v-model="inputForm.estado"
+                  :disabled="isDisabled"
+                  :rules="validate('Estado', 'required')"
+                  :error-messages="inputForm.errors.estado"
+                />
               </v-col>
             </v-row>
             <v-row class="my-3" v-if="!isDisabled">

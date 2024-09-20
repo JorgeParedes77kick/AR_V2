@@ -1,4 +1,5 @@
 <script setup>
+import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { inject, ref } from 'vue';
 
@@ -14,7 +15,7 @@ const validate = inject('$validation');
 const props = defineProps({
   action: String,
   ciclo: { type: Object, default: {} },
-  curriculums: { type: Array, default: [] }
+  curriculums: { type: Array, default: [] },
 });
 const loading = ref(false);
 const isDisabled = ref(props.action === CRUD.show);
@@ -52,7 +53,7 @@ const submit = async () => {
     if (response?.data?.message) {
       const { message } = response.data;
       await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-      window.location.href = route('ciclos.index');
+      Inertia.visit(route('ciclos.index'));
     }
   } catch (err) {
     console.log(err?.response);
@@ -69,23 +70,21 @@ const submit = async () => {
   }
 };
 const addItem = (e) => {
-  e.preventDefault()
-  inputForm.requisitos.push({ ciclo_id: '', ciclo_pre_id: '', curriculum: { id: '', nombre: '' } })
-}
+  e.preventDefault();
+  inputForm.requisitos.push({ ciclo_id: '', ciclo_pre_id: '', curriculum: { id: '', nombre: '' } });
+};
 const onChange = (item) => {
-  if (typeof item === 'object') inputForm.curriculum = item
-}
+  if (typeof item === 'object') inputForm.curriculum = item;
+};
 const onChangeRequisito = (item, i) => {
-  inputForm.requisitos[i].ciclo_pre_id = ''
-
-}
+  inputForm.requisitos[i].ciclo_pre_id = '';
+};
 const deleteItem = (e, index) => {
-  e.preventDefault()
-  const item = inputForm.requisitos[index]
+  e.preventDefault();
+  const item = inputForm.requisitos[index];
   if (item.id) inputForm.requisitos[index].delete = true;
   else if (item) inputForm.requisitos.splice(index, 1);
-
-}
+};
 </script>
 
 <template>
@@ -108,46 +107,100 @@ const deleteItem = (e, index) => {
                   :error-messages="inputForm.errors.id" />
               </v-col> -->
               <v-col cols="12" sm="6">
-                <v-combobox id="curriculum" name="curriculum" label="Curriculum" v-model="inputForm.curriculum"
-                  :disabled="CRUD.create !== action" :rules="validate('Curriculum', 'required')"
-                  :error-messages="inputForm.errors.curriculum" :items="curriculums" item-title="nombre" item-value="id"
-                  @update:modelValue="onChange" />
+                <v-combobox
+                  id="curriculum"
+                  name="curriculum"
+                  label="Curriculum"
+                  v-model="inputForm.curriculum"
+                  :disabled="CRUD.create !== action"
+                  :rules="validate('Curriculum', 'required')"
+                  :error-messages="inputForm.errors.curriculum"
+                  :items="curriculums"
+                  item-title="nombre"
+                  item-value="id"
+                  @update:modelValue="onChange"
+                />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field id="nombre" name="nombre" label="Nombre" v-model="inputForm.nombre" :disabled="isDisabled"
-                  :rules="validate('Nombre', 'required')" :error-messages="inputForm.errors.nombre" />
+                <v-text-field
+                  id="nombre"
+                  name="nombre"
+                  label="Nombre"
+                  v-model="inputForm.nombre"
+                  :disabled="isDisabled"
+                  :rules="validate('Nombre', 'required')"
+                  :error-messages="inputForm.errors.nombre"
+                />
               </v-col>
               <v-col cols="12">
-                <v-textarea id="descripcion" name="descripcion" label="Descripción" v-model="inputForm.descripcion"
-                  :disabled="isDisabled" />
+                <v-textarea
+                  id="descripcion"
+                  name="descripcion"
+                  label="Descripción"
+                  v-model="inputForm.descripcion"
+                  :disabled="isDisabled"
+                />
               </v-col>
               <v-col>
-                <v-switch id="previos" name="previos" v-model="inputForm.previos" :disabled="isDisabled"
-                  :label="inputForm.previos ? 'Con Ciclos Previos' : 'Sin Requisitos'" color="primary" />
+                <v-switch
+                  id="previos"
+                  name="previos"
+                  v-model="inputForm.previos"
+                  :disabled="isDisabled"
+                  :label="inputForm.previos ? 'Con Ciclos Previos' : 'Sin Requisitos'"
+                  color="primary"
+                />
               </v-col>
-              <v-col v-if="CRUD.show !== action && inputForm.previos" class="d-flex align-center justify-center">
+              <v-col
+                v-if="CRUD.show !== action && inputForm.previos"
+                class="d-flex align-center justify-center"
+              >
                 <v-btn color="success" small @click="addItem">
                   <v-icon icon="mdi-plus-thick" />
                 </v-btn>
               </v-col>
-
             </v-row>
-            <v-row v-for="(requi, i) in inputForm.requisitos" :key="`${requi.id}_${i}`"
-              :class="requi.delete ? 'd-none' : ''">
+            <v-row
+              v-for="(requi, i) in inputForm.requisitos"
+              :key="`${requi.id}_${i}`"
+              :class="requi.delete ? 'd-none' : ''"
+            >
               <v-col cols="12" sm="5">
-                <v-combobox id="curriculum_requi" :name="'curriculum_requi_' + i" label="Curriculum"
-                  v-model="requi.curriculum" :rules="validate('Curriculum', 'required')"
-                  :error-messages="inputForm.errors.curriculum" :items="curriculums" item-title="nombre" item-value="id"
-                  @update:modelValue="(item) => onChangeRequisito(item, i)" :disabled="isDisabled" />
+                <v-combobox
+                  id="curriculum_requi"
+                  :name="'curriculum_requi_' + i"
+                  label="Curriculum"
+                  v-model="requi.curriculum"
+                  :rules="validate('Curriculum', 'required')"
+                  :error-messages="inputForm.errors.curriculum"
+                  :items="curriculums"
+                  item-title="nombre"
+                  item-value="id"
+                  @update:modelValue="(item) => onChangeRequisito(item, i)"
+                  :disabled="isDisabled"
+                />
               </v-col>
               <v-col cols="8" sm="5">
-                <v-select id="ciclo_requi" :name="'ciclo_requi_' + i" label="Ciclo" v-model="requi.ciclo_pre_id"
-                  :rules="validate('Ciclo', 'required')" :error-messages="inputForm.errors.ciclo_pre_id"
-                  :items="requi.curriculum.ciclos" item-title="nombre" item-value="id" :disabled="isDisabled" />
-
+                <v-select
+                  id="ciclo_requi"
+                  :name="'ciclo_requi_' + i"
+                  label="Ciclo"
+                  v-model="requi.ciclo_pre_id"
+                  :rules="validate('Ciclo', 'required')"
+                  :error-messages="inputForm.errors.ciclo_pre_id"
+                  :items="requi.curriculum.ciclos"
+                  item-title="nombre"
+                  item-value="id"
+                  :disabled="isDisabled"
+                />
               </v-col>
               <v-col cols="4" sm="2" class="d-flex align-center justify-center">
-                <v-btn color="error" small @click="e => deleteItem(e, i)" v-if="CRUD.show !== action">
+                <v-btn
+                  color="error"
+                  small
+                  @click="(e) => deleteItem(e, i)"
+                  v-if="CRUD.show !== action"
+                >
                   <v-icon icon="mdi-trash-can-outline" />
                 </v-btn>
               </v-col>
