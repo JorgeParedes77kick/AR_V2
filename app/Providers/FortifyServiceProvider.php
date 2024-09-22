@@ -61,10 +61,10 @@ class FortifyServiceProvider extends ServiceProvider {
 
             return Inertia::render('Register/RegisterPage',
                 [
-                    'generos' => $generos,
-                    'estadosCiviles' => $estadosCiviles,
-                    'nacionalidades' => $nacionalidades,
-                    'paises' => $paises,
+                    'genderList' => $generos,
+                    'civilStatusList' => $estadosCiviles,
+                    'nationalityList' => $nacionalidades,
+                    'countryList' => $paises,
                 ]);
 
         });

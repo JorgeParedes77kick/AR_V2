@@ -1,10 +1,20 @@
 <script setup>
+import {defineProps} from "vue";
 import RegisterLayout from "../../layouts/RegisterLayout.vue";
 import RegisterForm from "./RegisterForm.vue";
+
+const props = defineProps({
+  genderList : Array,
+  civilStatusList : Array,
+  nationalityList : Array,
+  countryList : Array,
+});
+
 </script>
 
 <template class="py-0 px-0">
     <RegisterLayout>
-        <RegisterForm></RegisterForm>
+        <RegisterForm :genderList="civilStatusList" :civilStatusList="civilStatusList" :nationalityList="nationalityList" :countryList="countryList"></RegisterForm>
     </RegisterLayout>
 </template>
+

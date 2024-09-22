@@ -1,5 +1,5 @@
 <script setup>
-import {reactive, ref, onMounted, onBeforeMount} from "vue";
+import {defineProps, ref, onMounted, onBeforeMount} from "vue";
 import {getList} from "../../constants/form";
 import axios from "axios";
 import logGP from '../../../../public/images/logo_gp.png';
@@ -9,6 +9,13 @@ import book from "../../../../public/images/libro.png";
 import corona from "../../../../public/images/corona.png";
 import tween from "../../../../public/images/tweens.png";
 import {useForm} from "@inertiajs/inertia-vue3";
+
+const props = defineProps({
+  genderList : Array,
+  civilStatusList : Array,
+  nationalityList : Array,
+  countryList : Array,
+});
 
 const loadingPage = ref(false);
 
@@ -48,26 +55,8 @@ const fieldsForm = useForm({
 const mailConfirmEqualMail = () => fieldsForm.email_confirm === fieldsForm.email || "Correo Confirmación no coincide";
 const passConfirmEqualPass = () => fieldsForm.password_confirm === fieldsForm.password || "Contraseña Confirmación no coincide";
 
-const genderList = ref([]);
-const setGenders = v => (genderList.value = v);
-
-const civilStatusList = ref([]);
-const setCivilStatus = v => (civilStatusList.value = v);
-
-const nationalityList = ref([]);
-const setNationality = v => (nationalityList.value = v);
-
-const countryList = ref([]);
-const setCountry = v => (countryList.value = v);
-
 const regionList = ref([]);
 const setRegion = v => (regionList.value = v);
-
-const cityList = ref([]);
-const setCity = v => (cityList.value = v);
-
-const occupationList = ref([]);
-const setOccupation = v => (occupationList.value = v);
 
 const initialize = () => {
   setExpand(true);
@@ -151,9 +140,21 @@ function createNickName(){
 }
 
 function updateRegion(){
-  getList('/region/list/'+fieldsForm.pais_recidencia).then((data)=>{
-    setRegion(data);
+  setRegion([]);
+  fieldsForm.region_id = "";
+  Object.values(props.countryList).forEach((country) => {
+    if(country.id === fieldsForm.pais_recidencia){
+      const newList = Object.values(country.regiones)
+        .sort((a, b) => {
+          if(a['nombre'] < b['nombre']) return -1;
+          if(a['nombre'] > b['nombre']) return 1;
+          return 0;
+        });
+      setRegion(newList);
+    }
+
   });
+
 }
 
 const checkDigit = (event) => {
@@ -167,30 +168,11 @@ onBeforeMount(() =>
   setOverlay(true)
 );
 
-/** En vez de hacer esto, esta información se obtiene automaticamente desde el renderizado de la pagina por el controllador
- * const props = defineProps({
-  genders: { type: Array, default: [] },
-  civilStatus: { type: Array, default: [] },
-  nationalities: { type: Array, default: [] },
-  countries:{ type: Array, default: [] },
-  ...etc
-});
- */
 onMounted(() =>
   setTimeout(function () {
-    getList('/gender/list').then((data)=>{
-      setGenders(data);
-    });
-    getList('/civilStatus/list').then((data)=>{
-      setCivilStatus(data);
-    });
-    getList('/nationality/list').then((data)=>{
-      setNationality(data);
-    });
-    getList('/country/list').then((data)=>{
-      setCountry(data);
-    });
+    console.log(props.countryList);
     initialize();
+
   }, 1700)
 );
 
@@ -561,6 +543,6 @@ export default {
     validate() {
       this.$refs.formRegister.validate();
     },
-  },
+  }
 }
 </script>

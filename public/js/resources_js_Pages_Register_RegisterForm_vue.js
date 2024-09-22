@@ -73,9 +73,16 @@ var __default__ = {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/Object.assign(__default__, {
   __name: 'RegisterForm',
+  props: {
+    genderList: Array,
+    civilStatusList: Array,
+    nationalityList: Array,
+    countryList: Array
+  },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
+    var props = __props;
     var loadingPage = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var expand = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var setExpand = function setExpand(v) {
@@ -116,33 +123,9 @@ var __default__ = {
     var passConfirmEqualPass = function passConfirmEqualPass() {
       return fieldsForm.password_confirm === fieldsForm.password || "Contraseña Confirmación no coincide";
     };
-    var genderList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
-    var setGenders = function setGenders(v) {
-      return genderList.value = v;
-    };
-    var civilStatusList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
-    var setCivilStatus = function setCivilStatus(v) {
-      return civilStatusList.value = v;
-    };
-    var nationalityList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
-    var setNationality = function setNationality(v) {
-      return nationalityList.value = v;
-    };
-    var countryList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
-    var setCountry = function setCountry(v) {
-      return countryList.value = v;
-    };
     var regionList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
     var setRegion = function setRegion(v) {
       return regionList.value = v;
-    };
-    var cityList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
-    var setCity = function setCity(v) {
-      return cityList.value = v;
-    };
-    var occupationList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
-    var setOccupation = function setOccupation(v) {
-      return occupationList.value = v;
     };
     var initialize = function initialize() {
       setExpand(true);
@@ -242,8 +225,17 @@ var __default__ = {
       fieldsForm.nick_name = nickName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
     function updateRegion() {
-      (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/region/list/' + fieldsForm.pais_recidencia).then(function (data) {
-        setRegion(data);
+      setRegion([]);
+      fieldsForm.region_id = "";
+      Object.values(props.countryList).forEach(function (country) {
+        if (country.id === fieldsForm.pais_recidencia) {
+          var newList = Object.values(country.regiones).sort(function (a, b) {
+            if (a['nombre'] < b['nombre']) return -1;
+            if (a['nombre'] > b['nombre']) return 1;
+            return 0;
+          });
+          setRegion(newList);
+        }
       });
     }
     var checkDigit = function checkDigit(event) {
@@ -255,34 +247,14 @@ var __default__ = {
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeMount)(function () {
       return setOverlay(true);
     });
-
-    /** En vez de hacer esto, esta información se obtiene automaticamente desde el renderizado de la pagina por el controllador
-     * const props = defineProps({
-      genders: { type: Array, default: [] },
-      civilStatus: { type: Array, default: [] },
-      nationalities: { type: Array, default: [] },
-      countries:{ type: Array, default: [] },
-      ...etc
-    });
-     */
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       return setTimeout(function () {
-        (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/gender/list').then(function (data) {
-          setGenders(data);
-        });
-        (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/civilStatus/list').then(function (data) {
-          setCivilStatus(data);
-        });
-        (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/nationality/list').then(function (data) {
-          setNationality(data);
-        });
-        (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.getList)('/country/list').then(function (data) {
-          setCountry(data);
-        });
+        console.log(props.countryList);
         initialize();
       }, 1700);
     });
     var __returned__ = {
+      props: props,
       loadingPage: loadingPage,
       expand: expand,
       setExpand: setExpand,
@@ -293,27 +265,14 @@ var __default__ = {
       fieldsForm: fieldsForm,
       mailConfirmEqualMail: mailConfirmEqualMail,
       passConfirmEqualPass: passConfirmEqualPass,
-      genderList: genderList,
-      setGenders: setGenders,
-      civilStatusList: civilStatusList,
-      setCivilStatus: setCivilStatus,
-      nationalityList: nationalityList,
-      setNationality: setNationality,
-      countryList: countryList,
-      setCountry: setCountry,
       regionList: regionList,
       setRegion: setRegion,
-      cityList: cityList,
-      setCity: setCity,
-      occupationList: occupationList,
-      setOccupation: setOccupation,
       initialize: initialize,
       validateForm: validateForm,
       handleSubmit: handleSubmit,
       createNickName: createNickName,
       updateRegion: updateRegion,
       checkDigit: checkDigit,
-      reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
       ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
       onBeforeMount: vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeMount,
@@ -689,7 +648,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         }),
                         name: "genero_id",
                         label: "Género",
-                        items: $setup.genderList,
+                        items: $props.genderList,
                         "item-title": "nombre",
                         "item-value": "id",
                         variant: "outlined",
@@ -714,7 +673,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         }),
                         name: "estado_civil_id",
                         label: "Estado Civil",
-                        items: $setup.civilStatusList,
+                        items: $props.civilStatusList,
                         "item-title": "estado",
                         "item-value": "id",
                         variant: "outlined",
@@ -780,7 +739,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         }),
                         name: "nacionalidad",
                         label: "Nacionalidad",
-                        items: $setup.nationalityList,
+                        items: $props.nationalityList,
                         "item-title": "nombre",
                         "item-value": "id",
                         variant: "outlined",
@@ -805,7 +764,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         }), $setup.updateRegion],
                         name: "pais",
                         label: "País",
-                        items: $setup.countryList,
+                        items: $props.countryList,
                         "item-title": "nombre",
                         "item-value": "id",
                         variant: "outlined",
