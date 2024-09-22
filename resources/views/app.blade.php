@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
 
     <link rel="stylesheet" href="{{ mix('css/preloader.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     @routes
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>

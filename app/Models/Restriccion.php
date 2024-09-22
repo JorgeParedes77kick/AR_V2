@@ -40,7 +40,7 @@ class Restriccion extends Model {
 
     protected static function booted() {
         static::addGlobalScope('withRelations', function (Builder $builder) {
-            $builder->with(['tipoRestriccion:id,nombre', 'curriculum:id,nombre']);
+            $builder->with(['tipoRestriccion:id,nombre']);
         });
     }
 }
