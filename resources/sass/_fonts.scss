@@ -47,12 +47,25 @@
   font-weight: 900;
   font-style: normal;
 }
-$font-family-sans-serif: 'Objetive', 'Gilroy', system-ui, -apple-system, 'Segoe UI', Roboto,
-  'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',
-  'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !default;
+$font-family-sans-serif:
+  'Objetive',
+  'Gilroy',
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  'Noto Sans',
+  'Liberation Sans',
+  Arial,
+  sans-serif,
+  'Apple Color Emoji',
+  'Segoe UI Emoji',
+  'Segoe UI Symbol',
+  'Noto Color Emoji' !default;
 
 body {
-  font-family: $font-family-sans-serif;
+  font-family: $font-family-sans-serif !important;
   //   color: darken(#0a1117, 0.5);
   //   color: lighten(#f5eeea, 0.5);
 }

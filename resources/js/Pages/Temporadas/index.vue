@@ -78,7 +78,7 @@ const onClickToggle = async (item, name) => {
     <v-container fluid>
       <v-card color="background" class="px-4 py-2">
         <v-card-title> TEMPORADAS </v-card-title>
-        <v-card-body>
+        <div>
           <v-row>
             <v-col class="d-flex justify-end">
               <Link :href="route('temporadas.create')">
@@ -177,8 +177,8 @@ const onClickToggle = async (item, name) => {
                 </template>
               </v-data-table>
             </v-col>
-          </v-row></v-card-body
-        >
+          </v-row>
+        </div>
       </v-card>
     </v-container>
   </MainLayout>

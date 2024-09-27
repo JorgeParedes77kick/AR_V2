@@ -107,4 +107,8 @@ class GrupoPequeno extends Model {
         return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$ALUMNO);
     }
 
+    public function scopeActivo($query) {
+        return $query->where('activo_inscripcion', true);
+    }
+
 }

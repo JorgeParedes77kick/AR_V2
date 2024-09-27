@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Semana extends Model
-{
+class Semana extends Model {
     use HasFactory;
 
-    protected $table = 'emanas';
+    protected $table = 'semanas';
 
     protected $fillable = [
         'fecha_inicio',
@@ -29,16 +28,14 @@ class Semana extends Model
     /**
      * Relación con la temporada
      */
-    public function temporada(): BelongsTo
-    {
+    public function temporada(): BelongsTo {
         return $this->belongsTo(Temporada::class, 'temporada_id');
     }
 
     /**
      * Relación con las asistencias
      */
-    public function asistencias(): HasMany
-    {
+    public function asistencias(): HasMany {
         return $this->hasMany(Asistencia::class, 'semana_id');
     }
 }

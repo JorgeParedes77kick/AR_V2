@@ -3,12 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 // Variables
+@import '~vuetify/styles';
 @import 'fonts';
 @import 'functions';
 @import '~sweetalert2/dist/sweetalert2.min.css';
-
-@import 'colors/variables-dark';
-@import 'colors/variables-light';
+// @import 'colors/variables-dark';
+// @import 'colors/variables-light';
 
 .lh-0 {
   line-height: 0 !important;
@@ -47,4 +47,35 @@
 
 .d-grid {
   display: grid;
+}
+
+.hover-card {
+  transition: all 0.45s ease;
+  &:hover {
+    transform: translateY(-0.2rem) scale(1.04);
+  }
+  &:active {
+    transform: unset;
+  }
+}
+
+.v-theme--light {
+  .hover-card:hover {
+    box-shadow: 0 15px 20px rgba(60, 50, 100, 0.15);
+  }
+}
+
+.v-theme--dark {
+  .hover-card:hover {
+    box-shadow: 0 15px 20px rgba(212, 217, 191, 0.15);
+  }
+}
+
+$classTexts: 'text-h1', 'text-h2', 'text-h3', 'text-h4', 'text-h5', 'text-h6', 'text-subtitle-1',
+  'text-subtitle-2', 'text-body-1', 'text-body-2', 'text-button', 'text-caption', 'text-overline';
+
+@each $text in $classTexts {
+  .#{$text} {
+    font-family: $font-family-sans-serif;
+  }
 }

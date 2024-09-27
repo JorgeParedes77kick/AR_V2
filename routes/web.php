@@ -18,6 +18,9 @@ use Inertia\Inertia;
  * Rutas Inicial
  */
 Route::get('/', function () {
+    // if (Auth::check()) {
+    //     return redirect()->route('home');
+    // }
     return Inertia::render('Login/LoginPage');
 });
 /**
@@ -38,14 +41,22 @@ Route::get('/user/validate-token/{email}/{token}', [App\Http\Controllers\Usuario
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+    Route::post('/horario/inscripcion', [App\Http\Controllers\HomeController::class, 'inscribir'])->name('horario.inscripcion.store');
+    Route::delete('/horario/inscripcion/{curriculum}', [App\Http\Controllers\HomeController::class, 'desincribir'])->name('horario.inscripcion.delete');
+    Route::get('/horario/{curriculum}', [App\Http\Controllers\HomeController::class, 'curriculum'])
+        ->name('horario.curriculum')->where('curriculum', '[A-Za-z]+');
+    Route::get('/miscursos')->name('miscursos');
+    Route::get('/misrecursos')->name('misrecursos');
 });
 
 /**
  * Rutas Usuario autorizado y rol Administrador
  */
-Route::middleware(['auth', 'super.admin'])->group(function () {
+Route::middleware(['auth',
+    'super.admin',
+])->group(function () {
 
+    Route::get('home/no-filter', [App\Http\Controllers\HomeController::class, 'index'])->name('home.no-filter');
     Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
     Route::post('temporadas/${id}/toggleActivo', [App\Http\Controllers\TemporadaController::class, 'toggleActivo'])->name('temporada.toggleActivo');
     Route::post('temporadas/${id}/toggleInscripcion', [App\Http\Controllers\TemporadaController::class, 'toggleInscripcion'])->name('temporada.toggleInscripcion');

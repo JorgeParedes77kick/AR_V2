@@ -393,7 +393,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-select");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
   var _component_v_data_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-data-table");
-  var _component_v_card_body = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-body");
   var _component_v_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card");
   var _component_v_container = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-container");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["MainLayout"], null, {
@@ -410,101 +409,96 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" USUARIOS DE AR - INTERNOS ")];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_body, null, {
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-row>\r\n            <v-col class=\"d-flex justify-end\">\r\n              <Link :href=\"route('usuarios-equipo.create')\">\r\n              <v-btn :to=\"{ name: 'usuarios-equipo.create' }\" color=\"success\" class=\"ms-auto\">\r\n                Crear Nuevo Rol\r\n              </v-btn>\r\n              </Link>\r\n            </v-col>\r\n          </v-row> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-row>\r\n            <v-col class=\"d-flex justify-end\">\r\n              <Link :href=\"route('usuarios-equipo.create')\">\r\n              <v-btn :to=\"{ name: 'usuarios-equipo.create' }\" color=\"success\" class=\"ms-auto\">\r\n                Crear Nuevo Rol\r\n              </v-btn>\r\n              </Link>\r\n            </v-col>\r\n          </v-row> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, null, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, null, {
-                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          var _createVNode2;
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_data_table, {
-                            headers: $setup.headers,
-                            items: $setup.filteredItems,
-                            "items-per-page": 20,
-                            "class": "elevation-1 rounded"
-                          }, (_createVNode2 = {
-                            top: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
+                      var _createVNode2;
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_data_table, {
+                        headers: $setup.headers,
+                        items: $setup.filteredItems,
+                        "items-per-page": 20,
+                        "class": "elevation-1 rounded"
+                      }, (_createVNode2 = {
+                        top: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                                cols: "12",
+                                sm: "6",
+                                md: "5"
+                              }, {
                                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                                    cols: "12",
-                                    sm: "6",
-                                    md: "5"
-                                  }, {
-                                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                                        modelValue: $setup.search,
-                                        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-                                          return $setup.search = $event;
-                                        }),
-                                        label: "Filtrar",
-                                        "class": "mx-3 mt-2",
-                                        "append-icon": "mdi-magnify",
-                                        variant: "underlined",
-                                        "hide-details": ""
-                                      }, null, 8 /* PROPS */, ["modelValue"])];
+                                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+                                    modelValue: $setup.search,
+                                    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+                                      return $setup.search = $event;
                                     }),
-                                    _: 1 /* STABLE */
-                                  })];
+                                    label: "Filtrar",
+                                    "class": "mx-3 mt-2",
+                                    "append-icon": "mdi-magnify",
+                                    variant: "underlined",
+                                    "hide-details": ""
+                                  }, null, 8 /* PROPS */, ["modelValue"])];
                                 }),
                                 _: 1 /* STABLE */
                               })];
                             }),
-                            "header.roles": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
-                              var props = _ref.props;
-                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"mt-2\">Rol</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                                modelValue: $setup.nameFilter,
-                                "onUpdate:modelValue": [_cache[1] || (_cache[1] = function ($event) {
-                                  return $setup.nameFilter = $event;
-                                }), $setup.onChange],
-                                label: "Roles",
-                                "persistent-placeholder": "",
-                                "hide-details": "",
-                                variant: "underlined",
-                                items: $props.roles,
-                                multiple: "",
-                                "item-title": "nombre",
-                                "item-value": "id"
-                              }, null, 8 /* PROPS */, ["modelValue", "items"])];
-                            })
-                          }, _defineProperty(_createVNode2, "item.roles", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
-                            var item = _ref2.item;
-                            return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.roles, function (rol, i) {
-                              return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-                                key: rol.id
-                              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rol.nombre) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(i + 1 == item.roles.length ? ' ' : ' - '), 1 /* TEXT */);
-                            }), 128 /* KEYED_FRAGMENT */))];
-                          })), _defineProperty(_createVNode2, "item.persona", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref3) {
-                            var item = _ref3.item;
-                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.persona.nombre) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.persona.apellido), 1 /* TEXT */)];
-                          })), _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref4) {
-                            var item = _ref4.item;
-                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Link :href=\"route('usuarios-equipo.show', item)\">\r\n                    <v-btn as=\"v-btn\" color=\"info\" small> Ver </v-btn>\r\n                    </Link> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-                              href: _ctx.route('usuarios-equipo.edit', item)
+                            _: 1 /* STABLE */
+                          })];
+                        }),
+                        "header.roles": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+                          var props = _ref.props;
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"mt-2\">Rol</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
+                            modelValue: $setup.nameFilter,
+                            "onUpdate:modelValue": [_cache[1] || (_cache[1] = function ($event) {
+                              return $setup.nameFilter = $event;
+                            }), $setup.onChange],
+                            label: "Roles",
+                            "persistent-placeholder": "",
+                            "hide-details": "",
+                            variant: "underlined",
+                            items: $props.roles,
+                            multiple: "",
+                            "item-title": "nombre",
+                            "item-value": "id"
+                          }, null, 8 /* PROPS */, ["modelValue", "items"])];
+                        })
+                      }, _defineProperty(_createVNode2, "item.roles", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
+                        var item = _ref2.item;
+                        return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.roles, function (rol, i) {
+                          return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+                            key: rol.id
+                          }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rol.nombre) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(i + 1 == item.roles.length ? ' ' : ' - '), 1 /* TEXT */);
+                        }), 128 /* KEYED_FRAGMENT */))];
+                      })), _defineProperty(_createVNode2, "item.persona", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref3) {
+                        var item = _ref3.item;
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.persona.nombre) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.persona.apellido), 1 /* TEXT */)];
+                      })), _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref4) {
+                        var item = _ref4.item;
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Link :href=\"route('usuarios-equipo.show', item)\">\r\n                    <v-btn as=\"v-btn\" color=\"info\" small> Ver </v-btn>\r\n                    </Link> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+                          href: _ctx.route('usuarios-equipo.edit', item)
+                        }, {
+                          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
+                              color: "secondary",
+                              small: ""
                             }, {
                               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
-                                  color: "secondary",
-                                  small: ""
-                                }, {
-                                  "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Editar ")];
-                                  }),
-                                  _: 1 /* STABLE */
-                                })];
+                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Editar ")];
                               }),
-                              _: 2 /* DYNAMIC */
-                            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-btn color=\"error\" small @click=\"onClickDelete(item)\">Eliminar\r\n                    </v-btn> ")])];
-                          })), _defineProperty(_createVNode2, "_", 2), _createVNode2), 1032 /* PROPS, DYNAMIC_SLOTS */, ["items"])];
-                        }),
-                        _: 1 /* STABLE */
-                      })];
+                              _: 1 /* STABLE */
+                            })];
+                          }),
+                          _: 2 /* DYNAMIC */
+                        }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-btn color=\"error\" small @click=\"onClickDelete(item)\">Eliminar\r\n                    </v-btn> ")])];
+                      })), _defineProperty(_createVNode2, "_", 2), _createVNode2), 1032 /* PROPS, DYNAMIC_SLOTS */, ["items"])];
                     }),
                     _: 1 /* STABLE */
                   })];
                 }),
                 _: 1 /* STABLE */
-              })];
+              })])];
             }),
             _: 1 /* STABLE */
           })];

@@ -17,6 +17,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+// const { flash } = usePage().props.value;
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'index',
   props: {
@@ -27,32 +30,31 @@ __webpack_require__.r(__webpack_exports__);
     curriculums: {
       type: Array,
       "default": []
-    }
+    },
+    status: Boolean
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
-    var validate = (0,vue__WEBPACK_IMPORTED_MODULE_1__.inject)('validation');
-
-    // const { flash } = usePage().props.value;
     var pageProps = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage)().props.value;
     var props = __props;
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
     var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
       console.log('pageProps:', pageProps);
-      console.log('pageProps:', props);
+      console.log('Props:', props);
     });
     var __returned__ = {
-      validate: validate,
       pageProps: pageProps,
       props: props,
       loading: loading,
       isDisabled: isDisabled,
+      get Link() {
+        return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.Link;
+      },
       get usePage() {
         return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage;
       },
-      inject: vue__WEBPACK_IMPORTED_MODULE_1__.inject,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted,
       ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref,
       MainLayout: _components_Layout_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
@@ -300,17 +302,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-  "class": "text-center"
+  "class": "text-subtitle-1 text-center"
 }, "Haz clic en el grupo pequeño de tu interes!", -1 /* HOISTED */);
-var _hoisted_2 = ["value"];
-var _hoisted_3 = ["value"];
-var _hoisted_4 = ["alt"];
-var _hoisted_5 = ["value"];
-var _hoisted_6 = ["value"];
-var _hoisted_7 = ["alt"];
-var _hoisted_8 = ["href"];
-var _hoisted_9 = ["href"];
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Qué bueno que seas parte de esta familia sin fronteras. Esperamos que estés disfrutando de todo lo que estas viviendo este tiempo. Recuerda que aquí podrás tener "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <a :href=\"editarPerfilRoute\">acceso a tu perfil</a>, "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" revisar "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <a :href=\"misGruposRoute\">tus grupos inscritos</a> "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" y muy pronto tendremos nuevas funciones que harán mejor tu experiencia de Grupos Pequeños Sin Fronteras. ")], -1 /* HOISTED */);
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   style: {
     "text-align": "center"
   }
@@ -318,12 +313,10 @@ var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_card_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-title");
   var _component_v_alert = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-alert");
-  var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
+  var _component_v_img = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-img");
   var _component_v_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card");
   var _component_v_col = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-col");
-  var _component_v_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-form");
   var _component_v_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-row");
-  var _component_v_card_body = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-body");
   var _component_v_container = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-container");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["MainLayout"], null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -331,165 +324,98 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {
             color: "background",
-            "class": "shadow px-4 py-2"
+            "class": "shadow-md px-4 py-2"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_body, null, {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$props.temporadas.some(function (x) {
+                return x.activo_inscripcion;
+              }) && $props.curriculums.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+                key: 0
+              }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, {
+                "class": "text-center text-h4"
+              }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [$props.temporadas.some(function (x) {
-                    return x.state_inscripcion;
-                  }) && $props.curriculums.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-                    key: 0
-                  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, {
-                    "class": "text-center h4"
-                  }, {
-                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("GRUPOS PEQUEÑOS ABIERTOS ESTA TEMPORADA")];
-                    }),
-                    _: 1 /* STABLE */
-                  }), _hoisted_1], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-                    key: 1
-                  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, {
-                    "class": "text-center h4",
-                    style: {
-                      "font-size": "30px"
-                    }
-                  }, {
-                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("¡Ya comenzó la temporada " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nombreTemporada) + " de grupos pequeños!", 1 /* TEXT */)];
-                    }),
-                    _: 1 /* STABLE */
-                  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img src=\"@/assets/celebracion.png\" width=\"10%\" height=\"10%\" /> ")], 64 /* STABLE_FRAGMENT */)), _ctx.status ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_alert, {
-                    key: 2,
-                    type: "success",
-                    text: _ctx.status
-                  }, null, 8 /* PROPS */, ["text"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.temporadas.some(function (x) {
-                    return x.state_inscripcion;
-                  }) && $props.curriculums.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_row, {
-                    key: 3
-                  }, {
-                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.curriculums, function (grupopequeno, index) {
-                        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-                          key: index
-                        }, [grupopequeno.id !== 7 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-                          key: 0
-                        }, [_ctx.user.genero === 'Masculino' && [5, 26, 27, 29].includes(grupopequeno.id) || _ctx.user.genero === 'Femenino' && grupopequeno.id === 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_col, {
-                          key: 0,
-                          cols: "3",
-                          "class": "mb-1"
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("GRUPOS PEQUEÑOS ABIERTOS ESTA TEMPORADA")];
+                }),
+                _: 1 /* STABLE */
+              }), _hoisted_1], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+                key: 1
+              }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, {
+                "class": "text-center h4",
+                style: {
+                  "font-size": "30px"
+                }
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("¡Ya comenzó la temporada " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.temporadas[0].prefijo) + " de grupos pequeños!", 1 /* TEXT */)];
+                }),
+                _: 1 /* STABLE */
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img src=\"@/assets/celebracion.png\" width=\"10%\" height=\"10%\" /> ")], 64 /* STABLE_FRAGMENT */)), $props.status ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_alert, {
+                key: 2,
+                type: "success",
+                text: $props.status
+              }, null, 8 /* PROPS */, ["text"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.temporadas.some(function (x) {
+                return x.activo_inscripcion;
+              }) && $props.curriculums.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_row, {
+                key: 3,
+                "class": "mt-3"
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.curriculums, function (curriculum) {
+                    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_col, {
+                      cols: "6",
+                      sm: "4",
+                      md: "3",
+                      xl: "2",
+                      "class": "mb-1",
+                      key: curriculum.id
+                    }, {
+                      "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+                          href: _ctx.route('horario.curriculum', curriculum.nombre.replace(/[^a-zA-Z0-9]/g, '').toLowerCase())
                         }, {
                           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {
                               "class": "hover-card"
                             }, {
                               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-                                  type: "hidden",
-                                  name: "gp",
-                                  value: grupopequeno.id,
-                                  "class": "form-control"
-                                }, null, 8 /* PROPS */, _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-                                  type: "hidden",
-                                  name: "nombregp",
-                                  value: grupopequeno.nombre_grupop,
-                                  "class": "form-control"
-                                }, null, 8 /* PROPS */, _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-                                  alt: grupopequeno.nombre_grupop,
-                                  "class": "shadow"
-                                }, null, 8 /* PROPS */, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
-                                  "class": "text-white btn btn-custom btn-block",
-                                  onClick: _cache[0] || (_cache[0] = function ($event) {
-                                    return _ctx.avisoGenero(_ctx.user.genero);
-                                  })
-                                }, {
-                                  "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{-- {{ grupopequeno.nombre_grupop }} --}} ")];
-                                  }),
-                                  _: 1 /* STABLE */
-                                })];
+                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_img, {
+                                  src: "/storage/img/curriculums/".concat(curriculum.imagen)
+                                }, null, 8 /* PROPS */, ["src"])];
                               }),
                               _: 2 /* DYNAMIC */
                             }, 1024 /* DYNAMIC_SLOTS */)];
                           }),
                           _: 2 /* DYNAMIC */
-                        }, 1024 /* DYNAMIC_SLOTS */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_col, {
-                          key: 1,
-                          cols: "3",
-                          "class": "mb-1"
-                        }, {
-                          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_form, {
-                              "class": "hover-card",
-                              action: _ctx.opcionRoute,
-                              method: "post",
-                              id: grupopequeno.id
-                            }, {
-                              "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" @csrf "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-                                  type: "hidden",
-                                  name: "gp",
-                                  value: grupopequeno.id,
-                                  "class": "form-control"
-                                }, null, 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-                                  type: "hidden",
-                                  name: "nombregp",
-                                  value: grupopequeno.id === 6 ? 'PROGRAMA DE MATRIMONIOS' : grupopequeno.nombre_grupop,
-                                  "class": "form-control"
-                                }, null, 8 /* PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-                                  alt: grupopequeno.id === 6 ? 'PROGRAMA DE MATRIMONIOS' : grupopequeno.nombre_grupop,
-                                  "class": "shadow"
-                                }, null, 8 /* PROPS */, _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
-                                  type: "submit",
-                                  "class": "text-white btn btn-custom btn-block",
-                                  onClick: function onClick($event) {
-                                    return _ctx.validaCurso($event, grupopequeno.edad_min, grupopequeno.edad_max, grupopequeno.id);
-                                  }
-                                }, {
-                                  "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{-- {{ grupopequeno.id === 6 ? 'PROGRAMA DE MATRIMONIOS' : grupopequeno.nombre_grupop }}--}} ")];
-                                  }),
-                                  _: 2 /* DYNAMIC */
-                                }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])];
-                              }),
-                              _: 2 /* DYNAMIC */
-                            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["action", "id"])];
-                          }),
-                          _: 2 /* DYNAMIC */
-                        }, 1024 /* DYNAMIC_SLOTS */))], 64 /* STABLE_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */);
-                      }), 128 /* KEYED_FRAGMENT */))];
-                    }),
-                    _: 1 /* STABLE */
-                  })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_row, {
-                    key: 4,
-                    id: "aviso"
+                        }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"])];
+                      }),
+                      _: 2 /* DYNAMIC */
+                    }, 1024 /* DYNAMIC_SLOTS */);
+                  }), 128 /* KEYED_FRAGMENT */))];
+                }),
+                _: 1 /* STABLE */
+              })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("template", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
+                id: "aviso"
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                    cols: "12"
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                        cols: "12"
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_alert, {
+                        color: "info"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_alert, {
-                            color: "info"
-                          }, {
-                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Qué bueno que seas parte de esta familia sin fronteras. Esperamos que estés disfrutando de todo lo que estas viviendo este tiempo. Recuerda que aquí podrás tener "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-                                href: _ctx.editarPerfilRoute
-                              }, "acceso a tu perfil", 8 /* PROPS */, _hoisted_8), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(", revisar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-                                href: _ctx.misGruposRoute
-                              }, "tus grupos inscritos", 8 /* PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" y muy pronto tendremos nuevas funciones que harán mejor tu experiencia de Grupos Pequeños Sin Fronteras. ")]), _hoisted_10];
-                            }),
-                            _: 1 /* STABLE */
-                          })];
+                          return [_hoisted_2, _hoisted_3];
                         }),
                         _: 1 /* STABLE */
                       })];
                     }),
                     _: 1 /* STABLE */
-                  }))];
+                  })];
                 }),
                 _: 1 /* STABLE */
-              })];
+              })])])];
             }),
             _: 1 /* STABLE */
           })];

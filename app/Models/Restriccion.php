@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\RestriccionHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,5 +43,14 @@ class Restriccion extends Model {
         static::addGlobalScope('withRelations', function (Builder $builder) {
             $builder->with(['tipoRestriccion:id,nombre']);
         });
+    }
+    protected static function scopeParejas($query) {
+        $query->where('tipo_restriccion_id', RestriccionHelper::$PAREJAS);
+    }
+    protected static function scopeHombres($query) {
+        $query->where('tipo_restriccion_id', RestriccionHelper::$MASCULINO);
+    }
+    protected static function scopeMujeres($query) {
+        $query->where('tipo_restriccion_id', RestriccionHelper::$FEMENINO);
     }
 }

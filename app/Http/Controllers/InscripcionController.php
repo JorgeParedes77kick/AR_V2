@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\AsistenciaHelper;
 use App\Helpers\Debug;
-use App\Helpers\GlobalApp;
+use App\Helpers\GlobalHelper;
 use App\Helpers\InscripcionHelper;
 use App\Helpers\RolHelper;
 use App\Http\Requests\InscripcionRequest;
@@ -29,7 +29,7 @@ class InscripcionController extends Controller {
             // 'ciclos.gruposPequenos.lideres',
         )
             ->select(['id', 'nombre'])->get();
-        $dias = collect(GlobalApp::$DIAS);
+        $dias = collect(GlobalHelper::$DIAS);
         $estados = EstadoInscripcion::whereNotIn('id', [InscripcionHelper::$LIDER, InscripcionHelper::$MONITOR])->get();
 
         return Inertia::render('Inscripcion/administrativo', [
@@ -101,7 +101,7 @@ class InscripcionController extends Controller {
         try {
             $data = $request->except('id');
             $inscripcion = $request->filled('id')
-            ? Inscripcion::findOrFail($request->id)->update($data)
+            ? Inscripcion::find($request->id)->update($data)
             : Inscripcion::create($data);
 
             if (!$request->filled('id')) {

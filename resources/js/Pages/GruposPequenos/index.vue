@@ -122,7 +122,7 @@ const onClickDelete = async (item) => {
         <v-card-title>
           GRUPOS PEQUEÑOS - {{ action === 'horario' ? 'HORARIOS' : 'HISTORICO' }}</v-card-title
         >
-        <v-card-body v-if="action === 'horario'">
+        <div v-if="action === 'horario'">
           <v-row class="pb-2">
             <v-col class="d-flex justify-end">
               <Link :href="route('grupos-pequenos.create')">
@@ -130,7 +130,7 @@ const onClickDelete = async (item) => {
               </Link>
             </v-col>
           </v-row>
-        </v-card-body>
+        </div>
         <v-expansion-panels v-model="openFilter">
           <v-expansion-panel>
             <v-expansion-panel-title> Filtros de búsqueda </v-expansion-panel-title>
@@ -203,7 +203,7 @@ const onClickDelete = async (item) => {
           </v-expansion-panel>
         </v-expansion-panels>
 
-        <v-card-body>
+        <div>
           <v-row>
             <v-col>
               <v-data-table
@@ -250,8 +250,8 @@ const onClickDelete = async (item) => {
                 </template>
               </v-data-table>
             </v-col>
-          </v-row></v-card-body
-        >
+          </v-row>
+        </div>
       </v-card>
     </v-container>
   </MainLayout>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,9 +43,19 @@ class Persona extends Model {
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'fecha_nacimiento' => 'date',
+        'fecha_nacimiento' => 'datetime',
     ];
 
+    protected $appends = ['edad'];
+
+    public function getFechaNacimientoAttribute($value) {
+        return Carbon::parse($value)->format('Y-m-d');
+    }
+    public function getEdadAttribute() {
+        $fechaNacimiento = Carbon::parse($this->fecha_nacimiento);
+        $edad = $fechaNacimiento->diffInYears(Carbon::now());
+        return $edad;
+    }
     /**
      * Relación con el género
      */

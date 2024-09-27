@@ -80,4 +80,11 @@ class Ciclo extends Model {
             },
         ]);
     }
+    public function scopeWithHorarios($query, $temporadasId) {
+        return $query->with('gruposPequenos', function ($q) use ($temporadasId) {
+            $q->activo()->whereIn('temporada_id', $temporadasId)->withCount('alumnos')
+                ->select('temporada_id', 'ciclo_id', 'dia_curso', 'hora_inicio', 'hora_fin')->distinct()
+            ;
+        });
+    }
 }

@@ -20,4 +20,5 @@ class AdicionalInscripcion extends Pivot {
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
 }
