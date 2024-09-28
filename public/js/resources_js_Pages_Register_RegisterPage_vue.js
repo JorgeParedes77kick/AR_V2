@@ -104,7 +104,7 @@ var __default__ = {
       genero_id: "",
       estado_civil_id: "",
       nacionalidad_id: "",
-      pais_recidencia: "",
+      pais_residencia: "",
       region_id: "",
       ciudad: "",
       direccion: "",
@@ -228,7 +228,7 @@ var __default__ = {
       setRegion([]);
       fieldsForm.region_id = "";
       Object.values(props.countryList).forEach(function (country) {
-        if (country.id === fieldsForm.pais_recidencia) {
+        if (country.id === fieldsForm.pais_residencia) {
           var newList = Object.values(country.regiones).sort(function (a, b) {
             if (a['nombre'] < b['nombre']) return -1;
             if (a['nombre'] > b['nombre']) return 1;
@@ -836,9 +836,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                        modelValue: $setup.fieldsForm.pais_recidencia,
+                        modelValue: $setup.fieldsForm.pais_residencia,
                         "onUpdate:modelValue": [_cache[7] || (_cache[7] = function ($event) {
-                          return $setup.fieldsForm.pais_recidencia = $event;
+                          return $setup.fieldsForm.pais_residencia = $event;
                         }), $setup.updateRegion],
                         name: "pais",
                         label: "País",
@@ -900,9 +900,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         },
                         "class": "rounded-l",
                         rules: [_ctx.rules.required, _ctx.rules.counter_dir],
+                        "error-messages": $setup.fieldsForm.errors.ciudad,
                         clearable: "",
                         tabindex: "10"
-                      }, null, 8 /* PROPS */, ["modelValue", "rules"])];
+                      }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
                   })];
@@ -929,9 +930,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         },
                         "class": "rounded-l",
                         rules: [_ctx.rules.required, _ctx.rules.counter_dir],
+                        "error-messages": $setup.fieldsForm.errors.direccion,
                         clearable: "",
                         tabindex: "11"
-                      }, null, 8 /* PROPS */, ["modelValue", "rules"])];
+                      }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
                   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
@@ -953,9 +955,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         },
                         "class": "rounded-l",
                         rules: [_ctx.rules.required, _ctx.rules.counter_dir],
+                        "error-messages": $setup.fieldsForm.errors.ocupacion,
                         clearable: "",
                         tabindex: "12"
-                      }, null, 8 /* PROPS */, ["modelValue", "rules"])];
+                      }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
                   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
@@ -978,10 +981,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         },
                         "class": "rounded-l",
                         rules: [_ctx.rules.required, _ctx.rules.phone],
+                        "error-messages": $setup.fieldsForm.errors.telefono,
                         clearable: "",
                         onKeydown: $setup.checkDigit,
                         tabindex: "13"
-                      }, null, 8 /* PROPS */, ["modelValue", "rules"])];
+                      }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
                   })];
@@ -1091,9 +1095,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         },
                         "class": "rounded-l",
                         rules: [_ctx.rules.required, _ctx.rules.counter, _ctx.rules.counter_pass],
+                        "error-messages": $setup.fieldsForm.errors.password,
                         clearable: "",
                         tabindex: "16"
-                      }, null, 8 /* PROPS */, ["modelValue", "rules"])];
+                      }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
                   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
@@ -1200,7 +1205,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["RegisterLayout"], null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["RegisterForm"], {
-        genderList: $props.civilStatusList,
+        genderList: $props.genderList,
         civilStatusList: $props.civilStatusList,
         nationalityList: $props.nationalityList,
         countryList: $props.countryList

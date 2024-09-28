@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Fortify\CreateNewUser;
-use App\Models\Persona;
 use App\Http\Requests\StorePersonaRequest;
 use App\Http\Requests\UpdatePersonaRequest;
+use App\Models\Persona;
 use App\Models\Usuario;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Hash;
-use Inertia\Inertia;
-use Inertia\Response;
 use Throwable;
 
 class PersonaController extends Controller
@@ -44,6 +41,7 @@ class PersonaController extends Controller
    */
     public function store(StorePersonaRequest $request)
     {
+
         $validated = $request->validated();
         if($validated){
           $person = Persona::create($validated);

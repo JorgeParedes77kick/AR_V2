@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Pais;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePersonaRequest extends FormRequest
@@ -51,6 +52,21 @@ class StorePersonaRequest extends FormRequest
         'nombre.required' => 'Debe ingresar un nombre',
         'apellido.required' => 'Debe ingresar un apellido',
       ];
+    }
+    protected function prepareForValidation()
+    {
+      $pais = Pais::where('id', $this->pais_residencia)->first();
+      if($pais) {
+        if ($pais->nombre == 'Chile') {
+          $uno = $this->dni;
+          $dos = preg_replace('([^A-Za-z0-9])', '', $uno); // quita todo lo que no sea letras o numeros
+          $tre = str_pad($dos, 11, "0", STR_PAD_LEFT); // completa con ceros a la izquierda
+          $this->merge([
+            'dni' => $tre,
+          ]);
+        }
+      }
+
     }
 
 }
