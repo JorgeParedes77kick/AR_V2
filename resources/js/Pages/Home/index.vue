@@ -23,7 +23,7 @@ onMounted(() => {
 
 <template>
   <main-layout>
-    <v-container>
+    <v-container fluid>
       <v-card color="background" class="shadow-md px-4 py-2">
         <div>
           <template v-if="temporadas.some((x) => x.activo_inscripcion) && curriculums.length > 0">

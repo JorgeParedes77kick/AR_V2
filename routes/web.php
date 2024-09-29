@@ -41,12 +41,12 @@ Route::get('/user/validate-token/{email}/{token}', [App\Http\Controllers\Usuario
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::post('/horario/inscripcion', [App\Http\Controllers\HomeController::class, 'inscribir'])->name('horario.inscripcion.store');
-    Route::delete('/horario/inscripcion/{curriculum}', [App\Http\Controllers\HomeController::class, 'desincribir'])->name('horario.inscripcion.delete');
-    Route::get('/horario/{curriculum}', [App\Http\Controllers\HomeController::class, 'curriculum'])
+    Route::post('/horario/inscripcion', [App\Http\Controllers\Alumno\InscripcionController::class, 'inscribir'])->name('horario.inscripcion.store');
+    Route::delete('/horario/inscripcion/{curriculum}', [App\Http\Controllers\Alumno\InscripcionController::class, 'desincribir'])->name('horario.inscripcion.delete');
+    Route::get('/horario/{curriculum}', [App\Http\Controllers\Alumno\InscripcionController::class, 'curriculum'])
         ->name('horario.curriculum')->where('curriculum', '[A-Za-z]+');
-    Route::get('/miscursos')->name('miscursos');
-    Route::get('/misrecursos')->name('misrecursos');
+    Route::get('/mis-cursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'cursos'])->name('miscursos');
+    Route::get('/mis-recursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'recursos'])->name('misrecursos');
 });
 
 /**
