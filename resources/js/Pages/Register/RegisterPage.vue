@@ -14,7 +14,7 @@ const props = defineProps({
 
 <template class="py-0 px-0">
     <RegisterLayout>
-        <RegisterForm :genderList="civilStatusList" :civilStatusList="civilStatusList" :nationalityList="nationalityList" :countryList="countryList"></RegisterForm>
+        <RegisterForm :genderList="genderList" :civilStatusList="civilStatusList" :nationalityList="nationalityList" :countryList="countryList"></RegisterForm>
     </RegisterLayout>
 </template>
 

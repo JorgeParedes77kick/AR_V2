@@ -38,7 +38,7 @@ const fieldsForm = useForm({
   genero_id: "",
   estado_civil_id: "",
   nacionalidad_id: "",
-  pais_recidencia: "",
+  pais_residencia: "",
   region_id: "",
   ciudad: "",
   direccion: "",
@@ -143,7 +143,7 @@ function updateRegion(){
   setRegion([]);
   fieldsForm.region_id = "";
   Object.values(props.countryList).forEach((country) => {
-    if(country.id === fieldsForm.pais_recidencia){
+    if(country.id === fieldsForm.pais_residencia){
       const newList = Object.values(country.regiones)
         .sort((a, b) => {
           if(a['nombre'] < b['nombre']) return -1;
@@ -338,7 +338,7 @@ onMounted(() =>
             ></v-select>
           </v-col>
           <v-col cols="3" >
-            <v-select v-model="fieldsForm.pais_recidencia"
+            <v-select v-model="fieldsForm.pais_residencia"
                       name="pais"
                       label="Pa&iacute;s"
                       :items="countryList"
@@ -378,6 +378,7 @@ onMounted(() =>
                           style="color: #f4ede8"
                           class="rounded-l"
                           :rules="[rules.required, rules.counter_dir]"
+                          :error-messages="fieldsForm.errors.ciudad"
                           clearable
                           tabindex="10"
             />
@@ -395,6 +396,7 @@ onMounted(() =>
                           style="color: #f4ede8"
                           class="rounded-l"
                           :rules="[rules.required, rules.counter_dir]"
+                          :error-messages="fieldsForm.errors.direccion"
                           clearable
                           tabindex="11"
             />
@@ -409,6 +411,7 @@ onMounted(() =>
                           style="color: #f4ede8"
                           class="rounded-l"
                           :rules="[rules.required, rules.counter_dir]"
+                          :error-messages="fieldsForm.errors.ocupacion"
                           clearable
                           tabindex="12"
             />
@@ -424,6 +427,7 @@ onMounted(() =>
                           style="color: #f4ede8"
                           class="rounded-l"
                           :rules="[rules.required, rules.phone]"
+                          :error-messages="fieldsForm.errors.telefono"
                           clearable
                           @keydown="checkDigit"
                           tabindex="13"
@@ -478,6 +482,7 @@ onMounted(() =>
                           style="color: #f4ede8"
                           class="rounded-l"
                           :rules="[rules.required, rules.counter, rules.counter_pass]"
+                          :error-messages="fieldsForm.errors.password"
                           clearable
                           tabindex="16"
             />

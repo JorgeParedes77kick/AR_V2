@@ -1,5 +1,5 @@
 <script setup>
-import {reactive, ref, onMounted, onBeforeMount} from "vue";
+import { ref, onMounted, defineProps} from "vue";
 import { useForm } from '@inertiajs/inertia-vue3';
 import axios from "axios";
 import logGP from '../../../../public/images/logo_gp.png';
@@ -7,6 +7,10 @@ import women from "../../../../public/images/mujer.png";
 import book from "../../../../public/images/libro.png";
 import corona from "../../../../public/images/corona.png";
 import tween from "../../../../public/images/tweens.png";
+
+const props = defineProps({
+  mail : String,
+});
 
 const loadingPage = ref(false);
 const setOverlay = v => (loadingPage.value = v);
@@ -92,8 +96,6 @@ const validateToken = async () => {
     console.log(JSON.stringify(error.response.data.message));
     setOverlay(false);
   });
-
-
 };
 
 onMounted(() => {
@@ -102,6 +104,9 @@ onMounted(() => {
   const splitPathname = pathname.split("/");
   const itemId = splitPathname[splitPathname.length - 1];
   fieldsForm.token = itemId;
+  setEmail(props.mail);
+  //const csrfToken = document.querySelector('head meta[name="csrf-token"]');
+  //alert(csrfToken.name+""+csrfToken.content);
   validateToken();
 });
 
@@ -143,7 +148,7 @@ onMounted(() => {
             <v-row>
               <v-col cols="12" >
                 <v-text-field v-model="fieldsForm.email"
-                              :value="setEmail(queryParams('email'))"
+                              :value="mail"
                               label="Correo Electr&oacute;nico"
                               variant="outlined"
                               placeholder="johndoe@gmail.com"
@@ -205,8 +210,6 @@ onMounted(() => {
 </style>
 
 <script>
-import {getQueryMap} from "../../constants/form";
-
 export default {
   data: () => ({
     email: '',
@@ -219,16 +222,5 @@ export default {
       },
     },
   }),
-  methods: {
-    queryParams(...args){
-      let queryString = this.$page.url;
-      if (queryString.indexOf("?") === -1) {
-        return {};
-      }
-      queryString = queryString.substring(queryString.indexOf("?"));
-      const map = getQueryMap(queryString);
-      return map[args[0]];
-    },
-  },
 }
 </script>
