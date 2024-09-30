@@ -18,9 +18,9 @@ const light = {
     'navbar-active-text': '#f4ede8',
     'navbar-hover': '#99c5c0',
     'navbar-hover-text': '#f4ede8',
+    'data-table-header': '#222222',
+    'data-table-body': '#414141',
 
-    // background: '#f4ede8',
-    // background: '#fffdf8',
     background: '#fefefe',
     foreground: '#222222',
     primary: '#42a5f5',
@@ -63,7 +63,8 @@ const dark = {
     'navbar-active-text': '#161617',
     'navbar-hover': '#bad7d4',
     'navbar-hover-text': '#161617',
-
+    'data-table-header': '#aaaaaa',
+    'data-table-body': '#666666',
     background: '#161617',
     foreground: '#fffdf8',
     primary: '#1565c0',

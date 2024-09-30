@@ -32,7 +32,6 @@ const headers = [
   { title: 'Acciones', key: 'acciones', sortable: false },
 ];
 const onClickDelete = async (item) => {
-  console.log('item:', item);
   const { isConfirmed } = await Swal.fire({
     title: 'Eliminar Curriculum',
     text: `Estas seguro de eliminar el curriculum?`,

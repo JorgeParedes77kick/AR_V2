@@ -107,12 +107,14 @@ const onClickToggle = async (item, name) => {
                   {{ FormatFecha(item.inscripcion_cierre, 3) }}
                 </template>
                 <template v-slot:[`item.activo`]="{ item }">
-                  <v-chip v-if="item.activo" color="success">Activa</v-chip>
-                  <v-chip v-else color="error">Inactiva</v-chip>
+                  <v-chip v-if="item.activo" color="success" variant="flat">Activa</v-chip>
+                  <v-chip v-else color="error" variant="flat">Inactiva</v-chip>
                 </template>
                 <template v-slot:[`item.activo_inscripcion`]="{ item }">
-                  <v-chip v-if="item.activo_inscripcion" color="success">En inscripción</v-chip>
-                  <v-chip v-else color="error">Cerrada</v-chip>
+                  <v-chip v-if="item.activo_inscripcion" color="success" variant="flat"
+                    >En inscripción</v-chip
+                  >
+                  <v-chip v-else color="error" variant="flat">Cerrada</v-chip>
                 </template>
                 <template v-slot:[`item.toggle`]="{ item }">
                   <div class="d-flex inline-flex ga-2">

@@ -543,7 +543,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         var item = _ref4.item;
                         return [item.activo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
                           key: 0,
-                          color: "success"
+                          color: "success",
+                          variant: "flat"
                         }, {
                           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Activa")];
@@ -551,7 +552,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           _: 1 /* STABLE */
                         })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
                           key: 1,
-                          color: "error"
+                          color: "error",
+                          variant: "flat"
                         }, {
                           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Inactiva")];
@@ -562,7 +564,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         var item = _ref5.item;
                         return [item.activo_inscripcion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
                           key: 0,
-                          color: "success"
+                          color: "success",
+                          variant: "flat"
                         }, {
                           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("En inscripción")];
@@ -570,7 +573,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           _: 1 /* STABLE */
                         })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
                           key: 1,
-                          color: "error"
+                          color: "error",
+                          variant: "flat"
                         }, {
                           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cerrada")];

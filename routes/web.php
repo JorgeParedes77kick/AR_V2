@@ -45,8 +45,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/horario/inscripcion/{curriculum}', [App\Http\Controllers\Alumno\InscripcionController::class, 'desincribir'])->name('horario.inscripcion.delete');
     Route::get('/horario/{curriculum}', [App\Http\Controllers\Alumno\InscripcionController::class, 'curriculum'])
         ->name('horario.curriculum')->where('curriculum', '[A-Za-z]+');
-    Route::get('/mis-cursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'cursos'])->name('miscursos');
-    Route::get('/mis-recursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'recursos'])->name('misrecursos');
+    Route::get('/mis-cursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'cursos'])->name('mis-cursos');
+    Route::resource('/mis-recursos', App\Http\Controllers\Alumno\RecursosController::class)->only(['index', 'show']);
 });
 
 /**

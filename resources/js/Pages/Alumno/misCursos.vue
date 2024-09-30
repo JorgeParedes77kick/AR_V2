@@ -58,11 +58,26 @@ const onClickDelete = async (item) => {
         <v-card-title> MIS GRUPOS PEQUEÑOS </v-card-title>
         <v-data-table
           :headers="headers"
+          :header-props="{ class: 'bg-data-table-header' }"
           :items="inscripciones"
-          class="elevation-1 rounded bg-dark"
+          class="elevation-1 rounded bg-data-table-body"
           hide-default-footer
         >
           <template v-slot:no-data> No tienes inscripciones </template>
+          <template v-slot:[`item.id`]="{ index }">
+            {{ index + 1 }}
+          </template>
+          <template v-slot:[`item.estado_inscripcion.estado`]="{ item }">
+            <v-chip
+              v-if="item.estado_inscripcion.id == 1 || item.estado_inscripcion.id == 2"
+              color="success"
+              variant="flat"
+              >{{ item.estado_inscripcion.estado }}</v-chip
+            >
+            <v-chip v-else color="error" variant="flat">{{
+              item.estado_inscripcion.estado
+            }}</v-chip>
+          </template>
           <template v-slot:[`item.acciones`]="{ item }">
             <div class="d-flex inline-flex ga-2">
               <v-btn color="error" small @click="onClickDelete(item)">Eliminar </v-btn>

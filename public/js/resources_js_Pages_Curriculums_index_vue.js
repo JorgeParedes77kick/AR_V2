@@ -80,8 +80,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              console.log('item:', item);
-              _context.next = 3;
+              _context.next = 2;
               return Swal.fire({
                 title: 'Eliminar Curriculum',
                 text: "Estas seguro de eliminar el curriculum?",
@@ -90,40 +89,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 confirmButtonText: 'Aceptar',
                 cancelButtonText: 'Cancelar'
               });
-            case 3:
+            case 2:
               _yield$Swal$fire = _context.sent;
               isConfirmed = _yield$Swal$fire.isConfirmed;
               if (!isConfirmed) {
-                _context.next = 21;
+                _context.next = 20;
                 break;
               }
-              _context.prev = 6;
-              _context.next = 9;
+              _context.prev = 5;
+              _context.next = 8;
               return axios["delete"](route('curriculums.destroy', item.id));
-            case 9:
+            case 8:
               response = _context.sent;
               index = props.curriculums.findIndex(function (x) {
                 return x.id === item.id;
               });
               if (!(response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message)) {
-                _context.next = 16;
+                _context.next = 15;
                 break;
               }
               message = response.data.message;
-              _context.next = 15;
+              _context.next = 14;
               return Swal.fire({
                 title: 'Exito!',
                 text: message,
                 icon: 'success'
               });
-            case 15:
+            case 14:
               props.curriculums.splice(index, 1);
-            case 16:
-              _context.next = 21;
+            case 15:
+              _context.next = 20;
               break;
-            case 18:
-              _context.prev = 18;
-              _context.t0 = _context["catch"](6);
+            case 17:
+              _context.prev = 17;
+              _context.t0 = _context["catch"](5);
               if (_context.t0 !== null && _context.t0 !== void 0 && (_err$response = _context.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
                 _err$response$data2 = _context.t0.response.data, msg = _err$response$data2.server, _message = _err$response$data2.message;
                 Swal.fire({
@@ -132,11 +131,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   icon: 'error'
                 });
               }
-            case 21:
+            case 20:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[6, 18]]);
+        }, _callee, null, [[5, 17]]);
       }));
       return function onClickDelete(_x) {
         return _ref2.apply(this, arguments);

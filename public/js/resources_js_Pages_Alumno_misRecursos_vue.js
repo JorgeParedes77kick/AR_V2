@@ -11,29 +11,61 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _components_Layout_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/Layout.vue */ "./resources/js/components/Layout.vue");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _components_Layout_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/Layout.vue */ "./resources/js/components/Layout.vue");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'misRecursos',
-  props: {},
+  props: {
+    inscripciones: {
+      type: Array,
+      "default": []
+    }
+  },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
-
-    // import { Link, usePage } from '@inertiajs/inertia-vue3';
     var props = __props;
-    var loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
-    var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {});
+    var loading = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
+    var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
+      console.log(props.inscripciones);
+    });
+    var headers = [{
+      title: '#',
+      key: 'id',
+      sortable: false
+    }, {
+      title: 'Temporada',
+      key: 'grupo_pequeno.temporada.prefijo',
+      sortable: false
+    }, {
+      title: 'Grupo Pequeño',
+      key: 'grupo_pequeno.ciclo.curriculum.nombre',
+      sortable: false
+    }, {
+      title: 'Ciclo',
+      key: 'grupo_pequeno.ciclo.nombre',
+      sortable: false
+    }, {
+      title: 'Acciones',
+      key: 'acciones',
+      sortable: false
+    }];
     var __returned__ = {
       props: props,
       loading: loading,
       isDisabled: isDisabled,
-      onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
-      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
-      MainLayout: _components_Layout_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+      headers: headers,
+      get Link() {
+        return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.Link;
+      },
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted,
+      ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref,
+      MainLayout: _components_Layout_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -276,9 +308,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
+var _hoisted_1 = {
+  "class": "d-flex inline-flex ga-2"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_card_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-title");
+  var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
+  var _component_v_data_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-data-table");
   var _component_v_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card");
   var _component_v_container = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-container");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["MainLayout"], null, {
@@ -292,12 +333,47 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "class": "shadow-md px-4 py-2"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              var _createVNode2;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" MIS GRUPOS PEQUEÑOS ")];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" MIS RECURSOS ")];
                 }),
                 _: 1 /* STABLE */
-              })];
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_data_table, {
+                headers: $setup.headers,
+                "header-props": {
+                  "class": 'bg-data-table-header'
+                },
+                items: $props.inscripciones,
+                "class": "elevation-1 rounded bg-data-table-body",
+                "hide-default-footer": ""
+              }, (_createVNode2 = {
+                "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("No tienes Inscripciones con Recursos disponibles ")];
+                })
+              }, _defineProperty(_createVNode2, "item.id", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+                var index = _ref.index;
+                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)];
+              })), _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
+                var item = _ref2.item;
+                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+                  href: _ctx.route('mis-recursos.show', item)
+                }, {
+                  "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
+                      as: "v-btn",
+                      color: "info",
+                      small: ""
+                    }, {
+                      "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Ver Recursos")];
+                      }),
+                      _: 1 /* STABLE */
+                    })];
+                  }),
+                  _: 2 /* DYNAMIC */
+                }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"])])];
+              })), _defineProperty(_createVNode2, "_", 2), _createVNode2), 1032 /* PROPS, DYNAMIC_SLOTS */, ["items"])];
             }),
             _: 1 /* STABLE */
           })];
