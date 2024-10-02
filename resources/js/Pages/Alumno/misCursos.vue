@@ -33,12 +33,14 @@ const onClickDelete = async (item) => {
   });
   if (isConfirmed) {
     try {
+      console.log('index:', index, item);
       const response = await axios.delete(route('horario.inscripcion.delete', item.id));
-      const index = props.ciclos.findIndex((x) => x.id === item.id);
+      console.log('response?.data:', response?.data);
+      const index = props.inscripciones.findIndex((x) => x.id === item.id);
       if (response?.data?.message) {
         const { message } = response.data;
         Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-        props.ciclos.splice(index, 1);
+        props.inscripciones.splice(index, 1);
       }
     } catch (err) {
       console.log('err:', err);
@@ -63,7 +65,7 @@ const onClickDelete = async (item) => {
           class="elevation-1 rounded bg-data-table-body"
           hide-default-footer
         >
-          <template v-slot:no-data> No tienes inscripciones </template>
+          <template v-slot:no-data> No tienes inscripciones</template>
           <template v-slot:[`item.id`]="{ index }">
             {{ index + 1 }}
           </template>

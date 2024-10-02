@@ -126,7 +126,7 @@ class InscripcionController extends Controller {
                 $grupos->update(['activo_inscripcion' => false]);
             }
 
-            // DB::commit();
+            DB::commit();
             return response()->json(['message' => 'Inscripción realizada con éxito.'], 200);
 
         } catch (\Throwable $th) {

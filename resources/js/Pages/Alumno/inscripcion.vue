@@ -1,4 +1,6 @@
 <script setup>
+import { Inertia } from '@inertiajs/inertia';
+
 import { usePage } from '@inertiajs/inertia-vue3';
 import { defineProps, inject, onMounted, ref, watch } from 'vue';
 import MainLayout from '../../components/Layout.vue';
@@ -31,6 +33,7 @@ const submit = async (e) => {
   if (!grupoForm) return;
   try {
     const response = await axios.post(route('horario.inscripcion.store'), grupoForm.value);
+    console.log('response?.data:', response?.data);
     if (response?.data?.message) {
       const { message } = response.data;
       await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
@@ -85,7 +88,8 @@ watch(grupoForm, (newValue) => {
                   ></v-radio>
                 </v-col> </template
             ></v-radio-group>
-
+          </v-row>
+          <v-row class="row-gap-1">
             <v-radio-group v-if="ciclo?.id" inline v-model="grupoForm">
               <v-col cols="12" class="text-subtitle-1">
                 <b><i>Selecciona un Horario Disponible:</i></b>

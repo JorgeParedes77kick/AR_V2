@@ -90,15 +90,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _yield$Swal$fire = _context.sent;
               isConfirmed = _yield$Swal$fire.isConfirmed;
               if (!isConfirmed) {
-                _context.next = 17;
+                _context.next = 19;
                 break;
               }
               _context.prev = 5;
-              _context.next = 8;
+              console.log('index:', index, item);
+              _context.next = 9;
               return axios["delete"](route('horario.inscripcion.delete', item.id));
-            case 8:
+            case 9:
               response = _context.sent;
-              index = props.ciclos.findIndex(function (x) {
+              console.log('response?.data:', response === null || response === void 0 ? void 0 : response.data);
+              index = props.inscripciones.findIndex(function (x) {
                 return x.id === item.id;
               });
               if (response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message) {
@@ -108,12 +110,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   text: message,
                   icon: 'success'
                 });
-                props.ciclos.splice(index, 1);
+                props.inscripciones.splice(index, 1);
               }
-              _context.next = 17;
+              _context.next = 19;
               break;
-            case 13:
-              _context.prev = 13;
+            case 15:
+              _context.prev = 15;
               _context.t0 = _context["catch"](5);
               console.log('err:', _context.t0);
               if (_context.t0 !== null && _context.t0 !== void 0 && (_err$response = _context.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
@@ -124,11 +126,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   icon: 'error'
                 });
               }
-            case 17:
+            case 19:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[5, 13]]);
+        }, _callee, null, [[5, 15]]);
       }));
       return function onClickDelete(_x) {
         return _ref2.apply(this, arguments);
@@ -427,7 +429,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "hide-default-footer": ""
               }, (_createVNode2 = {
                 "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" No tienes inscripciones ")];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" No tienes inscripciones")];
                 })
               }, _defineProperty(_createVNode2, "item.id", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
                 var index = _ref.index;
