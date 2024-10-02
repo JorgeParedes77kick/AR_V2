@@ -1,6 +1,6 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
+import { router } from '@inertiajs/vue3';
 import { defineProps, inject, onMounted, ref } from 'vue';
 
 import ButtonBack from '../../components/ButtonBack';
@@ -53,7 +53,8 @@ const submit = async () => {
     if (response?.data?.message) {
       const { message } = response.data;
       await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-      Inertia.visit(route('adicionales-curriculum.index'));
+
+      router.visit(route('adicionales-curriculum.index'));
     }
   } catch (err) {
     console.log(err?.response);
@@ -101,77 +102,39 @@ const onChange = (item) => {
           <v-form @submit="validateForm" ref="form" lazy-validation>
             <v-row class="row-gap-2">
               <v-col cols="8" sm="6">
-                <v-combobox
-                  id="curriculum"
-                  name="curriculum"
-                  label="Curriculum"
-                  v-model="inputForm.nombre"
-                  :disabled="CRUD.create !== action"
-                  :rules="validate('Curriculum', 'required')"
-                  :error-messages="inputForm.errors.nombre"
-                  :items="curriculums"
-                  item-title="nombre"
-                  item-value="id"
-                  @update:modelValue="onChange"
-                />
+                <v-combobox id="curriculum" name="curriculum" label="Curriculum" v-model="inputForm.nombre"
+                  :disabled="CRUD.create !== action" :rules="validate('Curriculum', 'required')"
+                  :error-messages="inputForm.errors.nombre" :items="curriculums" item-title="nombre" item-value="id"
+                  @update:modelValue="onChange" />
               </v-col>
               <v-col cols="4" sm="2" class="d-flex align-center justify-center">
-                <v-btn
-                  color="success"
-                  small
-                  @click="addItem"
-                  :disabled="CRUD.edit !== action && typeof inputForm.nombre !== 'object'"
-                >
+                <v-btn color="success" small @click="addItem"
+                  :disabled="CRUD.edit !== action && typeof inputForm.nombre !== 'object'">
                   <v-icon icon="mdi-plus-thick" />
                 </v-btn>
               </v-col>
             </v-row>
-            <v-row
-              v-for="(adi, i) in inputForm.adicionales"
-              :key="`${adi.id}_${i}`"
-              :class="adi.delete ? 'd-none' : ''"
-            >
+            <v-row v-for="(adi, i) in inputForm.adicionales" :key="`${adi.id}_${i}`"
+              :class="adi.delete ? 'd-none' : ''">
               <v-col cols="12" sm="5">
-                <v-text-field
-                  id="nombre"
-                  :name="`nombre_${adi.id}_${i}`"
-                  label="Nombre Adicional"
-                  v-model="adi.nombre"
-                  :disabled="isDisabled"
-                  :rules="validate('Nombre Adicional', 'required')"
-                />
+                <v-text-field id="nombre" :name="`nombre_${adi.id}_${i}`" label="Nombre Adicional" v-model="adi.nombre"
+                  :disabled="isDisabled" :rules="validate('Nombre Adicional', 'required')" />
               </v-col>
               <v-col cols="8" sm="5">
-                <v-select
-                  id="type_value"
-                  :name="`type_value_${adi.id}_${i}`"
-                  label="Tipo del Valor"
-                  v-model="adi.type_value"
-                  :disabled="isDisabled"
-                  :rules="validate('Tipo del Valor', 'required')"
-                  :items="types"
-                />
+                <v-select id="type_value" :name="`type_value_${adi.id}_${i}`" label="Tipo del Valor"
+                  v-model="adi.type_value" :disabled="isDisabled" :rules="validate('Tipo del Valor', 'required')"
+                  :items="types" />
               </v-col>
               <v-col cols="4" sm="2" class="d-flex align-center justify-center">
-                <v-btn
-                  color="error"
-                  small
-                  @click="(e) => deleteItem(e, i)"
-                  v-if="CRUD.show !== action"
-                >
+                <v-btn color="error" small @click="(e) => deleteItem(e, i)" v-if="CRUD.show !== action">
                   <v-icon icon="mdi-trash-can-outline" />
                 </v-btn>
               </v-col>
             </v-row>
             <v-row class="my-3" v-if="!isDisabled">
               <v-col cols="12" class="d-flex">
-                <v-btn
-                  class="ms-auto"
-                  type="submit"
-                  color="primary"
-                  :loading="loading"
-                  :disabled="inputForm.adicionales.length == 0"
-                >
+                <v-btn class="ms-auto" type="submit" color="primary" :loading="loading"
+                  :disabled="inputForm.adicionales.length == 0">
                   {{ TEXT_BUTTON[action] }}
                 </v-btn>
               </v-col>

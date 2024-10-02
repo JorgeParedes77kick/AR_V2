@@ -1,6 +1,6 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
+import { router } from '@inertiajs/vue3';
 
 import { defineProps, inject, onMounted, ref } from 'vue';
 
@@ -86,7 +86,8 @@ const submit = async () => {
     if (response?.data?.message) {
       const { message } = response.data;
       await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-      Inertia.visit(route('grupos-pequenos.index'));
+
+      router.visit(route('grupos-pequenos.index'));
     }
   } catch (err) {
     console.log(err?.response);
@@ -154,105 +155,45 @@ const onChangeUsuarios = (newValue) => {
           <v-form @submit="validateForm" ref="form" lazy-validation>
             <v-row class="row-gap-2">
               <v-col v-if="action !== CRUD.create" cols="12" sm="6">
-                <v-text-field
-                  id="id"
-                  name="id"
-                  label="ID"
-                  v-model="inputForm.id"
-                  disabled
-                  :error-messages="inputForm.errors.id"
-                />
+                <v-text-field id="id" name="id" label="ID" v-model="inputForm.id" disabled
+                  :error-messages="inputForm.errors.id" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-combobox
-                  id="temporada"
-                  name="temporada"
-                  label="Temporada"
-                  v-model="inputForm.temporada"
-                  :disabled="isDisabled"
-                  :rules="validate('Temporada', 'required')"
-                  :error-messages="inputForm.errors.temporada"
-                  :items="temporadas"
-                  item-title="prefijo"
-                  item-value="id"
-                  @update:focused="(s) => focus(s, 'temporada')"
-                  autocomplete="off"
-                />
+                <v-combobox id="temporada" name="temporada" label="Temporada" v-model="inputForm.temporada"
+                  :disabled="isDisabled" :rules="validate('Temporada', 'required')"
+                  :error-messages="inputForm.errors.temporada" :items="temporadas" item-title="prefijo" item-value="id"
+                  @update:focused="(s) => focus(s, 'temporada')" autocomplete="off" />
               </v-col>
             </v-row>
             <v-row class="row-gap-2">
               <v-col cols="12" sm="6">
-                <v-combobox
-                  id="curriculum"
-                  name="curriculum"
-                  label="Curriculum"
-                  v-model="inputForm.curriculum"
-                  :disabled="isDisabled"
-                  :rules="validate('Curriculum', 'required')"
-                  @update:focused="(s) => focus(s, 'curriculum')"
-                  :error-messages="inputForm.errors.curriculum"
-                  :items="curriculums"
-                  item-title="nombre"
-                  item-value="id"
-                  @update:modelValue="onChange"
-                  autocomplete="off"
-                />
+                <v-combobox id="curriculum" name="curriculum" label="Curriculum" v-model="inputForm.curriculum"
+                  :disabled="isDisabled" :rules="validate('Curriculum', 'required')"
+                  @update:focused="(s) => focus(s, 'curriculum')" :error-messages="inputForm.errors.curriculum"
+                  :items="curriculums" item-title="nombre" item-value="id" @update:modelValue="onChange"
+                  autocomplete="off" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-combobox
-                  id="ciclo"
-                  name="ciclo"
-                  label="Ciclo"
-                  v-model="inputForm.ciclo"
-                  :disabled="isDisabled"
-                  :rules="validate('Ciclo', 'required')"
-                  @update:focused="(s) => focus(s, 'ciclo')"
-                  :error-messages="inputForm.errors.ciclo"
-                  :items="ciclos"
-                  item-title="nombre"
-                  item-value="id"
-                  autocomplete="off"
-                />
+                <v-combobox id="ciclo" name="ciclo" label="Ciclo" v-model="inputForm.ciclo" :disabled="isDisabled"
+                  :rules="validate('Ciclo', 'required')" @update:focused="(s) => focus(s, 'ciclo')"
+                  :error-messages="inputForm.errors.ciclo" :items="ciclos" item-title="nombre" item-value="id"
+                  autocomplete="off" />
               </v-col>
               <v-col cols="12">
-                <v-combobox
-                  id="monitores"
-                  name="monitores"
-                  label="Monitores"
-                  v-model="inputForm.monitores"
-                  @update:modelValue="onChangeUsuarios"
-                  :rules="validate('Monitores', 'required')"
-                  :error-messages="inputForm.errors.monitores"
-                  :items="lideres"
-                  item-title="fullNombre"
-                  item-value="id"
-                  chips
-                  multiple
-                  closable-chips
-                  hide-selected
-                >
+                <v-combobox id="monitores" name="monitores" label="Monitores" v-model="inputForm.monitores"
+                  @update:modelValue="onChangeUsuarios" :rules="validate('Monitores', 'required')"
+                  :error-messages="inputForm.errors.monitores" :items="lideres" item-title="fullNombre" item-value="id"
+                  chips multiple closable-chips hide-selected>
                   <template v-slot:item="{ props, item }">
                     <v-list-item v-bind="props" :subtitle="item.raw.nick_name"></v-list-item>
                   </template>
                 </v-combobox>
               </v-col>
               <v-col cols="12">
-                <v-combobox
-                  id="lideres"
-                  name="lideres"
-                  label="Lideres"
-                  v-model="inputForm.lideres"
-                  :rules="validate('Lideres', 'required')"
-                  @update:modelValue="onChangeUsuarios"
-                  :error-messages="inputForm.errors.lideres"
-                  :items="monitores"
-                  item-title="fullNombre"
-                  item-value="id"
-                  chips
-                  multiple
-                  closable-chips
-                  hide-selected
-                >
+                <v-combobox id="lideres" name="lideres" label="Lideres" v-model="inputForm.lideres"
+                  :rules="validate('Lideres', 'required')" @update:modelValue="onChangeUsuarios"
+                  :error-messages="inputForm.errors.lideres" :items="monitores" item-title="fullNombre" item-value="id"
+                  chips multiple closable-chips hide-selected>
                   <template v-slot:item="{ props, item }">
                     <v-list-item v-bind="props" :subtitle="item.raw.nick_name"></v-list-item>
                   </template>
@@ -261,72 +202,34 @@ const onChangeUsuarios = (newValue) => {
             </v-row>
             <v-row class="row-gap-2">
               <v-col cols="12" sm="6">
-                <v-select
-                  id="dia"
-                  name="dia"
-                  label="Día"
-                  v-model="inputForm.dia_curso"
-                  :disabled="isDisabled"
-                  :rules="validate('Dia', 'required')"
-                  :error-messages="inputForm.errors.dia_curso"
-                  :items="dias"
-                  autocomplete="off"
-                /> </v-col
-            ></v-row>
+                <v-select id="dia" name="dia" label="Día" v-model="inputForm.dia_curso" :disabled="isDisabled"
+                  :rules="validate('Dia', 'required')" :error-messages="inputForm.errors.dia_curso" :items="dias"
+                  autocomplete="off" /> </v-col></v-row>
             <v-row class="row-gap-2">
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="hora_inicio"
-                  name="hora_inicio"
-                  label="Hora Inicio"
-                  placeholder="HH:MM"
-                  v-model="inputForm.hora_inicio"
-                  :disabled="isDisabled"
-                  type="time"
-                  :step="900"
+                <v-text-field id="hora_inicio" name="hora_inicio" label="Hora Inicio" placeholder="HH:MM"
+                  v-model="inputForm.hora_inicio" :disabled="isDisabled" type="time" :step="900"
                   :rules="[...validate('Hora', 'required'), rules.isValidTime]"
-                  :error-messages="inputForm.errors.hora_inicio"
-                  clearable
-                />
+                  :error-messages="inputForm.errors.hora_inicio" clearable />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="hora_fin"
-                  name="hora_fin"
-                  label="Hora Fin"
-                  placeholder="HH:MM"
-                  v-model="inputForm.hora_fin"
-                  :disabled="isDisabled"
-                  type="time"
-                  :step="900"
+                <v-text-field id="hora_fin" name="hora_fin" label="Hora Fin" placeholder="HH:MM"
+                  v-model="inputForm.hora_fin" :disabled="isDisabled" type="time" :step="900"
                   :rules="[...validate('Hora', 'required'), rules.isValidTime]"
-                  :error-messages="inputForm.errors.hora_fin"
-                  clearable
-                />
+                  :error-messages="inputForm.errors.hora_fin" clearable />
               </v-col>
               <v-col cols="6" class="justify-end">
-                <v-switch
-                  id="activo_inscripcion"
-                  name="activo_inscripcion"
-                  v-model="inputForm.activo_inscripcion"
-                  :label="
-                    inputForm.activo_inscripcion
-                      ? 'Activo para inscripciones'
-                      : 'No más inscripciones'
-                  "
-                  color="success"
-                />
+                <v-switch id="activo_inscripcion" name="activo_inscripcion" v-model="inputForm.activo_inscripcion"
+                  :label="inputForm.activo_inscripcion
+                    ? 'Activo para inscripciones'
+                    : 'No más inscripciones'
+                    " color="success" />
               </v-col>
             </v-row>
             <v-row>
               <v-col>
-                <v-textarea
-                  id="info_adicional"
-                  name="info_adicional"
-                  label="Adicional"
-                  v-model="inputForm.info_adicional"
-                  autocomplete="off"
-                />
+                <v-textarea id="info_adicional" name="info_adicional" label="Adicional"
+                  v-model="inputForm.info_adicional" autocomplete="off" />
               </v-col>
             </v-row>
             <v-row class="my-3">

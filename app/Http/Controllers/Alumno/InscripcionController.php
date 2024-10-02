@@ -158,7 +158,7 @@ class InscripcionController extends Controller {
         ]);
     }
 
-    public function desincribir(int $id) {
+    public function desinscribir(int $id) {
 
         $inscripcion = Inscripcion::find($id);
         if (!$inscripcion) {

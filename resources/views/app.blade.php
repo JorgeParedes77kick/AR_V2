@@ -25,13 +25,6 @@
     @inertiaHead
 </head>
 
-{{-- <body>
-    <div id="appPadre">
-        <main>
-            @yield('content')
-        </main>
-    </div>
-</body> --}}
 
 <body class="antialiased">
     <div name="load_container">
@@ -39,8 +32,9 @@
         @include('layout.preloader')
     </div>
 
-    <!-- Contenedor de Inertia -->
+
     @inertia
+    <!-- Contenedor de Inertia -->
 
     @env('local')
     <script src="http://localhost:8080/js/bundle.js"></script>

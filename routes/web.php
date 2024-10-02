@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/horario/inscripcion', [App\Http\Controllers\Alumno\InscripcionController::class, 'inscribir'])->name('horario.inscripcion.store');
-    Route::delete('/horario/inscripcion/{curriculum}', [App\Http\Controllers\Alumno\InscripcionController::class, 'desincribir'])->name('horario.inscripcion.delete');
+    Route::delete('/horario/inscripcion/{curriculum}', [App\Http\Controllers\Alumno\InscripcionController::class, 'desinscribir'])->name('horario.inscripcion.delete');
     Route::get('/horario/{curriculum}', [App\Http\Controllers\Alumno\InscripcionController::class, 'curriculum'])
         ->name('horario.curriculum')->where('curriculum', '[A-Za-z]+');
     Route::get('/mis-cursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'cursos'])->name('mis-cursos');

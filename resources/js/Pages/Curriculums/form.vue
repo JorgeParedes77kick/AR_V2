@@ -1,6 +1,6 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
+import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 import { defineProps, inject, onMounted, ref } from 'vue';
 
@@ -69,7 +69,8 @@ const submit = async () => {
     if (response?.data?.message) {
       const { message } = response.data;
       await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-      Inertia.visit(route('curriculums.index'));
+
+      router.visit(route('curriculums.index'));
     }
   } catch (err) {
     console.log(err?.response);
@@ -103,88 +104,39 @@ const submit = async () => {
           <v-form @submit="validateForm" ref="form" lazy-validation>
             <v-row class="row-gap-2">
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="nombre"
-                  name="nombre"
-                  label="Nombre"
-                  v-model="inputForm.nombre"
-                  :disabled="isDisabled"
-                  :rules="validate('Nombre', 'required')"
-                  :error-messages="inputForm.errors.nombre"
-                />
+                <v-text-field id="nombre" name="nombre" label="Nombre" v-model="inputForm.nombre" :disabled="isDisabled"
+                  :rules="validate('Nombre', 'required')" :error-messages="inputForm.errors.nombre" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="libro"
-                  name="libro"
-                  label="Libro"
-                  v-model="inputForm.libro"
-                  :disabled="isDisabled"
-                  :rules="validate('Libro', 'required')"
-                  :error-messages="inputForm.errors.libro"
-                />
+                <v-text-field id="libro" name="libro" label="Libro" v-model="inputForm.libro" :disabled="isDisabled"
+                  :rules="validate('Libro', 'required')" :error-messages="inputForm.errors.libro" />
               </v-col>
               <v-col cols="12" sm="12">
-                <v-textarea
-                  id="descripcion"
-                  name="descripcion"
-                  label="Descripción"
-                  v-model="inputForm.descripcion"
-                  :disabled="isDisabled"
-                  :rules="validate('Descripción', 'required')"
-                  :error-messages="inputForm.errors.descripcion"
-                />
+                <v-textarea id="descripcion" name="descripcion" label="Descripción" v-model="inputForm.descripcion"
+                  :disabled="isDisabled" :rules="validate('Descripción', 'required')"
+                  :error-messages="inputForm.errors.descripcion" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="cantidad_clases"
-                  name="cantidad_clases"
-                  label="Cantidad de clases"
-                  type="number"
-                  v-model="inputForm.cantidad_clases"
-                  :disabled="isDisabled"
+                <v-text-field id="cantidad_clases" name="cantidad_clases" label="Cantidad de clases" type="number"
+                  v-model="inputForm.cantidad_clases" :disabled="isDisabled"
                   :rules="validate('Cantidad de clases', 'required')"
-                  :error-messages="inputForm.errors.cantidad_clases"
-                />
+                  :error-messages="inputForm.errors.cantidad_clases" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="cantidad_cupos"
-                  name="cantidad_cupos"
-                  label="Cantidad de cupos"
-                  type="number"
-                  v-model="inputForm.cantidad_cupos"
-                  :disabled="isDisabled"
+                <v-text-field id="cantidad_cupos" name="cantidad_cupos" label="Cantidad de cupos" type="number"
+                  v-model="inputForm.cantidad_cupos" :disabled="isDisabled"
                   :rules="validate('Cantidad de cupos', 'required')"
-                  :error-messages="inputForm.errors.cantidad_cupos"
-                />
+                  :error-messages="inputForm.errors.cantidad_cupos" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-file-input
-                  id="imagen"
-                  name="imagen"
-                  label="Imagen"
-                  v-model="inputForm.imagenFile"
-                  :disabled="isDisabled"
-                  :error-messages="inputForm.errors.imagen"
-                  accept="image/*"
-                  prepend-icon="mdi-camera"
-                  @update:modelValue="onChangeFile"
-                />
-                <v-img
-                  v-if="inputForm.imagenFile"
-                  :src="previewImage(inputForm.imagenFile)"
-                  max-width="500"
-                  max-height="500"
-                  class="d-block mx-auto"
-                />
-                <v-img
-                  v-if="typeof inputForm.imagen == 'string' && inputForm.imagen.length > 0"
-                  :src="`/storage/img/curriculums/${inputForm.imagen}`"
-                  max-width="500"
-                  max-height="500"
-                  class="d-block mx-auto"
-                />
+                <v-file-input id="imagen" name="imagen" label="Imagen" v-model="inputForm.imagenFile"
+                  :disabled="isDisabled" :error-messages="inputForm.errors.imagen" accept="image/*"
+                  prepend-icon="mdi-camera" @update:modelValue="onChangeFile" />
+                <v-img v-if="inputForm.imagenFile" :src="previewImage(inputForm.imagenFile)" max-width="500"
+                  max-height="500" class="d-block mx-auto" />
+                <v-img v-if="typeof inputForm.imagen == 'string' && inputForm.imagen.length > 0"
+                  :src="`/storage/img/curriculums/${inputForm.imagen}`" max-width="500" max-height="500"
+                  class="d-block mx-auto" />
               </v-col>
               <!-- <v-col cols="12" sm="6">
                 <v-file-input id="imagen_landing" name="imagen_landing" label="Imagen de landing"
@@ -198,14 +150,8 @@ const submit = async () => {
 
               </v-col> -->
               <v-col cols="6" class="justify-end">
-                <v-switch
-                  id="activo"
-                  name="activo"
-                  v-model="inputForm.activo"
-                  :disabled="isDisabled"
-                  :label="inputForm.activo ? 'Activo' : 'Inactivo'"
-                  color="primary"
-                />
+                <v-switch id="activo" name="activo" v-model="inputForm.activo" :disabled="isDisabled"
+                  :label="inputForm.activo ? 'Activo' : 'Inactivo'" color="primary" />
               </v-col>
             </v-row>
             <v-row class="my-3" v-if="!isDisabled">

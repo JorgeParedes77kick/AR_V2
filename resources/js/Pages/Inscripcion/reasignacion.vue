@@ -49,53 +49,28 @@ onMounted(() => {
         <v-form>
           <v-row>
             <v-col cols="12" sm="6">
-              <v-text-field
-                id="usuario"
-                name="usuario"
-                disabled
-                v-model="inscripcion.usuario.fullNombre"
-              />
+              <v-text-field id="usuario" name="usuario" disabled v-model="inscripcion.usuario.fullNombre" />
             </v-col>
           </v-row>
           <v-row>
             <v-col sm="6" md="4">
-              <v-text-field
-                id="temporada"
-                name="temporada"
-                label="Temporada"
-                v-model="inscripcion.grupo_pequeno.temporada.prefijo"
-                disabled
-              />
+              <v-text-field id="temporada" name="temporada" label="Temporada"
+                v-model="inscripcion.grupo_pequeno.temporada.prefijo" disabled />
             </v-col>
             <v-col sm="6" md="4">
-              <v-text-field
-                id="curriculum"
-                name="curriculum"
-                label="Curriculum"
-                v-model="inscripcion.grupo_pequeno.ciclo.curriculum.nombre"
-                disabled
-              />
+              <v-text-field id="curriculum" name="curriculum" label="Curriculum"
+                v-model="inscripcion.grupo_pequeno.ciclo.curriculum.nombre" disabled />
             </v-col>
             <v-col sm="6" md="4">
-              <v-text-field
-                id="ciclo"
-                name="ciclo"
-                label="Ciclo"
-                v-model="inscripcion.grupo_pequeno.ciclo.nombre"
-                disabled
-              />
+              <v-text-field id="ciclo" name="ciclo" label="Ciclo" v-model="inscripcion.grupo_pequeno.ciclo.nombre"
+                disabled />
             </v-col>
           </v-row>
           <v-row>
             <v-col cols="12" class="text-subtitle-2"> Inscripcion Actual </v-col>
             <v-col>
-              <v-data-table
-                :headers="headersIns"
-                :items="[inscripcion]"
-                class="elevation-1 rounded"
-                hide-default-footer
-                hide-default-header
-              >
+              <v-data-table :headers="headersIns" :items="[inscripcion]" class="elevation-1 rounded" hide-default-footer
+                hide-default-header>
                 <template v-slot:[`item.id`]="{ item }"> #{{ item.grupo_pequeno.id }} </template>
                 <template v-slot:[`item.monitores`]="{ item }">
                   <p v-for="monitor in item.grupo_pequeno.monitores" :key="monitor.id">
@@ -118,30 +93,15 @@ onMounted(() => {
             <v-col cols="12" class="text-subtitle-2"> Reasignar a </v-col>
 
             <v-col>
-              <v-data-table
-                :headers="headersGrupos"
-                :items="grupos_pequenos"
-                class="elevation-1 rounded"
-                hide-default-footer
-                hide-default-header
-                show-select
-                select-strategy="single"
-                v-model="grupo_pequeno"
-                @update:modelValue="onChangeGrupo"
-                :rules="validate('Grupo Pequeño', 'required')"
-                return-object
-              >
+              <v-data-table :headers="headersGrupos" :items="grupos_pequenos" class="elevation-1 rounded"
+                hide-default-footer hide-default-header show-select select-strategy="single" v-model="grupo_pequeno"
+                @update:modelValue="onChangeGrupo" :rules="validate('Grupo Pequeño', 'required')" return-object>
                 <template v-slot:no-data>
                   No Hay más grupos pequeños para realizar la reasignación
                 </template>
-                <template
-                  v-slot:item.data-table-select="{ internalItem, isSelected, toggleSelect }"
-                >
-                  <v-checkbox-btn
-                    :model-value="isSelected(internalItem)"
-                    color="primary"
-                    @update:model-value="toggleSelect(internalItem)"
-                  ></v-checkbox-btn>
+                <template v-slot:item.data-table-select="{ internalItem, isSelected, toggleSelect }">
+                  <v-checkbox-btn :model-value="isSelected(internalItem)" color="primary"
+                    @update:model-value="toggleSelect(internalItem)"></v-checkbox-btn>
                 </template>
                 <template v-slot:[`item.id`]="{ item }"> #{{ item.id }} </template>
                 <template v-slot:[`item.monitores`]="{ item }">

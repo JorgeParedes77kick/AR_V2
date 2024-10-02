@@ -1,6 +1,6 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
+import { router } from '@inertiajs/vue3';
 import { defineProps, inject, ref } from 'vue';
 
 import ButtonBack from '../../components/ButtonBack';
@@ -45,7 +45,8 @@ const submit = async () => {
     if (response?.data?.message) {
       const { message } = response.data;
       await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-      Inertia.visit(route('roles.index'));
+
+      router.visit(route('roles.index'));
     }
   } catch (err) {
     console.log(err?.response);
@@ -79,25 +80,12 @@ const submit = async () => {
           <v-form @submit="validateForm" ref="form" lazy-validation>
             <v-row class="row-gap-2">
               <v-col v-if="action !== CRUD.create" cols="12" sm="6">
-                <v-text-field
-                  id="id"
-                  name="id"
-                  label="ID"
-                  v-model="inputForm.id"
-                  disabled
-                  :error-messages="inputForm.errors.id"
-                />
+                <v-text-field id="id" name="id" label="ID" v-model="inputForm.id" disabled
+                  :error-messages="inputForm.errors.id" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="nombre"
-                  name="nombre"
-                  label="Nombre"
-                  v-model="inputForm.nombre"
-                  :disabled="isDisabled"
-                  :rules="validate('Nombre', 'required')"
-                  :error-messages="inputForm.errors.nombre"
-                />
+                <v-text-field id="nombre" name="nombre" label="Nombre" v-model="inputForm.nombre" :disabled="isDisabled"
+                  :rules="validate('Nombre', 'required')" :error-messages="inputForm.errors.nombre" />
               </v-col>
             </v-row>
             <v-row class="my-3" v-if="!isDisabled">

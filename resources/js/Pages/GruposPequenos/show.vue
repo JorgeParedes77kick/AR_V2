@@ -44,31 +44,15 @@ onMounted(() => {
           <v-form ref="form" lazy-validation>
             <v-row class="row-gap-2">
               <v-col cols="12" sm="4">
-                <v-text-field
-                  id="Temporada"
-                  name="Temporada"
-                  label="Temporada"
-                  v-model="grupoPequeno.temporada.prefijo"
-                  disabled
-                />
+                <v-text-field id="Temporada" name="Temporada" label="Temporada" v-model="grupoPequeno.temporada.prefijo"
+                  disabled />
               </v-col>
               <v-col cols="12" sm="4">
-                <v-text-field
-                  id="Curriculum"
-                  name="Curriculum"
-                  label="Curriculum"
-                  v-model="grupoPequeno.ciclo.curriculum.nombre"
-                  disabled
-                />
+                <v-text-field id="Curriculum" name="Curriculum" label="Curriculum"
+                  v-model="grupoPequeno.ciclo.curriculum.nombre" disabled />
               </v-col>
               <v-col cols="12" sm="4">
-                <v-text-field
-                  id="Ciclo"
-                  name="Ciclo"
-                  label="Ciclo"
-                  v-model="grupoPequeno.ciclo.nombre"
-                  disabled
-                />
+                <v-text-field id="Ciclo" name="Ciclo" label="Ciclo" v-model="grupoPequeno.ciclo.nombre" disabled />
               </v-col>
             </v-row>
             <v-row class="row-gap-2">

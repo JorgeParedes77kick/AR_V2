@@ -15,7 +15,7 @@ const { usuario, ...props } = defineProps({
   action: String,
 });
 
-onMounted(() => {});
+onMounted(() => { });
 const isDisabled = ref(false);
 const loading = ref(false);
 
@@ -184,91 +184,39 @@ const reset = (email = true) => {
       <v-card-title>INSCRIBIR A GP</v-card-title>
       <v-row>
         <v-col sm="6" md="4">
-          <v-combobox
-            id="temporada"
-            name="temporada"
-            label="Temporada"
-            v-model="inputFormGrupo.temporada"
-            :disabled="isDisabled"
-            :rules="validate('Temporada', 'required')"
-            :error-messages="inputFormGrupo.errors.temporada"
-            :items="temporadas"
-            item-title="prefijo"
-            item-value="id"
-            @update:focused="(s) => focus(s, 'temporada')"
-            autocomplete="off"
-            clearable
-          />
+          <v-combobox id="temporada" name="temporada" label="Temporada" v-model="inputFormGrupo.temporada"
+            :disabled="isDisabled" :rules="validate('Temporada', 'required')"
+            :error-messages="inputFormGrupo.errors.temporada" :items="temporadas" item-title="prefijo" item-value="id"
+            @update:focused="(s) => focus(s, 'temporada')" autocomplete="off" clearable />
         </v-col>
         <v-col sm="6" md="4">
-          <v-combobox
-            id="curriculum"
-            name="curriculum"
-            label="Curriculum"
-            v-model="inputFormGrupo.curriculum"
-            :disabled="isDisabled"
-            :rules="validate('Curriculum', 'required')"
-            @update:focused="(s) => focus(s, 'curriculum')"
-            :error-messages="inputFormGrupo.errors.curriculum"
-            :items="curriculums"
-            item-title="nombre"
-            item-value="id"
-            @update:modelValue="onChangeCurriculum"
-            autocomplete="off"
-            clearable
-          />
+          <v-combobox id="curriculum" name="curriculum" label="Curriculum" v-model="inputFormGrupo.curriculum"
+            :disabled="isDisabled" :rules="validate('Curriculum', 'required')"
+            @update:focused="(s) => focus(s, 'curriculum')" :error-messages="inputFormGrupo.errors.curriculum"
+            :items="curriculums" item-title="nombre" item-value="id" @update:modelValue="onChangeCurriculum"
+            autocomplete="off" clearable />
         </v-col>
         <v-col sm="6" md="4">
-          <v-combobox
-            id="ciclo"
-            name="ciclo"
-            label="Ciclo"
-            v-model="inputFormGrupo.ciclo"
-            :disabled="isDisabled"
-            :rules="validate('Ciclo', 'required')"
-            @update:focused="(s) => focus(s, 'ciclo')"
-            :error-messages="inputFormGrupo.errors.ciclo"
-            :items="ciclos"
-            item-title="nombre"
-            item-value="id"
-            @update:modelValue="onChangeCiclo"
-            autocomplete="off"
-            clearable
-          />
+          <v-combobox id="ciclo" name="ciclo" label="Ciclo" v-model="inputFormGrupo.ciclo" :disabled="isDisabled"
+            :rules="validate('Ciclo', 'required')" @update:focused="(s) => focus(s, 'ciclo')"
+            :error-messages="inputFormGrupo.errors.ciclo" :items="ciclos" item-title="nombre" item-value="id"
+            @update:modelValue="onChangeCiclo" autocomplete="off" clearable />
         </v-col>
         <v-col cols="12" class="d-flex justify-end">
           <v-btn color="info" @click="buscarLideres"> Buscar Grupos Pequeños </v-btn>
         </v-col>
       </v-row>
     </v-form>
-    <v-form
-      v-if="Truthty(usuario.id)"
-      @submit="inscribirSumbit"
-      ref="formInscripcion"
-      lazy-validation
-    >
+    <v-form v-if="Truthty(usuario.id)" @submit="inscribirSumbit" ref="formInscripcion" lazy-validation>
       <v-row>
         <v-col>
-          <v-data-table
-            :headers="headersGrupos"
-            :items="grupos_pequenos"
-            class="elevation-1 rounded"
-            hide-default-footer
-            hide-default-header
-            show-select
-            select-strategy="single"
-            v-model="grupo_pequeno"
-            @update:modelValue="onChangeGrupo"
-            :rules="validate('Grupo Pequeño', 'required')"
-            return-object
-          >
+          <v-data-table :headers="headersGrupos" :items="grupos_pequenos" class="elevation-1 rounded"
+            hide-default-footer hide-default-header show-select select-strategy="single" v-model="grupo_pequeno"
+            @update:modelValue="onChangeGrupo" :rules="validate('Grupo Pequeño', 'required')" return-object>
             <template v-slot:no-data> No hay grupos pequeños disponibles </template>
             <template v-slot:item.data-table-select="{ internalItem, isSelected, toggleSelect }">
-              <v-checkbox-btn
-                :model-value="isSelected(internalItem)"
-                color="primary"
-                @update:model-value="toggleSelect(internalItem)"
-              ></v-checkbox-btn>
+              <v-checkbox-btn :model-value="isSelected(internalItem)" color="primary"
+                @update:model-value="toggleSelect(internalItem)"></v-checkbox-btn>
             </template>
             <template v-slot:[`item.id`]="{ item }"> #{{ item.id }} </template>
             <template v-slot:[`item.monitores`]="{ item }">
@@ -291,27 +239,14 @@ const reset = (email = true) => {
       </v-row>
       <v-row>
         <v-col sm="6" md="4">
-          <v-select
-            id="estado"
-            name="estado"
-            label="Estado de Inscripción"
-            v-model="inputInscripcion.estado_inscripcion_id"
-            :rules="validate('Estado de Inscripción', 'required')"
-            :error-messages="inputInscripcion.errors.estado_inscripcion_id"
-            :items="estados"
-            item-title="estado"
-            item-value="id"
-            autocomplete="off"
-          ></v-select>
+          <v-select id="estado" name="estado" label="Estado de Inscripción"
+            v-model="inputInscripcion.estado_inscripcion_id" :rules="validate('Estado de Inscripción', 'required')"
+            :error-messages="inputInscripcion.errors.estado_inscripcion_id" :items="estados" item-title="estado"
+            item-value="id" autocomplete="off"></v-select>
         </v-col>
         <v-col cols="6" md="8" class="d-flex align-end">
-          <v-btn
-            class="ms-auto"
-            type="submit"
-            color="primary"
-            :disabled="!Truthty(inputInscripcion.estado_inscripcion_id)"
-            :loading="loading"
-          >
+          <v-btn class="ms-auto" type="submit" color="primary"
+            :disabled="!Truthty(inputInscripcion.estado_inscripcion_id)" :loading="loading">
             Inscribir
           </v-btn>
         </v-col>

@@ -1,14 +1,12 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
-
-import { usePage } from '@inertiajs/inertia-vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import { defineProps, inject, onMounted, ref, watch } from 'vue';
 import MainLayout from '../../components/Layout.vue';
 
 const validate = inject('validation');
 
 // const { flash } = usePage().props.value;
-const pageProps = usePage().props.value;
+const pageProps = usePage();
 
 const props = defineProps({
   curriculum: { type: Object, default: {} },
@@ -22,7 +20,8 @@ const loading = ref(false);
 const isDisabled = ref(true);
 
 onMounted(() => {
-  console.log('pageProps:', pageProps);
+  // console.log('pageProps:', pageProps.props);
+  // console.log('router:', router.visit);
 });
 const onChangeCiclo = () => (grupoForm.value = null);
 
@@ -37,7 +36,8 @@ const submit = async (e) => {
     if (response?.data?.message) {
       const { message } = response.data;
       await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-      Inertia.visit(route('home'));
+
+      router.visit(route('home'));
     }
   } catch (err) {
     console.log(err?.response);
@@ -80,33 +80,20 @@ watch(grupoForm, (newValue) => {
             <v-radio-group inline v-model="ciclo" @update:modelValue="onChangeCiclo">
               <template v-for="ciclo in curriculum.ciclos" :key="ciclo.id">
                 <v-col cols="12" sm="6" md="3" xl="3">
-                  <v-radio
-                    class="rounded-pill border-lg border-success pa-3 w-100"
-                    :label="`${curriculum.nombre} ${ciclo.nombre}`"
-                    :value="ciclo"
-                    color="primary"
-                  ></v-radio>
-                </v-col> </template
-            ></v-radio-group>
+                  <v-radio class="rounded-pill border-lg border-success pa-3 w-100"
+                    :label="`${curriculum.nombre} ${ciclo.nombre}`" :value="ciclo" color="primary"></v-radio>
+                </v-col> </template></v-radio-group>
           </v-row>
           <v-row class="row-gap-1">
             <v-radio-group v-if="ciclo?.id" inline v-model="grupoForm">
               <v-col cols="12" class="text-subtitle-1">
                 <b><i>Selecciona un Horario Disponible:</i></b>
               </v-col>
-              <template
-                v-for="grupo in ciclo.grupos_pequenos"
-                :key="`${grupo.dia_curso} ${grupo.hora}`"
-              >
+              <template v-for="grupo in ciclo.grupos_pequenos" :key="`${grupo.dia_curso} ${grupo.hora}`">
                 <v-col cols="12" sm="6" md="3" xl="3">
-                  <v-radio
-                    class="rounded-pill border-lg border-success pa-3 w-100"
-                    :label="grupo.hora"
-                    :value="grupo"
-                    color="primary"
-                  ></v-radio>
-                </v-col> </template
-            ></v-radio-group>
+                  <v-radio class="rounded-pill border-lg border-success pa-3 w-100" :label="grupo.hora" :value="grupo"
+                    color="primary"></v-radio>
+                </v-col> </template></v-radio-group>
           </v-row>
           <v-row class="my-3" v-if="!isDisabled">
             <v-col cols="12" class="d-flex">
