@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { defineProps, onMounted } from 'vue';
@@ -11,7 +11,7 @@ dayjs.extend(isBetween);
 const props = defineProps({
   roles: Array,
 });
-onMounted(() => {});
+onMounted(() => { });
 
 const headers = [
   { title: 'ID', key: 'id', fixed: true },
@@ -56,36 +56,26 @@ const onClickDelete = async (item) => {
           <v-row>
             <v-col class="d-flex justify-end">
               <Link :href="route('roles.create')">
-                <v-btn :to="{ name: 'roles.create' }" color="success" class="ms-auto">
-                  Crear Nuevo Rol
-                </v-btn>
+              <v-btn :to="{ name: 'roles.create' }" color="success" class="ms-auto">
+                Crear Nuevo Rol
+              </v-btn>
               </Link>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-data-table
-                :headers="headers"
-                :items="roles"
-                :items-per-page="10"
-                class="elevation-1 rounded"
-              >
+              <v-data-table :headers="headers" :items="roles" :items-per-page="10" class="elevation-1 rounded">
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <Link :href="route('roles.show', item)">
-                      <v-btn as="v-btn" color="info" small> Ver </v-btn>
+                    <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
                     <Link :href="route('roles.edit', item)">
-                      <v-btn
-                        :to="{ name: 'roles.edit', params: { id: item.idCrypt } }"
-                        color="secondary"
-                        small
-                      >
-                        Editar
-                      </v-btn>
+                    <v-btn :to="{ name: 'roles.edit', params: { id: item.idCrypt } }" color="secondary" small>
+                      Editar
+                    </v-btn>
                     </Link>
-                    <v-btn v-if="item.id > 5" color="error" small @click="onClickDelete(item)"
-                      >Eliminar
+                    <v-btn v-if="item.id > 5" color="error" small @click="onClickDelete(item)">Eliminar
                     </v-btn>
                   </div>
                 </template>

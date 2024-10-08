@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { defineProps } from 'vue';
@@ -59,43 +59,30 @@ const onClickDelete = async (item) => {
           <v-row>
             <v-col class="d-flex justify-end">
               <Link :href="route('recursos.create')">
-                <v-btn :to="{ name: 'recursos.create' }" color="success" class="ms-auto">
-                  Crear Nuevo Recurso
-                </v-btn>
+              <v-btn :to="{ name: 'recursos.create' }" color="success" class="ms-auto">
+                Crear Nuevo Recurso
+              </v-btn>
               </Link>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-data-table
-                :headers="headers"
-                :items="recursos"
-                :items-per-page="25"
-                class="elevation-1 rounded"
-              >
+              <v-data-table :headers="headers" :items="recursos" :items-per-page="25" class="elevation-1 rounded">
                 <template v-slot:[`item.link_escritura`]="{ item }">
-                  <a v-if="item.link_escritura" :href="item.link_escritura" target="_blank"
-                    >Link Escritura</a
-                  >
+                  <a v-if="item.link_escritura" :href="item.link_escritura" target="_blank">Link Escritura</a>
                 </template>
                 <template v-slot:[`item.link_lectura`]="{ item }">
-                  <a v-if="item.link_lectura" :href="item.link_lectura" target="_blank"
-                    >Link Lectura</a
-                  >
+                  <a v-if="item.link_lectura" :href="item.link_lectura" target="_blank">Link Lectura</a>
                 </template>
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <Link :href="route('recursos.show', item)">
-                      <v-btn as="v-btn" color="info" small> Ver </v-btn>
+                    <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
                     <Link :href="route('recursos.edit', item)">
-                      <v-btn
-                        :to="{ name: 'recursos.edit', params: { id: item.idCrypt } }"
-                        color="secondary"
-                        small
-                      >
-                        Editar
-                      </v-btn>
+                    <v-btn :to="{ name: 'recursos.edit', params: { id: item.idCrypt } }" color="secondary" small>
+                      Editar
+                    </v-btn>
                     </Link>
                     <v-btn color="error" small @click="onClickDelete(item)">Eliminar </v-btn>
                   </div>

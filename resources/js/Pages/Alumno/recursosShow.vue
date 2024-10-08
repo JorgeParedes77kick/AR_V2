@@ -1,5 +1,5 @@
 <script setup>
-// import { Link, usePage } from '@inertiajs/inertia-vue3';
+// import { Link, usePage } from '@inertiajs/vue3';
 import { defineProps, onMounted, ref } from 'vue';
 import ButtonBack from '../../components/ButtonBack.vue';
 import MainLayout from '../../components/Layout.vue';
@@ -30,13 +30,8 @@ const headers = [
           <ButtonBack /> RECURSOS - {{ ciclo.curriculum.nombre }} {{ ciclo.nombre }}
         </v-card-title>
 
-        <v-data-table
-          :headers="headers"
-          :header-props="{ class: 'bg-data-table-header' }"
-          :items="recursos"
-          class="elevation-1 rounded bg-data-table-body"
-          hide-default-footer
-        >
+        <v-data-table :headers="headers" :header-props="{ class: 'bg-data-table-header' }" :items="recursos"
+          class="elevation-1 rounded bg-data-table-body" hide-default-footer>
           <template v-slot:no-data>No tienes Inscripciones con Recursos disponibles </template>
           <template v-slot:[`item.link_lectura`]="{ item }">
             <a v-if="item.link_lectura" :href="item.link_lectura" target="_blank">

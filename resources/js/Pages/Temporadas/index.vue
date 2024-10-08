@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { defineProps, onMounted } from 'vue';

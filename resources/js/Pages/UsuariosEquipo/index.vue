@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { computed, defineProps, onMounted, ref } from 'vue';
@@ -40,8 +40,8 @@ const filteredItems = computed(() => {
     // Filtro global
     const globalMatch = search.value
       ? item.nick_name.toLowerCase().includes(searchL) ||
-        item.email.toLowerCase().includes(searchL) ||
-        fullName.includes(searchL)
+      item.email.toLowerCase().includes(searchL) ||
+      fullName.includes(searchL)
       : true;
 
     // // Retornar elementos que coincidan con ambos filtros
@@ -98,39 +98,16 @@ const onChange = (item) => {
           </v-row> -->
           <v-row>
             <v-col>
-              <v-data-table
-                :headers="headers"
-                :items="filteredItems"
-                :items-per-page="20"
-                class="elevation-1 rounded"
-              >
+              <v-data-table :headers="headers" :items="filteredItems" :items-per-page="20" class="elevation-1 rounded">
                 <template v-slot:top>
-                  <v-row
-                    ><v-col cols="12" sm="6" md="5">
-                      <v-text-field
-                        v-model="search"
-                        label="Filtrar"
-                        class="mx-3 mt-2"
-                        append-icon="mdi-magnify"
-                        variant="underlined"
-                        hide-details
-                      ></v-text-field> </v-col
-                  ></v-row>
+                  <v-row><v-col cols="12" sm="6" md="5">
+                      <v-text-field v-model="search" label="Filtrar" class="mx-3 mt-2" append-icon="mdi-magnify"
+                        variant="underlined" hide-details></v-text-field> </v-col></v-row>
                 </template>
                 <template v-slot:header.roles="{ props }">
                   <!-- <span class="mt-2">Rol</span> -->
-                  <v-select
-                    v-model="nameFilter"
-                    label="Roles"
-                    persistent-placeholder
-                    hide-details
-                    variant="underlined"
-                    :items="roles"
-                    multiple
-                    item-title="nombre"
-                    item-value="id"
-                    @update:modelValue="onChange"
-                  />
+                  <v-select v-model="nameFilter" label="Roles" persistent-placeholder hide-details variant="underlined"
+                    :items="roles" multiple item-title="nombre" item-value="id" @update:modelValue="onChange" />
                 </template>
                 <template v-slot:[`item.roles`]="{ item }">
                   <span v-for="(rol, i) in item.roles" :key="rol.id">
@@ -146,7 +123,7 @@ const onChange = (item) => {
                     <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link> -->
                     <Link :href="route('usuarios-equipo.edit', item)">
-                      <v-btn color="secondary" small> Editar </v-btn>
+                    <v-btn color="secondary" small> Editar </v-btn>
                     </Link>
                     <!-- <v-btn color="error" small @click="onClickDelete(item)">Eliminar
                     </v-btn> -->

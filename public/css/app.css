@@ -17691,6 +17691,11 @@ body {
   box-shadow: 0 15px 20px rgba(60, 50, 100, 0.15);
 }
 
+.v-theme--dark {
+  --v-shadow-key-umbra-opacity: rgba(255, 255, 255, 0.15);
+  --v-shadow-key-penumbra-opacity: rgba(255, 255, 255, 0.105);
+  --v-shadow-key-ambient-opacity: rgba(255, 255, 255, 0.9d);
+}
 .v-theme--dark .hover-card:hover {
   box-shadow: 0 15px 20px rgba(212, 217, 191, 0.15);
 }

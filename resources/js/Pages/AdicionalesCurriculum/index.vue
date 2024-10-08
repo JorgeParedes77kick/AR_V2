@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { defineProps, onMounted } from 'vue';
@@ -39,13 +39,8 @@ const headers = [
           </v-row> -->
           <v-row>
             <v-col>
-              <v-data-table
-                :headers="headers"
-                :items="curriculums"
-                :items-per-page="15"
-                class="elevation-1 rounded"
-                show-expand
-              >
+              <v-data-table :headers="headers" :items="curriculums" :items-per-page="15" class="elevation-1 rounded"
+                show-expand>
                 <template v-slot:expanded-row="{ item }">
                   <tr v-for="adi in item.adicionales" :key="adi.id">
                     <td :colspan="2"></td>
@@ -56,16 +51,13 @@ const headers = [
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <Link :href="route('adicionales-curriculum.show', item)">
-                      <v-btn as="v-btn" color="info" small> Ver </v-btn>
+                    <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
                     <Link :href="route('adicionales-curriculum.edit', item)">
-                      <v-btn
-                        :to="{ name: 'adicionales-curriculum.edit', params: { id: item.idCrypt } }"
-                        color="secondary"
-                        small
-                      >
-                        Editar
-                      </v-btn>
+                    <v-btn :to="{ name: 'adicionales-curriculum.edit', params: { id: item.idCrypt } }" color="secondary"
+                      small>
+                      Editar
+                    </v-btn>
                     </Link>
                     <!-- <v-btn color="error" small @click="onClickDelete(item)">Eliminar
                     </v-btn> -->

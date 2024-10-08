@@ -477,7 +477,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                 return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_radio, {
-                                  "class": "rounded-pill border-lg border-success pa-3 w-100",
+                                  "class": "rounded-pill border-md border-success pa-3 w-100",
                                   label: "".concat($props.curriculum.nombre, " ").concat(ciclo.nombre),
                                   value: ciclo,
                                   color: "primary"
@@ -523,7 +523,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                 return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_radio, {
-                                  "class": "rounded-pill border-lg border-success pa-3 w-100",
+                                  "class": "rounded-pill border-md border-success pa-3 w-100",
                                   label: grupo.hora,
                                   value: grupo,
                                   color: "primary"

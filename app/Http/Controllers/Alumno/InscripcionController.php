@@ -35,17 +35,19 @@ class InscripcionController extends Controller {
 
         $temporadas = Temporada::activo()->get();
         $temporadasId = $temporadas->pluck('id');
-        $parejasId = Restriccion::parejas()->pluck('curriculum_id')->toArray();
-        Debug::infoJson($parejasId);
 
         $curriculum = Curriculum::
             whereRaw("LOWER(REGEXP_REPLACE(nombre, '[^a-zA-Z0-9]', '')) = ?", [$curriculumName])
             ->with('ciclos', function ($query) use ($temporadasId) {$query->withHorarios($temporadasId);})
-        // ->selectRaw()
+            ->whereHas('ciclos.grupospequenos', function ($query) use ($temporadasId) {
+                $query->whereIn('temporada_id', $temporadasId);
+            })
             ->first();
-        $curriculum->parejas = in_array($curriculum->id, $parejasId);
 
         if (!$curriculum) {return redirect()->route('home')->with(['error' => 'Curriculum no disponible o no existe!']);}
+
+        $parejasId = Restriccion::parejas()->pluck('curriculum_id')->toArray();
+        $curriculum->parejas = in_array($curriculum->id, $parejasId);
 
         // manejar el caso en que se encuentra un currículum activo con ese nombre
         Debug::infoJson($curriculum);
@@ -70,7 +72,7 @@ class InscripcionController extends Controller {
         $inscripcionesUsuario = Inscripcion::where('usuario_id', $usuario->id)
             ->whereHas('grupoPequeno', function ($query) use ($temporada_id) {
                 $query->where('temporada_id', $temporada_id);
-            })
+            })->where('rol_id', RolHelper::$ALUMNO)
             ->count();
 
         // Obtener los valores globales para límites de inscripciones
@@ -80,6 +82,9 @@ class InscripcionController extends Controller {
 
         $inscripcionesMaximas = $globales[GlobalHelper::$GRUPOS_POR_USUARIO] ?? 0;
         $inscripcionesEnGrupo = $globales[GlobalHelper::$INSCRIPCION_POR_GRUPO] ?? 0;
+        // Debug::info($inscripcionesMaximas);
+        // Debug::info($inscripcionesEnGrupo);
+        // Debug::info($inscripcionesUsuario);
 
         // Verificar si el usuario ya alcanzó el número máximo de inscripciones permitidas
         if ($inscripcionesUsuario >= $inscripcionesMaximas) {

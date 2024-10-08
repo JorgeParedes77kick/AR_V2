@@ -45,7 +45,7 @@ class RecursosController extends Controller {
             whereHas('ciclo.gruposPequenos', function ($query) use ($temporadasId, $usuario) {
             $query->whereIn('temporada_id', $temporadasId)
                 ->whereHas('alumnos', function ($query) use ($usuario) {
-                    $query->where('usuario_id', $usuario->id);
+                    $query->where('usuarios.id', $usuario->id);
                 });
         })->get();
         $ciclo = $recursos->first()->ciclo()->with('curriculum:id,nombre')->first();

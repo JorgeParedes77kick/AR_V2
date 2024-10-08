@@ -1,5 +1,5 @@
 <script setup>
-// import { Link, usePage } from '@inertiajs/inertia-vue3';
+// import { Link, usePage } from '@inertiajs/vue3';
 import { defineProps, onMounted, ref } from 'vue';
 // import AppLayout from '@/Layouts/AppLayout.vue'; // Importamos el layout
 
@@ -66,11 +66,15 @@ const onClickDelete = async (item) => {
             {{ index + 1 }}
           </template>
           <template v-slot:[`item.estado_inscripcion.estado`]="{ item }">
-            <v-chip v-if="item.estado_inscripcion.id == 1 || item.estado_inscripcion.id == 2" color="success"
-              variant="flat">{{ item.estado_inscripcion.estado }}</v-chip>
-            <v-chip v-else color="error" variant="flat">{{
-              item.estado_inscripcion.estado
-            }}</v-chip>
+            <v-chip v-if="item.estado_inscripcion.id == 1" color="primary" variant="flat">
+              {{ item.estado_inscripcion.estado }}</v-chip>
+            <v-chip v-else-if="item.estado_inscripcion.id == 2" color="success" variant="flat">
+              {{ item.estado_inscripcion.estado }}</v-chip>
+            <v-chip v-else-if="[3, 4].includes(item.estado_inscripcion.id)" variant="flat">
+              {{ item.estado_inscripcion.estado }}</v-chip>
+            <v-chip v-else color="info" variant="flat">
+              {{ item.estado_inscripcion.estado }}
+            </v-chip>
           </template>
           <template v-slot:[`item.acciones`]="{ item }">
             <div class="d-flex inline-flex ga-2">

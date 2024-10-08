@@ -74,7 +74,7 @@ class Persona extends Model {
      * Relación con el país
      */
     public function region(): BelongsTo {
-        return $this->belongsTo(Region::class, 'pais_id');
+        return $this->belongsTo(Region::class, 'region_id');
     }
 
     // /**

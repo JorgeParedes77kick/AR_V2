@@ -30,11 +30,15 @@ class HomeController extends Controller {
 
         // Obtener las temporadas activas y sus IDs
         $temporadas = Temporada::activo()->get();
-        // $temporadasId = $temporadas->pluck('id');
+        $temporadasId = $temporadas->pluck('id');
 
         $persona = Auth::user()->persona;
         // Obtener los curriculums con los ciclos y contar los alumnos en grupos pequeños
-        $curriculums = Curriculum::activo()->with(['restricciones'])
+        $curriculums = Curriculum::activo()
+            ->whereHas('ciclos.grupospequenos', function ($query) use ($temporadasId) {
+                $query->whereIn('temporada_id', $temporadasId);
+            })
+            ->with(['restricciones'])
             ->where(function ($Q) use ($persona) {
                 $Q->Validacion($persona)->orWhereDoesntHave('restricciones');
             })

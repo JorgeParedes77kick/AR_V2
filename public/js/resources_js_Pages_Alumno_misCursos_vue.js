@@ -31,7 +31,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var __expose = _ref.expose;
     __expose();
 
-    // import { Link, usePage } from '@inertiajs/inertia-vue3';
+    // import { Link, usePage } from '@inertiajs/vue3';
     var props = __props;
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
@@ -216,8 +216,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)];
               })), _defineProperty(_createVNode2, "item.estado_inscripcion.estado", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
                 var item = _ref2.item;
-                return [item.estado_inscripcion.id == 1 || item.estado_inscripcion.id == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
+                return [item.estado_inscripcion.id == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
                   key: 0,
+                  color: "primary",
+                  variant: "flat"
+                }, {
+                  "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.estado_inscripcion.estado), 1 /* TEXT */)];
+                  }),
+                  _: 2 /* DYNAMIC */
+                }, 1024 /* DYNAMIC_SLOTS */)) : item.estado_inscripcion.id == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
+                  key: 1,
                   color: "success",
                   variant: "flat"
                 }, {
@@ -225,9 +234,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.estado_inscripcion.estado), 1 /* TEXT */)];
                   }),
                   _: 2 /* DYNAMIC */
+                }, 1024 /* DYNAMIC_SLOTS */)) : [3, 4].includes(item.estado_inscripcion.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
+                  key: 2,
+                  variant: "flat"
+                }, {
+                  "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.estado_inscripcion.estado), 1 /* TEXT */)];
+                  }),
+                  _: 2 /* DYNAMIC */
                 }, 1024 /* DYNAMIC_SLOTS */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
-                  key: 1,
-                  color: "error",
+                  key: 3,
+                  color: "info",
                   variant: "flat"
                 }, {
                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
