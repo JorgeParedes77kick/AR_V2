@@ -1,14 +1,68 @@
 <script setup>
-import { defineProps, inject, onMounted, ref } from 'vue';
+import { Link } from '@inertiajs/vue3';
+import { computed, defineProps, onMounted, ref } from 'vue';
+import { useTheme } from 'vuetify';
+import MainLayout from '../../components/Layout.vue';
 
-const validate = inject('validation');
 
-const props = defineProps({});
+const props = defineProps({
+  curriculum: { type: Object, default: {} },
+  grupospequenos: { type: Array, default: [] },
+});
+const theme = useTheme();
+
 const loading = ref(false);
 const isDisabled = ref(false);
 
-onMounted(() => { });
+onMounted(() => {
+  // console.log('pageProps:', pageProps);
+  // console.log('Props:', props);
+  console.log("vuetify:", theme)
+});
+const isDark = computed(() => theme.current.value.dark)
 </script>
 
-<template></template>
+<template>
+  <MainLayout>
+    <v-container fluid>
+      <!-- <template v-if="status">
+        <v-alert type="success" :text="status"></v-alert>
+      </template> -->
+      <v-card color="background" class="shadow-md px-4 py-2">
+
+        <v-card-title class="text-center ">GRUPO PEQUEÑO: {{ curriculum.nombre }} </v-card-title>
+        <v-divider></v-divider>
+
+        <v-row>
+          <v-col cols="12" class="text-subtitle-1">
+            <b><i>Selecciona tu ciclo:</i></b>
+          </v-col>
+          <v-col v-for="grupo in grupospequenos" :key="grupo.id" cols="12" sm="6" md="4">
+            <v-hover v-slot:default="{ isHovering, props }">
+              <Link :href="route(
+                'mis-salones.grupo',
+                {
+                  curriculum: curriculum.nombre.replace(/[^a-zA-Z0-9]/g, '').toLowerCase(),
+                  id: grupo.id
+                }
+              )
+                "><v-card class="rounded-pill border-md w-100 border-info h-auto px-3 py-1 text-center" v-ripple
+                :elevation="isHovering ? 10 : 2" :color="isDark ? 'gray' : 'ayrface'" v-bind="props">
+                <div :class="isHovering ? 'font-weight-medium' : ''">
+                  {{ curriculum.nombre }} {{ grupo.ciclo.nombre }} - {{ grupo.dia_curso }} {{ grupo.hora }}
+                </div>
+              </v-card>
+              </Link>
+            </v-hover>
+            <!-- <v-radio class="rounded-pill border-lg border-success pa-3 w-100"
+              :label="`${curriculum.nombre} ${ciclo.nombre}`" :value="ciclo" color="primary"></v-radio> -->
+          </v-col>
+        </v-row>
+
+
+
+      </v-card>
+    </v-container>
+  </MainLayout>
+</template>
 <style></style>

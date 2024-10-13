@@ -7,7 +7,7 @@
         <div class="pa-4 ga-2" style="display: grid">
           <p v-for="ruta in rutas" :key="ruta.name" class="">
             <Link :href="route(ruta.name)">
-              <a>{{ ruta.URI }}</a>
+            <a>{{ ruta.URI }}</a>
             </Link>
           </p>
         </div>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from '@inertiajs/vue3';
 import MainLayout from '../components/Layout.vue';
 
 export default {

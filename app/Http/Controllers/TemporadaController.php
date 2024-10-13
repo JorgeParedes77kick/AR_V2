@@ -52,7 +52,7 @@ class TemporadaController extends Controller {
      * @param  int  $id
      */
     public function show($id) {
-        $temporada = Temporada::find($id);
+        $temporada = Temporada::whereId($id)->with('semanas')->first();
         return Inertia::render('Temporadas/form', [
             'action' => 'show',
             'temporada' => $temporada,
@@ -65,7 +65,7 @@ class TemporadaController extends Controller {
      * @param  int  $id
      */
     public function edit($id) {
-        $temporada = Temporada::find($id);
+        $temporada = Temporada::whereId($id)->with('semanas')->first();
         return Inertia::render('Temporadas/form', [
             'action' => 'edit',
             'temporada' => $temporada,

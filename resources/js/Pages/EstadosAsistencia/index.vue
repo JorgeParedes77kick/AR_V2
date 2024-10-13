@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { defineProps, onMounted } from 'vue';
@@ -62,36 +62,27 @@ const onClickDelete = async (item) => {
           <v-row>
             <v-col class="d-flex justify-end">
               <Link :href="route('estados-asistencia.create')">
-                <v-btn :to="{ name: 'estados-asistencia.create' }" color="success" class="ms-auto">
-                  Crear Nuevo Estado de Asistencia
-                </v-btn>
+              <v-btn :to="{ name: 'estados-asistencia.create' }" color="success" class="ms-auto">
+                Crear Nuevo Estado de Asistencia
+              </v-btn>
               </Link>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-data-table
-                :headers="headers"
-                :items="estados"
-                :items-per-page="10"
-                class="elevation-1 rounded"
-              >
+              <v-data-table :headers="headers" :items="estados" :items-per-page="10" class="elevation-1 rounded">
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <Link :href="route('estados-asistencia.show', item)">
-                      <v-btn as="v-btn" color="info" small> Ver </v-btn>
+                    <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
                     <Link :href="route('estados-asistencia.edit', item)">
-                      <v-btn
-                        :to="{ name: 'estados-asistencia.edit', params: { id: item.idCrypt } }"
-                        color="secondary"
-                        small
-                      >
-                        Editar
-                      </v-btn>
+                    <v-btn :to="{ name: 'estados-asistencia.edit', params: { id: item.idCrypt } }" color="secondary"
+                      small>
+                      Editar
+                    </v-btn>
                     </Link>
-                    <v-btn v-if="item.id > 5" color="error" small @click="onClickDelete(item)"
-                      >Eliminar
+                    <v-btn v-if="item.id > 5" color="error" small @click="onClickDelete(item)">Eliminar
                     </v-btn>
                   </div>
                 </template>

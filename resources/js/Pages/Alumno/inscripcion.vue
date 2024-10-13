@@ -80,7 +80,7 @@ watch(grupoForm, (newValue) => {
             <v-radio-group inline v-model="ciclo" @update:modelValue="onChangeCiclo">
               <template v-for="ciclo in curriculum.ciclos" :key="ciclo.id">
                 <v-col cols="12" sm="6" md="3" xl="3">
-                  <v-radio class="rounded-pill border-lg border-success pa-3 w-100"
+                  <v-radio class="rounded-pill border-md border-success pa-3 w-100"
                     :label="`${curriculum.nombre} ${ciclo.nombre}`" :value="ciclo" color="primary"></v-radio>
                 </v-col> </template></v-radio-group>
           </v-row>
@@ -91,7 +91,7 @@ watch(grupoForm, (newValue) => {
               </v-col>
               <template v-for="grupo in ciclo.grupos_pequenos" :key="`${grupo.dia_curso} ${grupo.hora}`">
                 <v-col cols="12" sm="6" md="3" xl="3">
-                  <v-radio class="rounded-pill border-lg border-success pa-3 w-100" :label="grupo.hora" :value="grupo"
+                  <v-radio class="rounded-pill border-md border-success pa-3 w-100" :label="grupo.hora" :value="grupo"
                     color="primary"></v-radio>
                 </v-col> </template></v-radio-group>
           </v-row>

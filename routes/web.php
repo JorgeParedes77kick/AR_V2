@@ -42,12 +42,20 @@ Route::get('/user/validate-token/{email}/{token}', [App\Http\Controllers\Usuario
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    //ALUMNO
     Route::post('/horario/inscripcion', [App\Http\Controllers\Alumno\InscripcionController::class, 'inscribir'])->name('horario.inscripcion.store');
     Route::delete('/horario/inscripcion/{curriculum}', [App\Http\Controllers\Alumno\InscripcionController::class, 'desinscribir'])->name('horario.inscripcion.delete');
     Route::get('/horario/{curriculum}', [App\Http\Controllers\Alumno\InscripcionController::class, 'curriculum'])
         ->name('horario.curriculum')->where('curriculum', '[A-Za-z]+');
     Route::get('/mis-cursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'cursos'])->name('mis-cursos');
     Route::resource('/mis-recursos', App\Http\Controllers\Alumno\RecursosController::class)->only(['index', 'show']);
+    //LIDER
+    Route::get('/mis-salones', [App\Http\Controllers\Lider\SalonesController::class, 'index'])->name('mis-salones');
+    Route::get('/mis-salones/{curriculum}', [App\Http\Controllers\Lider\SalonesController::class, 'curriculum'])->name('mis-salones.curriculum');
+    Route::get('/mis-salones/{curriculum}/{id}', [App\Http\Controllers\Lider\SalonesController::class, 'alumnosGrupo'])->name('mis-salones.grupo');
+    // Route::get('/mis-salones/{curriculum}/asistencia', [App\Http\Controllers\Lider\SalonesController::class, 'index'])->name('mis-salones.asistencia');
+
 });
 
 /**

@@ -79,6 +79,15 @@ class GrupoPequeno extends Model {
     public function inscripciones(): HasMany {
         return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id');
     }
+    public function inscripcionesLideres(): HasMany {
+        return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$LIDER);
+    }
+    public function inscripcionesMonitores(): HasMany {
+        return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$MONITOR);
+    }
+    public function inscripcionesAlumnos(): HasMany {
+        return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$ALUMNO);
+    }
     // Relación para los líderes (rol_id = 3)
     public function lideres() {
         // return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$LIDER);
@@ -91,7 +100,6 @@ class GrupoPequeno extends Model {
             'usuario_id')->where('inscripciones.rol_id', RolHelper::$LIDER);
     }
 
-    // Relación para los monitores (rol_id = 4)
     public function monitores() {
         // return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$MONITOR);
         return $this->hasManyThrough(
@@ -102,9 +110,16 @@ class GrupoPequeno extends Model {
             'id',
             'usuario_id')->where('inscripciones.rol_id', RolHelper::$MONITOR);
     }
-    // Relación para los monitores (rol_id = 4)
     public function alumnos() {
-        return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$ALUMNO);
+        return $this->hasManyThrough(
+            Usuario::class,
+            Inscripcion::class,
+            'grupo_pequeno_id',
+            'id',
+            'id',
+            'usuario_id')->where('inscripciones.rol_id', RolHelper::$ALUMNO);
+
+        // return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$ALUMNO);
     }
 
     public function scopeActivo($query) {
