@@ -291,7 +291,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuetify */ "./node_modules/vuetify/lib/composables/theme.mjs");
+/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify */ "./node_modules/vuetify/lib/composables/theme.mjs");
+/* harmony import */ var _constants_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants/form */ "./resources/js/constants/form.js");
+
 
 
 
@@ -301,127 +303,80 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
-    var theme = (0,vuetify__WEBPACK_IMPORTED_MODULE_3__.useTheme)();
+    var theme = (0,vuetify__WEBPACK_IMPORTED_MODULE_4__.useTheme)();
     var isDarkTheme = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
     var drawer = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
     var csrf = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
     var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_2__.reactive)({
       _token: csrf
     });
-    var listGroup = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([{
-      label: 'Admin',
-      expanded: false,
-      items: [{
-        title: 'Home',
-        link: '/'
-      }, {
-        title: 'Globales',
-        link: '/'
-      }, {
-        title: 'Temporadas R',
-        link: '/'
-      }, {
-        title: 'Registrar Horario R',
-        link: '/'
-      }, {
-        title: 'Usuarios R',
-        link: '/'
-      }, {
-        title: 'Asistencias',
-        link: '/'
-      }, {
-        title: 'Recursos R',
-        link: '/'
-      }, {
-        title: 'Cumpleaños',
-        link: '/'
-      }, {
-        title: 'Adicionales ',
-        link: '/'
-      }, {
-        title: 'Exportar Data',
-        link: '/'
-      }, {
-        title: 'Inscribir Alumno',
-        link: '/'
-      }]
-    }, {
-      label: 'Coordinador',
-      expanded: false,
-      items: [{
-        title: 'Asistencia',
-        link: '/'
-      }, {
-        title: 'Registrar Horario R',
-        link: '/'
-      }, {
-        title: 'Usuarios AR -',
-        link: '/'
-      }, {
-        title: 'Recursos R',
-        link: '/'
-      }, {
-        title: 'Cumpleaños',
-        link: '/'
-      }, {
-        title: 'Exportar Data',
-        link: '/'
-      }, {
-        title: 'Reasignar alumnos',
-        link: '/'
-      }, {
-        title: 'Inscribir Alumno',
-        link: '/'
-      }]
-    }, {
-      label: 'Monitor',
-      expanded: false,
-      items: [{
-        title: 'Asistencia',
-        link: ''
-      }, {
-        title: 'Usuarios AR -',
-        link: ''
-      }, {
-        title: 'Cumpleaños',
-        link: ''
-      }, {
-        title: 'Exportar Data',
-        link: ''
-      }, {
-        title: 'Reasignar alumnos',
-        link: ''
-      }, {
-        title: 'Inscribir Alumno',
-        link: ''
-      }]
-    }, {
-      label: 'Lider',
-      expanded: false,
-      items: [{
-        title: 'Mis Salones',
-        link: ''
-      }, {
-        title: 'Calificar alumnos',
-        link: ''
-      }, {
-        title: 'Cumpleaños',
-        link: ''
-      }]
-    }, {
-      label: 'Alumno',
-      expanded: false,
-      items: [{
-        title: 'Home',
-        link: ''
-      }, {
-        title: 'Mis Recursos',
-        link: ''
-      }, {
-        title: 'Mis Grupos Pequeños',
-        link: ''
-      }]
-    }]);
+    var menus = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
+    /*
+    const listGroup = ref([
+      {
+        label: 'Admin',
+        expanded: false,
+        items: [
+          { title: 'Home', link: '/' },
+          { title: 'Globales', link: '/' },
+          { title: 'Temporadas R', link: '/' },
+          { title: 'Registrar Horario R', link: '/' },
+          { title: 'Usuarios R', link: '/' },
+          { title: 'Asistencias', link: '/' },
+          { title: 'Recursos R', link: '/' },
+          { title: 'Cumpleaños', link: '/' },
+          { title: 'Adicionales ', link: '/' },
+          { title: 'Exportar Data', link: '/' },
+          { title: 'Inscribir Alumno', link: '/' },
+        ],
+      },
+      {
+        label: 'Coordinador',
+        expanded: false,
+        items: [
+          { title: 'Asistencia', link: '/' },
+          { title: 'Registrar Horario R', link: '/' },
+          { title: 'Usuarios AR -', link: '/' },
+          { title: 'Recursos R', link: '/' },
+          { title: 'Cumpleaños', link: '/' },
+          { title: 'Exportar Data', link: '/' },
+          { title: 'Reasignar alumnos', link: '/' },
+          { title: 'Inscribir Alumno', link: '/' },
+        ],
+      },
+      {
+        label: 'Monitor',
+        expanded: false,
+        items: [
+          { title: 'Asistencia', link: '' },
+          { title: 'Usuarios AR -', link: '' },
+          { title: 'Cumpleaños', link: '' },
+          { title: 'Exportar Data', link: '' },
+          { title: 'Reasignar alumnos', link: '' },
+          { title: 'Inscribir Alumno', link: '' },
+        ],
+      },
+      {
+        label: 'Lider',
+        expanded: false,
+        items: [
+          { title: 'Mis Salones', link: '' },
+          { title: 'Calificar alumnos', link: '' },
+          { title: 'Cumpleaños', link: '' },
+        ],
+      },
+      {
+        label: 'Alumno',
+        expanded: false,
+        items: [
+          { title: 'Home', link: '' },
+          { title: 'Mis Recursos', link: '' },
+          { title: 'Mis Grupos Pequeños', link: '' },
+        ],
+      },
+    ]);
+    
+     */
     var toggleTheme = function toggleTheme() {
       isDarkTheme.value = !isDarkTheme.value;
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
@@ -430,34 +385,48 @@ __webpack_require__.r(__webpack_exports__);
     (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)(function () {
       isDarkTheme.value = localStorage.getItem('theme') === 'dark';
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
+      (0,_constants_form__WEBPACK_IMPORTED_MODULE_3__.getList)('/menu/list/byRol').then(function (data) {
+        console.log("Menus: " + JSON.stringify(data));
+        for (var m = 0; m < data.length; m++) {
+          console.log(data[m].nombre);
+          var subMenus = [];
+          for (var s = 0; s < data[m].submenu.length; s++) {
+            subMenus.push({
+              title: data[m].submenu[s].nombre,
+              link: data[m].submenu[s].url_ref
+            });
+          }
+          menus.value.push({
+            label: data[m].nombre,
+            expanded: false,
+            items: subMenus
+          });
+        }
+      });
     });
     var activeGroup = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(null);
     function toggleGroup(index) {
       activeGroup.value = activeGroup.value === index ? null : index;
     }
-    function handleSubmit(e) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('logout', formLogout).then(function (result) {
-        window.location.href = 'login';
-      })["catch"](function (error) {
-        console.log(JSON.stringify(error.response.data.message));
-      });
+    function handleSubmit(e, link) {
+      if (link === 'logout') {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post(link, formLogout).then(function (result) {
+          window.location.href = 'login';
+        })["catch"](function (error) {
+          console.log(JSON.stringify(error.response.data.message));
+        });
+      } else {
+        window.location.href = link;
+      }
     }
     var myApp = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([{
-      title: 'Click Me 1',
-      icon: 'mdi-power',
-      link: 'logout'
-    }, {
-      title: 'Click Me 2',
+      title: 'Home',
       icon: 'mdi-home',
       link: 'home'
     }, {
-      title: 'Click Me 3',
+      title: 'Logout',
       icon: 'mdi-power',
       link: 'logout'
-    }, {
-      title: 'Click Me 4',
-      icon: 'mdi-home',
-      link: 'home'
     }]);
     var __returned__ = {
       theme: theme,
@@ -465,7 +434,7 @@ __webpack_require__.r(__webpack_exports__);
       drawer: drawer,
       csrf: csrf,
       formLogout: formLogout,
-      listGroup: listGroup,
+      menus: menus,
       toggleTheme: toggleTheme,
       activeGroup: activeGroup,
       toggleGroup: toggleGroup,
@@ -481,7 +450,10 @@ __webpack_require__.r(__webpack_exports__);
       reactive: vue__WEBPACK_IMPORTED_MODULE_2__.reactive,
       ref: vue__WEBPACK_IMPORTED_MODULE_2__.ref,
       get useTheme() {
-        return vuetify__WEBPACK_IMPORTED_MODULE_3__.useTheme;
+        return vuetify__WEBPACK_IMPORTED_MODULE_4__.useTheme;
+      },
+      get getList() {
+        return _constants_form__WEBPACK_IMPORTED_MODULE_3__.getList;
       }
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
@@ -862,7 +834,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_title, null, {
                           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_form, {
-                              onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.handleSubmit, ["prevent"])
+                              onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+                                return $setup.handleSubmit($event, item.link);
+                              }, ["prevent"])
                             }, {
                               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                 return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
@@ -884,7 +858,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["prepend-icon"])];
                               }),
                               _: 2 /* DYNAMIC */
-                            }, 1024 /* DYNAMIC_SLOTS */)];
+                            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onSubmit"])];
                           }),
                           _: 2 /* DYNAMIC */
                         }, 1024 /* DYNAMIC_SLOTS */)];
@@ -912,7 +886,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\r\n        <v-hover>\r\n          <template v-slot:default=\"{ isHovering, props }\">\r\n            <v-list-item\r\n              :title=\"item.title\"\r\n              :to=\"item.link\"\r\n              v-bind=\"props\"\r\n              :class=\"\r\n                classnames({\r\n                  'bg-navbar-hover': isHovering,\r\n                  'text-navbar-hover-text': isHovering,\r\n                })\r\n              \"\r\n            >\r\n            </v-list-item>\r\n          </template>\r\n</v-hover>\r\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.listGroup, function (group, index) {
+              return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.menus, function (menu, index) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
                   key: index + 'group',
                   modelValue: $setup.activeGroup,
@@ -926,11 +900,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
                       ref_for: true
                     }, props, {
-                      title: group.label
+                      title: menu.label
                     }), null, 16 /* FULL_PROPS */, ["title"])];
                   }),
                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                    return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(group.items, function (item, i) {
+                    return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(menu.items, function (subMenu, i) {
                       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_hover, {
                         key: i + 'subItem'
                       }, {
@@ -938,14 +912,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           var isHovering = _ref3.isHovering,
                             props = _ref3.props;
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
-                            title: item.title,
+                            href: subMenu.link,
+                            title: subMenu.title,
                             ref_for: true
                           }, props, {
                             "class": $setup.classnames({
                               'bg-navbar-hover': isHovering,
                               'text-navbar-hover-text': isHovering
                             })
-                          }), null, 16 /* FULL_PROPS */, ["title", "class"])];
+                          }), null, 16 /* FULL_PROPS */, ["href", "title", "class"])];
                         }),
                         _: 2 /* DYNAMIC */
                       }, 1024 /* DYNAMIC_SLOTS */);

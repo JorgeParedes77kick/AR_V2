@@ -3,6 +3,7 @@ import axios from 'axios';
 import classnames from 'classnames';
 import { onMounted, reactive, ref } from 'vue';
 import { useTheme } from 'vuetify';
+import {getList} from "../constants/form";
 
 const theme = useTheme();
 const isDarkTheme = ref(false);
@@ -15,6 +16,8 @@ const formLogout = reactive({
   _token: csrf,
 });
 
+const menus = ref([]);
+/*
 const listGroup = ref([
   {
     label: 'Admin',
@@ -78,6 +81,8 @@ const listGroup = ref([
     ],
   },
 ]);
+
+ */
 const toggleTheme = () => {
   isDarkTheme.value = !isDarkTheme.value;
   theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
@@ -87,6 +92,23 @@ const toggleTheme = () => {
 onMounted(() => {
   isDarkTheme.value = localStorage.getItem('theme') === 'dark';
   theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
+
+  getList('/menu/list/byRol').then((data)=>{
+    console.log("Menus: " + JSON.stringify(data));
+    for(let m=0; m < data.length; m++){
+      console.log(data[m].nombre);
+      const subMenus = [];
+      for(let s=0; s < data[m].submenu.length; s++){
+        subMenus.push({ title: data[m].submenu[s].nombre, link: data[m].submenu[s].url_ref })
+      }
+      menus.value.push({
+        label: data[m].nombre,
+        expanded: false,
+        items: subMenus,
+      })
+    }
+  });
+
 });
 
 const activeGroup = ref(null);
@@ -95,23 +117,27 @@ function toggleGroup(index) {
   activeGroup.value = activeGroup.value === index ? null : index;
 }
 
-function handleSubmit(e) {
-  axios
-    .post('logout', formLogout)
-    .then((result) => {
-      window.location.href = 'login';
-    })
-    .catch((error) => {
-      console.log(JSON.stringify(error.response.data.message));
-    });
+function handleSubmit(e, link) {
+  if(link === 'logout'){
+    axios
+      .post(link, formLogout)
+      .then((result) => {
+        window.location.href = 'login';
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error.response.data.message));
+      });
+  }else{
+    window.location.href = link;
+  }
+
 }
 
 const myApp = ref([
-  { title: 'Click Me 1', icon: 'mdi-power', link: 'logout' },
-  { title: 'Click Me 2', icon: 'mdi-home', link: 'home' },
-  { title: 'Click Me 3', icon: 'mdi-power', link: 'logout' },
-  { title: 'Click Me 4', icon: 'mdi-home', link: 'home' },
+  { title: 'Home', icon: 'mdi-home', link: 'home' },
+  { title: 'Logout', icon: 'mdi-power', link: 'logout' },
 ]);
+
 </script>
 <template>
   <v-app>
@@ -135,7 +161,7 @@ const myApp = ref([
           <v-list class="text-left">
             <v-list-item v-for="(item, index) in myApp" :key="index" :value="index">
               <v-list-item-title>
-                <v-form @submit.prevent="handleSubmit">
+                <v-form @submit.prevent="handleSubmit($event, item.link)">
                   <v-btn size="small" variant="plain" type="submit" :prepend-icon="item.icon">
                     <template v-slot:prepend>
                       <v-icon size="x-large" color="error"></v-icon>
@@ -170,15 +196,16 @@ const myApp = ref([
 </v-hover>
 </template> -->
       <v-list>
-        <template v-for="(group, index) in listGroup" :key="index + 'group'">
+        <template v-for="(menu, index) in menus" :key="index + 'group'">
           <v-list-group v-model="activeGroup" :value="index">
             <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" :title="group.label" />
+              <v-list-item v-bind="props" :title="menu.label" />
             </template>
-            <v-hover v-for="(item, i) in group.items" :key="i + 'subItem'">
+            <v-hover v-for="(subMenu, i) in menu.items" :key="i + 'subItem'">
               <template v-slot:default="{ isHovering, props }">
                 <v-list-item
-                  :title="item.title"
+                  :href="subMenu.link"
+                  :title="subMenu.title"
                   v-bind="props"
                   :class="
                     classnames({

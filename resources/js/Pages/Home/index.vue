@@ -32,7 +32,7 @@ onMounted(() => {
             >
             <p class="text-subtitle-1 text-center">Haz clic en el grupo pequeño de tu interes!</p>
           </template>
-          <template v-else>
+          <template v-if="temporadas.length > 0">
             <v-card-title class="text-center h4" style="font-size: 30px"
               >¡Ya comenzó la temporada {{ temporadas[0].prefijo }} de grupos
               pequeños!</v-card-title

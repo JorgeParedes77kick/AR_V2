@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,9 +19,9 @@ use Inertia\Inertia;
  * Rutas Inicial
  */
 Route::get('/', function () {
-    // if (Auth::check()) {
-    //     return redirect()->route('home');
-    // }
+    /*if (Auth::check()) {
+      return redirect()->route('home');
+    }*/
     return Inertia::render('Login/LoginPage');
 });
 /**
@@ -36,7 +37,7 @@ Route::delete('persona/{persona_id}/delete', [App\Http\Controllers\PersonaContro
 Route::get('/user/validate-token/{email}/{token}', [App\Http\Controllers\UsuarioController::class, 'canResetPass'])->name('user.validate-token');
 
 /**
- * Rutas Usuario Autrizado
+ * Rutas Usuario Autorizado
  */
 Route::middleware(['auth'])->group(function () {
 
@@ -78,5 +79,13 @@ Route::middleware(['auth',
 
     Route::get('grupos-pequenos/horario', [App\Http\Controllers\GrupoPequenoController::class, 'horario']);
     Route::resource('grupos-pequenos', App\Http\Controllers\GrupoPequenoController::class);
+
+    /* Rutas Menu*/
+    Route::resource('menu', App\Http\Controllers\MenuController::class);
+    Route::get('/menu/list/byRol', [App\Http\Controllers\MenuController::class, 'menuByRol'])->name('menu.rol');
+
+    /* Rutas Role Menu*/
+    Route::get('rol-menu', [\App\Http\Controllers\RolMenuController::class, 'index'])->name('rol-menu');
+    Route::post('rol-menu', [\App\Http\Controllers\RolMenuController::class, 'store'])->name('rol-menu.store');
 
 });
