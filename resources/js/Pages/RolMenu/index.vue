@@ -13,10 +13,14 @@ dayjs.extend(isBetween);
 const props = defineProps({
   menus: Array,
   roles: Array,
+  menusRoles: Array,
+  rolMenus: Array,
 });
 onMounted(() => {
   console.log("menus ", props.menus);
   console.log("roles ", props.roles);
+  console.log("menusRoles ", props.menusRoles);
+  console.log("rolMenus ", props.rolMenus);
 });
 
 const headers = [
@@ -79,7 +83,7 @@ const onClickDelete = async (item) => {
                 <tbody>
                   <template v-for="menu in menus">
                     <template v-if="menu.menu_padre_id == null">
-                      <role-menu-item :rootMenu="menu" subMenu="not" :roles="roles"></role-menu-item>
+                      <role-menu-item :rootMenu="menu" subMenu="not" :roles="roles" :menusRoles="menusRoles"></role-menu-item>
                     </template>
                   </template>
                   <!--<tr v-for="menu in menus" :key="menu.nombre">

@@ -11,19 +11,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'role-menu-item',
   props: {
     rootMenu: Array,
     subMenu: String,
-    roles: Array
+    roles: Array,
+    menusRoles: Array
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
     var props = __props;
+
+    //const array_column = (array = [], column_name = '') => array.map((item, index) => item[column_name])
+    var items = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(['foo', 'bar']);
+    var search = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
+      var filteredList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+        if (search.value.length === 0) return props.menusRoles;
+        return props.menusRoles.filter(function (item) {
+          return item.includes(search.value);
+        });
+      });
+      search.value = "1";
+      console.log(filteredList);
+    });
     var __returned__ = {
-      props: props
+      props: props,
+      items: items,
+      search: search,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
+      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
+      computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -65,9 +87,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: rol.nombre,
       "class": "text-left"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_checkbox, {
-      id: "rol.id",
+      id: $props.rootMenu.id + 'mr' + rol.id,
       color: "red"
-    })]);
+    }, null, 8 /* PROPS */, ["id"])]);
   }), 128 /* KEYED_FRAGMENT */))]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.rootMenu.submenu, function (subMenu) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_role_menu_item, {
       rootMenu: subMenu,

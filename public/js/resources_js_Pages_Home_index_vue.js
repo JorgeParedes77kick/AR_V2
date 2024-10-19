@@ -315,7 +315,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }), _hoisted_1], 64 /* STABLE_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.temporadas.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
                 key: 1
               }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, {
-                "class": "text-center",
+                "class": "text-center h4",
                 style: {
                   "font-size": "30px"
                 }

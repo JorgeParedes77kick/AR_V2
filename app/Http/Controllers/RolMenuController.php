@@ -18,11 +18,15 @@ class RolMenuController extends Controller
      */
     public function index()
     {
-      $menus = Menu::getMenu(false);
       $roles = Rol::orderBy('id')->get();
+      $menus = Menu::getMenu(false);
+      $menusRoles = Menu::with("roles")->get()->pluck("roles",'id')->toArray();
+      $rolMenus = Rol::with("menus")->get()->pluck("menus","id")->toArray();
       return Inertia::render('RolMenu/index', [
         'menus' => $menus,
         'roles' => $roles,
+        'menusRoles' => $menusRoles,
+        'rolMenus' => $rolMenus,
       ]);
     }
 
