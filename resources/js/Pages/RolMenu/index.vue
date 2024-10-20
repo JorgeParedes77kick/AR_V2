@@ -11,16 +11,15 @@ import {no} from "vuetify/locale";
 dayjs.extend(isBetween);
 
 const props = defineProps({
-  menus: Array,
   roles: Array,
-  menusRoles: Array,
-  rolMenus: Array,
+  menus: Array,
+  rolesMenus: Array,
 });
+
 onMounted(() => {
-  console.log("menus ", props.menus);
-  console.log("roles ", props.roles);
-  console.log("menusRoles ", props.menusRoles);
-  console.log("rolMenus ", props.rolMenus);
+  //console.log("roles ", props.roles);
+  //console.log("menus ", props.menus);
+  //console.log("rolesMenus ", props.rolesMenus);
 });
 
 const headers = [
@@ -75,7 +74,7 @@ const onClickDelete = async (item) => {
                       Menus/Roles
                     </th>
                     <th v-for="rol in roles"
-                        :key="rol.nombre" class="text-left">
+                        :key="rol.nombre" class="text-center">
                       {{rol.nombre}}
                     </th>
                   </tr>
@@ -83,14 +82,9 @@ const onClickDelete = async (item) => {
                 <tbody>
                   <template v-for="menu in menus">
                     <template v-if="menu.menu_padre_id == null">
-                      <role-menu-item :rootMenu="menu" subMenu="not" :roles="roles" :menusRoles="menusRoles"></role-menu-item>
+                      <role-menu-item :rootMenu="menu" subMenu="not" :roles="roles" :rolesMenus="rolesMenus" ></role-menu-item>
                     </template>
                   </template>
-                  <!--<tr v-for="menu in menus" :key="menu.nombre">
-                    <template v-if="menu.menu_padre_id == null">
-                      <role-menu-item :rootMenu="menu" subMenu="not" :roles="roles"></role-menu-item>
-                    </template>
-                  </tr>-->
                 </tbody>
               </v-table>
             </v-col>

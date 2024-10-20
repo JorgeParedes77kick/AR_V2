@@ -60,10 +60,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'index',
   props: {
-    menus: Array,
     roles: Array,
-    menusRoles: Array,
-    rolMenus: Array
+    menus: Array,
+    rolesMenus: Array
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
@@ -71,10 +70,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_2___default()));
     var props = __props;
     (0,vue__WEBPACK_IMPORTED_MODULE_3__.onMounted)(function () {
-      console.log("menus ", props.menus);
-      console.log("roles ", props.roles);
-      console.log("menusRoles ", props.menusRoles);
-      console.log("rolMenus ", props.rolMenus);
+      //console.log("roles ", props.roles);
+      //console.log("menus ", props.menus);
+      //console.log("rolesMenus ", props.rolesMenus);
     });
     var headers = [{
       title: 'Menu',
@@ -211,6 +209,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'role-menu-item',
@@ -218,33 +218,71 @@ __webpack_require__.r(__webpack_exports__);
     rootMenu: Array,
     subMenu: String,
     roles: Array,
-    menusRoles: Array
+    rolesMenus: Array
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
     var props = __props;
-
-    //const array_column = (array = [], column_name = '') => array.map((item, index) => item[column_name])
-    var items = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(['foo', 'bar']);
-    var search = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
-      var filteredList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
-        if (search.value.length === 0) return props.menusRoles;
-        return props.menusRoles.filter(function (item) {
-          return item.includes(search.value);
-        });
+    var inputForm = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.useForm)({
+      selectedRolMenu: []
+    });
+    function isConfig(menu, rol) {
+      console.log("menu/rol ", menu, rol);
+      var exist = false;
+      props.rolesMenus.forEach(function (rolMenu, index) {
+        console.log("rolMenu ", rolMenu);
+        if (rolMenu.menu_id === menu && rolMenu.rol_id === rol) {
+          exist = true;
+        }
       });
-      search.value = "1";
-      console.log(filteredList);
+      console.log("exist ", exist);
+      return exist;
+    }
+    var isChange = function isChange(event) {
+      event.preventDefault();
+      var element = event.target;
+      console.log("element ", element);
+      console.log("selectedRolMenu ", inputForm.selectedRolMenu);
+      var checked = element.getAttribute('checked');
+      if (checked != null) {
+        console.log("checked true ", checked);
+      } else {
+        console.log("checked false ", checked);
+      }
+    };
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
+      console.log("roles ", props.roles);
+      console.log("rolesMenus ", props.rolesMenus);
+      /*
+        const list = Object.keys(props.menusRoles).map(function(key) {
+          return props.menusRoles[key];
+        });
+        console.log("list ", list);
+        const listObjet = Object.keys(list).map(function(key) {
+          return list[key];
+        });
+        console.log("listObjet ", listObjet);
+        props.roles.forEach((rol, index) => {
+          console.log("rol ", rol.id, rol.nombre)
+          listObjet.forEach((menuRol, index) => {
+            console.log("menuRol ", menuRol);
+            if(rol.id === menuRol.rol_id){
+              console.log("menuRol if ", menuRol);
+            }
+          })
+        })
+      */
     });
     var __returned__ = {
       props: props,
-      items: items,
-      search: search,
+      inputForm: inputForm,
+      isConfig: isConfig,
+      isChange: isChange,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
-      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
-      computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed
+      get useForm() {
+        return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.useForm;
+      }
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -495,7 +533,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [_hoisted_1, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.roles, function (rol) {
                             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", {
                               key: rol.nombre,
-                              "class": "text-left"
+                              "class": "text-center"
                             }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rol.nombre), 1 /* TEXT */);
                           }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.menus, function (menu) {
                             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [menu.menu_padre_id == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["RoleMenuItem"], {
@@ -503,9 +541,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                               rootMenu: menu,
                               subMenu: "not",
                               roles: $props.roles,
-                              menusRoles: $props.menusRoles
-                            }, null, 8 /* PROPS */, ["rootMenu", "roles", "menusRoles"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */);
-                          }), 256 /* UNKEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<tr v-for=\"menu in menus\" :key=\"menu.nombre\">\r\n                    <template v-if=\"menu.menu_padre_id == null\">\r\n                      <role-menu-item :rootMenu=\"menu\" subMenu=\"not\" :roles=\"roles\"></role-menu-item>\r\n                    </template>\r\n                  </tr>")])];
+                              rolesMenus: $props.rolesMenus
+                            }, null, 8 /* PROPS */, ["rootMenu", "roles", "rolesMenus"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */);
+                          }), 256 /* UNKEYED_FRAGMENT */))])];
                         }),
                         _: 1 /* STABLE */
                       })];
@@ -557,18 +595,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8 /* PROPS */, ["icon", "class"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.rootMenu.nombre), 1 /* TEXT */)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.roles, function (rol) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", {
       key: rol.nombre,
-      "class": "text-left"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_checkbox, {
+      "class": "text-center"
+    }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_checkbox, {
       id: $props.rootMenu.id + 'mr' + rol.id,
-      color: "red"
-    }, null, 8 /* PROPS */, ["id"])]);
-  }), 128 /* KEYED_FRAGMENT */))]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.rootMenu.submenu, function (subMenu) {
+      key: $props.rootMenu.id + 'mr' + rol.id,
+      "model-value": $setup.isConfig($props.rootMenu.id, rol.id),
+      onChange: $setup.isChange,
+      color: "red",
+      "class": "d-inline-flex"
+    }, null, 8 /* PROPS */, ["id", "model-value"]))]);
+  }), 128 /* KEYED_FRAGMENT */))]), $props.rootMenu.submenu.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 0
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.rootMenu.submenu, function (subMenu, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_role_menu_item, {
       rootMenu: subMenu,
       subMenu: "yes",
-      roles: $props.roles
-    }, null, 8 /* PROPS */, ["rootMenu", "roles"]);
-  }), 256 /* UNKEYED_FRAGMENT */))], 64 /* STABLE_FRAGMENT */);
+      roles: $props.roles,
+      rolesMenus: $props.rolesMenus
+    }, null, 8 /* PROPS */, ["rootMenu", "roles", "rolesMenus"]);
+  }), 256 /* UNKEYED_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
