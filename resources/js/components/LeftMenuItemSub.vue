@@ -17,7 +17,7 @@ const activeGroup = ref(null);
     <template v-else >
       <v-list-group v-model="activeGroup" :value="subM.id+ 'subItem'" class="my-v-list-group" >
         <template v-slot:activator="{ props }" >
-          <v-list-item v-bind="props" :title="subM.nombre" :href="subM.url_ref" :prepend-icon="subM.icon" ></v-list-item>
+          <v-list-item v-bind="props" :title="subM.nombre" href="#" :prepend-icon="subM.icon" ></v-list-item>
         </template>
         <LeftMenuItemSub :subMenu="subM.submenu" ></LeftMenuItemSub>
       </v-list-group>

@@ -862,9 +862,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return $props.menu.submenu.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_item, {
     key: 0,
     title: $props.menu.nombre,
-    href: $props.menu.url_ref,
+    href: "menu.url_ref",
     "prepend-icon": $props.menu.icon
-  }, null, 8 /* PROPS */, ["title", "href", "prepend-icon"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+  }, null, 8 /* PROPS */, ["title", "prepend-icon"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
     key: 1,
     modelValue: $setup.activeGroup,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -877,9 +877,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       var props = _ref.props;
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)(props, {
         title: $props.menu.nombre,
-        href: $props.menu.url_ref,
+        href: "#",
         "prepend-icon": $props.menu.icon
-      }), null, 16 /* FULL_PROPS */, ["title", "href", "prepend-icon"])];
+      }), null, 16 /* FULL_PROPS */, ["title", "prepend-icon"])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["LeftMenuItemSub"], {
@@ -932,9 +932,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           ref_for: true
         }, props, {
           title: subM.nombre,
-          href: subM.url_ref,
+          href: "#",
           "prepend-icon": subM.icon
-        }), null, 16 /* FULL_PROPS */, ["title", "href", "prepend-icon"])];
+        }), null, 16 /* FULL_PROPS */, ["title", "prepend-icon"])];
       }),
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LeftMenuItemSub, {
