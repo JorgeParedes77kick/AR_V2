@@ -13,7 +13,7 @@ class StoreRolMenuRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return isSuperAdmin();
     }
 
     /**

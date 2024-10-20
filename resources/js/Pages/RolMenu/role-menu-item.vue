@@ -1,7 +1,8 @@
 <script setup>
 
-import {defineProps, onMounted } from "vue";
+import {defineProps, onMounted, ref} from "vue";
 import {useForm} from "@inertiajs/inertia-vue3";
+import axios from "axios";
 
 const props = defineProps({
   rootMenu: Array,
@@ -10,8 +11,14 @@ const props = defineProps({
   rolesMenus: Array,
 });
 
+const loadingPage = ref(false);
+const setOverlay = v => (loadingPage.value = v);
+
 const inputForm = useForm({
   selectedRolMenu: [],
+  rol_id: 0,
+  menu_id: 0,
+  state: 0,
 });
 
 function isConfig(menu, rol) {
@@ -27,17 +34,50 @@ function isConfig(menu, rol) {
   return exist
 }
 
-const isChange = (event) => {
+const isChange = async (event) => {
   event.preventDefault();
   let element = event.target
   console.log("element ", element);
   console.log("selectedRolMenu ", inputForm.selectedRolMenu);
 
   let checked = element.getAttribute('checked');
+  let id = element.getAttribute('id');
+  inputForm.rol_id = id.split("mr")[1];
+  inputForm.menu_id = id.split("mr")[0];
   if(checked != null){
     console.log("checked true ", checked);
+    inputForm.state = 1;
   }else{
     console.log("checked false ", checked);
+    inputForm.state = 0;
+  }
+  await submitForm();
+};
+
+const submitForm = async (form) => {
+  setOverlay(true);
+  try {
+    const result = await axios['post'](route('rol-menu'), inputForm);
+    console.log("result ", result)
+    if (result?.data?.message) {
+      setOverlay(false);
+      console.log("result.data ", result.data);
+      const { message } = result.data;
+      await Swal.fire({ title: '<i>Exito!</i>', html: message, icon: 'success' });
+    }
+  } catch (error) {
+    console.log(error?.response);
+    if (error?.response?.data?.server) {
+      const { server: message } = error.response.data;
+      Swal.fire({ title: 'Error!', html: message, icon: 'error' });
+    }
+    if (error?.response?.data?.errors) {
+      const { errors } = error.response.data;
+      fieldsForm.errors = errors;
+      Swal.fire({ title: 'Error!', html: errors, icon: 'error' });
+    }
+  } finally {
+    setOverlay(false);
   }
 };
 
@@ -82,6 +122,10 @@ onMounted(() => {
   <template v-if="rootMenu.submenu.length">
     <role-menu-item v-for="(subMenu,index) in rootMenu.submenu"  :rootMenu="subMenu" subMenu="yes" :roles="roles" :rolesMenus="rolesMenus" ></role-menu-item>
   </template>
+  <v-overlay :model-value="loadingPage" opacity="0.80" :absolute="true" contained persistent
+             class="align-center justify-center">
+    <v-progress-circular style="color: #99c5c0 " size="37" indeterminate></v-progress-circular>
+  </v-overlay>
 </template>
 
 <style scoped>

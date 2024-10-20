@@ -1,9 +1,10 @@
 <script setup>
 import axios from 'axios';
 import classnames from 'classnames';
-import { onMounted, reactive, ref } from 'vue';
+import {defineProps, onMounted, reactive, ref} from 'vue';
 import { useTheme } from 'vuetify';
 import {getList} from "../constants/form";
+import LeftMenuItem from "./LeftMenuItem.vue";
 
 const theme = useTheme();
 const isDarkTheme = ref(false);
@@ -16,7 +17,7 @@ const formLogout = reactive({
   _token: csrf,
 });
 
-const menus = ref([]);
+const dynamicMenu = ref([]);
 /*
 const listGroup = ref([
   {
@@ -94,19 +95,21 @@ onMounted(() => {
   theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
 
   getList('/menu/list/byRol').then((data)=>{
-    console.log("Menus: " + JSON.stringify(data));
-    for(let m=0; m < data.length; m++){
+    console.log("Menus byRol: " + JSON.stringify(data));
+    dynamicMenu.value = data;
+    console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
+    /*for(let m=0; m < data.length; m++){
       console.log(data[m].nombre);
       const subMenus = [];
       for(let s=0; s < data[m].submenu.length; s++){
         subMenus.push({ title: data[m].submenu[s].nombre, link: data[m].submenu[s].url_ref })
       }
-      menus.value.push({
+      dynamicMenu.value.push({
         label: data[m].nombre,
         expanded: false,
         items: subMenus,
       })
-    }
+    }*/
   });
 
 });
@@ -154,7 +157,7 @@ const myApp = ref([
       <div class="d-flex align-center ml-auto mr-2">
         <v-btn v-if="isDarkTheme" icon="mdi-weather-night" @click="toggleTheme" />
         <v-btn v-else icon="mdi-weather-sunny" @click="toggleTheme" />
-        <v-menu activator="parent" transition="slide-y-transition">
+        <v-menu activator="parent" transition="slide-y-transition" >
           <template v-slot:activator="{ props }">
             <v-btn color="#99c5c0" v-bind="props">Mi Aplicaci&oacute;n </v-btn>
           </template>
@@ -195,29 +198,15 @@ const myApp = ref([
           </template>
 </v-hover>
 </template> -->
+      <!-- Dynamic Menu Init-->
       <v-list>
-        <template v-for="(menu, index) in menus" :key="index + 'group'">
-          <v-list-group v-model="activeGroup" :value="index">
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" :title="menu.label" />
-            </template>
-            <v-hover v-for="(subMenu, i) in menu.items" :key="i + 'subItem'">
-              <template v-slot:default="{ isHovering, props }">
-                <v-list-item
-                  :href="subMenu.link"
-                  :title="subMenu.title"
-                  v-bind="props"
-                  :class="
-                    classnames({
-                      'bg-navbar-hover': isHovering,
-                      'text-navbar-hover-text': isHovering,
-                    })
-                  "
-                ></v-list-item> </template
-            ></v-hover>
-          </v-list-group>
+        <template v-for="(menu, index) in dynamicMenu" :key="menu.id">
+          <template v-if="menu.menu_padre_id === null" >
+            <LeftMenuItem :menu="menu" :activeGroup="activeGroup"></LeftMenuItem>
+          </template>
         </template>
       </v-list>
+      <!-- Dynamic Menu Finish-->
     </v-navigation-drawer>
 
     <v-main id="body-app">
