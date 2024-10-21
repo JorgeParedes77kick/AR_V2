@@ -56,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mis-salones/{curriculum}/{id}', [App\Http\Controllers\Lider\SalonesController::class, 'alumnosGrupo'])->name('mis-salones.grupo');
     // Route::get('/mis-salones/{curriculum}/asistencia', [App\Http\Controllers\Lider\SalonesController::class, 'index'])->name('mis-salones.asistencia');
 
+    Route::get('/roles/list/byUser', [App\Http\Controllers\UsuarioController::class, 'userRoles'])->name('roles.list.byUser');
+
 });
 
 /**

@@ -72,9 +72,9 @@ class FortifyServiceProvider extends ServiceProvider {
         Fortify::authenticateUsing(function (Request $request) {
             $user = Usuario::where('email', $request->email)->first();
             if ($user && Hash::check($request->password, $user->password)) {
-                $roles = $user->roles()->first();
-                if ($roles) {
-                    $request->session()->put('rol_id', $roles->id);
+                $rol = $user->roles()->first();
+                if ($rol) {
+                    $request->session()->put('rol_id', $rol->id);
                     return $user;
                 } else {
                     Debug::info("Usuario sin roles, agregue rol");
