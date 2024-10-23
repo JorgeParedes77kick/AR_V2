@@ -16,6 +16,7 @@ class Semana extends Model {
         'fecha_inicio',
         'fecha_fin',
         'temporada_id',
+        'es_extension',
     ];
 
     protected $casts = [

@@ -23,8 +23,10 @@ class TemporadaRequest extends FormRequest {
         $rules = [
             'nombre' => 'required:alpha_num',
             'prefijo' => 'required:alpha_num|unique:temporadas,prefijo',
-            'fecha_inicio' => 'required|date',
-            'fecha_cierre' => 'required_with:fecha_inicio|date|after:fecha_inicio',
+            'fecha_inicio_w' => 'required',
+            'fecha_cierre_w' => 'required',
+            // 'fecha_inicio' => 'required|date',
+            // 'fecha_cierre' => 'required_with:fecha_inicio|date|after:fecha_inicio',
             // "inscripcion_inicio" => "required|date",
             // "inscripcion_cierre" => "nullable|date|after:inscripcion_inicio",
         ];

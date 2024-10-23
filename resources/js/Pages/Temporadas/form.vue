@@ -1,11 +1,10 @@
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3';
-import { router } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import axios from 'axios';
-import { computed, defineProps, inject, ref } from 'vue';
+import dayjs from 'dayjs';
+import { computed, defineProps, inject, onMounted, ref } from 'vue';
 
 import ButtonBack from '../../components/ButtonBack';
-
 import MainLayout from '../../components/Layout';
 import { ACCION, CRUD, TEXT_BUTTON } from '../../constants/form';
 import { DATE, getSpecificDayOfWeek } from '../../utils/date';
@@ -18,6 +17,10 @@ const props = defineProps({
   status: String,
 });
 
+onMounted(() => {
+  console.log(props);
+});
+
 const loading = ref(false);
 const isDisabled = ref(props.action === CRUD.show);
 
@@ -27,8 +30,13 @@ const inputForm = useForm({
   titulo: '',
   fecha_inicio: '',
   fecha_cierre: '',
+  fecha_extension: '',
+  fecha_inicio_w: '',
+  fecha_cierre_w: '',
+  fecha_extension_w: '',
   inscripcion_inicio: '',
   inscripcion_cierre: '',
+  extension: !!props.temporada.fecha_extension_w,
   ...props.temporada,
 });
 const form = ref(null);
@@ -69,16 +77,44 @@ const submit = async (form) => {
     loading.value = false;
   }
 };
+const obtenerPrimerDiaSemanaISO = (yearWeek) => {
+  const [year, week] = yearWeek.split('-W').map(Number);
+  const date = dayjs().year(year).isoWeek(week).startOf('isoWeek');
+  return date;
+};
 
-const semanaInicio = computed(() => {
-  return getSpecificDayOfWeek(inputForm.fecha_inicio, 1);
-});
-const semanaFin = computed(() => {
-  return getSpecificDayOfWeek(inputForm.fecha_cierre, 7);
-});
+const getSemana = (fecha) => {
+  if (!fecha) return { inicio: null, fin: null };
+  fecha = obtenerPrimerDiaSemanaISO(fecha);
+  return {
+    inicio: fecha,
+    fin: getSpecificDayOfWeek(fecha, 7),
+  };
+};
+const semanaInicio = computed(() => getSemana(inputForm.fecha_inicio_w));
+const semanaFin = computed(() => getSemana(inputForm.fecha_cierre_w));
+const semanaExt = computed(() => getSemana(inputForm.fecha_extension_w));
 
-const semanasCount = computed(() => {
-  return Math.ceil(semanaFin.value.diff(semanaInicio.value, 'weeks', true));
+const semanasArray = computed(() => {
+  const arr = [];
+  if (!semanaInicio.value.inicio) return arr;
+  let inicioTem = semanaInicio.value.inicio;
+  const finTem = semanaFin.value.fin;
+  const finExtTem = semanaExt.value.fin;
+  const fin = !!finExtTem && finExtTem.isValid() ? finExtTem : finTem;
+  let i = 0;
+  while (inicioTem.isBefore(fin)) {
+    arr.push({
+      semana: `Semana ${i + 1}`,
+      inicio: inicioTem.format(DATE.DD_MM_YYYY),
+      fin: inicioTem.add(6, 'day').format(DATE.DD_MM_YYYY),
+      ext: inicioTem.isAfter(finTem),
+    });
+    inicioTem = inicioTem.add(1, 'weeks');
+    i++;
+  }
+
+  return arr;
 });
 </script>
 
@@ -124,11 +160,12 @@ const semanasCount = computed(() => {
                   id="fecha_inicio"
                   name="fecha_inicio"
                   label="Fecha de inicio"
-                  type="date"
-                  v-model="inputForm.fecha_inicio"
+                  type="week"
+                  v-model="inputForm.fecha_inicio_w"
                   :disabled="isDisabled"
                   :rules="validate('Fecha de inicio', 'required')"
                   :error-messages="inputForm.errors.fecha_inicio"
+                  :max="inputForm.fecha_cierre_w"
                 />
               </v-col>
               <v-col cols="12" sm="6">
@@ -136,11 +173,36 @@ const semanasCount = computed(() => {
                   id="fecha_cierre"
                   name="fecha_cierre"
                   label="Fecha de cierre"
-                  type="date"
-                  v-model="inputForm.fecha_cierre"
+                  type="week"
+                  v-model="inputForm.fecha_cierre_w"
                   :disabled="isDisabled"
                   :rules="validate('Fecha de cierre', 'required')"
                   :error-messages="inputForm.errors.fecha_cierre"
+                  :min="inputForm.fecha_inicio_w"
+                  :max="inputForm.fecha_extension_w"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-switch
+                  id="extension"
+                  name="extension"
+                  v-model="inputForm.extension"
+                  :label="inputForm.extension ? 'Con fecha para posible extension' : 'Normal'"
+                  color="success"
+                  class="px-2"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-if="inputForm.extension"
+                  id="fecha_extension"
+                  name="fecha_extension"
+                  label="Fecha de extension de temporada"
+                  type="week"
+                  v-model="inputForm.fecha_extension_w"
+                  :disabled="isDisabled"
+                  :error-messages="inputForm.errors.fecha_extension"
+                  :min="inputForm.fecha_cierre_w"
                 />
               </v-col>
               <v-col cols="12" sm="6">
@@ -174,14 +236,34 @@ const semanasCount = computed(() => {
               </v-col>
             </v-row>
           </v-form>
-        </v-card-text>
-        <v-card-subtitle>Semanas</v-card-subtitle>
-        <v-card-text>
-          Según lo ingresado son {{ semanasCount }} semanas
-          <li v-for="n in semanasCount">
-            Semana {{ n }}: {{ semanaInicio.add(n, 'weeks').format(DATE.DD_MM_YYYY) }} -
-            {{ semanaFin.add('n', 'weeks').format(DATE.DD_MM_YYYY) }}
-          </li>
+          <span>
+            Según lo ingresado son
+            <b>{{ semanasArray.filter((x) => !x.ext).length }}</b>
+            semanas
+          </span>
+          <span v-if="inputForm.extension">
+            con
+            <b>{{ semanasArray.filter((x) => x.ext).length }}</b>
+            semanas de extension, en total
+            <b>{{ semanasArray.length }}</b>
+            semanas
+          </span>
+          <span v-else>sin extension</span>
+
+          <v-card>
+            <v-list class="my-2" scroll-y max-height="500">
+              <v-list-item v-for="semana in semanasArray" :key="semana.inicio">
+                <v-row class="my-0">
+                  <v-col class="py-0" lg="2" md="2" sm="3" cols="6">{{ semana.semana }}:</v-col>
+                  <v-col class="py-0" lg="2" md="2" sm="3" cols="6">{{
+                    semana.ext ? 'extension' : ''
+                  }}</v-col>
+                  <v-col class="py-0" lg="2" md="2" sm="3" cols="6">{{ semana.inicio }}</v-col>
+                  <v-col class="py-0" lg="2" md="2" sm="3" cols="6"> {{ semana.fin }} </v-col>
+                </v-row>
+              </v-list-item>
+            </v-list>
+          </v-card>
         </v-card-text>
       </v-card>
     </v-container>

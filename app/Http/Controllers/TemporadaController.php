@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Debug;
 use App\Http\Requests\TemporadaRequest;
+use App\Models\Asistencia;
 use App\Models\Temporada;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class TemporadaController extends Controller {
@@ -36,13 +41,45 @@ class TemporadaController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      */
     public function store(TemporadaRequest $request) {
-        $input = $request->all();
-        $temporada = Temporada::create($input);
+        try {
+            DB::beginTransaction();
 
-        if ($temporada) {
+            // Obtener todos los datos del request
+            $input = $request->all();
+
+            // Procesar las fechas de inicio, cierre y extensión
+            $fechaInicio = $this->dateWeekToCarbon($request->input('fecha_inicio_w'));
+            $fechaFin = $this->dateWeekToCarbon($request->input('fecha_cierre_w'));
+
+            // Si no hay fecha de extensión, establecer una predeterminada
+            $fecha_extension = $request->input('fecha_extension_w', '1900-W01') ?? '1900-W01';
+            $fechaExtension = $this->dateWeekToCarbon($fecha_extension);
+            // Definir las fechas de inicio y cierre en el input
+            $input['fecha_inicio'] = $fechaInicio->startOfWeek()->format('Y-m-d');
+            $input['fecha_cierre'] = $fechaFin->endOfWeek()->format('Y-m-d');
+            if ($fecha_extension !== '1900-W01') {
+                $input['fecha_extension'] = $fechaExtension->endOfWeek()->format('Y-m-d');
+            }
+
+            // Verificar si la fecha de extensión es mayor a la fecha de cierre
+            $fin = $fechaExtension->isAfter($fechaFin) ? $fechaExtension : $fechaFin;
+
+            // Inicializar semanas
+            $weeks = $this->generateWeeks($fechaInicio, $fin, $fechaFin);
+
+            $temporada = Temporada::create($input);
+            $temporada->semanas()->createMany($weeks);
+            DB::commit();
+
             return response()->json(["message" => "La Temporada fue creada exitosamente!"], 200);
-        } else {
-            return response()->json(["message" => [], 'server' => '¡La Temporada no pudo ser creada, intente más tarde!'], 500);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->json([
+                'server' => '¡La Temporada no pudo ser creada, intente más tarde!',
+                'message' => $th->getMessage(),
+            ], 500);
         }
     }
 
@@ -65,7 +102,14 @@ class TemporadaController extends Controller {
      * @param  int  $id
      */
     public function edit($id) {
-        $temporada = Temporada::whereId($id)->with('semanas')->first();
+        $temporada = Temporada::whereId($id)->with('semanas', function ($q) {$q->orderBy('fecha_inicio', 'desc');})->first();
+        // $semanaIds = $temporada->semanas()->pluck('id')->filter()->all();
+        // foreach ($semanaIds as $i => $week) {
+        //     Debug::info([
+        //         'id' => $semanaIds[$i] ?? null, // Buscar por ID si existe
+        //         $week, // Actualizar o crear con los datos
+        //     ]);
+        // }
         return Inertia::render('Temporadas/form', [
             'action' => 'edit',
             'temporada' => $temporada,
@@ -79,15 +123,60 @@ class TemporadaController extends Controller {
      * @param  int  $id
      */
     public function update(TemporadaRequest $request, $id) {
+        try {
+            DB::beginTransaction();
 
-        $input = $request->all();
-        $temporada = Temporada::find($id);
-        $state = $temporada->update($input);
+            // Obtener todos los datos del request
+            $input = $request->all();
 
-        if ($state) {
+            // Procesar las fechas de inicio, cierre y extensión
+            $fechaInicio = $this->dateWeekToCarbon($request->input('fecha_inicio_w'));
+            $fechaFin = $this->dateWeekToCarbon($request->input('fecha_cierre_w'));
+
+            // Si no hay fecha de extensión, establecer una predeterminada
+            $fecha_extension = $request->input('fecha_extension_w', '1900-W01') ?? '1900-W01';
+            $fechaExtension = $this->dateWeekToCarbon($fecha_extension);
+            // Definir las fechas de inicio y cierre en el input
+            $input['fecha_inicio'] = $fechaInicio->startOfWeek()->format('Y-m-d');
+            $input['fecha_cierre'] = $fechaFin->endOfWeek()->format('Y-m-d');
+            if ($fecha_extension !== '1900-W01') {
+                $input['fecha_extension'] = $fechaExtension->endOfWeek()->format('Y-m-d');
+            }
+            // Verificar si la fecha de extensión es mayor a la fecha de cierre
+            $fin = $fechaExtension->isAfter($fechaFin) ? $fechaExtension : $fechaFin;
+            // Inicializar semanas
+            $weeks = $this->generateWeeks($fechaInicio, $fin, $fechaFin);
+
+            $temporada = Temporada::find($id);
+            $semanaIds = $temporada->semanas()->limit(count($weeks))->pluck('id')->filter()->all();
+
+            Debug::infoJson($semanaIds);
+            $temporada->update($input);
+
+            foreach ($weeks as $i => $week) {
+                $temporada->semanas()->updateOrCreate(
+                    ['id' => $semanaIds[$i] ?? null], // Buscar por ID si existe
+                    $week // Actualizar o crear con los datos
+                );
+            }
+            $semanasBorrar = $temporada->semanas()->whereNotIn('id', $semanaIds)->get();
+            $semanasId = $semanasBorrar->pluck('id');
+            Asistencia::whereIn('semana_id', $semanasId)->delete();
+            if ($semanasBorrar->count() > 0) {
+                $semanasBorrar->delete();
+            }
+
+            DB::commit();
+
             return response()->json(["message" => "La Temporada fue actualizada exitosamente!"], 200);
-        } else {
-            return response()->json(["message" => [], 'server' => '¡La Temporada no pudo ser actualizada, intente más tarde!'], 500);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->json([
+                'server' => '¡La Temporada no pudo ser actualizada, intente más tarde!',
+                'message' => $th->getMessage(),
+            ], 500);
         }
     }
 
@@ -128,5 +217,40 @@ class TemporadaController extends Controller {
         } else {
             return response()->json(["message" => [], 'server' => '¡La Temporada no pudo ser actualizada, intente más tarde!'], 500);
         }
+    }
+    private function dateWeekToCarbon(string $date) {
+        list($year, $week) = explode('-W', $date);
+        $d = (new DateTime())->setISODate($year, $week);
+        $d->setISODate($year, $week);
+        return new Carbon($date);
+    }
+    private function getWeekDates($dateCarbon, $offset = 0) {
+        $offsetWeek = $dateCarbon->addWeeks($offset);
+        $monday = $offsetWeek->copy()->startOfWeek();
+        $sunday = $offsetWeek->copy()->endOfWeek();
+        $fecha_inicio = $monday->format('Y-m-d');
+        $fecha_fin = $sunday->format('Y-m-d');
+        return (Object) [
+            'inicio' => $fecha_inicio,
+            'fin' => $fecha_fin,
+        ];
+
+    }
+    private function generateWeeks($fechaInicio, $fechaFin, $fechaCierre) {
+        $weeks = [];
+
+        while ($fechaInicio->isBefore($fechaFin)) {
+            $weekDates = $this->getWeekDates($fechaInicio);
+
+            $weeks[] = [
+                'fecha_inicio' => $weekDates->inicio,
+                'fecha_fin' => $weekDates->fin,
+                'es_extension' => $fechaInicio->isAfter($fechaCierre),
+            ];
+
+            $fechaInicio->addWeek(); // Mover al siguiente lunes
+        }
+
+        return $weeks;
     }
 }

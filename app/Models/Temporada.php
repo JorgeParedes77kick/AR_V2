@@ -18,6 +18,7 @@ class Temporada extends Model {
         'titulo',
         'fecha_inicio',
         'fecha_cierre',
+        'fecha_extension',
         'inscripcion_inicio',
         'inscripcion_cierre',
         'activo',
@@ -27,10 +28,12 @@ class Temporada extends Model {
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'fecha_inicio' => 'string',
-        'fecha_cierre' => 'string',
-        'inscripcion_inicio' => 'string',
-        'inscripcion_cierre' => 'string',
+        // 'fecha_inicio' => 'string',
+        // 'fecha_cierre' => 'string',
+        // 'fecha_extension => 'string',
+        // 'inscripcion_inicio' => 'string',
+        // 'inscripcion_cierre' => 'string',
+
         'activo' => 'boolean',
         'activo_inscripcion' => 'boolean',
     ];
@@ -39,8 +42,46 @@ class Temporada extends Model {
         'created_at',
         'updated_at',
     ];
-    protected $attributes = ['titulo' => ''];
-    protected $appends = ['semanas'];
+    protected $attributes = [
+        'titulo' => '',
+    ];
+    protected $appends = ['semanas', 'fecha_inicio_w', 'fecha_cierre_w', 'fecha_extension_w'];
+    public function getFechaInicioFormatAttribute() {
+        if ($this->fecha_inicio && Carbon::hasFormat($this->fecha_inicio, 'Y-m-d')) {
+            return Carbon::createFromFormat('Y-m-d', $this->fecha_inicio)->format('Y-m-d');
+        }
+        return null; // O puedes devolver un valor predeterminado si es necesario
+    }
+    public function getFechaCierreFormatAttribute() {
+        if ($this->fecha_cierre && Carbon::hasFormat($this->fecha_cierre, 'Y-m-d')) {
+            return Carbon::createFromFormat('Y-m-d', $this->fecha_cierre)->format('Y-m-d');
+        }
+        return null; // O puedes devolver un valor predeterminado si es necesario
+    }
+    public function getFechaExtensionFormatAttribute() {
+        if ($this->fecha_extension && Carbon::hasFormat($this->fecha_extension, 'Y-m-d')) {
+            return Carbon::createFromFormat('Y-m-d', $this->fecha_extension)->format('Y-m-d');
+        }
+        return null; // O puedes devolver un valor predeterminado si es necesario
+    }
+    public function getFechaInicioWAttribute() {
+        if ($this->fecha_inicio && Carbon::hasFormat($this->fecha_inicio, 'Y-m-d')) {
+            return Carbon::createFromFormat('Y-m-d', $this->fecha_inicio)->format('Y-\WW');
+        }
+        return null; // O puedes devolver un valor predeterminado si es necesario
+    }
+    public function getFechaCierreWAttribute() {
+        if ($this->fecha_cierre && Carbon::hasFormat($this->fecha_cierre, 'Y-m-d')) {
+            return Carbon::createFromFormat('Y-m-d', $this->fecha_cierre)->format('Y-\WW');
+        }
+        return null; // O puedes devolver un valor predeterminado si es necesario
+    }
+    public function getFechaExtensionWAttribute() {
+        if ($this->fecha_extension && Carbon::hasFormat($this->fecha_extension, 'Y-m-d')) {
+            return Carbon::createFromFormat('Y-m-d', $this->fecha_extension)->format('Y-\WW');
+        }
+        return null; // O puedes devolver un valor predeterminado si es necesario
+    }
 
     public function getSemanasAttribute() {
         $fecha_inicio = Carbon::parse($this->fecha_inicio);
