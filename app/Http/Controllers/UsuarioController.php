@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUsuarioRequest;
 use App\Http\Requests\UpdateUsuarioRequest;
+use App\Models\Menu;
 use App\Models\PasswordResets;
 use App\Models\Usuario;
 use Illuminate\Auth\Passwords\PasswordBrokerManager;
@@ -107,4 +108,15 @@ class UsuarioController extends Controller
       }
       return response()->json(['canResetPass' => false], 200);
     }
+
+  public function userRoles() {
+    $user = auth()->user();
+    $roles = $user->roles()->get();
+    if($roles){
+      return response($roles, 200);
+    }else{
+      return response($roles, 400);
+    }
+
+  }
 }

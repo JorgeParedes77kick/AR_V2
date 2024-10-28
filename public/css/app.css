@@ -17673,6 +17673,18 @@ body {
   height: 100%;
 }
 
+.my-v-list-group {
+  --prepend-width: 20px !important;
+  --list-indent-size: 3px !important;
+}
+
+.v-list-item__prepend {
+  align-items: center !important;
+  align-self: center !important;
+  display: block !important;
+  grid-area: prepend !important;
+}
+
 .d-grid {
   display: grid;
 }

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Helpers\Debug;
 use App\Http\Requests\StorePersonaRequest;
 use App\Http\Requests\UpdatePersonaRequest;
 use App\Models\Persona;
 use App\Models\Usuario;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class PersonaController extends Controller
@@ -44,9 +46,11 @@ class PersonaController extends Controller
 
         $validated = $request->validated();
         if($validated){
-          $person = Persona::create($validated);
-          $request->persona_id = $person->id;
           try {
+            DB::beginTransaction();
+            $person = Persona::create($validated);
+            $request->persona_id = $person->id;
+
             $createUser = new CreateNewUser();
             $user = $createUser->create([
               'nick_name' => $request->nick_name,
@@ -56,11 +60,14 @@ class PersonaController extends Controller
             ]);
             if($user instanceof Usuario ){
               $user->roles()->attach(5);
+              DB::commit();
               return response()->json(['person' => "Registro Exitoso"], 200);
             }
-          } catch (Throwable $e) {
+          } catch (Throwable $ex) {
+            Debug::info($ex);
+            DB::rollBack();
             $this->destroy($person->id);
-            throw $e;
+            throw $ex;
           }
 
         }else{

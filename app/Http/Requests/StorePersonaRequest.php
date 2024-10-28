@@ -24,7 +24,7 @@ class StorePersonaRequest extends FormRequest
      */
     public function rules()
     {
-        $idValidate = $this->route('personas') == NULL ? "": ','.($this->route('personas')->id. ',id' );
+        $idValidate = $this->route('persona') == NULL ? "": ','.($this->route('persona')->id. ',id' );
         return [
           'nombre' => 'required|alpha|max:50',
           'apellido' => 'required|alpha|max:50',

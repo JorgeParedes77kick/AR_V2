@@ -14,11 +14,14 @@ class Menu extends Model
 
     protected $table = 'menus';
 
+  /**
+   * Columns used to insert
+   * @var string[]
+   */
     protected $fillable = [
-        'nombre',
         'menu_padre_id',
+        'nombre',
         'url_ref',
-        'orden',
         'icon',
     ];
 
@@ -48,5 +51,45 @@ class Menu extends Model
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Rol::class, 'roles_menus', 'menu_id', 'rol_id');
+    }
+
+    public static function getMenu($front = false){
+      $menu = new Menu();
+      $padres = $menu->getMenuPadres($front);
+      $menuAll = [];
+      foreach($padres as $root){
+        if($root['menu_padre_id'] == null){
+          $item = [array_merge($root, ['submenu' => $menu->getMenuHijos($padres, $root)])];
+          $menuAll = array_merge($menuAll, $item);
+        }
+
+      }
+      return $menuAll;
+    }
+
+    private function getMenuPadres($front){
+      if($front){
+        return $this->whereHas('roles', function($query){
+          $query->where('roles.id', session('rol_id'))->orderBy('menus.id');
+        })->orderBy('menus.orden')
+          ->orderBy('menus.id')
+          ->get()
+          ->toArray();
+      }else{
+        return $this->orderBy('menus.orden')
+          ->orderBy('menus.id')
+          ->get()
+          ->toArray();
+      }
+    }
+
+    private function getMenuHijos($padres, $root){
+      $hijos = [];
+      foreach($padres as $padre){
+        if($root['id'] == $padre['menu_padre_id']){
+          $hijos = array_merge($hijos, [array_merge($padre, ['submenu' => $this->getMenuHijos($padres, $padre) ])]);
+        }
+      }
+      return $hijos;
     }
 }

@@ -1,8 +1,10 @@
 <script setup>
 import axios from 'axios';
 import classnames from 'classnames';
-import { onMounted, reactive, ref } from 'vue';
+import {defineProps, onMounted, reactive, ref} from 'vue';
 import { useTheme } from 'vuetify';
+import {getList} from "../constants/form";
+import LeftMenuItem from "./LeftMenuItem.vue";
 
 const theme = useTheme();
 const isDarkTheme = ref(false);
@@ -15,6 +17,10 @@ const formLogout = reactive({
   _token: csrf,
 });
 
+const dynamicMenu = ref([]);
+
+const userRoles = ref([]);
+/*
 const listGroup = ref([
   {
     label: 'Admin',
@@ -78,6 +84,8 @@ const listGroup = ref([
     ],
   },
 ]);
+
+ */
 const toggleTheme = () => {
   isDarkTheme.value = !isDarkTheme.value;
   theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
@@ -87,6 +95,19 @@ const toggleTheme = () => {
 onMounted(() => {
   isDarkTheme.value = localStorage.getItem('theme') === 'dark';
   theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
+
+  getList('/menu/list/byRol').then((data)=>{
+    console.log("Menus byRol: " + JSON.stringify(data));
+    dynamicMenu.value = data;
+    console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
+  });
+
+  getList('/roles/list/byUser').then((data)=>{
+    console.log("Roles byUser: " + JSON.stringify(data));
+    userRoles.value = data;
+    console.log("userRoles: " + JSON.stringify(userRoles));
+  });
+
 });
 
 const activeGroup = ref(null);
@@ -95,23 +116,30 @@ function toggleGroup(index) {
   activeGroup.value = activeGroup.value === index ? null : index;
 }
 
-function handleSubmit(e) {
-  axios
-    .post('logout', formLogout)
-    .then((result) => {
-      window.location.href = 'login';
-    })
-    .catch((error) => {
-      console.log(JSON.stringify(error.response.data.message));
-    });
+function handleSubmit(event, link) {
+  if(link !== '#'){
+    if(link === 'logout'){
+      axios
+        .post(link, formLogout)
+        .then((result) => {
+          window.location.href = 'login';
+        })
+        .catch((error) => {
+          console.log(JSON.stringify(error.response.data.message));
+        });
+    }else{
+      window.location.href = link;
+    }
+  }
+  event.preventDefault();
 }
 
 const myApp = ref([
-  { title: 'Click Me 1', icon: 'mdi-power', link: 'logout' },
-  { title: 'Click Me 2', icon: 'mdi-home', link: 'home' },
-  { title: 'Click Me 3', icon: 'mdi-power', link: 'logout' },
-  { title: 'Click Me 4', icon: 'mdi-home', link: 'home' },
+  { title: 'Home', icon: 'mdi-home', link: 'home' },
+  { title: 'Logout', icon: 'mdi-power', link: 'logout' },
+  { title: 'Roles', icon: 'mdi-power', link: '#' },
 ]);
+
 </script>
 <template>
   <v-app>
@@ -128,25 +156,42 @@ const myApp = ref([
       <div class="d-flex align-center ml-auto mr-2">
         <v-btn v-if="isDarkTheme" icon="mdi-weather-night" @click="toggleTheme" />
         <v-btn v-else icon="mdi-weather-sunny" @click="toggleTheme" />
-        <v-menu activator="parent" transition="slide-y-transition">
-          <template v-slot:activator="{ props }">
-            <v-btn color="#99c5c0" v-bind="props">Mi Aplicaci&oacute;n </v-btn>
-          </template>
-          <v-list class="text-left">
-            <v-list-item v-for="(item, index) in myApp" :key="index" :value="index">
-              <v-list-item-title>
-                <v-form @submit.prevent="handleSubmit">
-                  <v-btn size="small" variant="plain" type="submit" :prepend-icon="item.icon">
-                    <template v-slot:prepend>
-                      <v-icon size="x-large" color="error"></v-icon>
-                    </template>
-                    {{ item.title }}
-                  </v-btn>
-                </v-form>
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <v-btn color="#99c5c0">
+          Mi Aplicaci&oacute;n
+          <v-menu activator="parent" location="bottom" open-on-hover>
+            <v-list>
+              <v-list-item v-for="(item, i) in myApp" :key="i" link >
+                <v-list-item-title>
+                  <v-form @submit.prevent="handleSubmit($event, item.link)">
+                    <v-btn size="small" variant="plain" type="submit">
+                      {{ item.title }}
+                    </v-btn>
+                  </v-form>
+                </v-list-item-title>
+                <template v-slot:prepend>
+                  <template v-if="item.title !== 'Roles' ">
+                    <v-icon :icon="item.icon" size="small"></v-icon>
+                  </template>
+                  <template v-else>
+                    <v-icon icon="mdi-menu-left" size="small"></v-icon>
+                  </template>
+                </template>
+                <template v-if="item.title === 'Roles' ">
+                  <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu location="start">
+                    <v-list>
+                      <v-list-item v-for="(userRol, r) in userRoles" :key="r" link href="#">
+                        <v-list-item-title>{{ userRol.nombre }}</v-list-item-title>
+                        <template v-slot:prepend>
+                          <v-icon icon="mdi-check-decagram" size="small"></v-icon>
+                        </template>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </template>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-btn>
       </div>
     </v-app-bar>
     <v-navigation-drawer color="navbar-color" v-model="drawer" app class="text-navbar-text">
@@ -169,28 +214,15 @@ const myApp = ref([
           </template>
 </v-hover>
 </template> -->
+      <!-- Dynamic Menu Init-->
       <v-list>
-        <template v-for="(group, index) in listGroup" :key="index + 'group'">
-          <v-list-group v-model="activeGroup" :value="index">
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" :title="group.label" />
-            </template>
-            <v-hover v-for="(item, i) in group.items" :key="i + 'subItem'">
-              <template v-slot:default="{ isHovering, props }">
-                <v-list-item
-                  :title="item.title"
-                  v-bind="props"
-                  :class="
-                    classnames({
-                      'bg-navbar-hover': isHovering,
-                      'text-navbar-hover-text': isHovering,
-                    })
-                  "
-                ></v-list-item> </template
-            ></v-hover>
-          </v-list-group>
+        <template v-for="(menu, index) in dynamicMenu" :key="menu.id">
+          <template v-if="menu.menu_padre_id === null" >
+            <LeftMenuItem :menu="menu" :activeGroup="activeGroup"></LeftMenuItem>
+          </template>
         </template>
       </v-list>
+      <!-- Dynamic Menu Finish-->
     </v-navigation-drawer>
 
     <v-main id="body-app">
