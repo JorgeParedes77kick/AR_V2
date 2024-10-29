@@ -18,33 +18,23 @@ use App\Models\Temporada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 class InscripcionController extends Controller {
 
-    public function curriculum(String $curriculumName) {
-        $curriculumName = strtolower($curriculumName);
-        $curriculums = Curriculum::activo()->pluck('nombre')->map(function ($x) {
-            return strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $x));
-        })->values();
-
-        if (!$curriculums->contains($curriculumName)) {
-            return redirect()->route('home')->with(['error' => 'Curriculum no disponible o no existe!']);
-        }
-
+    public function curriculum(String $idCrypt) {
+        $id = base64_decode($idCrypt);
         $temporadas = Temporada::activo()->get();
         $temporadasId = $temporadas->pluck('id');
 
-        $curriculum = Curriculum::
-            whereRaw("LOWER(REGEXP_REPLACE(nombre, '[^a-zA-Z0-9]', '')) = ?", [$curriculumName])
+        $curriculum = Curriculum::where('curriculums.id', $id)->activo()
             ->with('ciclos', function ($query) use ($temporadasId) {$query->withHorarios($temporadasId);})
             ->whereHas('ciclos.grupospequenos', function ($query) use ($temporadasId) {
                 $query->whereIn('temporada_id', $temporadasId);
             })
             ->first();
 
-        if (!$curriculum) {return redirect()->route('home')->with(['error' => 'Curriculum no disponible o no existe!']);}
+        // if (!$curriculum) {return redirect()->route('home')->with(['error' => 'Curriculum no disponible o no existe!']);}
 
         $parejasId = Restriccion::parejas()->pluck('curriculum_id')->toArray();
         $curriculum->parejas = in_array($curriculum->id, $parejasId);
@@ -163,8 +153,8 @@ class InscripcionController extends Controller {
         ]);
     }
 
-    public function desinscribir(int $id) {
-
+    public function desinscribir(String $idCrypt) {
+        $id = base64_decode($idCrypt);
         $inscripcion = Inscripcion::find($id);
         if (!$inscripcion) {
             return response()->json(['server' => 'No existe esta inscripción'], 400);

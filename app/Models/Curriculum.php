@@ -30,6 +30,11 @@ class Curriculum extends Model {
         'updated_at' => 'datetime',
     ];
 
+    protected $appends = ['idCrypt'];
+
+    public function getIdCryptAttribute() {
+        return base64_encode($this->id);
+    }
     /**
      * Relación con las restricciones
      */

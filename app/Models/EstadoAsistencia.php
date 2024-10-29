@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class EstadoAsistencia extends Model
-{
+class EstadoAsistencia extends Model {
     use HasFactory;
 
     protected $table = 'estados_asistencias';
@@ -20,12 +19,12 @@ class EstadoAsistencia extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+    protected $hidden = ['created_at', 'updated_at'];
 
     /**
      * Relación con las asistencias
      */
-    public function asistencias(): HasMany
-    {
+    public function asistencias(): HasMany {
         return $this->hasMany(Asistencia::class, 'estado_asistencia_id');
     }
 }

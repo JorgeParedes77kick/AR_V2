@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,7 +19,7 @@ use Inertia\Inertia;
  */
 Route::get('/', function () {
     /*if (Auth::check()) {
-      return redirect()->route('home');
+    return redirect()->route('home');
     }*/
     return Inertia::render('Login/LoginPage');
 });
@@ -45,16 +44,15 @@ Route::middleware(['auth'])->group(function () {
 
     //ALUMNO
     Route::post('/horario/inscripcion', [App\Http\Controllers\Alumno\InscripcionController::class, 'inscribir'])->name('horario.inscripcion.store');
-    Route::delete('/horario/inscripcion/{curriculum}', [App\Http\Controllers\Alumno\InscripcionController::class, 'desinscribir'])->name('horario.inscripcion.delete');
-    Route::get('/horario/{curriculum}', [App\Http\Controllers\Alumno\InscripcionController::class, 'curriculum'])
-        ->name('horario.curriculum')->where('curriculum', '[A-Za-z]+');
+    Route::delete('/horario/inscripcion/{idCrypt}', [App\Http\Controllers\Alumno\InscripcionController::class, 'desinscribir'])->name('horario.inscripcion.delete');
+    Route::get('/horario/{idCrypt}', [App\Http\Controllers\Alumno\InscripcionController::class, 'curriculum'])->name('horario.curriculum');
     Route::get('/mis-cursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'cursos'])->name('mis-cursos');
     Route::resource('/mis-recursos', App\Http\Controllers\Alumno\RecursosController::class)->only(['index', 'show']);
     //LIDER
-    Route::get('/mis-salones', [App\Http\Controllers\Lider\SalonesController::class, 'index'])->name('mis-salones');
-    Route::get('/mis-salones/{curriculum}', [App\Http\Controllers\Lider\SalonesController::class, 'curriculum'])->name('mis-salones.curriculum');
-    Route::get('/mis-salones/{curriculum}/{id}', [App\Http\Controllers\Lider\SalonesController::class, 'alumnosGrupo'])->name('mis-salones.grupo');
-    // Route::get('/mis-salones/{curriculum}/asistencia', [App\Http\Controllers\Lider\SalonesController::class, 'index'])->name('mis-salones.asistencia');
+    Route::resource('/mis-salones', App\Http\Controllers\Lider\SalonesController::class)->only(['index', 'update']);
+    Route::get('/mis-salones/{idGrupo}/asistencia', [App\Http\Controllers\Lider\SalonesController::class, 'misSalonesAsistencia'])->name('mis-salones.asistencia');
+    Route::get('/mis-salones/{idCryptCurriculum}/{id}', [App\Http\Controllers\Lider\SalonesController::class, 'misAlumnos'])->name('mis-salones.grupo');
+    Route::get('/mis-salones/{idCryptCurriculum}', [App\Http\Controllers\Lider\SalonesController::class, 'curriculum'])->name('mis-salones.curriculum');
 
     Route::get('/roles/list/byUser', [App\Http\Controllers\UsuarioController::class, 'userRoles'])->name('roles.list.byUser');
 
@@ -69,8 +67,9 @@ Route::middleware(['auth',
 
     Route::get('home/no-filter', [App\Http\Controllers\HomeController::class, 'index'])->name('home.no-filter');
     Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
-    Route::post('temporadas/${id}/toggleActivo', [App\Http\Controllers\TemporadaController::class, 'toggleActivo'])->name('temporada.toggleActivo');
-    Route::post('temporadas/${id}/toggleInscripcion', [App\Http\Controllers\TemporadaController::class, 'toggleInscripcion'])->name('temporada.toggleInscripcion');
+    Route::post('temporadas/${id}/toggleActivo', [App\Http\Controllers\TemporadaController::class, 'toggleActivo'])->name('temporadas.toggleActivo');
+    Route::post('temporadas/${id}/toggleInscripcion', [App\Http\Controllers\TemporadaController::class, 'toggleInscripcion'])->name('temporadas.toggleInscripcion');
+    Route::post('temporadas/${id}/checkDelete', [App\Http\Controllers\TemporadaController::class, 'checkDelete'])->name('temporadas.checkDelete');
     Route::resource('roles', App\Http\Controllers\RolController::class);
     Route::resource('estados-asistencia', App\Http\Controllers\EstadoAsistenciaController::class);
     Route::resource('estados-inscripcion', App\Http\Controllers\EstadoInscripcionController::class);

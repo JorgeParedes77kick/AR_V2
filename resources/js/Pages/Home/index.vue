@@ -59,14 +59,7 @@ onMounted(() => {
                 v-for="curriculum in curriculums"
                 :key="curriculum.id"
               >
-                <Link
-                  :href="
-                    route(
-                      'horario.curriculum',
-                      curriculum.nombre.replace(/[^a-zA-Z0-9]/g, '').toLowerCase(),
-                    )
-                  "
-                >
+                <Link :href="route('horario.curriculum', curriculum.idCrypt)">
                   <v-card class="hover-card">
                     <v-img
                       :src="`/storage/img/curriculums/${curriculum.imagen}`"

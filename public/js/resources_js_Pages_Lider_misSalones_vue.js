@@ -354,7 +354,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "text-subtitle-1 text-center"
-}, "Haz clic en un Grupo Pequeño para ver más detalles!", -1 /* HOISTED */);
+}, " Haz clic en un Grupo Pequeño para ver más detalles! ", -1 /* HOISTED */);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_card_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-title");
   var _component_v_alert = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-alert");
@@ -400,7 +400,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     }, {
                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-                          href: _ctx.route('mis-salones.curriculum', curriculum.nombre.replace(/[^a-zA-Z0-9]/g, '').toLowerCase())
+                          href: _ctx.route('mis-salones.curriculum', curriculum.idCrypt)
                         }, {
                           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {

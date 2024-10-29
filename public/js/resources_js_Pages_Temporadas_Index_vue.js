@@ -89,13 +89,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       key: 'acciones',
       sortable: false
     }];
-    var onClickDelete = /*#__PURE__*/function () {
+    var deleteAccion = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(item) {
-        var _yield$Swal$fire, isConfirmed, _response$data, response, message, _err$response, _err$response$data, _err$response$data2, msg, _message;
+        var _response$data, response, index, message, _err$response, _err$response$data, _err$response$data2, msg, _message;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              _context.prev = 0;
+              _context.next = 3;
+              return axios["delete"](route('temporadas.destroy', item.id));
+            case 3:
+              response = _context.sent;
+              index = props.temporadas.findIndex(function (x) {
+                return x.id === item.id;
+              });
+              if (!(response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message)) {
+                _context.next = 10;
+                break;
+              }
+              message = response.data.message;
+              _context.next = 9;
+              return Swal.fire({
+                title: 'Exito!',
+                text: message,
+                icon: 'success'
+              });
+            case 9:
+              props.temporadas.splice(index, 1);
+            case 10:
+              _context.next = 15;
+              break;
+            case 12:
+              _context.prev = 12;
+              _context.t0 = _context["catch"](0);
+              if (_context.t0 !== null && _context.t0 !== void 0 && (_err$response = _context.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
+                _err$response$data2 = _context.t0.response.data, msg = _err$response$data2.server, _message = _err$response$data2.message;
+                Swal.fire({
+                  title: 'Error!',
+                  text: msg + '\n' + (0,_utils_string__WEBPACK_IMPORTED_MODULE_6__.truncarTexto)(_message),
+                  icon: 'error'
+                });
+              }
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[0, 12]]);
+      }));
+      return function deleteAccion(_x) {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+    var onClickDelete = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(item) {
+        var _yield$Swal$fire, isConfirmed, response, data, _yield$Swal$fire2, reConfirmed;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
               return Swal.fire({
                 title: 'Eliminar Temporada',
                 text: "Estas seguro de eliminar la temporada ".concat(item.prefijo, " ").concat(item.nombre, "?"),
@@ -105,89 +156,84 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 cancelButtonText: 'Cancelar'
               });
             case 2:
-              _yield$Swal$fire = _context.sent;
+              _yield$Swal$fire = _context2.sent;
               isConfirmed = _yield$Swal$fire.isConfirmed;
               if (!isConfirmed) {
-                _context.next = 19;
+                _context2.next = 18;
                 break;
               }
-              _context.prev = 5;
-              _context.next = 8;
-              return axios["delete"](route('temporadas.destroy', item.id));
-            case 8:
-              response = _context.sent;
-              if (!(response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message)) {
-                _context.next = 14;
+              _context2.next = 7;
+              return axios.post(route('temporadas.checkDelete', item.id));
+            case 7:
+              response = _context2.sent;
+              data = response.data;
+              if (!(data !== null && data !== void 0 && data.isDelete)) {
+                _context2.next = 13;
                 break;
               }
-              message = response.data.message;
-              _context.next = 13;
-              return Swal.fire({
-                title: 'Exito!',
-                text: message,
-                icon: 'success'
-              });
-            case 13:
-              router.visit(route('temporadas.index'));
-            case 14:
-              _context.next = 19;
+              deleteAccion(item);
+              _context2.next = 18;
               break;
-            case 16:
-              _context.prev = 16;
-              _context.t0 = _context["catch"](5);
-              if (_context.t0 !== null && _context.t0 !== void 0 && (_err$response = _context.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
-                _err$response$data2 = _context.t0.response.data, msg = _err$response$data2.server, _message = _err$response$data2.message;
-                Swal.fire({
-                  title: 'Error!',
-                  text: msg + '\n' + (0,_utils_string__WEBPACK_IMPORTED_MODULE_6__.truncarTexto)(_message),
-                  icon: 'error'
-                });
-              }
-            case 19:
+            case 13:
+              _context2.next = 15;
+              return Swal.fire({
+                title: 'Temporada con información asociada',
+                text: "Esta temporada ya cuenta con cursos ".concat(data.withAlumnos ? 'y alumnos' : '', " asociados. Si decides eliminarla, tambi\xE9n se eliminar\xE1 toda la informaci\xF3n relacionada, lo que podr\xEDa generar grandes vacios de informaci\xF3n. \xBFEst\xE1s seguro de que deseas proceder con esta acci\xF3n?\n    "),
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar'
+              });
+            case 15:
+              _yield$Swal$fire2 = _context2.sent;
+              reConfirmed = _yield$Swal$fire2.isConfirmed;
+              if (reConfirmed) deleteAccion(item);
+            case 18:
             case "end":
-              return _context.stop();
+              return _context2.stop();
           }
-        }, _callee, null, [[5, 16]]);
+        }, _callee2);
       }));
-      return function onClickDelete(_x) {
-        return _ref2.apply(this, arguments);
+      return function onClickDelete(_x2) {
+        return _ref3.apply(this, arguments);
       };
     }();
     var onClickToggle = /*#__PURE__*/function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(item, name) {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(item, name) {
         var index, response, temporada;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
             case 0:
               index = props.temporadas.findIndex(function (x) {
                 return x.id === item.id;
               });
-              _context2.prev = 1;
-              _context2.next = 4;
-              return axios.post(route("temporada.".concat(name), item.id));
+              _context3.prev = 1;
+              _context3.next = 4;
+              return axios.post(route("temporadas.".concat(name), item.id));
             case 4:
-              response = _context2.sent;
+              response = _context3.sent;
               temporada = response.data.temporada;
               props.temporadas[index] = temporada;
-              _context2.next = 11;
+              _context3.next = 11;
               break;
             case 9:
-              _context2.prev = 9;
-              _context2.t0 = _context2["catch"](1);
+              _context3.prev = 9;
+              _context3.t0 = _context3["catch"](1);
             case 11:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
-        }, _callee2, null, [[1, 9]]);
+        }, _callee3, null, [[1, 9]]);
       }));
-      return function onClickToggle(_x2, _x3) {
-        return _ref3.apply(this, arguments);
+      return function onClickToggle(_x3, _x4) {
+        return _ref4.apply(this, arguments);
       };
     }();
     var __returned__ = {
       props: props,
       isActive: isActive,
       headers: headers,
+      deleteAccion: deleteAccion,
       onClickDelete: onClickDelete,
       onClickToggle: onClickToggle,
       get Link() {

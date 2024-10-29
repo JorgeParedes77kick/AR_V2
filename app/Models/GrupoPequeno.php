@@ -32,9 +32,11 @@ class GrupoPequeno extends Model {
         // 'hora_fin' => 'time',
         'activo_inscripcion' => 'boolean',
     ];
-    protected $appends = ['hora', 'horaInicioFormat', 'horaFinFormat'];
+    protected $appends = ['hora', 'horaInicioFormat', 'horaFinFormat', 'idCrypt'];
 
-    // Accessor para hora_inicio formateada
+    public function getIdCryptAttribute() {
+        return base64_encode($this->id);
+    }
     public function getHoraInicioFormatAttribute() {
         // Verifica si 'hora_inicio' no es nulo y está en el formato correcto
         if ($this->hora_inicio && Carbon::hasFormat($this->hora_inicio, 'H:i:s')) {

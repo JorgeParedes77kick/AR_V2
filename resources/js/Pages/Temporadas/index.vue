@@ -39,6 +39,23 @@ const headers = [
   { title: '', key: 'toggle', sortable: false },
   { title: 'Acciones', key: 'acciones', sortable: false },
 ];
+const deleteAccion = async (item) => {
+  try {
+    const response = await axios.delete(route('temporadas.destroy', item.id));
+    const index = props.temporadas.findIndex((x) => x.id === item.id);
+    if (response?.data?.message) {
+      const { message } = response.data;
+      await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+      props.temporadas.splice(index, 1);
+    }
+  } catch (err) {
+    if (err?.response?.data?.server) {
+      const { server: msg, message } = err.response.data;
+      Swal.fire({ title: 'Error!', text: msg + '\n' + truncarTexto(message), icon: 'error' });
+    }
+  }
+};
+
 const onClickDelete = async (item) => {
   const { isConfirmed } = await Swal.fire({
     title: 'Eliminar Temporada',
@@ -49,29 +66,31 @@ const onClickDelete = async (item) => {
     cancelButtonText: 'Cancelar',
   });
   if (isConfirmed) {
-    try {
-      const response = await axios.delete(route('temporadas.destroy', item.id));
-      if (response?.data?.message) {
-        const { message } = response.data;
-        await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
-
-        router.visit(route('temporadas.index'));
-      }
-    } catch (err) {
-      if (err?.response?.data?.server) {
-        const { server: msg, message } = err.response.data;
-        Swal.fire({ title: 'Error!', text: msg + '\n' + truncarTexto(message), icon: 'error' });
-      }
+    const response = await axios.post(route('temporadas.checkDelete', item.id));
+    const { data } = response;
+    if (data?.isDelete) deleteAccion(item);
+    else {
+      const { isConfirmed: reConfirmed } = await Swal.fire({
+        title: 'Temporada con información asociada',
+        text: `Esta temporada ya cuenta con cursos ${data.withAlumnos ? 'y alumnos' : ''} asociados. Si decides eliminarla, también se eliminará toda la información relacionada, lo que podría generar grandes vacios de información. ¿Estás seguro de que deseas proceder con esta acción?
+    `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+      });
+      if (reConfirmed) deleteAccion(item);
     }
   }
 };
+
 const onClickToggle = async (item, name) => {
   const index = props.temporadas.findIndex((x) => x.id === item.id);
   try {
-    const response = await axios.post(route(`temporada.${name}`, item.id));
+    const response = await axios.post(route(`temporadas.${name}`, item.id));
     const { temporada } = response.data;
     props.temporadas[index] = temporada;
-  } catch (error) { }
+  } catch (error) {}
 };
 </script>
 <template>
@@ -83,15 +102,20 @@ const onClickToggle = async (item, name) => {
           <v-row>
             <v-col class="d-flex justify-end">
               <Link :href="route('temporadas.create')">
-              <v-btn :to="{ name: 'temporadas.create' }" color="success" class="ms-auto">
-                Crear Nueva Temporada
-              </v-btn>
+                <v-btn :to="{ name: 'temporadas.create' }" color="success" class="ms-auto">
+                  Crear Nueva Temporada
+                </v-btn>
               </Link>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-data-table :headers="headers" :items="temporadas" :items-per-page="10" class="elevation-1 rounded">
+              <v-data-table
+                :headers="headers"
+                :items="temporadas"
+                :items-per-page="10"
+                class="elevation-1 rounded"
+              >
                 <template v-slot:[`item.fecha_inicio`]="{ item }">
                   {{ FormatFecha(item.fecha_inicio, 3) }}
                 </template>
@@ -107,27 +131,50 @@ const onClickToggle = async (item, name) => {
                   <v-chip v-else color="error" variant="flat">Inactiva</v-chip>
                 </template>
                 <template v-slot:[`item.activo_inscripcion`]="{ item }">
-                  <v-chip v-if="item.activo_inscripcion" color="success" variant="flat">En inscripción</v-chip>
+                  <v-chip v-if="item.activo_inscripcion" color="success" variant="flat"
+                    >En inscripción</v-chip
+                  >
                   <v-chip v-else color="error" variant="flat">Cerrada</v-chip>
                 </template>
                 <template v-slot:[`item.toggle`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <!-- <Link :href="route('temporadas.show', item)"> -->
-                    <v-btn v-if="item.activo" color="error" small variant="outlined"
-                      @click="onClickToggle(item, 'toggleActivo')">
+                    <v-btn
+                      v-if="item.activo"
+                      color="error"
+                      small
+                      variant="outlined"
+                      @click="onClickToggle(item, 'toggleActivo')"
+                    >
                       cerrar
                     </v-btn>
-                    <v-btn v-else color="success" small variant="outlined" @click="onClickToggle(item, 'toggleActivo')">
+                    <v-btn
+                      v-else
+                      color="success"
+                      small
+                      variant="outlined"
+                      @click="onClickToggle(item, 'toggleActivo')"
+                    >
                       activar
                     </v-btn>
                     <!-- </Link>
                     <Link :href="route('temporadas.edit', item)"> -->
-                    <v-btn v-if="item.activo_inscripcion" color="error" small variant="outlined"
-                      @click="onClickToggle(item, 'toggleInscripcion')">
+                    <v-btn
+                      v-if="item.activo_inscripcion"
+                      color="error"
+                      small
+                      variant="outlined"
+                      @click="onClickToggle(item, 'toggleInscripcion')"
+                    >
                       cerrar inscripción
                     </v-btn>
-                    <v-btn v-else color="success" small variant="outlined"
-                      @click="onClickToggle(item, 'toggleInscripcion')">
+                    <v-btn
+                      v-else
+                      color="success"
+                      small
+                      variant="outlined"
+                      @click="onClickToggle(item, 'toggleInscripcion')"
+                    >
                       activar inscripción
                     </v-btn>
                     <!-- </Link> -->
@@ -136,12 +183,17 @@ const onClickToggle = async (item, name) => {
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <Link :href="route('temporadas.show', item)">
-                    <v-btn as="v-btn" color="info" small> Ver </v-btn>
+                      <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
                     <Link :href="route('temporadas.edit', item)">
-                    <v-btn :to="{ name: 'temporadas.edit', params: { id: item.idCrypt } }" color="secondary" small>
-                      Editar
-                    </v-btn></Link>
+                      <v-btn
+                        :to="{ name: 'temporadas.edit', params: { id: item.idCrypt } }"
+                        color="secondary"
+                        small
+                      >
+                        Editar
+                      </v-btn></Link
+                    >
                     <v-btn color="error" small @click="onClickDelete(item)">Eliminar</v-btn>
                   </div>
                 </template>

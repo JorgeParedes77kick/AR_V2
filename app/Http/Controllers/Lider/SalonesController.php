@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\Lider;
 
+use App\Helpers\AsistenciaHelper;
 use App\Helpers\Debug;
 use App\Http\Controllers\Controller;
+use App\Models\Asistencia;
 use App\Models\Curriculum;
+use App\Models\EstadoAsistencia;
 use App\Models\GrupoPequeno;
+use App\Models\Inscripcion;
 use App\Models\Temporada;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class SalonesController extends Controller {
@@ -29,19 +35,11 @@ class SalonesController extends Controller {
         ]);
     }
 
-    public function curriculum(String $curriculumName) {
-        $curriculumName = strtolower($curriculumName);
-        $curriculums = Curriculum::activo()->pluck('nombre')->map(function ($x) {
-            return strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $x));
-        })->values();
-
-        if (!$curriculums->contains($curriculumName)) {
-            return redirect()->route('mis-salones')->with(['error' => 'Curriculum no disponible o no existe!']);
-        }
+    public function curriculum(String $idCryptCurriculum) {
+        $id = base64_decode($idCryptCurriculum);
         $usuario = Auth::user();
         $temporadasId = Temporada::activo()->pluck('id')->values();
-        $curriculum = Curriculum::
-            whereRaw("LOWER(REGEXP_REPLACE(nombre, '[^a-zA-Z0-9]', '')) = ?", [$curriculumName])
+        $curriculum = Curriculum::where('curriculums.id', $id)
             ->whereHas('ciclos.grupospequenos', function ($query) use ($temporadasId, $usuario) {
                 $query->whereIn('temporada_id', $temporadasId)
                     ->whereHas('lideres', function ($query) use ($usuario) {
@@ -66,15 +64,8 @@ class SalonesController extends Controller {
             'grupospequenos' => $grupospequenos,
         ]);
     }
-    public function alumnosGrupo(String $curriculumName, int $id) {
-        $curriculumName = strtolower($curriculumName);
-        $curriculums = Curriculum::activo()->pluck('nombre')->map(function ($x) {
-            return strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $x));
-        })->values();
-
-        if (!$curriculums->contains($curriculumName)) {
-            return redirect()->route('mis-salones')->with(['error' => 'Curriculum no disponible o no existe!']);
-        }
+    public function misAlumnos(String $idCryptCurriculum, int $id) {
+        $idCurriculum = base64_decode($idCryptCurriculum);
         $usuario = Auth::user();
         $temporadasId = Temporada::activo()->pluck('id')->values();
         $grupopequeno = GrupoPequeno::whereId($id)
@@ -93,23 +84,73 @@ class SalonesController extends Controller {
             )
             ->whereIn('temporada_id', $temporadasId)
             ->whereHas('lideres', function ($query) use ($usuario) {$query->where('usuarios.id', $usuario->id);})
-            ->whereHas('ciclo.curriculum', function ($query) use ($curriculumName) {
-                $query->whereRaw("LOWER(REGEXP_REPLACE(curriculums.nombre, '[^a-zA-Z0-9]', '')) = ?", [$curriculumName]);
+            ->whereHas('ciclo.curriculum', function ($query) use ($idCurriculum) {
+                $query->where('curriculums.id', $idCurriculum);
             })
             ->first();
         if (!$grupopequeno) {
             return redirect()
-                ->route('mis-salones.curriculum', ['curriculum' => $curriculumName])
+                ->route('mis-salones.curriculum', ['idCryptCurriculum' => $idCryptCurriculum])
                 ->with(['error' => 'Grupo pequeño no disponible o no existe!']);
         }
         $inscripciones = $grupopequeno->inscripcionesAlumnos;
         unset($grupopequeno->inscripcionesAlumnos);
-        Debug::infoJson($grupopequeno);
-        Debug::infoJson($inscripciones);
-
-        return Inertia::render('Lider/alumnosGrupo', [
+        return Inertia::render('Lider/misAlumnos', [
             'grupopequeno' => $grupopequeno,
             'inscripciones' => $inscripciones,
         ]);
+    }
+
+    public function misSalonesAsistencia(int $idGrupo) {
+        $usuario = Auth::user();
+        $temporadasId = Temporada::activo()->pluck('id')->values();
+        $inscripciones = Inscripcion::
+            where('grupo_pequeno_id', $idGrupo)
+            ->whereHas('grupoPequeno.lideres', function ($q) use ($usuario) {$q->where('usuarios.id', $usuario->id);})
+            ->whereHas('grupoPequeno', function ($q) use ($temporadasId) {$q->whereIn('temporada_id', $temporadasId);})
+            ->alumno()
+            ->with('asistencias', 'asistencias.estadoAsistencia', 'usuario')
+            ->get();
+        $semanas = GrupoPequeno::whereId($idGrupo)->first()->temporada->semanas;
+        $estadosAsistencia = EstadoAsistencia::all();
+        return response()->json([
+            'inscripciones' => $inscripciones,
+            'semanas' => $semanas,
+            'estados' => $estadosAsistencia,
+        ], 200);
+
+    }
+
+    public function update(Request $request, int $id) {
+
+        $inscrito = collect($request->input('inscrito', []))->pluck('id');
+        $presente = collect($request->input('presente', []))->pluck('id');
+        $ausente = collect($request->input('ausente', []))->pluck('id');
+        $recuperado = collect($request->input('recuperado', []))->pluck('id');
+        $noAplica = collect($request->input('noAplica', []))->pluck('id');
+        $otros = collect($request->input('otros', []))->pluck('id');
+
+        try {
+            DB::beginTransaction();
+            //code...
+            Asistencia::whereIn('id', $inscrito)->update(['estado_asistencia_id' => AsistenciaHelper::$INSCRITO]);
+            Asistencia::whereIn('id', $presente)->update(['estado_asistencia_id' => AsistenciaHelper::$PRESENTE]);
+            Asistencia::whereIn('id', $ausente)->update(['estado_asistencia_id' => AsistenciaHelper::$AUSENTE]);
+            Asistencia::whereIn('id', $recuperado)->update(['estado_asistencia_id' => AsistenciaHelper::$RECUPERADO]);
+            Asistencia::whereIn('id', $noAplica)->update(['estado_asistencia_id' => AsistenciaHelper::$NO_APLICA]);
+
+            $otros->each(function ($asistencia) {
+                $asistencia = (object) $asistencia;
+                Asistencia::find($asistencia->id)->update(['estado_asistencia_id' => $asistencia->estado_asistencia_id]);
+            });
+            DB::commit();
+            return response()->json(["message" => "Asistencia actualizada correctamente!"], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(["message" => "", "server" => "No se puedieron actualizar las asistencia, intente más tarde!"], 400);
+        }
+
+        // Debug::info($asistencias);
+
     }
 }

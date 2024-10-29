@@ -236,27 +236,29 @@ const semanasArray = computed(() => {
               </v-col>
             </v-row>
           </v-form>
-          <span>
-            Según lo ingresado son
-            <b>{{ semanasArray.filter((x) => !x.ext).length }}</b>
-            semanas
-          </span>
+
           <span v-if="inputForm.extension">
-            con
-            <b>{{ semanasArray.filter((x) => x.ext).length }}</b>
-            semanas de extension, en total
-            <b>{{ semanasArray.length }}</b>
-            semanas
-          </span>
-          <span v-else>sin extension</span>
+            De acuerdo con lo ingresado, el plazo es de
+            <b>{{ semanasArray.filter((x) => !x.ext).length }}</b> semanas, con la posibilidad de
+            una extensión de <b>{{ semanasArray.filter((x) => x.ext).length }}</b> semanas, lo que
+            suma un total de <b>{{ semanasArray.length }}</b> semanas.</span
+          >
+          <span v-else>
+            De acuerdo con lo ingresado, el plazo es de
+            <b>{{ semanasArray.filter((x) => !x.ext).length }}</b> semanas</span
+          >
 
           <v-card>
             <v-list class="my-2" scroll-y max-height="500">
-              <v-list-item v-for="semana in semanasArray" :key="semana.inicio">
+              <v-list-item
+                v-for="semana in semanasArray"
+                :key="semana.inicio"
+                :class="`${semana.ext ? 'bg-warning' : ''}`"
+              >
                 <v-row class="my-0">
                   <v-col class="py-0" lg="2" md="2" sm="3" cols="6">{{ semana.semana }}:</v-col>
                   <v-col class="py-0" lg="2" md="2" sm="3" cols="6">{{
-                    semana.ext ? 'extension' : ''
+                    semana.ext ? 'extensión' : 'regular'
                   }}</v-col>
                   <v-col class="py-0" lg="2" md="2" sm="3" cols="6">{{ semana.inicio }}</v-col>
                   <v-col class="py-0" lg="2" md="2" sm="3" cols="6"> {{ semana.fin }} </v-col>

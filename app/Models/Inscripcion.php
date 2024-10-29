@@ -3,6 +3,7 @@
 
 namespace App\Models;
 
+use App\Helpers\RolHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,7 +30,13 @@ class Inscripcion extends Model {
         'updated_at' => 'datetime',
         // 'fecha_inscripcion' => 'date',
     ];
+    protected $hidden = ['created_at', 'updated_at'];
 
+    protected $appends = ['idCrypt'];
+
+    public function getIdCryptAttribute() {
+        return base64_encode($this->id);
+    }
     /**
      * Relación con el usuario
      */
@@ -71,4 +78,14 @@ class Inscripcion extends Model {
     public function adicionales(): BelongsToMany {
         return $this->belongsToMany(Adicional::class, 'adicional_inscripciones');
     }
+    public function scopeAlumno($q) {
+        return $q->where('rol_id', RolHelper::$ALUMNO);
+    }
+    public function scopeLider($q) {
+        return $q->where('rol_id', RolHelper::$LIDER);
+    }
+    public function scopeMonitor($q) {
+        return $q->where('rol_id', RolHelper::$MONITOR);
+    }
+
 }

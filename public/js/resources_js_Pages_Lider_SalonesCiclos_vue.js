@@ -41,7 +41,7 @@ __webpack_require__.r(__webpack_exports__);
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
       // console.log('pageProps:', pageProps);
       // console.log('Props:', props);
-      console.log("vuetify:", theme);
+      console.log('vuetify:', theme);
     });
     var isDark = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return theme.current.value.dark;
@@ -412,7 +412,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                               props = _ref.props;
                             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
                               href: _ctx.route('mis-salones.grupo', {
-                                curriculum: $props.curriculum.nombre.replace(/[^a-zA-Z0-9]/g, '').toLowerCase(),
+                                idCryptCurriculum: $props.curriculum.idCrypt,
                                 id: grupo.id
                               })
                             }, {

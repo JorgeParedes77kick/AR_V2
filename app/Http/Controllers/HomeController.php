@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Debug;
 use App\Models\Curriculum;
 use App\Models\Temporada;
 use Illuminate\Support\Facades\Auth;
@@ -43,8 +42,6 @@ class HomeController extends Controller {
                 $Q->Validacion($persona)->orWhereDoesntHave('restricciones');
             })
             ->get();
-
-        Debug::info($curriculums->toArray());
 
         // Renderizar la vista de Inertia
         return Inertia::render('Home/index', [

@@ -442,7 +442,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     }, {
                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-                          href: _ctx.route('horario.curriculum', curriculum.nombre.replace(/[^a-zA-Z0-9]/g, '').toLowerCase())
+                          href: _ctx.route('horario.curriculum', curriculum.idCrypt)
                         }, {
                           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Debug;
+use App\Helpers\RolHelper;
 use App\Http\Requests\TemporadaRequest;
 use App\Models\Asistencia;
+use App\Models\Inscripcion;
 use App\Models\Temporada;
 use Carbon\Carbon;
 use DateTime;
@@ -159,7 +161,7 @@ class TemporadaController extends Controller {
                     $week // Actualizar o crear con los datos
                 );
             }
-            $semanasBorrar = $temporada->semanas()->whereNotIn('id', $semanaIds)->get();
+            $semanasBorrar = $temporada->semanas()->whereNotIn('id', $semanaIds);
             $semanasId = $semanasBorrar->pluck('id');
             Asistencia::whereIn('semana_id', $semanasId)->delete();
             if ($semanasBorrar->count() > 0) {
@@ -187,6 +189,9 @@ class TemporadaController extends Controller {
      */
     public function destroy($id) {
         $temporada = Temporada::find($id);
+        $semanasId = $temporada->semanas()->pluck('id');
+        Asistencia::whereIn('semana_id', $semanasId)->delete();
+        $temporada->semanas()->delete();
         $state = $temporada->delete();
 
         if ($state) {
@@ -217,6 +222,18 @@ class TemporadaController extends Controller {
         } else {
             return response()->json(["message" => [], 'server' => '¡La Temporada no pudo ser actualizada, intente más tarde!'], 500);
         }
+    }
+    public function checkDelete($id) {
+        $temporada = Temporada::find($id);
+        $gruposId = $temporada->grupospequenos()->pluck('id');
+        $inscripciones = Inscripcion::whereIn('grupo_pequeno_id', $gruposId)->where('rol_id', RolHelper::$ALUMNO)->count();
+        $state = (object) [
+            'isDelete' => $gruposId->count() == 0,
+            'withGrupos' => $gruposId->count() > 0,
+            'withAlumnos' => $inscripciones > 0,
+        ];
+        return response()->json($state);
+
     }
     private function dateWeekToCarbon(string $date) {
         list($year, $week) = explode('-W', $date);

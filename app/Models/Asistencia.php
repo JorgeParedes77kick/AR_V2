@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Asistencia extends Model
-{
+class Asistencia extends Model {
     use HasFactory;
 
     protected $table = 'asistencias';
@@ -22,28 +21,26 @@ class Asistencia extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+    protected $hidden = ['created_at', 'updated_at'];
 
     /**
      * Relación con la inscripción
      */
-    public function inscripcion(): BelongsTo
-    {
+    public function inscripcion(): BelongsTo {
         return $this->belongsTo(Inscripcion::class, 'inscripcion_id');
     }
 
     /**
      * Relación con la semana
      */
-    public function semana(): BelongsTo
-    {
+    public function semana(): BelongsTo {
         return $this->belongsTo(Semana::class, 'semana_id');
     }
 
     /**
      * Relación con el estado de asistencia
      */
-    public function estadoAsistencia(): BelongsTo
-    {
+    public function estadoAsistencia(): BelongsTo {
         return $this->belongsTo(EstadoAsistencia::class, 'estado_asistencia_id');
     }
 }
