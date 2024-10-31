@@ -8,6 +8,7 @@ use App\Models\Menu;
 use App\Models\Region;
 use App\Models\Rol;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -33,11 +34,27 @@ class MenuController extends Controller
      */
     public function create()
     {
+      /* Esto es para pre saber las rutas basicas previo a indexacion al navbar */
+      /* Obtener las rutas como colección */
+      $rutas = collect(Route::getRoutes());
+
+      /* Filtrar las rutas */
+      $rutasFiltradas = $rutas->filter(function ($ruta) {
+        return strpos($ruta->getName(), 'index');
+      })->map(function ($ruta) {
+        return [
+          'method' => $ruta->methods()[0], // Cambiar getMethods a methods
+          'URI' => $ruta->uri(), // Cambiar getUri a uri
+          'name' => $ruta->getName(),
+          'action' => $ruta->getActionName(),
+        ];
+      });
       $menus_padres = Menu::select('id', 'nombre')
         ->orderBy('nombre', 'asc')->get();
       return Inertia::render('Menu/form', [
         'action' => 'create',
         'menus_padres' => $menus_padres,
+        'routes' => $rutasFiltradas->values(), // Pasar las rutas filtradas a la vista
       ]);
     }
 
@@ -82,6 +99,21 @@ class MenuController extends Controller
    */
     public function edit(int $id)
     {
+        /* Esto es para pre saber las rutas basicas previo a indexacion al navbar */
+        /* Obtener las rutas como colección */
+        $rutas = collect(Route::getRoutes());
+
+        /* Filtrar las rutas */
+        $rutasFiltradas = $rutas->filter(function ($ruta) {
+          return strpos($ruta->getName(), 'index');
+        })->map(function ($ruta) {
+          return [
+            'method' => $ruta->methods()[0], // Cambiar getMethods a methods
+            'URI' => $ruta->uri(), // Cambiar getUri a uri
+            'name' => $ruta->getName(),
+            'action' => $ruta->getActionName(),
+          ];
+        });
         $menu = Menu::find($id);
         $menus_padres = Menu::select('id', 'nombre')
             ->orderBy('nombre', 'asc')->get();
@@ -89,6 +121,7 @@ class MenuController extends Controller
             'action' => 'edit',
             'menu' => $menu,
             'menus_padres' => $menus_padres,
+            'routes' => $rutasFiltradas->values(), // Pasar las rutas filtradas a la vista
         ]);
     }
 

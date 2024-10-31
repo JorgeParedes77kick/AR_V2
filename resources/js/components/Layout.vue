@@ -20,72 +20,7 @@ const formLogout = reactive({
 const dynamicMenu = ref([]);
 
 const userRoles = ref([]);
-/*
-const listGroup = ref([
-  {
-    label: 'Admin',
-    expanded: false,
-    items: [
-      { title: 'Home', link: '/' },
-      { title: 'Globales', link: '/' },
-      { title: 'Temporadas R', link: '/' },
-      { title: 'Registrar Horario R', link: '/' },
-      { title: 'Usuarios R', link: '/' },
-      { title: 'Asistencias', link: '/' },
-      { title: 'Recursos R', link: '/' },
-      { title: 'Cumpleaños', link: '/' },
-      { title: 'Adicionales ', link: '/' },
-      { title: 'Exportar Data', link: '/' },
-      { title: 'Inscribir Alumno', link: '/' },
-    ],
-  },
-  {
-    label: 'Coordinador',
-    expanded: false,
-    items: [
-      { title: 'Asistencia', link: '/' },
-      { title: 'Registrar Horario R', link: '/' },
-      { title: 'Usuarios AR -', link: '/' },
-      { title: 'Recursos R', link: '/' },
-      { title: 'Cumpleaños', link: '/' },
-      { title: 'Exportar Data', link: '/' },
-      { title: 'Reasignar alumnos', link: '/' },
-      { title: 'Inscribir Alumno', link: '/' },
-    ],
-  },
-  {
-    label: 'Monitor',
-    expanded: false,
-    items: [
-      { title: 'Asistencia', link: '' },
-      { title: 'Usuarios AR -', link: '' },
-      { title: 'Cumpleaños', link: '' },
-      { title: 'Exportar Data', link: '' },
-      { title: 'Reasignar alumnos', link: '' },
-      { title: 'Inscribir Alumno', link: '' },
-    ],
-  },
-  {
-    label: 'Lider',
-    expanded: false,
-    items: [
-      { title: 'Mis Salones', link: '' },
-      { title: 'Calificar alumnos', link: '' },
-      { title: 'Cumpleaños', link: '' },
-    ],
-  },
-  {
-    label: 'Alumno',
-    expanded: false,
-    items: [
-      { title: 'Home', link: '' },
-      { title: 'Mis Recursos', link: '' },
-      { title: 'Mis Grupos Pequeños', link: '' },
-    ],
-  },
-]);
 
- */
 const toggleTheme = () => {
   isDarkTheme.value = !isDarkTheme.value;
   theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';

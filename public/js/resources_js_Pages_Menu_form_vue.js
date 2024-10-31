@@ -70,6 +70,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     menus_padres: {
       type: Array
     },
+    routes: {
+      type: Array
+    },
     status: String
   },
   setup: function setup(__props, _ref) {
@@ -174,6 +177,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         return _ref3.apply(this, arguments);
       };
     }();
+    var routesUri = [];
+    (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)(function () {
+      console.log("routes ", JSON.stringify(props.routes));
+      routesUri.push("#");
+      for (var i = 0, length = props.routes.length; i < length; i++) {
+        routesUri.push(props.routes[i].URI);
+      }
+      console.log("routesUri ", JSON.stringify(routesUri));
+    });
     var __returned__ = {
       validate: validate,
       props: props,
@@ -183,6 +195,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       form: form,
       validateForm: validateForm,
       submit: submit,
+      get routesUri() {
+        return routesUri;
+      },
+      set routesUri(v) {
+        routesUri = v;
+      },
       get useForm() {
         return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm;
       },
@@ -190,6 +208,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_1__.router;
       },
       inject: vue__WEBPACK_IMPORTED_MODULE_2__.inject,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_2__.onMounted,
       ref: vue__WEBPACK_IMPORTED_MODULE_2__.ref,
       get ButtonBack() {
         return _components_ButtonBack__WEBPACK_IMPORTED_MODULE_3__["default"];
@@ -301,72 +320,6 @@ __webpack_require__.r(__webpack_exports__);
     });
     var dynamicMenu = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
     var userRoles = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
-    /*
-    const listGroup = ref([
-      {
-        label: 'Admin',
-        expanded: false,
-        items: [
-          { title: 'Home', link: '/' },
-          { title: 'Globales', link: '/' },
-          { title: 'Temporadas R', link: '/' },
-          { title: 'Registrar Horario R', link: '/' },
-          { title: 'Usuarios R', link: '/' },
-          { title: 'Asistencias', link: '/' },
-          { title: 'Recursos R', link: '/' },
-          { title: 'Cumpleaños', link: '/' },
-          { title: 'Adicionales ', link: '/' },
-          { title: 'Exportar Data', link: '/' },
-          { title: 'Inscribir Alumno', link: '/' },
-        ],
-      },
-      {
-        label: 'Coordinador',
-        expanded: false,
-        items: [
-          { title: 'Asistencia', link: '/' },
-          { title: 'Registrar Horario R', link: '/' },
-          { title: 'Usuarios AR -', link: '/' },
-          { title: 'Recursos R', link: '/' },
-          { title: 'Cumpleaños', link: '/' },
-          { title: 'Exportar Data', link: '/' },
-          { title: 'Reasignar alumnos', link: '/' },
-          { title: 'Inscribir Alumno', link: '/' },
-        ],
-      },
-      {
-        label: 'Monitor',
-        expanded: false,
-        items: [
-          { title: 'Asistencia', link: '' },
-          { title: 'Usuarios AR -', link: '' },
-          { title: 'Cumpleaños', link: '' },
-          { title: 'Exportar Data', link: '' },
-          { title: 'Reasignar alumnos', link: '' },
-          { title: 'Inscribir Alumno', link: '' },
-        ],
-      },
-      {
-        label: 'Lider',
-        expanded: false,
-        items: [
-          { title: 'Mis Salones', link: '' },
-          { title: 'Calificar alumnos', link: '' },
-          { title: 'Cumpleaños', link: '' },
-        ],
-      },
-      {
-        label: 'Alumno',
-        expanded: false,
-        items: [
-          { title: 'Home', link: '' },
-          { title: 'Mis Recursos', link: '' },
-          { title: 'Mis Grupos Pequeños', link: '' },
-        ],
-      },
-    ]);
-    
-     */
     var toggleTheme = function toggleTheme() {
       isDarkTheme.value = !isDarkTheme.value;
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
@@ -557,6 +510,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_col = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-col");
   var _component_v_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-row");
   var _component_v_text_field = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-text-field");
+  var _component_v_autocomplete = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-autocomplete");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
   var _component_v_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-form");
   var _component_v_card_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-text");
@@ -656,7 +610,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             cols: "4"
                           }, {
                             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_autocomplete, {
                                 id: "url_ref",
                                 name: "url_ref",
                                 label: "Url",
@@ -664,15 +618,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
                                   return $setup.inputForm.url_ref = $event;
                                 }),
-                                placeholder: "Escriba el simbolo # para Menus Principales",
+                                placeholder: "Seleccione el simbolo # para Menus Principales",
                                 disabled: $setup.isDisabled,
                                 rules: $setup.validate('Url', 'required'),
                                 "error-messages": $setup.inputForm.errors.url_ref,
                                 "class": "rounded-l",
                                 variant: "outlined",
                                 clearable: "",
-                                tabindex: "3"
-                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
+                                tabindex: "3",
+                                items: $setup.routesUri
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages", "items"])];
                             }),
                             _: 1 /* STABLE */
                           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
