@@ -94,7 +94,6 @@ Route::middleware(['auth',
     Route::get('/menu/list/byRol', [App\Http\Controllers\MenuController::class, 'menuByRol'])->name('menu.rol');
 
     /* Rutas Role Menu*/
-    Route::get('rol-menu', [\App\Http\Controllers\RolMenuController::class, 'index'])->name('rol-menu');
-    Route::post('rol-menu', [\App\Http\Controllers\RolMenuController::class, 'store'])->name('rol-menu.store');
+    Route::resource('rol-menu', App\Http\Controllers\RolMenuController::class);
 
 });

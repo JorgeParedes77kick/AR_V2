@@ -73,12 +73,12 @@ const submit = async () => {
 let routesUri = [];
 
 onMounted(() => {
-  console.log("routes ", JSON.stringify(props.routes));
+  /*console.log("routes ", JSON.stringify(props.routes));*/
   routesUri.push("#");
   for (let i = 0, length = props.routes.length; i < length; i++) {
     routesUri.push(props.routes[i].URI);
   }
-  console.log("routesUri ", JSON.stringify(routesUri));
+  /*console.log("routesUri ", JSON.stringify(routesUri));*/
 });
 </script>
 

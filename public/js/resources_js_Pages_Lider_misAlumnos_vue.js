@@ -383,14 +383,14 @@ __webpack_require__.r(__webpack_exports__);
       isDarkTheme.value = localStorage.getItem('theme') === 'dark';
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
       (0,_constants_form__WEBPACK_IMPORTED_MODULE_3__.getList)('/menu/list/byRol').then(function (data) {
-        console.log("Menus byRol: " + JSON.stringify(data));
+        //console.log("Menus byRol: " + JSON.stringify(data));
         dynamicMenu.value = data;
-        console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
+        //console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
       });
       (0,_constants_form__WEBPACK_IMPORTED_MODULE_3__.getList)('/roles/list/byUser').then(function (data) {
-        console.log("Roles byUser: " + JSON.stringify(data));
+        //console.log("Roles byUser: " + JSON.stringify(data));
         userRoles.value = data;
-        console.log("userRoles: " + JSON.stringify(userRoles));
+        //console.log("userRoles: " + JSON.stringify(userRoles));
       });
     });
     var activeGroup = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(null);

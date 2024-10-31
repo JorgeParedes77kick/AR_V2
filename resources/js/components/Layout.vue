@@ -32,15 +32,15 @@ onMounted(() => {
   theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
 
   getList('/menu/list/byRol').then((data)=>{
-    console.log("Menus byRol: " + JSON.stringify(data));
+    //console.log("Menus byRol: " + JSON.stringify(data));
     dynamicMenu.value = data;
-    console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
+    //console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
   });
 
   getList('/roles/list/byUser').then((data)=>{
-    console.log("Roles byUser: " + JSON.stringify(data));
+    //console.log("Roles byUser: " + JSON.stringify(data));
     userRoles.value = data;
-    console.log("userRoles: " + JSON.stringify(userRoles));
+    //console.log("userRoles: " + JSON.stringify(userRoles));
   });
 
 });
