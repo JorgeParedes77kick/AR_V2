@@ -5,6 +5,8 @@ import {defineProps, onMounted, reactive, ref} from 'vue';
 import { useTheme } from 'vuetify';
 import {getList} from "../constants/form";
 import LeftMenuItem from "./LeftMenuItem.vue";
+import {router} from "@inertiajs/vue3";
+import {useForm} from "@inertiajs/inertia-vue3";
 
 const theme = useTheme();
 const isDarkTheme = ref(false);
@@ -13,13 +15,22 @@ const drawer = ref(false);
 
 const csrf = ref(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 
+const loadingPage = ref(false);
 const formLogout = reactive({
   _token: csrf,
 });
 
+const fieldRoles = useForm({
+  role_id: 0,
+  _token: csrf,
+});
+const setOverlay = v => (loadingPage.value = v);
+
 const dynamicMenu = ref([]);
 
 const userRoles = ref([]);
+
+const rolSession = ref([]);
 
 const toggleTheme = () => {
   isDarkTheme.value = !isDarkTheme.value;
@@ -43,6 +54,12 @@ onMounted(() => {
     //console.log("userRoles: " + JSON.stringify(userRoles));
   });
 
+  getList('/roles/session').then((data)=>{
+    //console.log("Rol session: " + JSON.stringify(data));
+    rolSession.value = data.rol;
+    //console.log("rolSession: " + JSON.stringify(rolSession));
+  });
+
 });
 
 const activeGroup = ref(null);
@@ -52,6 +69,7 @@ function toggleGroup(index) {
 }
 
 function handleSubmit(event, link) {
+  setOverlay(true);
   if(link !== '#'){
     if(link === 'logout'){
       axios
@@ -60,6 +78,7 @@ function handleSubmit(event, link) {
           window.location.href = 'login';
         })
         .catch((error) => {
+          setOverlay(false);
           console.log(JSON.stringify(error.response.data.message));
         });
     }else{
@@ -68,6 +87,34 @@ function handleSubmit(event, link) {
   }
   event.preventDefault();
 }
+
+const applyRol = async (event, id) => {
+  event.preventDefault();
+  setOverlay(true);
+  fieldRoles.role_id = id;
+  try {
+    const response = await axios.post(route('roles.rolApply'), fieldRoles);
+    console.log('response?.message:', response);
+    if (response?.data?.message) {
+      setOverlay(false);
+      const { message } = response.data;
+      await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+      window.location.href = 'home';
+    }
+  } catch (err) {
+    console.log(err?.response);
+    if (err?.response?.data?.server) {
+      const { server: message } = err.response.data;
+      Swal.fire({ title: 'Error!', text: message, icon: 'error' });
+    }
+    if (err?.response?.data?.errors) {
+      const { errors } = err.response.data;
+      inputForm.errors = errors;
+    }
+  } finally {
+    setOverlay(false);
+  }
+};
 
 const myApp = ref([
   { title: 'Home', icon: 'mdi-home', link: 'home' },
@@ -114,9 +161,9 @@ const myApp = ref([
                 <template v-if="item.title === 'Roles' ">
                   <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu location="start">
                     <v-list>
-                      <v-list-item v-for="(userRol, r) in userRoles" :key="r" link href="#">
+                      <v-list-item v-for="(userRol, r) in userRoles" :key="r" link  @click="applyRol($event, userRol.id)">
                         <v-list-item-title>{{ userRol.nombre }}</v-list-item-title>
-                        <template v-slot:prepend>
+                        <template v-slot:prepend v-if="userRol.id === rolSession">
                           <v-icon icon="mdi-check-decagram" size="small"></v-icon>
                         </template>
                       </v-list-item>
@@ -163,5 +210,9 @@ const myApp = ref([
     <v-main id="body-app">
       <slot></slot>
     </v-main>
+    <v-overlay :model-value="loadingPage" opacity="0.80" :absolute="true" contained persistent
+               class="align-center justify-center">
+      <v-progress-circular style="color: #99c5c0 " size="37" indeterminate></v-progress-circular>
+    </v-overlay>
   </v-app>
 </template>

@@ -51,7 +51,6 @@ class RolMenuController extends Controller
     public function store(StoreRolMenuRequest $request)
     {
       $menu = Menu::findOrFail($request->menu_id);
-      //cache()->tags('Menu')->flush();
       try {
         DB::beginTransaction();
         if($request->state == 1){

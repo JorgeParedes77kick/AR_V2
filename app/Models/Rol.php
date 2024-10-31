@@ -13,6 +13,10 @@ class Rol extends Model
 
     protected $table = 'roles';
 
+    /**
+     * Columns used to insert
+     * @var string[]
+     */
     protected $fillable = [
         'nombre',
     ];

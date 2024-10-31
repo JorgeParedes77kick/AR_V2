@@ -54,8 +54,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mis-salones/{idCryptCurriculum}/{id}', [App\Http\Controllers\Lider\SalonesController::class, 'misAlumnos'])->name('mis-salones.grupo');
     Route::get('/mis-salones/{idCryptCurriculum}', [App\Http\Controllers\Lider\SalonesController::class, 'curriculum'])->name('mis-salones.curriculum');
 
+    Route::get('/menu/list/byRol', [App\Http\Controllers\MenuController::class, 'menuByRol'])->name('menu.rol');
+
     Route::get('/roles/list/byUser', [App\Http\Controllers\UsuarioController::class, 'userRoles'])->name('roles.list.byUser');
 
+    Route::post('/roles/rolApply', [App\Http\Controllers\RolController::class, 'applyRol'])->name('roles.rolApply');
+    Route::get('/roles/session', [App\Http\Controllers\RolController::class, 'getRolSession'])->name('roles.session');
+    /* Rutas Menu*/
+    Route::resource('menu', App\Http\Controllers\MenuController::class);
+
+    /* Rutas Role Menu*/
+    Route::resource('rol-menu', App\Http\Controllers\RolMenuController::class);
 });
 
 /**
@@ -89,11 +98,5 @@ Route::middleware(['auth',
     Route::get('grupos-pequenos/horario', [App\Http\Controllers\GrupoPequenoController::class, 'horario']);
     Route::resource('grupos-pequenos', App\Http\Controllers\GrupoPequenoController::class);
 
-    /* Rutas Menu*/
-    Route::resource('menu', App\Http\Controllers\MenuController::class);
-    Route::get('/menu/list/byRol', [App\Http\Controllers\MenuController::class, 'menuByRol'])->name('menu.rol');
-
-    /* Rutas Role Menu*/
-    Route::resource('rol-menu', App\Http\Controllers\RolMenuController::class);
 
 });

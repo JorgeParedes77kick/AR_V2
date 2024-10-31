@@ -22,15 +22,15 @@ const inputForm = useForm({
 });
 
 function isConfig(menu, rol) {
-  console.log("menu/rol ", menu, rol);
+  //console.log("menu/rol ", menu, rol);
   let exist = false;
   props.rolesMenus.forEach((rolMenu, index) => {
-    console.log("rolMenu ", rolMenu);
+    //console.log("rolMenu ", rolMenu);
     if(rolMenu.menu_id === menu && rolMenu.rol_id === rol){
       exist = true;
     }
   });
-  console.log("exist ", exist);
+  //console.log("exist ", exist);
   return exist
 }
 
@@ -57,7 +57,7 @@ const isChange = async (event) => {
 const submitForm = async (form) => {
   setOverlay(true);
   try {
-    const result = await axios['post'](route('rol-menu'), inputForm);
+    const result = await axios['post'](route('rol-menu.store'), inputForm);
     console.log("result ", result)
     if (result?.data?.message) {
       setOverlay(false);
@@ -82,27 +82,8 @@ const submitForm = async (form) => {
 };
 
 onMounted(() => {
-  console.log("roles ", props.roles);
-  console.log("rolesMenus ", props.rolesMenus);
-/*
-  const list = Object.keys(props.menusRoles).map(function(key) {
-    return props.menusRoles[key];
-  });
-  console.log("list ", list);
-  const listObjet = Object.keys(list).map(function(key) {
-    return list[key];
-  });
-  console.log("listObjet ", listObjet);
-  props.roles.forEach((rol, index) => {
-    console.log("rol ", rol.id, rol.nombre)
-    listObjet.forEach((menuRol, index) => {
-      console.log("menuRol ", menuRol);
-      if(rol.id === menuRol.rol_id){
-        console.log("menuRol if ", menuRol);
-      }
-    })
-  })
-*/
+  //console.log("roles ", props.roles);
+  //console.log("rolesMenus ", props.rolesMenus);
 });
 </script>
 
