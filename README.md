@@ -23,6 +23,23 @@ Instalacion de dependencias NPM
 npm install
 ```
 
+### Docker (Opcional)
+
+Permisos para Docker
+```
+sudo chown $USER:docker /var/run/docker.sock
+```
+
+Levantar contenedores
+```
+docker compose up
+```
+
+Ingresar al contenedor
+```
+docker exec -it ar-gp-v2 /bin/bash
+```
+
 ### Generar .env
 
 Crear archivo en la raíz con nombre ".env" copiar plantilla y rellenar campos necesarios de la DB.
