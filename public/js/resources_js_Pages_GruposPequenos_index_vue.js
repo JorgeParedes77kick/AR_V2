@@ -839,18 +839,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       }, (_createVNode2 = {}, _defineProperty(_createVNode2, "item.monitores", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
                         var item = _ref.item;
                         return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.monitores, function (monitor) {
-                          var _monitor$persona, _monitor$persona2;
                           return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
                             key: monitor.id
-                          }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(monitor === null || monitor === void 0 ? void 0 : (_monitor$persona = monitor.persona) === null || _monitor$persona === void 0 ? void 0 : _monitor$persona.nombre) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(monitor === null || monitor === void 0 ? void 0 : (_monitor$persona2 = monitor.persona) === null || _monitor$persona2 === void 0 ? void 0 : _monitor$persona2.apellido), 1 /* TEXT */);
+                          }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(monitor === null || monitor === void 0 ? void 0 : monitor.nombreCompleto), 1 /* TEXT */);
                         }), 128 /* KEYED_FRAGMENT */))];
                       })), _defineProperty(_createVNode2, "item.lideres", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
                         var item = _ref2.item;
                         return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.lideres, function (lider) {
-                          var _lider$persona, _lider$persona2;
                           return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
                             key: lider.id
-                          }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lider === null || lider === void 0 ? void 0 : (_lider$persona = lider.persona) === null || _lider$persona === void 0 ? void 0 : _lider$persona.nombre) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lider === null || lider === void 0 ? void 0 : (_lider$persona2 = lider.persona) === null || _lider$persona2 === void 0 ? void 0 : _lider$persona2.apellido), 1 /* TEXT */);
+                          }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lider === null || lider === void 0 ? void 0 : lider.nombreCompleto), 1 /* TEXT */);
                         }), 128 /* KEYED_FRAGMENT */))];
                       })), _defineProperty(_createVNode2, "item.hora", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref3) {
                         var item = _ref3.item;

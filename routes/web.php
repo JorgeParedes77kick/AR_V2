@@ -74,6 +74,7 @@ Route::middleware(['auth',
     'super.admin',
 ])->group(function () {
 
+    Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::get('home/no-filter', [App\Http\Controllers\HomeController::class, 'index'])->name('home.no-filter');
     Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
     Route::post('temporadas/${id}/toggleActivo', [App\Http\Controllers\TemporadaController::class, 'toggleActivo'])->name('temporadas.toggleActivo');
@@ -97,6 +98,7 @@ Route::middleware(['auth',
 
     Route::get('grupos-pequenos/horario', [App\Http\Controllers\GrupoPequenoController::class, 'horario']);
     Route::resource('grupos-pequenos', App\Http\Controllers\GrupoPequenoController::class);
-
+    Route::resource('asistencias', App\Http\Controllers\AsistenciaController::class)->only(['index', 'show']);
+    // Route::get('/asistencias/{idCryptCurriculum}', [App\Http\Controllers\Lider\SalonesController::class, 'curriculum'])->name('asistencias.curriculum');
 
 });

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Helpers\InscripcionHelper;
 use App\Helpers\RolHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class GrupoPequeno extends Model {
     use HasFactory;
@@ -91,37 +93,53 @@ class GrupoPequeno extends Model {
         return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$ALUMNO);
     }
     // Relación para los líderes (rol_id = 3)
-    public function lideres() {
+    public function lideres(): HasManyThrough {
         // return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$LIDER);
         return $this->hasManyThrough(
-            Usuario::class,
-            Inscripcion::class,
-            'grupo_pequeno_id',
-            'id',
-            'id',
-            'usuario_id')->where('inscripciones.rol_id', RolHelper::$LIDER);
+            Usuario::class, Inscripcion::class, 'grupo_pequeno_id', 'id', 'id', 'usuario_id')
+            ->where('inscripciones.rol_id', RolHelper::$LIDER);
     }
 
-    public function monitores() {
-        // return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$MONITOR);
+    public function monitores(): HasManyThrough {
         return $this->hasManyThrough(
-            Usuario::class,
-            Inscripcion::class,
-            'grupo_pequeno_id',
-            'id',
-            'id',
-            'usuario_id')->where('inscripciones.rol_id', RolHelper::$MONITOR);
+            Usuario::class, Inscripcion::class, 'grupo_pequeno_id', 'id', 'id', 'usuario_id')
+            ->where('inscripciones.rol_id', RolHelper::$MONITOR);
     }
-    public function alumnos() {
+    public function alumnos(): HasManyThrough {
         return $this->hasManyThrough(
-            Usuario::class,
-            Inscripcion::class,
-            'grupo_pequeno_id',
-            'id',
-            'id',
-            'usuario_id')->where('inscripciones.rol_id', RolHelper::$ALUMNO);
+            Usuario::class, Inscripcion::class, 'grupo_pequeno_id', 'id', 'id', 'usuario_id')
+            ->where('inscripciones.rol_id', RolHelper::$ALUMNO);
+    }
+    public function alumnosAprobados(): HasManyThrough {
+        return $this->hasManyThrough(
+            Usuario::class, Inscripcion::class, 'grupo_pequeno_id', 'id', 'id', 'usuario_id')
+            ->where('inscripciones.rol_id', RolHelper::$ALUMNO)
+            ->where('inscripciones.estado_inscripcion_id', InscripcionHelper::$APROBADO);
+    }
+    public function alumnosReprobados(): HasManyThrough {
+        return $this->hasManyThrough(
+            Usuario::class, Inscripcion::class, 'grupo_pequeno_id', 'id', 'id', 'usuario_id')
+            ->where('inscripciones.rol_id', RolHelper::$ALUMNO)
+            ->where('inscripciones.estado_inscripcion_id', InscripcionHelper::$REPROBADO);
+    }
+    public function alumnosInscritos(): HasManyThrough {
+        return $this->hasManyThrough(
+            Usuario::class, Inscripcion::class, 'grupo_pequeno_id', 'id', 'id', 'usuario_id')
+            ->where('inscripciones.rol_id', RolHelper::$ALUMNO)
+            ->where('inscripciones.estado_inscripcion_id', InscripcionHelper::$INSCRITO);
+    }
+    public function alumnosNoParticipa(): HasManyThrough {
+        return $this->hasManyThrough(
+            Usuario::class, Inscripcion::class, 'grupo_pequeno_id', 'id', 'id', 'usuario_id')
+            ->where('inscripciones.rol_id', RolHelper::$ALUMNO)
+            ->where('inscripciones.estado_inscripcion_id', InscripcionHelper::$NO_PARTICIPO);
+    }
 
-        // return $this->hasMany(Inscripcion::class, 'grupo_pequeno_id')->where('rol_id', RolHelper::$ALUMNO);
+    // public function semanas(): HasManyThrough {
+    //     return $this->hasManyThrough(Semana::class, Temporada::class, 'temporada_id', 'temporada_id', 'id', 'id');
+    // }
+    public function semanas(): HasManyThrough {
+        return $this->hasManyThrough(Semana::class, Temporada::class, 'id', 'temporada_id', 'temporada_id', 'id');
     }
 
     public function scopeActivo($query) {
