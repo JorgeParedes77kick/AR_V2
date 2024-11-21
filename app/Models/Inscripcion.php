@@ -3,6 +3,7 @@
 
 namespace App\Models;
 
+use App\Helpers\AsistenciaHelper;
 use App\Helpers\RolHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -72,6 +73,32 @@ class Inscripcion extends Model {
         return $this->hasMany(Asistencia::class, 'inscripcion_id');
     }
 
+    public function semanasInscritos() {
+        return $this->hasManyThrough(
+            Semana::class, Asistencia::class, 'inscripcion_id', 'id', 'id', 'semana_id')
+            ->where('asistencias.estado_asistencia_id', AsistenciaHelper::$INSCRITO);
+    }
+    public function semanasPresentes() {
+        return $this->hasManyThrough(
+            Semana::class, Asistencia::class, 'inscripcion_id', 'id', 'id', 'semana_id')
+            ->where('asistencias.estado_asistencia_id', AsistenciaHelper::$PRESENTE);
+    }
+
+    public function semanasAusentes() {
+        return $this->hasManyThrough(
+            Semana::class, Asistencia::class, 'inscripcion_id', 'id', 'id', 'semana_id')
+            ->where('asistencias.estado_asistencia_id', AsistenciaHelper::$AUSENTE);
+    }
+    public function semanasRecuperados() {
+        return $this->hasManyThrough(
+            Semana::class, Asistencia::class, 'inscripcion_id', 'id', 'id', 'semana_id')
+            ->where('asistencias.estado_asistencia_id', AsistenciaHelper::$RECUPERADO);
+    }
+    public function semanasNoaplica() {
+        return $this->hasManyThrough(
+            Semana::class, Asistencia::class, 'inscripcion_id', 'id', 'id', 'semana_id')
+            ->where('asistencias.estado_asistencia_id', AsistenciaHelper::$NO_APLICA);
+    }
     /**
      * Relación con los adicionales
      */

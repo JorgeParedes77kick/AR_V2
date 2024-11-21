@@ -43,4 +43,28 @@ class Asistencia extends Model {
     public function estadoAsistencia(): BelongsTo {
         return $this->belongsTo(EstadoAsistencia::class, 'estado_asistencia_id');
     }
+    public function temporada() {
+        return $this->hasOneThrough(Temporada::class, Semana::class,
+            'id' /*id semana*/,
+            'id' /* id temporada */,
+            'semana_id' /*fk asistencia semana */,
+            'temporada_id' /* fk semana temporada*/);
+    }
+    public function grupoPequeno() {
+        return $this->hasOneThrough(GrupoPequeno::class, Inscripcion::class,
+            'id' /*id semana*/,
+            'id' /* id temporada */,
+            'inscripcion_id' /*fk asistencia inscripcion */,
+            'grupo_pequeno_id' /* fk semana temporada*/);
+    }
+
+    public function scopeWhereHasGrupo($q, $grupo_id = null) {
+        return $q->whereHas('inscripcion', function ($query) use ($grupo_id) {
+            $query->whereColumn('inscripciones.grupo_pequeno_id', 'grupo_pequenos.id');
+
+        });
+    }
+    public function scopeWhereHasCiclo($q, $ciclo_id) {
+        return $q->whereHas('grupoPequeno.ciclo_id', $ciclo_id);
+    }
 }

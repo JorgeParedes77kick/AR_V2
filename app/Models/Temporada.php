@@ -105,6 +105,10 @@ class Temporada extends Model {
         return $this->hasMany(Semana::class, 'temporada_id');
     }
 
+    public function asistencias() {
+        return $this->hasManyThrough(Asistencia::class, Semana::class, 'temporada_id', 'semana_id', 'id', 'id');
+    }
+
     public function scopeActivo($q) {
         return $q->where('activo', true);
     }
