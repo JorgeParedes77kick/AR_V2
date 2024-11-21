@@ -101,7 +101,8 @@ var __default__ = {
     genderList: Array,
     civilStatusList: Array,
     nationalityList: Array,
-    countryList: Array
+    countryList: Array,
+    typeDocumentsList: Array
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
@@ -123,6 +124,7 @@ var __default__ = {
     var fieldsForm = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_9__.useForm)({
       nombre: "",
       apellido: "",
+      tipo_documento: "",
       dni: "",
       fecha_nacimiento: "",
       genero_id: "",
@@ -557,7 +559,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }), _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" row 1 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                    cols: "4"
+                    cols: "3"
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
@@ -581,7 +583,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     }),
                     _: 1 /* STABLE */
                   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                    cols: "4"
+                    cols: "3"
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
@@ -605,15 +607,40 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     }),
                     _: 1 /* STABLE */
                   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                    cols: "4"
+                    cols: "3"
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
+                        modelValue: $setup.fieldsForm.tipo_documento,
+                        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                          return $setup.fieldsForm.tipo_documento = $event;
+                        }),
+                        name: "tipo_documento",
+                        label: "Tipo Documento",
+                        items: $props.typeDocumentsList,
+                        "item-title": "nombre",
+                        "item-value": "id",
+                        variant: "outlined",
+                        style: {
+                          "color": "#f4ede8"
+                        },
+                        "class": "rounded-l",
+                        rules: [_ctx.rules.required],
+                        clearable: "",
+                        tabindex: "3"
+                      }, null, 8 /* PROPS */, ["modelValue", "items", "rules"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                    cols: "3"
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.fieldsForm.dni,
-                        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
                           return $setup.fieldsForm.dni = $event;
                         }),
-                        label: "DNI, Cédula,o RUT",
+                        label: "Número de Documento",
                         variant: "outlined",
                         placeholder: "1234567890",
                         name: "dni",
@@ -625,7 +652,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         rules: [_ctx.rules.required],
                         "error-messages": $setup.fieldsForm.errors.dni,
                         clearable: "",
-                        tabindex: "3"
+                        tabindex: "4"
                       }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
@@ -640,7 +667,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.fieldsForm.fecha_nacimiento,
-                        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
                           return $setup.fieldsForm.fecha_nacimiento = $event;
                         }),
                         label: "Fecha Nacimiento",
@@ -658,7 +685,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         max: new Date(Date.now() - new Date().getTimezoneOffset() * 60000 - 87600 * 60 * 60000).toISOString().substring(0, 10),
                         min: "1950-01-01",
                         "active-picker.sync": "YEAR",
-                        tabindex: "4"
+                        tabindex: "5"
                       }, null, 8 /* PROPS */, ["modelValue", "rules", "max"])];
                     }),
                     _: 1 /* STABLE */
@@ -668,7 +695,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
                         modelValue: $setup.fieldsForm.genero_id,
-                        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+                        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
                           return $setup.fieldsForm.genero_id = $event;
                         }),
                         name: "genero_id",
@@ -683,7 +710,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "class": "rounded-l",
                         rules: [_ctx.rules.required],
                         clearable: "",
-                        tabindex: "5"
+                        tabindex: "6"
                       }, null, 8 /* PROPS */, ["modelValue", "items", "rules"])];
                     }),
                     _: 1 /* STABLE */
@@ -693,7 +720,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
                         modelValue: $setup.fieldsForm.estado_civil_id,
-                        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+                        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
                           return $setup.fieldsForm.estado_civil_id = $event;
                         }),
                         name: "estado_civil_id",
@@ -708,7 +735,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "class": "rounded-l",
                         rules: [_ctx.rules.required],
                         clearable: "",
-                        tabindex: "6"
+                        tabindex: "7"
                       }, null, 8 /* PROPS */, ["modelValue", "items", "rules"])];
                     }),
                     _: 1 /* STABLE */
@@ -759,37 +786,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
                         modelValue: $setup.fieldsForm.nacionalidad_id,
-                        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+                        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
                           return $setup.fieldsForm.nacionalidad_id = $event;
                         }),
                         name: "nacionalidad",
                         label: "Nacionalidad",
                         items: $props.nationalityList,
-                        "item-title": "nombre",
-                        "item-value": "id",
-                        variant: "outlined",
-                        style: {
-                          "color": "#f4ede8"
-                        },
-                        "class": "rounded-l",
-                        rules: [_ctx.rules.required],
-                        clearable: "",
-                        tabindex: "7"
-                      }, null, 8 /* PROPS */, ["modelValue", "items", "rules"])];
-                    }),
-                    _: 1 /* STABLE */
-                  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                    cols: "3"
-                  }, {
-                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                        modelValue: $setup.fieldsForm.pais_residencia,
-                        "onUpdate:modelValue": [_cache[7] || (_cache[7] = function ($event) {
-                          return $setup.fieldsForm.pais_residencia = $event;
-                        }), $setup.updateRegion],
-                        name: "pais",
-                        label: "País",
-                        items: $props.countryList,
                         "item-title": "nombre",
                         "item-value": "id",
                         variant: "outlined",
@@ -808,13 +810,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                        modelValue: $setup.fieldsForm.region_id,
-                        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-                          return $setup.fieldsForm.region_id = $event;
-                        }),
-                        name: "region_id",
-                        label: "Region",
-                        items: $setup.regionList,
+                        modelValue: $setup.fieldsForm.pais_residencia,
+                        "onUpdate:modelValue": [_cache[8] || (_cache[8] = function ($event) {
+                          return $setup.fieldsForm.pais_residencia = $event;
+                        }), $setup.updateRegion],
+                        name: "pais",
+                        label: "País",
+                        items: $props.countryList,
                         "item-title": "nombre",
                         "item-value": "id",
                         variant: "outlined",
@@ -832,9 +834,34 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     cols: "3"
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
+                        modelValue: $setup.fieldsForm.region_id,
+                        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+                          return $setup.fieldsForm.region_id = $event;
+                        }),
+                        name: "region_id",
+                        label: "Region",
+                        items: $setup.regionList,
+                        "item-title": "nombre",
+                        "item-value": "id",
+                        variant: "outlined",
+                        style: {
+                          "color": "#f4ede8"
+                        },
+                        "class": "rounded-l",
+                        rules: [_ctx.rules.required],
+                        clearable: "",
+                        tabindex: "10"
+                      }, null, 8 /* PROPS */, ["modelValue", "items", "rules"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                    cols: "3"
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.fieldsForm.ciudad,
-                        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+                        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
                           return $setup.fieldsForm.ciudad = $event;
                         }),
                         label: "Ciudad/Comuna",
@@ -849,7 +876,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         rules: [_ctx.rules.required, _ctx.rules.counter_dir],
                         "error-messages": $setup.fieldsForm.errors.ciudad,
                         clearable: "",
-                        tabindex: "10"
+                        tabindex: "11"
                       }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
@@ -864,7 +891,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.fieldsForm.direccion,
-                        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+                        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
                           return $setup.fieldsForm.direccion = $event;
                         }),
                         label: "Dirección",
@@ -879,7 +906,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         rules: [_ctx.rules.required, _ctx.rules.counter_dir],
                         "error-messages": $setup.fieldsForm.errors.direccion,
                         clearable: "",
-                        tabindex: "11"
+                        tabindex: "12"
                       }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
@@ -889,7 +916,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.fieldsForm.ocupacion,
-                        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+                        "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
                           return $setup.fieldsForm.ocupacion = $event;
                         }),
                         label: "Ocupación",
@@ -904,7 +931,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         rules: [_ctx.rules.required, _ctx.rules.counter_dir],
                         "error-messages": $setup.fieldsForm.errors.ocupacion,
                         clearable: "",
-                        tabindex: "12"
+                        tabindex: "13"
                       }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
@@ -914,7 +941,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.fieldsForm.telefono,
-                        "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+                        "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
                           return $setup.fieldsForm.telefono = $event;
                         }),
                         label: "Teléfono",
@@ -931,7 +958,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "error-messages": $setup.fieldsForm.errors.telefono,
                         clearable: "",
                         onKeydown: $setup.checkDigit,
-                        tabindex: "13"
+                        tabindex: "14"
                       }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
@@ -982,7 +1009,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.fieldsForm.email,
-                        "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
+                        "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
                           return $setup.fieldsForm.email = $event;
                         }),
                         label: "Correo Electrónico",
@@ -996,7 +1023,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         rules: [_ctx.rules.required, _ctx.rules.email],
                         "error-messages": $setup.fieldsForm.errors.email,
                         clearable: "",
-                        tabindex: "14"
+                        tabindex: "15"
                       }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
@@ -1006,7 +1033,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.fieldsForm.email_confirm,
-                        "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+                        "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
                           return $setup.fieldsForm.email_confirm = $event;
                         }),
                         label: "Confirme Correo Electrónico",
@@ -1019,7 +1046,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "class": "rounded-l",
                         rules: [_ctx.rules.required, _ctx.rules.email, $setup.mailConfirmEqualMail],
                         clearable: "",
-                        tabindex: "15"
+                        tabindex: "16"
                       }, null, 8 /* PROPS */, ["modelValue", "rules"])];
                     }),
                     _: 1 /* STABLE */
@@ -1029,7 +1056,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.fieldsForm.password,
-                        "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+                        "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
                           return $setup.fieldsForm.password = $event;
                         }),
                         label: "Contraseńa",
@@ -1044,7 +1071,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         rules: [_ctx.rules.required, _ctx.rules.counter, _ctx.rules.counter_pass],
                         "error-messages": $setup.fieldsForm.errors.password,
                         clearable: "",
-                        tabindex: "16"
+                        tabindex: "17"
                       }, null, 8 /* PROPS */, ["modelValue", "rules", "error-messages"])];
                     }),
                     _: 1 /* STABLE */
@@ -1054,7 +1081,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                         modelValue: $setup.fieldsForm.password_confirm,
-                        "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
+                        "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
                           return $setup.fieldsForm.password_confirm = $event;
                         }),
                         label: "Confirme Contraseńa",
@@ -1068,7 +1095,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "class": "rounded-l",
                         rules: [_ctx.rules.required, $setup.passConfirmEqualPass, _ctx.rules.counter_pass],
                         clearable: "",
-                        tabindex: "17"
+                        tabindex: "18"
                       }, null, 8 /* PROPS */, ["modelValue", "rules"])];
                     }),
                     _: 1 /* STABLE */

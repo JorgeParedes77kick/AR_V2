@@ -15,6 +15,7 @@ const props = defineProps({
   civilStatusList : Array,
   nationalityList : Array,
   countryList : Array,
+  typeDocumentsList : Array,
 });
 
 const loadingPage = ref(false);
@@ -33,6 +34,7 @@ const formRegister = ref(null);
 const fieldsForm = useForm({
   nombre: "",
   apellido: "",
+  tipo_documento: "",
   dni: "",
   fecha_nacimiento: "",
   genero_id: "",
@@ -216,7 +218,7 @@ onMounted(() =>
         <legend>&nbsp;</legend>
         <!-- row 1 -->
         <v-row>
-          <v-col cols="4" >
+          <v-col cols="3" >
             <v-text-field v-model="fieldsForm.nombre"
                           label="Nombres"
                           variant="outlined"
@@ -230,7 +232,7 @@ onMounted(() =>
                           tabindex="1"
             />
           </v-col>
-          <v-col cols="4" >
+          <v-col cols="3" >
             <v-text-field v-model="fieldsForm.apellido"
                           label="Apellidos"
                           variant="outlined"
@@ -244,9 +246,24 @@ onMounted(() =>
                           tabindex="2"
             />
           </v-col>
-          <v-col cols="4" >
+          <v-col cols="3" >
+            <v-select v-model="fieldsForm.tipo_documento"
+                      name="tipo_documento"
+                      label="Tipo Documento"
+                      :items="typeDocumentsList"
+                      item-title="nombre"
+                      item-value="id"
+                      variant="outlined"
+                      style="color: #f4ede8"
+                      class="rounded-l"
+                      :rules="[rules.required]"
+                      clearable
+                      tabindex="3"
+            ></v-select>
+          </v-col>
+          <v-col cols="3" >
             <v-text-field v-model="fieldsForm.dni"
-                          label="DNI, C&eacute;dula,o RUT"
+                          label="Número de Documento"
                           variant="outlined"
                           placeholder="1234567890"
                           name="dni"
@@ -256,7 +273,7 @@ onMounted(() =>
                           :rules="[rules.required]"
                           :error-messages="fieldsForm.errors.dni"
                           clearable
-                          tabindex="3"
+                          tabindex="4"
             />
           </v-col>
         </v-row>
@@ -277,7 +294,7 @@ onMounted(() =>
                           :max="(new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000 ) - (87600 * 60) * 60000)).toISOString().substring(0, 10)"
                           min="1950-01-01"
                           active-picker.sync="YEAR"
-                          tabindex="4"
+                          tabindex="5"
             />
           </v-col>
           <v-col cols="4" >
@@ -292,7 +309,7 @@ onMounted(() =>
                       class="rounded-l"
                       :rules="[rules.required]"
                       clearable
-                      tabindex="5"
+                      tabindex="6"
             ></v-select>
           </v-col>
           <v-col cols="4" >
@@ -307,7 +324,7 @@ onMounted(() =>
                       class="rounded-l"
                       :rules="[rules.required]"
                       clearable
-                      tabindex="6"
+                      tabindex="7"
             ></v-select>
           </v-col>
         </v-row>
@@ -334,7 +351,7 @@ onMounted(() =>
                       class="rounded-l"
                       :rules="[rules.required]"
                       clearable
-                      tabindex="7"
+                      tabindex="8"
             ></v-select>
           </v-col>
           <v-col cols="3" >
@@ -350,7 +367,7 @@ onMounted(() =>
                       :rules="[rules.required]"
                       @update:modelValue="updateRegion"
                       clearable
-                      tabindex="8"
+                      tabindex="9"
             ></v-select>
           </v-col>
           <v-col cols="3" >
@@ -365,7 +382,7 @@ onMounted(() =>
                       class="rounded-l"
                       :rules="[rules.required]"
                       clearable
-                      tabindex="9"
+                      tabindex="10"
             ></v-select>
           </v-col>
           <v-col cols="3" >
@@ -380,7 +397,7 @@ onMounted(() =>
                           :rules="[rules.required, rules.counter_dir]"
                           :error-messages="fieldsForm.errors.ciudad"
                           clearable
-                          tabindex="10"
+                          tabindex="11"
             />
           </v-col>
         </v-row>
@@ -398,7 +415,7 @@ onMounted(() =>
                           :rules="[rules.required, rules.counter_dir]"
                           :error-messages="fieldsForm.errors.direccion"
                           clearable
-                          tabindex="11"
+                          tabindex="12"
             />
           </v-col>
           <v-col cols="3" >
@@ -413,7 +430,7 @@ onMounted(() =>
                           :rules="[rules.required, rules.counter_dir]"
                           :error-messages="fieldsForm.errors.ocupacion"
                           clearable
-                          tabindex="12"
+                          tabindex="13"
             />
           </v-col>
           <v-col cols="3" >
@@ -430,7 +447,7 @@ onMounted(() =>
                           :error-messages="fieldsForm.errors.telefono"
                           clearable
                           @keydown="checkDigit"
-                          tabindex="13"
+                          tabindex="14"
             />
           </v-col>
         </v-row>
@@ -456,7 +473,7 @@ onMounted(() =>
                           :rules="[rules.required, rules.email]"
                           :error-messages="fieldsForm.errors.email"
                           clearable
-                          tabindex="14"
+                          tabindex="15"
             />
           </v-col>
           <v-col cols="3" >
@@ -469,7 +486,7 @@ onMounted(() =>
                           class="rounded-l"
                           :rules="[rules.required, rules.email, mailConfirmEqualMail]"
                           clearable
-                          tabindex="15"
+                          tabindex="16"
             />
           </v-col>
           <v-col cols="3" >
@@ -484,7 +501,7 @@ onMounted(() =>
                           :rules="[rules.required, rules.counter, rules.counter_pass]"
                           :error-messages="fieldsForm.errors.password"
                           clearable
-                          tabindex="16"
+                          tabindex="17"
             />
           </v-col>
           <v-col cols="3" >
@@ -498,7 +515,7 @@ onMounted(() =>
                           class="rounded-l"
                           :rules="[rules.required, passConfirmEqualPass, rules.counter_pass]"
                           clearable
-                          tabindex="17"
+                          tabindex="18"
             />
           </v-col>
         </v-row>
