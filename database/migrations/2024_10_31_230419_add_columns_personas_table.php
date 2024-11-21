@@ -13,9 +13,11 @@ class AddColumnsPersonasTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasColumn('personas', 'tipo_documento')) {
+        if (!Schema::hasColumn('personas', 'tipo_documento_id')) {
           Schema::table('personas', function (Blueprint $table) {
-            $table->integer('tipo_documento')->after('apellido')->nullable()->default(null);
+            $table->unsignedBigInteger('tipo_documento_id')->after('apellido')->nullable()->default(null);
+            $table->foreign('tipo_documento_id')->references('id')->on('tipo_documentos');
+
           });
         }
     }
@@ -27,9 +29,9 @@ class AddColumnsPersonasTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasColumn('personas', 'type_document')) {
+        if (Schema::hasColumn('personas', 'tipo_documento_id')) {
           Schema::table('personas', function (Blueprint $table) {
-            $table->dropColumn('type_document');
+            $table->dropColumn('tipo_documento_id');
           });
         }
     }
