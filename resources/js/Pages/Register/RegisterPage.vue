@@ -8,13 +8,14 @@ const props = defineProps({
   civilStatusList : Array,
   nationalityList : Array,
   countryList : Array,
+  typeDocumentsList : Array,
 });
 
 </script>
 
 <template class="py-0 px-0">
     <RegisterLayout>
-        <RegisterForm :genderList="genderList" :civilStatusList="civilStatusList" :nationalityList="nationalityList" :countryList="countryList"></RegisterForm>
+        <RegisterForm :genderList="genderList" :civilStatusList="civilStatusList" :nationalityList="nationalityList" :countryList="countryList" :typeDocumentsList="typeDocumentsList"></RegisterForm>
     </RegisterLayout>
 </template>
 

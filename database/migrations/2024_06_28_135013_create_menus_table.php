@@ -19,8 +19,8 @@ class CreateMenusTable extends Migration {
             $table->integer('orden')->default(1);
             $table->text('icon')->nullable();
             $table->timestamps();
-            $table->foreign('menu_padre_id')->references('id')->on('menus');
 
+            $table->foreign('menu_padre_id')->references('id')->on('menus');
         });
     }
 
