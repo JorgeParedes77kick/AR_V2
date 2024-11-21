@@ -2,11 +2,15 @@
 import { defineProps, onMounted, ref } from 'vue';
 import MainLayout from '../../components/Layout.vue';
 
-const props = defineProps({});
+const props = defineProps({
+  data: { type: Object, default: {} },
+});
 const loading = ref(false);
 const isDisabled = ref(false);
 
-onMounted(() => {});
+onMounted(() => {
+  console.log(props.data);
+});
 </script>
 
 <template>

@@ -41,14 +41,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'dashboard',
-  props: {},
+  props: {
+    data: {
+      type: Object,
+      "default": {}
+    }
+  },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
     var props = __props;
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {});
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
+      console.log(props.data);
+    });
     var __returned__ = {
       props: props,
       loading: loading,
