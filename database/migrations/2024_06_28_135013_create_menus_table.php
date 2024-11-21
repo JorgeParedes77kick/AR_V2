@@ -16,7 +16,7 @@ class CreateMenusTable extends Migration {
             $table->string('nombre', 50);
             $table->unsignedBigInteger('menu_padre_id')->nullable();
             $table->text('url_ref');
-            $table->integer('orden')->default(1);
+            $table->integer('orden')->default(90);
             $table->text('icon')->nullable();
             $table->timestamps();
 
