@@ -6,6 +6,9 @@
 @import '~vuetify/styles';
 @import 'fonts';
 @import 'functions';
+@import 'sizes';
+@import 'overflow';
+@import 'align';
 @import '~sweetalert2/dist/sweetalert2.min.css';
 // @import 'colors/variables-dark';
 // @import 'colors/variables-light';
@@ -45,12 +48,12 @@
   height: 100%;
 }
 
-.my-v-list-group{
+.my-v-list-group {
   --prepend-width: 20px !important;
   --list-indent-size: 3px !important;
 }
 
-.v-list-item__prepend{
+.v-list-item__prepend {
   align-items: center !important;
   align-self: center !important;
   display: block !important;

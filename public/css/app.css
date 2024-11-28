@@ -17639,6 +17639,118 @@ body {
   font-family: "Objetive", "Gilroy", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
 
+.min-h-auto {
+  min-height: auto !important;
+}
+
+.min-h-fit {
+  min-height: -moz-fit-content !important;
+  min-height: fit-content !important;
+}
+
+.max-h-auto {
+  max-height: auto !important;
+}
+
+.max-h-fit {
+  max-height: -moz-fit-content !important;
+  max-height: fit-content !important;
+}
+
+.min-w-auto {
+  min-width: auto !important;
+}
+
+.min-w-fit {
+  min-width: -moz-fit-content !important;
+  min-width: fit-content !important;
+}
+
+.max-w-auto {
+  max-width: auto !important;
+}
+
+.max-w-fit {
+  max-width: -moz-fit-content !important;
+  max-width: fit-content !important;
+}
+
+.overflowauto {
+  overflow: auto !important;
+}
+
+.overflowhidden {
+  overflow: hidden !important;
+}
+
+.overflowvisible {
+  overflow: visible !important;
+}
+
+.overflowscroll {
+  overflow: scroll !important;
+}
+
+.overflow-xauto {
+  overflow-x: auto !important;
+}
+
+.overflow-xhidden {
+  overflow-x: hidden !important;
+}
+
+.overflow-xvisible {
+  overflow-x: visible !important;
+}
+
+.overflow-xscroll {
+  overflow-x: scroll !important;
+}
+
+.overflow-yauto {
+  overflow-y: auto !important;
+}
+
+.overflow-yhidden {
+  overflow-y: hidden !important;
+}
+
+.overflow-yvisible {
+  overflow-y: visible !important;
+}
+
+.overflow-yscroll {
+  overflow-y: scroll !important;
+}
+
+.white-space-normal {
+  white-space: normal !important;
+}
+
+.align-baseline {
+  vertical-align: baseline !important;
+}
+
+.align-top {
+  vertical-align: top !important;
+}
+
+.align-middle {
+  vertical-align: middle !important;
+}
+
+.align-bottom {
+  vertical-align: bottom !important;
+}
+
+.align-text-bottom {
+  vertical-align: text-bottom !important;
+}
+
+.align-text-top {
+  vertical-align: text-top !important;
+}
+
 .lh-0 {
   line-height: 0 !important;
 }
