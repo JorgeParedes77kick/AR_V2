@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Debug;
 use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware {
@@ -31,6 +33,9 @@ class HandleInertiaRequests extends Middleware {
      * @return array
      */
     public function share(Request $request) {
+        Debug::info($request->path());
+        Debug::info($request->url());
+        // Debug::info($request->all());
         // Debug::info($request->isMethod('get'));
         // Debug::info(!$request->ajax());
         // Debug::info(!$request->wantsJson());
@@ -42,9 +47,10 @@ class HandleInertiaRequests extends Middleware {
                 'error' => $request->session()->get('error'),
             ]]);
 
-        if ($request->isMethod('get')
+        if (Auth::check() && $request->isMethod('get')
             // && !$request->ajax()
              && !$request->wantsJson()
+
         ) {
             $menus = Menu::getMenu(true);
             $roles = $user->roles;
