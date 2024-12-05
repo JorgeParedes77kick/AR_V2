@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Helpers\Debug;
+use App\Helpers\RolHelper;
 use App\Http\Requests\StorePersonaRequest;
 use App\Http\Requests\UpdatePersonaRequest;
 use App\Models\Persona;
@@ -59,7 +60,7 @@ class PersonaController extends Controller
               'persona_id' => $person->id,
             ]);
             if($user instanceof Usuario ){
-              $user->roles()->attach(5);
+              $user->roles()->attach(RolHelper::$ALUMNO);
               DB::commit();
               return response()->json(['person' => "Registro Exitoso"], 200);
             }

@@ -11,6 +11,7 @@ use App\Models\EstadoCivil;
 use App\Models\Genero;
 use App\Models\Nacionalidad;
 use App\Models\Pais;
+use App\Models\TipoDocumento;
 use App\Models\Usuario;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -54,6 +55,7 @@ class FortifyServiceProvider extends ServiceProvider {
 
         Fortify::registerView(function () {
 
+            $tipoDocumentos = TipoDocumento::select('id', 'nombre')->orderBy('nombre', 'asc')->get();
             $generos = Genero::select('id', 'nombre')->orderBy('nombre', 'asc')->get();
             $estadosCiviles = EstadoCivil::select('id', 'estado')->orderBy('estado', 'asc')->get();
             $nacionalidades = Nacionalidad::select('id', 'nombre')->orderBy('nombre', 'asc')->get();
@@ -65,6 +67,7 @@ class FortifyServiceProvider extends ServiceProvider {
                     'civilStatusList' => $estadosCiviles,
                     'nationalityList' => $nacionalidades,
                     'countryList' => $paises,
+                    'typeDocumentsList' => $tipoDocumentos,
                 ]);
 
         });

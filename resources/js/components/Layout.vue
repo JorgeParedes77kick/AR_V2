@@ -1,145 +1,141 @@
 <script setup>
-import axios from 'axios';
-import classnames from 'classnames';
-import {defineProps, onMounted, reactive, ref} from 'vue';
-import { useTheme } from 'vuetify';
-import {getList} from "../constants/form";
-import LeftMenuItem from "./LeftMenuItem.vue";
+  import { useForm, usePage } from '@inertiajs/vue3';
 
-const theme = useTheme();
-const isDarkTheme = ref(false);
+  import axios from 'axios';
+  import { onMounted, reactive, ref } from 'vue';
+  import { useTheme } from 'vuetify';
+  import LeftMenuItem from './LeftMenuItem.vue';
 
-const drawer = ref(false);
+  const pageProps = usePage().props;
 
-const csrf = ref(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+  const theme = useTheme();
+  const isDarkTheme = ref(false);
 
-const formLogout = reactive({
-  _token: csrf,
-});
+  const drawer = ref(false);
 
-const dynamicMenu = ref([]);
+  const csrf = ref(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 
-const userRoles = ref([]);
-/*
-const listGroup = ref([
-  {
-    label: 'Admin',
-    expanded: false,
-    items: [
-      { title: 'Home', link: '/' },
-      { title: 'Globales', link: '/' },
-      { title: 'Temporadas R', link: '/' },
-      { title: 'Registrar Horario R', link: '/' },
-      { title: 'Usuarios R', link: '/' },
-      { title: 'Asistencias', link: '/' },
-      { title: 'Recursos R', link: '/' },
-      { title: 'Cumpleaños', link: '/' },
-      { title: 'Adicionales ', link: '/' },
-      { title: 'Exportar Data', link: '/' },
-      { title: 'Inscribir Alumno', link: '/' },
-    ],
-  },
-  {
-    label: 'Coordinador',
-    expanded: false,
-    items: [
-      { title: 'Asistencia', link: '/' },
-      { title: 'Registrar Horario R', link: '/' },
-      { title: 'Usuarios AR -', link: '/' },
-      { title: 'Recursos R', link: '/' },
-      { title: 'Cumpleaños', link: '/' },
-      { title: 'Exportar Data', link: '/' },
-      { title: 'Reasignar alumnos', link: '/' },
-      { title: 'Inscribir Alumno', link: '/' },
-    ],
-  },
-  {
-    label: 'Monitor',
-    expanded: false,
-    items: [
-      { title: 'Asistencia', link: '' },
-      { title: 'Usuarios AR -', link: '' },
-      { title: 'Cumpleaños', link: '' },
-      { title: 'Exportar Data', link: '' },
-      { title: 'Reasignar alumnos', link: '' },
-      { title: 'Inscribir Alumno', link: '' },
-    ],
-  },
-  {
-    label: 'Lider',
-    expanded: false,
-    items: [
-      { title: 'Mis Salones', link: '' },
-      { title: 'Calificar alumnos', link: '' },
-      { title: 'Cumpleaños', link: '' },
-    ],
-  },
-  {
-    label: 'Alumno',
-    expanded: false,
-    items: [
-      { title: 'Home', link: '' },
-      { title: 'Mis Recursos', link: '' },
-      { title: 'Mis Grupos Pequeños', link: '' },
-    ],
-  },
-]);
-
- */
-const toggleTheme = () => {
-  isDarkTheme.value = !isDarkTheme.value;
-  theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
-  localStorage.setItem('theme', isDarkTheme.value ? 'dark' : 'light');
-};
-
-onMounted(() => {
-  isDarkTheme.value = localStorage.getItem('theme') === 'dark';
-  theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
-
-  getList('/menu/list/byRol').then((data)=>{
-    console.log("Menus byRol: " + JSON.stringify(data));
-    dynamicMenu.value = data;
-    console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
+  const loadingPage = ref(false);
+  const formLogout = reactive({
+    _token: csrf,
   });
 
-  getList('/roles/list/byUser').then((data)=>{
-    console.log("Roles byUser: " + JSON.stringify(data));
-    userRoles.value = data;
-    console.log("userRoles: " + JSON.stringify(userRoles));
+  const fieldRoles = useForm({
+    role_id: 0,
+    _token: csrf,
+  });
+  const setOverlay = (v) => (loadingPage.value = v);
+
+  const dynamicMenu = ref([]);
+  const userRoles = ref([]);
+  const rolSession = ref([]);
+
+  const toggleTheme = () => {
+    isDarkTheme.value = !isDarkTheme.value;
+    theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
+    localStorage.setItem('theme', isDarkTheme.value ? 'dark' : 'light');
+  };
+
+  onMounted(() => {
+    console.log('pageProps:', pageProps);
+    isDarkTheme.value = localStorage.getItem('theme') === 'dark';
+    theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
+
+    // getList('/menu/list/byRol').then((data) => {
+    //   //console.log("Menus byRol: " + JSON.stringify(data));
+    //   dynamicMenu.value = data;
+    //   //console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
+    // });
+
+    // getList('/roles/list/byUser').then((data) => {
+    //   //console.log("Roles byUser: " + JSON.stringify(data));
+    //   userRoles.value = data;
+    //   //console.log("userRoles: " + JSON.stringify(userRoles));
+    // });
+
+    // getList('/roles/session').then((data) => {
+    //   //console.log("Rol session: " + JSON.stringify(data));
+    //   rolSession.value = data.rol;
+    //   //console.log("rolSession: " + JSON.stringify(rolSession));
+    // });
+    try {
+      const {
+        auth: { roles, rol_selected },
+        menus,
+      } = pageProps;
+
+      dynamicMenu.value = menus.map(({ url_ref, ...x }) => ({
+        ...x,
+        url_ref: url_ref.startsWith('#') || url_ref.startsWith('/') ? url_ref : `/${url_ref}`,
+      }));
+      userRoles.value = roles;
+      rolSession.value = rol_selected;
+    } catch (error) {}
   });
 
-});
+  const activeGroup = ref(null);
 
-const activeGroup = ref(null);
-
-function toggleGroup(index) {
-  activeGroup.value = activeGroup.value === index ? null : index;
-}
-
-function handleSubmit(event, link) {
-  if(link !== '#'){
-    if(link === 'logout'){
-      axios
-        .post(link, formLogout)
-        .then((result) => {
-          window.location.href = 'login';
-        })
-        .catch((error) => {
-          console.log(JSON.stringify(error.response.data.message));
-        });
-    }else{
-      window.location.href = link;
-    }
+  function toggleGroup(index) {
+    activeGroup.value = activeGroup.value === index ? null : index;
   }
-  event.preventDefault();
-}
 
-const myApp = ref([
-  { title: 'Home', icon: 'mdi-home', link: 'home' },
-  { title: 'Logout', icon: 'mdi-power', link: 'logout' },
-  { title: 'Roles', icon: 'mdi-power', link: '#' },
-]);
+  function handleSubmit(event, link) {
+    setOverlay(true);
+    if (link !== '#') {
+      if (link === 'logout') {
+        axios
+          .post(link, formLogout)
+          .then((result) => {
+            // window.location.href = 'login';
+            router.visit('login');
+          })
+          .catch((error) => {
+            setOverlay(false);
+            console.log(JSON.stringify(error.response.data.message));
+          });
+      } else {
+        // window.location.href = link;
+        router.visit(link);
+      }
+    }
+    event.preventDefault();
+  }
 
+  const applyRol = async (event, id) => {
+    event.preventDefault();
+    setOverlay(true);
+    fieldRoles.role_id = id;
+    try {
+      const response = await axios.post(route('roles.rolApply'), fieldRoles);
+      console.log('response?.message:', response);
+      if (response?.data?.message) {
+        setOverlay(false);
+        const { message } = response.data;
+        await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+        // window.location.href = 'home';
+        router.visit(route('home'));
+      }
+    } catch (err) {
+      console.log(err?.response);
+      if (err?.response?.data?.server) {
+        const { server: message } = err.response.data;
+        Swal.fire({ title: 'Error!', text: message, icon: 'error' });
+      }
+      if (err?.response?.data?.errors) {
+        const { errors } = err.response.data;
+        inputForm.errors = errors;
+      }
+    } finally {
+      setOverlay(false);
+    }
+  };
+
+  const myApp = ref([
+    { title: 'Home', icon: 'mdi-home', link: 'home' },
+    { title: 'Mi perfil', icon: '', link: 'home' },
+    { title: 'Logout', icon: 'mdi-power', link: 'logout' },
+    { title: 'Roles', icon: 'mdi-power', link: '' },
+  ]);
 </script>
 <template>
   <v-app>
@@ -160,7 +156,7 @@ const myApp = ref([
           Mi Aplicaci&oacute;n
           <v-menu activator="parent" location="bottom" open-on-hover>
             <v-list>
-              <v-list-item v-for="(item, i) in myApp" :key="i" link >
+              <v-list-item v-for="(item, i) in myApp" :key="i" link>
                 <v-list-item-title>
                   <v-form @submit.prevent="handleSubmit($event, item.link)">
                     <v-btn size="small" variant="plain" type="submit">
@@ -169,19 +165,30 @@ const myApp = ref([
                   </v-form>
                 </v-list-item-title>
                 <template v-slot:prepend>
-                  <template v-if="item.title !== 'Roles' ">
+                  <template v-if="item.title !== 'Roles'">
                     <v-icon :icon="item.icon" size="small"></v-icon>
                   </template>
                   <template v-else>
                     <v-icon icon="mdi-menu-left" size="small"></v-icon>
                   </template>
                 </template>
-                <template v-if="item.title === 'Roles' ">
-                  <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu location="start">
+                <template v-if="item.title === 'Roles'">
+                  <v-menu
+                    :open-on-focus="false"
+                    activator="parent"
+                    open-on-hover
+                    submenu
+                    location="start"
+                  >
                     <v-list>
-                      <v-list-item v-for="(userRol, r) in userRoles" :key="r" link href="#">
+                      <v-list-item
+                        v-for="(userRol, r) in userRoles"
+                        :key="r"
+                        link
+                        @click="applyRol($event, userRol.id)"
+                      >
                         <v-list-item-title>{{ userRol.nombre }}</v-list-item-title>
-                        <template v-slot:prepend>
+                        <template v-slot:prepend v-if="userRol.id === rolSession">
                           <v-icon icon="mdi-check-decagram" size="small"></v-icon>
                         </template>
                       </v-list-item>
@@ -217,7 +224,7 @@ const myApp = ref([
       <!-- Dynamic Menu Init-->
       <v-list>
         <template v-for="(menu, index) in dynamicMenu" :key="menu.id">
-          <template v-if="menu.menu_padre_id === null" >
+          <template v-if="menu.menu_padre_id === null">
             <LeftMenuItem :menu="menu" :activeGroup="activeGroup"></LeftMenuItem>
           </template>
         </template>
@@ -228,5 +235,15 @@ const myApp = ref([
     <v-main id="body-app">
       <slot></slot>
     </v-main>
+    <v-overlay
+      :model-value="loadingPage"
+      opacity="0.80"
+      :absolute="true"
+      contained
+      persistent
+      class="align-center justify-center"
+    >
+      <v-progress-circular style="color: #99c5c0" size="37" indeterminate></v-progress-circular>
+    </v-overlay>
   </v-app>
 </template>

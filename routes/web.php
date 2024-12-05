@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,19 +19,19 @@ use Inertia\Inertia;
  * Rutas Inicial
  */
 Route::get('/', function () {
-    /*if (Auth::check()) {
-    return redirect()->route('home');
-    }*/
+    if (Auth::check()) {
+        return redirect()->route('home');
+    }
     return Inertia::render('Login/LoginPage');
 });
 /**
  * Rutas Registro Usuario
  */
-Route::get('/gender/list', [App\Http\Controllers\GeneroController::class, 'list'])->name('gender.list');
-Route::get('/civilStatus/list', [App\Http\Controllers\EstadoCivilController::class, 'list'])->name('civilStatus.list');
-Route::get('/nationality/list', [App\Http\Controllers\NacionalidadController::class, 'list'])->name('nationality.list');
-Route::get('/country/list', [App\Http\Controllers\PaisController::class, 'list'])->name('country.list');
-Route::get('/region/list/{country}', [App\Http\Controllers\RegionController::class, 'list'])->name('region.list');
+// Route::get('/gender/list', [App\Http\Controllers\GeneroController::class, 'list'])->name('gender.list');
+// Route::get('/civilStatus/list', [App\Http\Controllers\EstadoCivilController::class, 'list'])->name('civilStatus.list');
+// Route::get('/nationality/list', [App\Http\Controllers\NacionalidadController::class, 'list'])->name('nationality.list');
+// Route::get('/country/list', [App\Http\Controllers\PaisController::class, 'list'])->name('country.list');
+// Route::get('/region/list/{country}', [App\Http\Controllers\RegionController::class, 'list'])->name('region.list');
 Route::post('/persona/store', [App\Http\Controllers\PersonaController::class, 'store'])->name('persona.store');
 Route::delete('persona/{persona_id}/delete', [App\Http\Controllers\PersonaController::class, 'destroy'])->name('persona.destroy');
 Route::get('/user/validate-token/{email}/{token}', [App\Http\Controllers\UsuarioController::class, 'canResetPass'])->name('user.validate-token');
@@ -39,37 +40,25 @@ Route::get('/user/validate-token/{email}/{token}', [App\Http\Controllers\Usuario
  * Rutas Usuario Autorizado
  */
 Route::middleware(['auth'])->group(function () {
+    Route::get('/menu/list/byRol', [App\Http\Controllers\MenuController::class, 'menuByRol'])->name('menu.rol');
+    Route::get('/roles/list/byUser', [App\Http\Controllers\UsuarioController::class, 'userRoles'])->name('roles.list.byUser');
+    Route::post('/roles/rolApply', [App\Http\Controllers\RolController::class, 'applyRol'])->name('roles.rolApply');
+    Route::get('/roles/session', [App\Http\Controllers\RolController::class, 'getRolSession'])->name('roles.session');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     //ALUMNO
     Route::post('/horario/inscripcion', [App\Http\Controllers\Alumno\InscripcionController::class, 'inscribir'])->name('horario.inscripcion.store');
     Route::delete('/horario/inscripcion/{idCrypt}', [App\Http\Controllers\Alumno\InscripcionController::class, 'desinscribir'])->name('horario.inscripcion.delete');
-    Route::get('/horario/{idCrypt}', [App\Http\Controllers\Alumno\InscripcionController::class, 'curriculum'])->name('horario.curriculum');
-    Route::get('/mis-cursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'cursos'])->name('mis-cursos');
-    Route::resource('/mis-recursos', App\Http\Controllers\Alumno\RecursosController::class)->only(['index', 'show']);
+    Route::get('horario/{idCrypt}', [App\Http\Controllers\Alumno\InscripcionController::class, 'curriculum'])->name('horario.curriculum');
+    Route::get('mis-cursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'cursos'])->name('mis-cursos');
+    Route::resource('mis-recursos', App\Http\Controllers\Alumno\RecursosController::class)->only(['index', 'show']);
     //LIDER
-    Route::resource('/mis-salones', App\Http\Controllers\Lider\SalonesController::class)->only(['index', 'update']);
+    Route::resource('mis-salones', App\Http\Controllers\Lider\SalonesController::class)->only(['index', 'update']);
     Route::get('/mis-salones/{idGrupo}/asistencia', [App\Http\Controllers\Lider\SalonesController::class, 'misSalonesAsistencia'])->name('mis-salones.asistencia');
     Route::get('/mis-salones/{idCryptCurriculum}/{id}', [App\Http\Controllers\Lider\SalonesController::class, 'misAlumnos'])->name('mis-salones.grupo');
     Route::get('/mis-salones/{idCryptCurriculum}', [App\Http\Controllers\Lider\SalonesController::class, 'curriculum'])->name('mis-salones.curriculum');
 
-    Route::get('/roles/list/byUser', [App\Http\Controllers\UsuarioController::class, 'userRoles'])->name('roles.list.byUser');
-
-});
-
-/**
- * Rutas Usuario autorizado y rol Administrador
- */
-Route::middleware(['auth',
-    'super.admin',
-])->group(function () {
-
-    Route::get('home/no-filter', [App\Http\Controllers\HomeController::class, 'index'])->name('home.no-filter');
-    Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
-    Route::post('temporadas/${id}/toggleActivo', [App\Http\Controllers\TemporadaController::class, 'toggleActivo'])->name('temporadas.toggleActivo');
-    Route::post('temporadas/${id}/toggleInscripcion', [App\Http\Controllers\TemporadaController::class, 'toggleInscripcion'])->name('temporadas.toggleInscripcion');
-    Route::post('temporadas/${id}/checkDelete', [App\Http\Controllers\TemporadaController::class, 'checkDelete'])->name('temporadas.checkDelete');
     Route::resource('roles', App\Http\Controllers\RolController::class);
     Route::resource('estados-asistencia', App\Http\Controllers\EstadoAsistenciaController::class);
     Route::resource('estados-inscripcion', App\Http\Controllers\EstadoInscripcionController::class);
@@ -88,13 +77,22 @@ Route::middleware(['auth',
 
     Route::get('grupos-pequenos/horario', [App\Http\Controllers\GrupoPequenoController::class, 'horario']);
     Route::resource('grupos-pequenos', App\Http\Controllers\GrupoPequenoController::class);
+    Route::resource('asistencias', App\Http\Controllers\AsistenciaController::class)->only(['index', 'show']);
+});
 
-    /* Rutas Menu*/
+/**
+ * Rutas Usuario autorizado y rol Administrador
+ */
+Route::middleware(['auth',
+    'super.admin',
+])->group(function () {
+
     Route::resource('menu', App\Http\Controllers\MenuController::class);
-    Route::get('/menu/list/byRol', [App\Http\Controllers\MenuController::class, 'menuByRol'])->name('menu.rol');
-
-    /* Rutas Role Menu*/
-    Route::get('rol-menu', [\App\Http\Controllers\RolMenuController::class, 'index'])->name('rol-menu');
-    Route::post('rol-menu', [\App\Http\Controllers\RolMenuController::class, 'store'])->name('rol-menu.store');
-
+    Route::resource('rol-menu', App\Http\Controllers\RolMenuController::class);
+    Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('home/no-filter', [App\Http\Controllers\HomeController::class, 'index'])->name('home.no-filter');
+    Route::resource('temporadas', App\Http\Controllers\TemporadaController::class);
+    Route::post('temporadas/${id}/toggleActivo', [App\Http\Controllers\TemporadaController::class, 'toggleActivo'])->name('temporadas.toggleActivo');
+    Route::post('temporadas/${id}/toggleInscripcion', [App\Http\Controllers\TemporadaController::class, 'toggleInscripcion'])->name('temporadas.toggleInscripcion');
+    Route::post('temporadas/${id}/checkDelete', [App\Http\Controllers\TemporadaController::class, 'checkDelete'])->name('temporadas.checkDelete');
 });

@@ -1,7 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
 import { router } from '@inertiajs/vue3';
-import { defineProps, inject, ref } from 'vue';
+import {defineProps, inject, onMounted, ref} from 'vue';
 
 import ButtonBack from '../../components/ButtonBack';
 
@@ -15,6 +15,7 @@ const props = defineProps({
   action: String,
   menu: { type: Object, default: {} },
   menus_padres: { type: Array },
+  routes: { type: Array },
   status: String,
 });
 
@@ -68,6 +69,17 @@ const submit = async () => {
     loading.value = false;
   }
 };
+
+let routesUri = [];
+
+onMounted(() => {
+  /*console.log("routes ", JSON.stringify(props.routes));*/
+  routesUri.push("#");
+  for (let i = 0, length = props.routes.length; i < length; i++) {
+    routesUri.push(props.routes[i].URI);
+  }
+  /*console.log("routesUri ", JSON.stringify(routesUri));*/
+});
 </script>
 
 <template>
@@ -103,12 +115,15 @@ const submit = async () => {
                               tabindex="2"/>
               </v-col>
               <v-col cols="4" >
-                <v-text-field id="url_ref" name="url_ref" label="Url" v-model="inputForm.url_ref"
-                              placeholder="Escriba el simbolo # para Menus Principales"
-                              :disabled="isDisabled" :rules="validate('Url', 'required')"
-                              :error-messages="inputForm.errors.url_ref"
-                              class="rounded-l" variant="outlined" clearable
-                              tabindex="3" />
+                <v-autocomplete
+                  id="url_ref" name="url_ref" label="Url" v-model="inputForm.url_ref"
+                  placeholder="Seleccione el simbolo # para Menus Principales"
+                  :disabled="isDisabled" :rules="validate('Url', 'required')"
+                  :error-messages="inputForm.errors.url_ref"
+                  class="rounded-l" variant="outlined" clearable
+                  tabindex="3"
+                  :items="routesUri"
+                ></v-autocomplete>
               </v-col>
 
               <v-col cols="4" >

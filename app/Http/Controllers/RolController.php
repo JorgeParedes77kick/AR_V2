@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RolRequest;
 use App\Models\Rol;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -114,5 +115,29 @@ class RolController extends Controller {
             return response()->json(["message" => $th->getMessage(), 'server' => '¡El Rol no pudo ser eliminada, intente más tarde!'], 500);
         }
 
+    }
+
+    /**
+     * Apply a new rol user in session.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function applyRol(Request $request) {
+        $role = Rol::whereId($request->input('role_id'))->first();
+        if ($role) {
+          $request->session()->put('rol_id', $role->id);
+          return response()->json(["message" => "Role Apply Success"], 200);
+        }
+        return response()->json(["message" => "Role Not Apply"], 403);
+    }
+
+    /**
+     * get rol user in session.
+     *
+     * @return JsonResponse
+     */
+    public function getRolSession() {
+        return response()->json(["rol" => session('rol_id')], 200);
     }
 }

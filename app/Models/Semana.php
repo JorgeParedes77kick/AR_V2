@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\AsistenciaHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -39,4 +40,20 @@ class Semana extends Model {
     public function asistencias(): HasMany {
         return $this->hasMany(Asistencia::class, 'semana_id');
     }
+    public function inscritos(): HasMany {
+        return $this->hasMany(Asistencia::class, 'semana_id')->where('asistencias.estado_asistencia_id', AsistenciaHelper::$INSCRITO);
+    }
+    public function presentes(): HasMany {
+        return $this->hasMany(Asistencia::class, 'semana_id')->where('asistencias.estado_asistencia_id', AsistenciaHelper::$PRESENTE);
+    }
+    public function ausentes(): HasMany {
+        return $this->hasMany(Asistencia::class, 'semana_id')->where('asistencias.estado_asistencia_id', AsistenciaHelper::$AUSENTE);
+    }
+    public function recuperados(): HasMany {
+        return $this->hasMany(Asistencia::class, 'semana_id')->where('asistencias.estado_asistencia_id', AsistenciaHelper::$RECUPERADO);
+    }
+    public function noAplica(): HasMany {
+        return $this->hasMany(Asistencia::class, 'semana_id')->where('asistencias.estado_asistencia_id', AsistenciaHelper::$NO_APLICA);
+    }
+
 }

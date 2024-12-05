@@ -69,15 +69,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       state: 0
     });
     function isConfig(menu, rol) {
-      console.log("menu/rol ", menu, rol);
+      //console.log("menu/rol ", menu, rol);
       var exist = false;
       props.rolesMenus.forEach(function (rolMenu, index) {
-        console.log("rolMenu ", rolMenu);
+        //console.log("rolMenu ", rolMenu);
         if (rolMenu.menu_id === menu && rolMenu.rol_id === rol) {
           exist = true;
         }
       });
-      console.log("exist ", exist);
+      //console.log("exist ", exist);
       return exist;
     }
     var isChange = /*#__PURE__*/function () {
@@ -122,7 +122,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               setOverlay(true);
               _context2.prev = 1;
               _context2.next = 4;
-              return axios__WEBPACK_IMPORTED_MODULE_2___default().post(route('rol-menu'), inputForm);
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().post(route('rol-menu.store'), inputForm);
             case 4:
               result = _context2.sent;
               console.log("result ", result);
@@ -178,27 +178,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       };
     }();
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
-      console.log("roles ", props.roles);
-      console.log("rolesMenus ", props.rolesMenus);
-      /*
-        const list = Object.keys(props.menusRoles).map(function(key) {
-          return props.menusRoles[key];
-        });
-        console.log("list ", list);
-        const listObjet = Object.keys(list).map(function(key) {
-          return list[key];
-        });
-        console.log("listObjet ", listObjet);
-        props.roles.forEach((rol, index) => {
-          console.log("rol ", rol.id, rol.nombre)
-          listObjet.forEach((menuRol, index) => {
-            console.log("menuRol ", menuRol);
-            if(rol.id === menuRol.rol_id){
-              console.log("menuRol if ", menuRol);
-            }
-          })
-        })
-      */
+      //console.log("roles ", props.roles);
+      //console.log("rolesMenus ", props.rolesMenus);
     });
     var __returned__ = {
       props: props,

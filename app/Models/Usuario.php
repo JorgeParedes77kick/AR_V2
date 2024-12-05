@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -37,7 +38,14 @@ class Usuario extends Authenticatable {
     ];
 
     protected $appends = ['fullNombre', 'nombreCompleto'];
-
+    protected static function booted() {
+        static::addGlobalScope('withCurriculum', function (Builder $builder) {
+            $builder->with(['persona']);
+        });
+    }
+    public function scopeWithCurriculum($query) {
+        return $query->with('persona');
+    }
     /**
      * Relación con la persona asociada al usuario
      */

@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Debug;
+use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware {
@@ -30,18 +33,36 @@ class HandleInertiaRequests extends Middleware {
      * @return array
      */
     public function share(Request $request) {
+        Debug::info($request->path());
+        Debug::info($request->url());
+        // Debug::info($request->all());
+        // Debug::info($request->isMethod('get'));
+        // Debug::info(!$request->ajax());
+        // Debug::info(!$request->wantsJson());
+        $user = $request->user();
 
-        return array_merge(parent::share($request), [
-            'auth' => [
-                'user' => $request->user(),
-            ],
-            // 'ziggy' => function () {
-            //     return (new Ziggy)->toArray();
-            // },
+        $pageProps = array_merge(parent::share($request), [
             'flash' => [
                 'message' => $request->session()->get('message'),
                 'error' => $request->session()->get('error'),
-            ],
-        ]);
+            ]]);
+
+        if (Auth::check() && $request->isMethod('get')
+            // && !$request->ajax()
+             && !$request->wantsJson()
+
+        ) {
+            $menus = Menu::getMenu(true);
+            $roles = $user->roles;
+            unset($user->roles);
+            $user->rol_selected = $request->session()->get('rol_id');
+
+            $pageProps = array_merge($pageProps,
+                ['menus' => $menus],
+                ['auth' => ['user' => $user, 'roles' => $roles, 'rol_selected' => $user->rol_selected]]
+            );
+        }
+
+        return $pageProps;
     }
 }

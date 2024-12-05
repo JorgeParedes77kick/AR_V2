@@ -1,11 +1,15 @@
 <?php
 
 use Database\Seeders\GlobalesSeeder;
+use Database\Seeders\MenuSeeder;
+use Database\Seeders\RolesMenusSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder {
     public function run() {
         $this->call(GlobalesSeeder::class);
+        $this->call(MenuSeeder::class);
+        $this->call(RolesMenusSeeder::class);
         // $this->call(PaisesTableSeeder::class);
         // $this->call(EstadosTableSeeder::class);
         // $this->call(NacionalidadesSeeder::class);
