@@ -976,14 +976,14 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
         if (link === 'logout') {
           axios__WEBPACK_IMPORTED_MODULE_1___default().post(link, formLogout).then(function (result) {
             // window.location.href = 'login';
-            router.visit('login');
+            _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit('login');
           })["catch"](function (error) {
             setOverlay(false);
             console.log(JSON.stringify(error.response.data.message));
           });
         } else {
           // window.location.href = link;
-          router.visit(link);
+          _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit(link);
         }
       }
       event.preventDefault();
@@ -1017,7 +1017,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
               });
             case 13:
               // window.location.href = 'home';
-              router.visit(route('home'));
+              _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit(route('home'));
             case 14:
               _context.next = 21;
               break;
@@ -1092,6 +1092,9 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       },
       get usePage() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage;
+      },
+      get router() {
+        return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router;
       },
       get axios() {
         return (axios__WEBPACK_IMPORTED_MODULE_1___default());
