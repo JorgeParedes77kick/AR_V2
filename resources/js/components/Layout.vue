@@ -1,5 +1,5 @@
 <script setup>
-  import { useForm, usePage } from '@inertiajs/vue3';
+  import { useForm, usePage, router  } from '@inertiajs/vue3';
 
   import axios from 'axios';
   import { onMounted, reactive, ref } from 'vue';
