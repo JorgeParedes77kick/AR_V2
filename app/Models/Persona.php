@@ -28,6 +28,7 @@ class Persona extends Model {
     protected $fillable = [
         'nombre',
         'apellido',
+        'tipo_documento_id',
         'dni',
         'fecha_nacimiento',
         'genero_id',

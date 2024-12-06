@@ -28,6 +28,7 @@ class StorePersonaRequest extends FormRequest
         return [
           'nombre' => 'required|alpha|max:50',
           'apellido' => 'required|alpha|max:50',
+          'tipo_documento_id' => 'required|numeric',
           'dni' => 'required|alpha_num|max:20|unique:personas,dni,'.$idValidate,
           'fecha_nacimiento' => 'required|date',
           'genero_id' => 'required|numeric',
