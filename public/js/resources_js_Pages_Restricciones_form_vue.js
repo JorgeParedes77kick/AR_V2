@@ -1242,6 +1242,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "CRUD": () => (/* binding */ CRUD),
 /* harmony export */   "FORM_POST": () => (/* binding */ FORM_POST),
 /* harmony export */   "TEXT_BUTTON": () => (/* binding */ TEXT_BUTTON),
+/* harmony export */   "checkRut": () => (/* binding */ checkRut),
 /* harmony export */   "getList": () => (/* binding */ getList),
 /* harmony export */   "getQueryMap": () => (/* binding */ getQueryMap),
 /* harmony export */   "removeValid": () => (/* binding */ removeValid),
@@ -1361,6 +1362,75 @@ var getQueryMap = function getQueryMap(query) {
     }
   });
   return map;
+};
+/*
+export const checkRut = function (rut) {
+  // Despejar Puntos
+  let valor = rut.replace('.','');
+  // Despejar Guión
+  valor = valor.replace('-','');
+
+  // Aislar Cuerpo y Dígito Verificador
+  let cuerpo = valor.slice(0,-1);
+  let dv = valor.slice(-1).toUpperCase();
+
+  // Formatear RUN
+  rut = cuerpo + '-'+ dv
+
+  // Si no cumple con el mínimo ej. (n.nnn.nnn)
+  if(cuerpo.length < 7) { return false;}
+
+  // Calcular Dígito Verificador
+  let suma = 0;
+  let multiplo = 2;
+
+  // Para cada dígito del Cuerpo
+  for(let i=1;i<=cuerpo.length;i++) {
+
+    // Obtener su Producto con el Múltiplo Correspondiente
+    let index = multiplo * valor.charAt(cuerpo.length - i);
+
+    // Sumar al Contador General
+    suma = suma + index;
+
+    // Consolidar Múltiplo dentro del rango [2,7]
+    if(multiplo < 7) { multiplo = multiplo + 1; } else { multiplo = 2; }
+
+  }
+
+  // Calcular Dígito Verificador en base al Módulo 11
+  let dvEsperado = 11 - (suma % 11);
+
+  // Casos Especiales (0 y K)
+  dv = (dv == 'K')?10:dv;
+  dv = (dv == 0)?11:dv;
+
+  // Validar que el Cuerpo coincide con su Dígito Verificador
+  if(dvEsperado != dv) { return false; }
+
+  // Si todo sale bien, eliminar errores (decretar que es válido)
+  return true;
+}
+*/
+
+var checkRut = function checkRut(rut) {
+  console.log("checkRut: params:", rut);
+  // Despejar Puntos
+  var valor = rut.replace('.', '');
+  // Despejar Guión
+  valor = valor.replace('-', '');
+
+  // Aislar Cuerpo y Dígito Verificador
+  var cuerpo = valor.slice(0, -1);
+  var digv = valor.slice(-1).toUpperCase();
+  if (digv === 'K') digv = 'k';
+  return dv(cuerpo) == digv;
+};
+var dv = function dv(T) {
+  var M = 0,
+    S = 1;
+  for (; T; T = Math.floor(T / 10)) S = (S + T % 10 * (9 - M++ % 6)) % 11;
+  return S ? S - 1 : 'k';
 };
 
 /***/ }),

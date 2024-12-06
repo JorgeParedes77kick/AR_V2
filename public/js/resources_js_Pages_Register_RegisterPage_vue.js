@@ -60,6 +60,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 var __default__ = {
   data: function data() {
     return {
@@ -124,7 +125,7 @@ var __default__ = {
     var fieldsForm = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_9__.useForm)({
       nombre: "",
       apellido: "",
-      tipo_documento: "",
+      tipo_documento_id: "",
       dni: "",
       fecha_nacimiento: "",
       genero_id: "",
@@ -148,6 +149,14 @@ var __default__ = {
     };
     var passConfirmEqualPass = function passConfirmEqualPass() {
       return fieldsForm.password_confirm === fieldsForm.password || "Contraseña Confirmación no coincide";
+    };
+    var isDocValid = function isDocValid(v) {
+      console.log(v);
+      if (fieldsForm.tipo_documento_id === 1) {
+        return (0,_constants_form__WEBPACK_IMPORTED_MODULE_1__.checkRut)(v) || "RUT No Valido";
+      } else {
+        return true;
+      }
     };
     var regionList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
     var setRegion = function setRegion(v) {
@@ -291,6 +300,7 @@ var __default__ = {
       fieldsForm: fieldsForm,
       mailConfirmEqualMail: mailConfirmEqualMail,
       passConfirmEqualPass: passConfirmEqualPass,
+      isDocValid: isDocValid,
       regionList: regionList,
       setRegion: setRegion,
       initialize: initialize,
@@ -299,6 +309,9 @@ var __default__ = {
       createNickName: createNickName,
       updateRegion: updateRegion,
       checkDigit: checkDigit,
+      get checkRut() {
+        return _constants_form__WEBPACK_IMPORTED_MODULE_1__.checkRut;
+      },
       ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
       onBeforeMount: vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeMount,
@@ -651,7 +664,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         label: "Nombres",
                         variant: "outlined",
                         placeholder: "Jhon",
-                        name: "mail",
+                        name: "nombres",
                         type: "input",
                         style: {
                           "color": "#f4ede8"
@@ -692,9 +705,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_select, {
-                        modelValue: $setup.fieldsForm.tipo_documento,
+                        modelValue: $setup.fieldsForm.tipo_documento_id,
                         "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-                          return $setup.fieldsForm.tipo_documento = $event;
+                          return $setup.fieldsForm.tipo_documento_id = $event;
                         }),
                         name: "tipo_documento",
                         label: "Tipo Documento",
@@ -730,7 +743,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           "color": "#f4ede8"
                         },
                         "class": "rounded-l",
-                        rules: [_ctx.rules.required],
+                        rules: [_ctx.rules.required, $setup.isDocValid],
                         "error-messages": $setup.fieldsForm.errors.dni,
                         clearable: "",
                         tabindex: "4"
@@ -1344,6 +1357,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "CRUD": () => (/* binding */ CRUD),
 /* harmony export */   "FORM_POST": () => (/* binding */ FORM_POST),
 /* harmony export */   "TEXT_BUTTON": () => (/* binding */ TEXT_BUTTON),
+/* harmony export */   "checkRut": () => (/* binding */ checkRut),
 /* harmony export */   "getList": () => (/* binding */ getList),
 /* harmony export */   "getQueryMap": () => (/* binding */ getQueryMap),
 /* harmony export */   "removeValid": () => (/* binding */ removeValid),
@@ -1463,6 +1477,75 @@ var getQueryMap = function getQueryMap(query) {
     }
   });
   return map;
+};
+/*
+export const checkRut = function (rut) {
+  // Despejar Puntos
+  let valor = rut.replace('.','');
+  // Despejar Guión
+  valor = valor.replace('-','');
+
+  // Aislar Cuerpo y Dígito Verificador
+  let cuerpo = valor.slice(0,-1);
+  let dv = valor.slice(-1).toUpperCase();
+
+  // Formatear RUN
+  rut = cuerpo + '-'+ dv
+
+  // Si no cumple con el mínimo ej. (n.nnn.nnn)
+  if(cuerpo.length < 7) { return false;}
+
+  // Calcular Dígito Verificador
+  let suma = 0;
+  let multiplo = 2;
+
+  // Para cada dígito del Cuerpo
+  for(let i=1;i<=cuerpo.length;i++) {
+
+    // Obtener su Producto con el Múltiplo Correspondiente
+    let index = multiplo * valor.charAt(cuerpo.length - i);
+
+    // Sumar al Contador General
+    suma = suma + index;
+
+    // Consolidar Múltiplo dentro del rango [2,7]
+    if(multiplo < 7) { multiplo = multiplo + 1; } else { multiplo = 2; }
+
+  }
+
+  // Calcular Dígito Verificador en base al Módulo 11
+  let dvEsperado = 11 - (suma % 11);
+
+  // Casos Especiales (0 y K)
+  dv = (dv == 'K')?10:dv;
+  dv = (dv == 0)?11:dv;
+
+  // Validar que el Cuerpo coincide con su Dígito Verificador
+  if(dvEsperado != dv) { return false; }
+
+  // Si todo sale bien, eliminar errores (decretar que es válido)
+  return true;
+}
+*/
+
+var checkRut = function checkRut(rut) {
+  console.log("checkRut: params:", rut);
+  // Despejar Puntos
+  var valor = rut.replace('.', '');
+  // Despejar Guión
+  valor = valor.replace('-', '');
+
+  // Aislar Cuerpo y Dígito Verificador
+  var cuerpo = valor.slice(0, -1);
+  var digv = valor.slice(-1).toUpperCase();
+  if (digv === 'K') digv = 'k';
+  return dv(cuerpo) == digv;
+};
+var dv = function dv(T) {
+  var M = 0,
+    S = 1;
+  for (; T; T = Math.floor(T / 10)) S = (S + T % 10 * (9 - M++ % 6)) % 11;
+  return S ? S - 1 : 'k';
 };
 
 /***/ }),

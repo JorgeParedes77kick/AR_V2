@@ -9,6 +9,7 @@ import book from "../../../../public/images/libro.png";
 import corona from "../../../../public/images/corona.png";
 import tween from "../../../../public/images/tweens.png";
 import {useForm} from "@inertiajs/inertia-vue3";
+import {checkRut} from "../../constants/form";
 
 const props = defineProps({
   genderList : Array,
@@ -34,7 +35,7 @@ const formRegister = ref(null);
 const fieldsForm = useForm({
   nombre: "",
   apellido: "",
-  tipo_documento: "",
+  tipo_documento_id: "",
   dni: "",
   fecha_nacimiento: "",
   genero_id: "",
@@ -56,7 +57,14 @@ const fieldsForm = useForm({
 
 const mailConfirmEqualMail = () => fieldsForm.email_confirm === fieldsForm.email || "Correo Confirmación no coincide";
 const passConfirmEqualPass = () => fieldsForm.password_confirm === fieldsForm.password || "Contraseña Confirmación no coincide";
-
+const isDocValid = (v) => {
+  console.log(v);
+  if(fieldsForm.tipo_documento_id === 1){
+    return checkRut(v) || "RUT No Valido";
+  }else{
+    return true;
+  }
+};
 const regionList = ref([]);
 const setRegion = v => (regionList.value = v);
 
@@ -223,7 +231,7 @@ onMounted(() =>
                           label="Nombres"
                           variant="outlined"
                           placeholder="Jhon"
-                          name="mail"
+                          name="nombres"
                           type="input"
                           style="color: #f4ede8"
                           class="rounded-l"
@@ -247,7 +255,7 @@ onMounted(() =>
             />
           </v-col>
           <v-col cols="3" >
-            <v-select v-model="fieldsForm.tipo_documento"
+            <v-select v-model="fieldsForm.tipo_documento_id"
                       name="tipo_documento"
                       label="Tipo Documento"
                       :items="typeDocumentsList"
@@ -270,7 +278,7 @@ onMounted(() =>
                           type="input"
                           style="color: #f4ede8"
                           class="rounded-l"
-                          :rules="[rules.required]"
+                          :rules="[rules.required, isDocValid]"
                           :error-messages="fieldsForm.errors.dni"
                           clearable
                           tabindex="4"
@@ -540,6 +548,8 @@ onMounted(() =>
 </style>
 
 <script>
+import {checkRut} from "../../constants/form";
+
 export default {
   data: () => ({
     email: '',
