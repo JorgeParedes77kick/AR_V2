@@ -1138,7 +1138,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8 /* PROPS */, ["title", "prepend-icon"])];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"menu.icon\" link>\r\n      <template v-slot:title>\r\n        <Link :href=\"menu.url_ref\" as=\"span\"> {{ menu.nombre }} </Link>\r\n      </template>\r\n    </v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+  }, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"menu.icon\" link>\n      <template v-slot:title>\n        <Link :href=\"menu.url_ref\" as=\"span\"> {{ menu.nombre }} </Link>\n      </template>\n    </v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
     key: 1,
     modelValue: $setup.activeGroup,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -1199,7 +1199,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }, null, 8 /* PROPS */, ["title", "prepend-icon"])];
       }),
       _: 2 /* DYNAMIC */
-    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"subM.icon\" link>\r\n        <template v-slot:title>\r\n          <Link :href=\"subM.url_ref\" as=\"span\"> {{ subM.nombre }} </Link>\r\n        </template>\r\n      </v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"subM.icon\" link>\n        <template v-slot:title>\n          <Link :href=\"subM.url_ref\" as=\"span\"> {{ subM.nombre }} </Link>\n        </template>\n      </v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
       key: 1,
       modelValue: $setup.activeGroup,
       "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
