@@ -4,24 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUsuarioRequest;
 use App\Http\Requests\UpdateUsuarioRequest;
-use App\Models\Menu;
 use App\Models\PasswordResets;
 use App\Models\Usuario;
-use Illuminate\Auth\Passwords\PasswordBrokerManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class UsuarioController extends Controller
-{
+class UsuarioController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index()
-    {
+    public function index() {
         //
     }
 
@@ -30,8 +27,7 @@ class UsuarioController extends Controller
      *
      * @return Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -41,9 +37,8 @@ class UsuarioController extends Controller
      * @param StoreUsuarioRequest $request
      * @return Response
      */
-    public function store(StoreUsuarioRequest $request)
-    {
-      //
+    public function store(StoreUsuarioRequest $request) {
+        //
     }
 
     /**
@@ -52,8 +47,7 @@ class UsuarioController extends Controller
      * @param Usuario $usuario
      * @return Response
      */
-    public function show(Usuario $usuario)
-    {
+    public function show(Usuario $usuario) {
         //
     }
 
@@ -63,8 +57,7 @@ class UsuarioController extends Controller
      * @param Usuario $usuario
      * @return Response
      */
-    public function edit(Usuario $usuario)
-    {
+    public function edit(Usuario $usuario) {
         //
     }
 
@@ -75,8 +68,7 @@ class UsuarioController extends Controller
      * @param Usuario $usuario
      * @return Response
      */
-    public function update(UpdateUsuarioRequest $request, Usuario $usuario)
-    {
+    public function update(UpdateUsuarioRequest $request, Usuario $usuario) {
         //
     }
 
@@ -86,8 +78,7 @@ class UsuarioController extends Controller
      * @param Usuario $usuario
      * @return Response
      */
-    public function destroy(Usuario $usuario)
-    {
+    public function destroy(Usuario $usuario) {
         //
     }
 
@@ -98,25 +89,24 @@ class UsuarioController extends Controller
      * @param string $token
      * @return JsonResponse
      */
-    public function canResetPass(string $email, string $token)
-    {
-      $reset = PasswordResets::where('email', $email)->first();
-      if($reset){
-        if((!Carbon::parse($reset->created_at)->addSeconds(60 * 60)->isPast() && Hash::check($token, $reset->token) )){
-          return response()->json(['canResetPass' => true], 200);
+    public function canResetPass(string $email, string $token) {
+        $reset = PasswordResets::where('email', $email)->first();
+        if ($reset) {
+            if ((!Carbon::parse($reset->created_at)->addSeconds(60 * 60)->isPast() && Hash::check($token, $reset->token))) {
+                return response()->json(['canResetPass' => true], 200);
+            }
         }
-      }
-      return response()->json(['canResetPass' => false], 200);
+        return response()->json(['canResetPass' => false], 200);
     }
 
-  public function userRoles() {
-    $user = auth()->user();
-    $roles = $user->roles()->get();
-    if($roles){
-      return response($roles, 200);
-    }else{
-      return response($roles, 400);
-    }
+    public function userRoles() {
+        $user = auth()->user();
+        $roles = $user->roles()->get();
+        if ($roles) {
+            return response($roles, 200);
+        } else {
+            return response($roles, 400);
+        }
 
-  }
+    }
 }

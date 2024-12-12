@@ -58,7 +58,7 @@ class HandleInertiaRequests extends Middleware {
             $user->rol_selected = $request->session()->get('rol_id');
 
             $pageProps = array_merge($pageProps,
-                ['menus' => $menus],
+                ['menus_layout' => $menus],
                 ['auth' => ['user' => $user, 'roles' => $roles, 'rol_selected' => $user->rol_selected]]
             );
         }
