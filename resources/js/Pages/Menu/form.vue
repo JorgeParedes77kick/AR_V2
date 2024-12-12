@@ -1,7 +1,6 @@
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3';
-import { router } from '@inertiajs/vue3';
-import {defineProps, inject, onMounted, ref} from 'vue';
+import { router, useForm } from '@inertiajs/vue3';
+import { defineProps, inject, onMounted, ref } from 'vue';
 
 import ButtonBack from '../../components/ButtonBack';
 
@@ -98,39 +97,28 @@ onMounted(() => {
           <v-form @submit="validateForm" ref="form" lazy-validation>
             <v-row>
 
-              <v-col cols="4" >
-                <v-select v-model="inputForm.menu_padre_id"  name="menu_padre_id"
-                          label="Menu Padre" :items="menus_padres" item-title="nombre" item-value="id"
-                          variant="outlined" class="rounded-l" clearable
-                          tabindex="1"
-                ></v-select>
+              <v-col cols="4">
+                <v-select v-model="inputForm.menu_padre_id" name="menu_padre_id" label="Menu Padre"
+                  :items="menus_padres" item-title="nombre" item-value="id" variant="outlined" class="rounded-l"
+                  clearable tabindex="1"></v-select>
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="4" >
-                <v-text-field id="nombre" name="nombre" label="Nombre" v-model="inputForm.nombre"
-                              :disabled="isDisabled" :rules="validate('Nombre', 'required')"
-                              :error-messages="inputForm.errors.nombre"
-                              class="rounded-l" variant="outlined" clearable
-                              tabindex="2"/>
+              <v-col cols="4">
+                <v-text-field id="nombre" name="nombre" label="Nombre" v-model="inputForm.nombre" :disabled="isDisabled"
+                  :rules="validate('Nombre', 'required')" :error-messages="inputForm.errors.nombre" class="rounded-l"
+                  variant="outlined" clearable tabindex="2" />
               </v-col>
-              <v-col cols="4" >
-                <v-autocomplete
-                  id="url_ref" name="url_ref" label="Url" v-model="inputForm.url_ref"
-                  placeholder="Seleccione el simbolo # para Menus Principales"
-                  :disabled="isDisabled" :rules="validate('Url', 'required')"
-                  :error-messages="inputForm.errors.url_ref"
-                  class="rounded-l" variant="outlined" clearable
-                  tabindex="3"
-                  :items="routesUri"
-                ></v-autocomplete>
+              <v-col cols="4">
+                <v-autocomplete id="url_ref" name="url_ref" label="Url" v-model="inputForm.url_ref"
+                  placeholder="Seleccione el simbolo # para Menus Principales" :disabled="isDisabled"
+                  :rules="validate('Url', 'required')" :error-messages="inputForm.errors.url_ref" class="rounded-l"
+                  variant="outlined" clearable tabindex="3" :items="routesUri"></v-autocomplete>
               </v-col>
 
-              <v-col cols="4" >
+              <v-col cols="4">
                 <v-text-field id="icon" name="icon" label="Icono" v-model="inputForm.icon"
-                              :error-messages="inputForm.errors.icon"
-                              class="rounded-l" variant="outlined" clearable
-                              tabindex="4"/>
+                  :error-messages="inputForm.errors.icon" class="rounded-l" variant="outlined" clearable tabindex="4" />
               </v-col>
             </v-row>
             <v-row class="my-3" v-if="!isDisabled">
