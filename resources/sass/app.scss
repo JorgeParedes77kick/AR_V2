@@ -20,6 +20,43 @@
   }
 }
 
+@media #{map-get($display-breakpoints, 'xs')} {
+  .btn-login {
+    font-size: 3.3vw !important;
+  }
+}
+
+@media #{map-get($display-breakpoints, 'sm')} {
+  .btn-login {
+    font-size: 2.3vw !important;
+  }
+}
+
+@media #{map-get($display-breakpoints, 'md')} {
+  .btn-login {
+    font-size: 1.7vw !important;
+  }
+}
+
+@media #{map-get($display-breakpoints, 'lg')} {
+  .btn-login {
+    font-size: 1.3vw !important;
+  }
+}
+
+@media #{map-get($display-breakpoints, 'xl')} {
+  .btn-login {
+    font-size: 1.0vw !important;
+  }
+}
+
+@media #{map-get($display-breakpoints, 'xxl')} {
+  .btn-login {
+    font-size: 0.7vw !important;
+  }
+}
+
+
 /*
 @include media-breakpoint-between(sm, md) {
   #loginPanel {
