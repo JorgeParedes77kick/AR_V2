@@ -109,9 +109,9 @@ function handleSubmit(e) {
                 />
               </v-col>
               <v-col cols="12" class="d-flex justify-center">
-                <v-btn type="submit" block @click="validate" style="background-color: #99c5c0;
-                            font-weight: bolder; font-size: 1.3vw; border-color: beige;
-                            border-width: 2pt;  white-space: normal !important; word-wrap: break-word;">
+                <v-btn type="submit" class="btn-login" block @click="validate" style="background-color: #99c5c0;
+                            font-weight: bolder; border-color: beige;
+                            border-width: 2pt;">
                   INICIAR SESI&Oacute;N</v-btn>
               </v-col>
               <v-col cols="12" class="d-flex justify-center">
