@@ -17751,6 +17751,18 @@ body {
   vertical-align: text-top !important;
 }
 
+@media (max-width: 959.98px) {
+  #loginPanel {
+    display: none;
+  }
+}
+/*
+@include media-breakpoint-between(sm, md) {
+  #loginPanel {
+    display: none;
+  }
+}
+*/
 .lh-0 {
   line-height: 0 !important;
 }
