@@ -108,10 +108,11 @@ function handleSubmit(e) {
                               hint=""
                 />
               </v-col>
-              <v-col cols="12" >
+              <v-col cols="12" class="d-flex justify-center">
                 <v-btn type="submit" block @click="validate" style="background-color: #99c5c0;
-                            font-weight: bolder; font-size: 14pt; border-color: beige;
-                            border-width: 2pt; ">INICIAR SESI&Oacute;N</v-btn>
+                            font-weight: bolder; font-size: 1.3vw; border-color: beige;
+                            border-width: 2pt;  white-space: normal !important; word-wrap: break-word;">
+                  INICIAR SESI&Oacute;N</v-btn>
               </v-col>
               <v-col cols="12" class="d-flex justify-center">
                 <p style="color: beige; font-size: 10pt;">A&uacute;n no tienes usuario? <a href="register" style="text-decoration: none; color: #99c5c0; font-weight: bold; font-size: 10pt;" >Registrate aqu&iacute;</a></p>
