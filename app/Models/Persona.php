@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Persona extends Model {
     use HasFactory;
@@ -72,12 +73,24 @@ class Persona extends Model {
     }
 
     /**
-     * Relación con el país
+     * Relación con el region
      */
     public function region(): BelongsTo {
         return $this->belongsTo(Region::class, 'region_id');
     }
-
+    /**
+     * Relación con el pais
+     */
+    public function pais(): HasOneThrough {
+        return $this->hasOneThrough(
+            Pais::class, // Modelo final
+            Region::class, // Modelo intermedio
+            'id', // Llave foránea en la tabla intermedia (Region)
+            'id', // Llave primaria en la tabla final (Pais)
+            'region_id', // Llave foránea en el modelo actual (Usuario)
+            'pais_id' // Llave foránea en la tabla intermedia (Region)
+        );
+    }
     // /**
     //  * Relación con la ciudad
     //  */

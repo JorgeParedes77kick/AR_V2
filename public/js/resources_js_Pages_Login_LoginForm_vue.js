@@ -332,23 +332,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             }),
                             _: 1 /* STABLE */
                           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                            cols: "12"
+                            cols: "12",
+                            "class": "d-flex justify-center"
                           }, {
                             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
                                 type: "submit",
+                                "class": "btn-login",
                                 block: "",
                                 onClick: $options.validate,
                                 style: {
                                   "background-color": "#99c5c0",
                                   "font-weight": "bolder",
-                                  "font-size": "14pt",
                                   "border-color": "beige",
                                   "border-width": "2pt"
                                 }
                               }, {
                                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("INICIAR SESIÓN")];
+                                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" INICIAR SESIÓN")];
                                 }),
                                 _: 1 /* STABLE */
                               }, 8 /* PROPS */, ["onClick"])];

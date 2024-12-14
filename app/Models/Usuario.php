@@ -37,13 +37,16 @@ class Usuario extends Authenticatable {
         'updated_at' => 'datetime',
     ];
 
-    protected $appends = ['fullNombre', 'nombreCompleto'];
+    protected $appends = ['fullNombre', 'nombreCompleto', 'idCrypt'];
+    public function getIdCryptAttribute() {
+        return base64_encode($this->id);
+    }
     protected static function booted() {
-        static::addGlobalScope('withCurriculum', function (Builder $builder) {
+        static::addGlobalScope('withPersona', function (Builder $builder) {
             $builder->with(['persona']);
         });
     }
-    public function scopeWithCurriculum($query) {
+    public function scopeWithPersona($query) {
         return $query->with('persona');
     }
     /**
