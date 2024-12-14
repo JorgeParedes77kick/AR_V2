@@ -23,6 +23,8 @@ const light = {
 
     background: '#fefefe',
     foreground: '#222222',
+    input: '#4b8c86',
+    // input: '#99c5c0',
     primary: '#42a5f5',
     secondary: '#bac3c8',
     success: '#66bb6a',
@@ -69,6 +71,9 @@ const dark = {
     'data-table-body': '#212121',
     background: '#161617',
     foreground: '#fffdf8',
+    input: '#99c5c0',
+    // input: '#4b8c86',
+
     primary: '#1565c0',
     secondary: '#cfd8dc',
     success: '#2e7d32',

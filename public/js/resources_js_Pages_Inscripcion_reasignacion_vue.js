@@ -227,8 +227,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
         var _pageProps$auth = pageProps.auth,
           roles = _pageProps$auth.roles,
           rol_selected = _pageProps$auth.rol_selected,
-          menus = pageProps.menus;
-        dynamicMenu.value = menus.map(function (_ref2) {
+          menus_layout = pageProps.menus_layout;
+        dynamicMenu.value = menus_layout.map(function (_ref2) {
           var url_ref = _ref2.url_ref,
             x = _objectWithoutProperties(_ref2, _excluded);
           return _objectSpread(_objectSpread({}, x), {}, {
@@ -244,8 +244,9 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       activeGroup.value = activeGroup.value === index ? null : index;
     }
     function handleSubmit(event, link) {
-      setOverlay(true);
-      if (link !== '#') {
+      event.preventDefault();
+      if (!['', '/', '#'].includes(link)) {
+        setOverlay(true);
         if (link === 'logout') {
           axios__WEBPACK_IMPORTED_MODULE_1___default().post(link, formLogout).then(function (result) {
             // window.location.href = 'login';
@@ -259,7 +260,6 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
           _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit(link);
         }
       }
-      event.preventDefault();
     }
     var applyRol = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(event, id) {
@@ -330,16 +330,16 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       link: 'home'
     }, {
       title: 'Mi perfil',
-      icon: '',
+      icon: 'mdi-account',
       link: 'home'
+    }, {
+      title: 'Roles',
+      icon: 'mdi-power',
+      link: '#'
     }, {
       title: 'Logout',
       icon: 'mdi-power',
       link: 'logout'
-    }, {
-      title: 'Roles',
-      icon: 'mdi-power',
-      link: ''
     }]);
     var __returned__ = {
       pageProps: pageProps,
@@ -410,7 +410,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'LeftMenuItem',
   props: {
-    menu: Array
+    menu: {
+      type: [Array, Object],
+      "default": []
+    }
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
@@ -454,7 +457,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'LeftMenuItemSub',
   props: {
-    subMenu: Array
+    subMenu: {
+      type: [Array, Object],
+      "default": []
+    }
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
@@ -772,6 +778,7 @@ var _hoisted_3 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_app_bar_nav_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-app-bar-nav-icon");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
+  var _component_v_avatar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-avatar");
   var _component_v_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-form");
   var _component_v_list_item_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-item-title");
   var _component_v_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-icon");
@@ -805,10 +812,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             icon: "mdi-weather-sunny",
             onClick: $setup.toggleTheme
           })), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
-            color: "#99c5c0"
+            color: "#99c5c0",
+            rounded: "xl"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Mi Aplicación "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_menu, {
+              var _$setup$pageProps, _$setup$pageProps$aut, _$setup$pageProps$aut2, _$setup$pageProps2, _$setup$pageProps2$au, _$setup$pageProps2$au2;
+              return [(_$setup$pageProps = $setup.pageProps) !== null && _$setup$pageProps !== void 0 && (_$setup$pageProps$aut = _$setup$pageProps.auth) !== null && _$setup$pageProps$aut !== void 0 && (_$setup$pageProps$aut2 = _$setup$pageProps$aut.user) !== null && _$setup$pageProps$aut2 !== void 0 && _$setup$pageProps$aut2.persona.fotografia ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_avatar, {
+                key: 0,
+                size: "30",
+                image: "storage/img/perfil/".concat((_$setup$pageProps2 = $setup.pageProps) === null || _$setup$pageProps2 === void 0 ? void 0 : (_$setup$pageProps2$au = _$setup$pageProps2.auth) === null || _$setup$pageProps2$au === void 0 ? void 0 : (_$setup$pageProps2$au2 = _$setup$pageProps2$au.user) === null || _$setup$pageProps2$au2 === void 0 ? void 0 : _$setup$pageProps2$au2.persona.fotografia)
+              }, null, 8 /* PROPS */, ["image"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_avatar, {
+                key: 1,
+                size: "30",
+                image: "img/fotoperfil/perfil.png"
+              })), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ pageProps?.auth?.user?.persona?.nombre.trim() }} "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_menu, {
                 activator: "parent",
                 location: "bottom",
                 "open-on-hover": ""
@@ -860,7 +877,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                               key: 0,
                               "open-on-focus": false,
                               activator: "parent",
-                              "open-on-hover": "",
                               submenu: "",
                               location: "start"
                             }, {
@@ -1005,7 +1021,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8 /* PROPS */, ["title", "prepend-icon"])];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"menu.icon\" link>\n      <template v-slot:title>\n        <Link :href=\"menu.url_ref\" as=\"span\"> {{ menu.nombre }} </Link>\n      </template>\n    </v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+  }, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"menu.icon\" link>\n      <template v-slot:title>\n        <Link :href=\"menu.url_ref\" as=\"span\"> {{ menu.nombre }} </Link>\n      </template>\n</v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
     key: 1,
     modelValue: $setup.activeGroup,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -1066,7 +1082,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }, null, 8 /* PROPS */, ["title", "prepend-icon"])];
       }),
       _: 2 /* DYNAMIC */
-    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"subM.icon\" link>\n        <template v-slot:title>\n          <Link :href=\"subM.url_ref\" as=\"span\"> {{ subM.nombre }} </Link>\n        </template>\n      </v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"subM.icon\" link>\n        <template v-slot:title>\n          <Link :href=\"subM.url_ref\" as=\"span\"> {{ subM.nombre }} </Link>\n        </template>\n</v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
       key: 1,
       modelValue: $setup.activeGroup,
       "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
