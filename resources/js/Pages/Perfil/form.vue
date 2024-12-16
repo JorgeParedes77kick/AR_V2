@@ -5,7 +5,6 @@ import { defineProps, inject, onMounted, ref } from 'vue';
 
 import ButtonBack from '../../components/ButtonBack';
 import MainLayout from '../../components/Layout.vue';
-import { TEXT_BUTTON } from '../../constants/form';
 import { previewImage } from '../../utils/image';
 
 const validate = inject('$validation');
@@ -21,11 +20,14 @@ const props = defineProps({
   action: { type: String, default: '' },
 });
 const loading = ref(false);
-const isDisabled = ref(false);
+const isDisabled = ref(true);
+const Editar = ref(false);
 const miPerfil = ref(false);
 
 onMounted(() => {
   miPerfil.value = pageProps.auth.user.id === props.usuario.id
+
+
 });
 const inputForm = useForm({
   email: '',
@@ -41,11 +43,39 @@ const validateForm = async (e) => {
   e.preventDefault();
   inputForm.clearErrors();
   const { valid } = await form.value.validate();
-  // if (valid) submit();
+  if (valid) submit();
 };
 const onChangeFile = () => {
   inputForm.imagen = '';
 };
+
+const submit = async () => {
+  delete inputForm?.persona
+  try {
+    const response = await axios.put(route('personas.update', { persona: props.usuario.idCrypt }), inputForm);
+    if (response?.data?.message) {
+      const { message, persona } = response.data;
+      inputForm = { ...inputForm, ...persona, newContrasena: '', repitaContrasena: '', }
+      await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+    }
+  } catch (err) {
+    console.log(err?.response);
+    if (err?.response?.data?.server) {
+      const { server: message } = err.response.data;
+      Swal.fire({ title: 'Error!', text: message, icon: 'error' });
+    }
+    if (err?.response?.data?.errors) {
+      const { errors } = err.response.data;
+      inputForm.errors = errors;
+    }
+  } finally {
+    loading.value = false;
+  }
+}
+const onSwitch = (value) => {
+  isDisabled.value = !value;
+
+}
 </script>
 
 <template>
@@ -58,7 +88,10 @@ const onChangeFile = () => {
         <v-card-title>
           <ButtonBack :href="route('home')" /> {{ miPerfil ? 'Mi Perfil' : `Nick: ${props.usuario.nick_name}` }}
         </v-card-title>
-        <v-card-subtitle> </v-card-subtitle>
+        <v-card-subtitle>
+          <v-switch id="isDisabled" name="isDisabled" v-model="Editar" :label="Editar ? 'Editar' : 'Ver'"
+            color="primary" @update:modelValue="onSwitch" />
+        </v-card-subtitle>
         <v-card-text>
           <!-- <v-expand-x-transition> -->
           <v-form @submit="validateForm" ref="form" lazy-validation>
@@ -137,15 +170,15 @@ const onChangeFile = () => {
                   :error-messages="inputForm.errors.fecha_nacimiento" clearable />
               </v-col>
               <v-col cols="12" md="4" sm="6">
-                <v-select id="genero" name="genero" label="Genero" v-model="inputForm.genero" color="input"
+                <v-select id="genero_id" name="genero_id" label="Genero" v-model="inputForm.genero_id" color="input"
                   :disabled="isDisabled" :rules="validate('genero', 'required')"
-                  :error-messages="inputForm.errors.genero" :items="genero" item-title="nombre" item-value="id" />
+                  :error-messages="inputForm.errors.genero_id" :items="genero" item-title="nombre" item-value="id" />
               </v-col>
               <v-col cols="12" md="4" sm="6">
-                <v-select id="estado_civil" name="estado_civil" label="estado_civil" v-model="inputForm.estado_civil"
-                  color="input" :disabled="isDisabled" :rules="validate('estado civil', 'required')"
-                  :error-messages="inputForm.errors.estado_civil" :items="estadoCivil" item-title="estado"
-                  item-value="id" />
+                <v-select id="estado_civil_id" name="estado_civil_id" label="Estado Civil"
+                  v-model="inputForm.estado_civil_id" color="input" :disabled="isDisabled"
+                  :rules="validate('estado civil', 'required')" :error-messages="inputForm.errors.estado_civil_id"
+                  :items="estadoCivil" item-title="estado" item-value="id" />
               </v-col>
               <v-col cols="12" md="4" sm="6">
                 <v-text-field id="ocupacion" name="ocupacion" label="Ocupación" v-model="inputForm.ocupacion"
@@ -163,10 +196,10 @@ const onChangeFile = () => {
             </v-row>
             <v-row>
               <v-col cols="12" md="4" sm="6">
-                <v-select id="nacionalidad" name="nacionalidad" label="Nacionalidad" v-model="inputForm.nacionalidad"
-                  color="input" :disabled="isDisabled" :rules="validate('nacionalidad', 'required')"
-                  :error-messages="inputForm.errors.nacionalidad" :items="nacionalidad" item-title="nombre"
-                  item-value="id" />
+                <v-select id="nacionalidad_id" name="nacionalidad_id" label="Nacionalidad"
+                  v-model="inputForm.nacionalidad_id" color="input" :disabled="isDisabled"
+                  :rules="validate('nacionalidad', 'required')" :error-messages="inputForm.errors.nacionalidad_id"
+                  :items="nacionalidad" item-title="nombre" item-value="id" />
               </v-col>
               <v-col cols="12" md="4" sm="6">
                 <v-select id="pais" name="pais" label="País donde te encuentras" v-model="inputForm.pais" color="input"
@@ -174,9 +207,10 @@ const onChangeFile = () => {
                   item-value="id" clereable />
               </v-col>
               <v-col cols="12" md="4" sm="6">
-                <v-select id="region" name="region" label="Región donde te encuentras" v-model="inputForm.region"
-                  color="input" :disabled="isDisabled" :error-messages="inputForm.errors.region" :items="region"
-                  item-title="nombre" item-value="id" clereable />
+                <v-select id="region_id" name="region_id" label="Región donde te encuentras"
+                  v-model="inputForm.region_id" color="input" :disabled="isDisabled"
+                  :error-messages="inputForm.errors.region" :items="region" item-title="nombre" item-value="id"
+                  clereable />
               </v-col>
               <v-col cols="12" md="4" sm="6">
                 <v-text-field id="ciudad" name="ciudad" label="Ciudad/Comuna" v-model="inputForm.ciudad" color="input"
@@ -184,8 +218,7 @@ const onChangeFile = () => {
               </v-col>
               <v-col cols="12" md="4" sm="6">
                 <v-text-field id="direccion" name="direccion" label="Dirección" v-model="inputForm.direccion"
-                  color="input" :disabled="isDisabled" :rules="validate('direccion', 'required')"
-                  :error-messages="inputForm.errors.direccion" />
+                  color="input" :disabled="isDisabled" :error-messages="inputForm.errors.direccion" />
               </v-col>
             </v-row>
             <v-row no-gutters>
@@ -200,8 +233,9 @@ const onChangeFile = () => {
             <v-row>
               <v-col cols="12" md="4" sm="6">
                 <v-text-field id="newContrasena" name="newContrasena" label="Nueva Contraseña"
-                  placeholder="Nueva Contraseña" v-model="inputForm.contrasena" color="input" type="password"
-                  :disabled="isDisabled" :error-messages="inputForm.errors.contrasena" clearable autocomplete="off" />
+                  placeholder="Nueva Contraseña" v-model="inputForm.newContrasena" color="input" type="password"
+                  :disabled="isDisabled" :error-messages="inputForm.errors.newContrasena" clearable
+                  autocomplete="off" />
               </v-col>
               <v-col cols="12" md="4" sm="6">
                 <v-text-field id="repitaContrasena" name="repitaContrasena" label="Repita Contraseña"
@@ -211,7 +245,7 @@ const onChangeFile = () => {
               </v-col> </v-row><v-row class="my-3" v-if="!isDisabled">
               <v-col cols="12" class="d-flex">
                 <v-btn class="ms-auto" type="submit" color="primary" :loading="loading">
-                  {{ TEXT_BUTTON[action] }}
+                  Actualizar
                 </v-btn>
               </v-col>
             </v-row>

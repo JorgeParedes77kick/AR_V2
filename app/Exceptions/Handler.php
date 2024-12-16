@@ -5,8 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
-class Handler extends ExceptionHandler
-{
+class Handler extends ExceptionHandler {
     /**
      * A list of the exception types that are not reported.
      *
@@ -32,10 +31,19 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         $this->reportable(function (Throwable $e) {
             //
         });
     }
+    // public function render($request, Throwable $exception) {
+    //     if ($exception instanceof AuthorizationException) {
+    //         return response()->json([
+    //             'message' => 'Lo sentimos, no tienes permisos para realizar esta acción.',
+    //         ], 403); // Puedes cambiar a una vista o mensaje personalizado
+    //     }
+
+    //     return parent::render($request, $exception);
+    // }
+
 }

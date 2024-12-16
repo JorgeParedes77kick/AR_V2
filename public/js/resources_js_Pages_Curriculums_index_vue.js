@@ -289,6 +289,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
             setOverlay(false);
             console.log(JSON.stringify(error.response.data.message));
           });
+          setOverlay(false);
         } else {
           // window.location.href = link;
           _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit(link);
@@ -361,11 +362,11 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     var myApp = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([{
       title: 'Home',
       icon: 'mdi-home',
-      link: 'home'
+      link: '/home'
     }, {
       title: 'Mi perfil',
       icon: 'mdi-account',
-      link: 'home'
+      link: '/mi-perfil'
     }, {
       title: 'Roles',
       icon: 'mdi-power',
@@ -394,14 +395,14 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       handleSubmit: handleSubmit,
       applyRol: applyRol,
       myApp: myApp,
+      get router() {
+        return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router;
+      },
       get useForm() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm;
       },
       get usePage() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage;
-      },
-      get router() {
-        return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router;
       },
       get axios() {
         return (axios__WEBPACK_IMPORTED_MODULE_1___default());
