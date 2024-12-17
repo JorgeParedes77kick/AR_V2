@@ -11,7 +11,29 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
+
+    - name: Laravel composer install
+      uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+      with:
+        php-version: '7.4'
+
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.development', '.env');"
+
+    - name: Install Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install npm Dependencies
+      run: npm install
+
+    - name: Build Assets
+      run: npm run build
 
     - name: Deploy to cPanel
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -19,9 +41,7 @@ jobs:
         server: ftp.armgp.org  # ${{ secrets.FTP_SERVER }}
         username: userarmgp # ${{ secrets.FTP_USERNAME }}
         password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
-        # port: 22
         protocol: ftps
-        # local-dir: ./ # Directorio local a subir
         server-dir: /public_html/dev/ # Directorio en el servidor cPanel
         exclude: |
           **/.git*
