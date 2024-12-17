@@ -19,5 +19,5 @@ jobs:
         server: armgp.org  # ${{ secrets.FTP_SERVER }}
         username: userarmgp # ${{ secrets.FTP_USERNAME }}
         password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./ # Directorio local a subir
+        # local-dir: ./ # Directorio local a subir
         server-dir: /public_html/dev # Directorio en el servidor cPanel
