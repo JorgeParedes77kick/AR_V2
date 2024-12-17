@@ -14,10 +14,10 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Deploy to cPanel
-      uses: SamKirkland/FTP-Deploy-Action@4.1.0
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: "armgp.org"  # ${{ secrets.FTP_SERVER }}
-        username: "userarmgp" # ${{ secrets.FTP_USERNAME }}
-        password: "TGA&7f&a.@y.wF@*#]" # ${{ secrets.FTP_PASSWORD }}
+        server: armgp.org  # ${{ secrets.FTP_SERVER }}
+        username: userarmgp # ${{ secrets.FTP_USERNAME }}
+        password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
         local-dir: ./ # Directorio local a subir
         server-dir: /public_html/dev # Directorio en el servidor cPanel
