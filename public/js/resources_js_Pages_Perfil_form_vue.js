@@ -25,7 +25,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-only"); }
 
 
 
@@ -38,23 +37,19 @@ function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-on
       type: Object,
       "default": {}
     },
-    genero: {
+    generos: {
       type: Array,
       "default": []
     },
-    estadoCivil: {
+    estadosCivil: {
       type: Array,
       "default": []
     },
-    region: {
+    paises: {
       type: Array,
       "default": []
     },
-    pais: {
-      type: Array,
-      "default": []
-    },
-    nacionalidad: {
+    nacionalidades: {
       type: Array,
       "default": []
     },
@@ -74,8 +69,14 @@ function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-on
     var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(true);
     var Editar = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
     var miPerfil = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
+    var regiones = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      miPerfil.value = pageProps.auth.user.id === props.usuario.id;
+      var _usuario$persona;
+      var usuario = props.usuario;
+      miPerfil.value = pageProps.auth.user.id === usuario.id;
+      if (usuario !== null && usuario !== void 0 && (_usuario$persona = usuario.persona) !== null && _usuario$persona !== void 0 && _usuario$persona.pais) {
+        regiones.value = usuario.persona.pais.regiones;
+      }
     });
     var inputForm = (0,_inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)(_objectSpread(_objectSpread({
       email: '',
@@ -113,12 +114,11 @@ function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-on
     };
     var submit = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var _inputForm;
         var _response$data, response, _response$data2, message, persona, _err$response, _err$response$data, _err$response2, _err$response2$data, _message, errors;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              (_inputForm = inputForm) === null || _inputForm === void 0 ? true : delete _inputForm.persona;
+              inputForm === null || inputForm === void 0 ? true : delete inputForm.persona;
               _context2.prev = 1;
               _context2.next = 4;
               return axios.put(route('personas.update', {
@@ -127,25 +127,23 @@ function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-on
             case 4:
               response = _context2.sent;
               if (!(response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.message)) {
-                _context2.next = 10;
+                _context2.next = 11;
                 break;
               }
               _response$data2 = response.data, message = _response$data2.message, persona = _response$data2.persona;
-              _objectSpread(_objectSpread(_objectSpread({}, inputForm), persona), {}, {
-                newContrasena: '',
-                repitaContrasena: ''
-              }), _readOnlyError("inputForm");
-              _context2.next = 10;
+              inputForm.defaults(_objectSpread({}, persona));
+              inputForm.reset();
+              _context2.next = 11;
               return Swal.fire({
                 title: 'Exito!',
                 text: message,
                 icon: 'success'
               });
-            case 10:
-              _context2.next = 17;
+            case 11:
+              _context2.next = 18;
               break;
-            case 12:
-              _context2.prev = 12;
+            case 13:
+              _context2.prev = 13;
               _context2.t0 = _context2["catch"](1);
               console.log(_context2.t0 === null || _context2.t0 === void 0 ? void 0 : _context2.t0.response);
               if (_context2.t0 !== null && _context2.t0 !== void 0 && (_err$response = _context2.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
@@ -160,22 +158,38 @@ function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-on
                 errors = _context2.t0.response.data.errors;
                 inputForm.errors = errors;
               }
-            case 17:
-              _context2.prev = 17;
+            case 18:
+              _context2.prev = 18;
               loading.value = false;
-              return _context2.finish(17);
-            case 20:
+              return _context2.finish(18);
+            case 21:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[1, 12, 17, 20]]);
+        }, _callee2, null, [[1, 13, 18, 21]]);
       }));
       return function submit() {
         return _ref3.apply(this, arguments);
       };
     }();
-    var onSwitch = function onSwitch(value) {
-      isDisabled.value = !value;
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(function () {
+      return Editar.value;
+    }, function (newPage, oldPage) {
+      isDisabled.value = !newPage;
+      if (!newPage) {
+        var _props$usuario2, _props$usuario2$perso, _props$usuario2$perso2;
+        inputForm.reset();
+        regiones.value = ((_props$usuario2 = props.usuario) === null || _props$usuario2 === void 0 ? void 0 : (_props$usuario2$perso = _props$usuario2.persona) === null || _props$usuario2$perso === void 0 ? void 0 : (_props$usuario2$perso2 = _props$usuario2$perso.pais) === null || _props$usuario2$perso2 === void 0 ? void 0 : _props$usuario2$perso2.regiones) || [];
+      }
+    });
+    var onChangePais = function onChangePais(idPais) {
+      if (idPais) {
+        var _props$paises$find;
+        regiones.value = ((_props$paises$find = props.paises.find(function (x) {
+          return x.id === idPais;
+        })) === null || _props$paises$find === void 0 ? void 0 : _props$paises$find.regiones) || [];
+      } else regiones.value = [];
+      inputForm.region_id = null;
     };
     var __returned__ = {
       validate: validate,
@@ -185,12 +199,13 @@ function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-on
       isDisabled: isDisabled,
       Editar: Editar,
       miPerfil: miPerfil,
+      regiones: regiones,
       inputForm: inputForm,
       form: form,
       validateForm: validateForm,
       onChangeFile: onChangeFile,
       submit: submit,
-      onSwitch: onSwitch,
+      onChangePais: onChangePais,
       get useForm() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm;
       },
@@ -200,6 +215,7 @@ function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-on
       inject: vue__WEBPACK_IMPORTED_MODULE_1__.inject,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted,
       ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref,
+      watch: vue__WEBPACK_IMPORTED_MODULE_1__.watch,
       get ButtonBack() {
         return _components_ButtonBack__WEBPACK_IMPORTED_MODULE_2__["default"];
       },
@@ -658,8 +674,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["ButtonBack"], {
-                    href: _ctx.route('home')
-                  }, null, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.miPerfil ? 'Mi Perfil' : "Nick: ".concat($setup.props.usuario.nick_name)), 1 /* TEXT */)];
+                    href: _ctx.route($setup.miPerfil ? 'home' : 'personas.index')
+                  }, null, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.miPerfil ? 'Mi Perfil' : "Nick:\n          ".concat($setup.props.usuario.nick_name)), 1 /* TEXT */)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_subtitle, null, {
@@ -668,9 +684,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     id: "isDisabled",
                     name: "isDisabled",
                     modelValue: $setup.Editar,
-                    "onUpdate:modelValue": [_cache[0] || (_cache[0] = function ($event) {
+                    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
                       return $setup.Editar = $event;
-                    }), $setup.onSwitch],
+                    }),
                     label: $setup.Editar ? 'Editar' : 'Ver',
                     color: "primary"
                   }, null, 8 /* PROPS */, ["modelValue", "label"])];
@@ -877,7 +893,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 }),
                                 color: "input",
                                 disabled: $setup.isDisabled,
-                                rules: $setup.validate('nombre', 'required'),
+                                rules: $setup.validate('Nombre', 'required'),
                                 "error-messages": $setup.inputForm.errors.nombre,
                                 clearable: ""
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
@@ -899,7 +915,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 }),
                                 color: "input",
                                 disabled: $setup.isDisabled,
-                                rules: $setup.validate('apellido', 'required'),
+                                rules: $setup.validate('Apellido', 'required'),
                                 "error-messages": $setup.inputForm.errors.apellido,
                                 clearable: ""
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
@@ -946,7 +962,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 disabled: $setup.isDisabled,
                                 rules: $setup.validate('genero', 'required'),
                                 "error-messages": $setup.inputForm.errors.genero_id,
-                                items: $props.genero,
+                                items: $props.generos,
                                 "item-title": "nombre",
                                 "item-value": "id"
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages", "items"])];
@@ -970,7 +986,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 disabled: $setup.isDisabled,
                                 rules: $setup.validate('estado civil', 'required'),
                                 "error-messages": $setup.inputForm.errors.estado_civil_id,
-                                items: $props.estadoCivil,
+                                items: $props.estadosCivil,
                                 "item-title": "estado",
                                 "item-value": "id"
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages", "items"])];
@@ -1039,11 +1055,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 }),
                                 color: "input",
                                 disabled: $setup.isDisabled,
-                                rules: $setup.validate('nacionalidad', 'required'),
+                                rules: $setup.validate('Nacionalidad', 'required'),
                                 "error-messages": $setup.inputForm.errors.nacionalidad_id,
-                                items: $props.nacionalidad,
+                                items: $props.nacionalidades,
                                 "item-title": "nombre",
-                                "item-value": "id"
+                                "item-value": "id",
+                                clearable: ""
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages", "items"])];
                             }),
                             _: 1 /* STABLE */
@@ -1058,16 +1075,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "pais",
                                 label: "País donde te encuentras",
                                 modelValue: $setup.inputForm.pais,
-                                "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+                                "onUpdate:modelValue": [_cache[12] || (_cache[12] = function ($event) {
                                   return $setup.inputForm.pais = $event;
-                                }),
+                                }), $setup.onChangePais],
                                 color: "input",
                                 disabled: $setup.isDisabled,
                                 "error-messages": $setup.inputForm.errors.pais,
-                                items: $props.pais,
+                                items: $props.paises,
                                 "item-title": "nombre",
                                 "item-value": "id",
-                                clereable: ""
+                                clearable: ""
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages", "items"])];
                             }),
                             _: 1 /* STABLE */
@@ -1088,10 +1105,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 color: "input",
                                 disabled: $setup.isDisabled,
                                 "error-messages": $setup.inputForm.errors.region,
-                                items: $props.region,
+                                items: $setup.regiones,
                                 "item-title": "nombre",
                                 "item-value": "id",
-                                clereable: ""
+                                clearable: ""
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages", "items"])];
                             }),
                             _: 1 /* STABLE */
@@ -1132,7 +1149,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 }),
                                 color: "input",
                                 disabled: $setup.isDisabled,
-                                "error-messages": $setup.inputForm.errors.direccion
+                                "error-messages": $setup.inputForm.errors.direccion,
+                                clearable: ""
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
@@ -1552,41 +1570,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _$props$menu, _$props$menu$submenu, _$props$menu2, _$props$menu5;
   var _component_v_list_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-item");
   var _component_v_list_group = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-group");
-  return $props.menu.submenu.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 0
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-    href: $props.menu.url_ref,
+  return ((_$props$menu = $props.menu) === null || _$props$menu === void 0 ? void 0 : (_$props$menu$submenu = _$props$menu.submenu) === null || _$props$menu$submenu === void 0 ? void 0 : _$props$menu$submenu.length) === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["Link"], {
+    key: 0,
+    href: (_$props$menu2 = $props.menu) === null || _$props$menu2 === void 0 ? void 0 : _$props$menu2.url_ref,
     as: "div"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      var _$props$menu3, _$props$menu4;
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, {
-        title: $props.menu.nombre,
-        "prepend-icon": $props.menu.icon,
+        title: (_$props$menu3 = $props.menu) === null || _$props$menu3 === void 0 ? void 0 : _$props$menu3.nombre,
+        "prepend-icon": (_$props$menu4 = $props.menu) === null || _$props$menu4 === void 0 ? void 0 : _$props$menu4.icon,
         link: ""
       }, null, 8 /* PROPS */, ["title", "prepend-icon"])];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"menu.icon\" link>\r\n      <template v-slot:title>\r\n        <Link :href=\"menu.url_ref\" as=\"span\"> {{ menu.nombre }} </Link>\r\n      </template>\r\n</v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+  }, 8 /* PROPS */, ["href"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
     key: 1,
     modelValue: $setup.activeGroup,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.activeGroup = $event;
     }),
-    value: $props.menu.id,
+    value: (_$props$menu5 = $props.menu) === null || _$props$menu5 === void 0 ? void 0 : _$props$menu5.id,
     "class": "my-v-list-group"
   }, {
     activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+      var _$props$menu6, _$props$menu7;
       var props = _ref.props;
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)(props, {
-        title: $props.menu.nombre,
-        "prepend-icon": $props.menu.icon
+        title: (_$props$menu6 = $props.menu) === null || _$props$menu6 === void 0 ? void 0 : _$props$menu6.nombre,
+        "prepend-icon": (_$props$menu7 = $props.menu) === null || _$props$menu7 === void 0 ? void 0 : _$props$menu7.icon
       }), null, 16 /* FULL_PROPS */, ["title", "prepend-icon"])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      var _$props$menu8;
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["LeftMenuItemSub"], {
-        subMenu: $props.menu.submenu
+        subMenu: (_$props$menu8 = $props.menu) === null || _$props$menu8 === void 0 ? void 0 : _$props$menu8.submenu
       }, null, 8 /* PROPS */, ["subMenu"])];
     }),
     _: 1 /* STABLE */
@@ -1611,30 +1632,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_list_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-item");
   var _component_LeftMenuItemSub = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("LeftMenuItemSub", true);
   var _component_v_list_group = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-group");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.subMenu, function (subM, index) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.subMenu, function (subM) {
+    var _subM$submenu;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      key: subM.id + 'group'
-    }, [subM.submenu.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      key: 0
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-      href: subM.url_ref,
+      key: (subM === null || subM === void 0 ? void 0 : subM.id) + 'group'
+    }, [(subM === null || subM === void 0 ? void 0 : (_subM$submenu = subM.submenu) === null || _subM$submenu === void 0 ? void 0 : _subM$submenu.length) === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["Link"], {
+      key: 0,
+      href: subM === null || subM === void 0 ? void 0 : subM.url_ref,
       as: "div"
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, {
-          title: subM.nombre,
-          "prepend-icon": subM.icon,
+          title: subM === null || subM === void 0 ? void 0 : subM.nombre,
+          "prepend-icon": subM === null || subM === void 0 ? void 0 : subM.icon,
           link: ""
         }, null, 8 /* PROPS */, ["title", "prepend-icon"])];
       }),
       _: 2 /* DYNAMIC */
-    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"subM.icon\" link>\r\n        <template v-slot:title>\r\n          <Link :href=\"subM.url_ref\" as=\"span\"> {{ subM.nombre }} </Link>\r\n        </template>\r\n</v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
       key: 1,
       modelValue: $setup.activeGroup,
       "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
         return $setup.activeGroup = $event;
       }),
-      value: subM.id + 'subItem',
+      value: (subM === null || subM === void 0 ? void 0 : subM.id) + 'subItem',
       "class": "my-v-list-group"
     }, {
       activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
@@ -1642,14 +1663,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
           ref_for: true
         }, props, {
-          title: subM.nombre,
+          title: subM === null || subM === void 0 ? void 0 : subM.nombre,
           href: "#",
-          "prepend-icon": subM.icon
+          "prepend-icon": subM === null || subM === void 0 ? void 0 : subM.icon
         }), null, 16 /* FULL_PROPS */, ["title", "prepend-icon"])];
       }),
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LeftMenuItemSub, {
-          subMenu: subM.submenu
+          subMenu: subM === null || subM === void 0 ? void 0 : subM.submenu
         }, null, 8 /* PROPS */, ["subMenu"])];
       }),
       _: 2 /* DYNAMIC */

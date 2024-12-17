@@ -97,7 +97,7 @@ class PersonaController extends Controller {
         $id = base64_decode($idCrypt);
 
         $usuario = Usuario::where('id', $id)->with('persona.genero')->with('persona.estadoCivil')
-            ->with('persona.pais')->with('persona.region')->with('persona.nacionalidad')
+            ->with('persona.pais.regiones')->with('persona.region')->with('persona.nacionalidad')
             ->select('id', 'nick_name', 'email', 'persona_id')
             ->first();
 
@@ -110,10 +110,10 @@ class PersonaController extends Controller {
             'action' => 'edit',
             'mi-perfil' => Auth::user()->id == $id,
             'usuario' => $usuario,
-            'genero' => $genero,
-            'estadoCivil' => $estadoCivil,
-            'pais' => $pais,
-            'nacionalidad' => $nacionalidad,
+            'generos' => $genero,
+            'estadosCivil' => $estadoCivil,
+            'paises' => $pais,
+            'nacionalidades' => $nacionalidad,
         ]
         );
 

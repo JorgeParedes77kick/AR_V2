@@ -95,6 +95,7 @@ Route::middleware(['auth',
     Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::get('home/no-filter', [App\Http\Controllers\HomeController::class, 'index'])->name('home.no-filter');
     Route::resource('/temporadas', App\Http\Controllers\TemporadaController::class);
+    Route::resource('/globals', App\Http\Controllers\GlobalController::class)->only(['index', 'update']);
     Route::post('temporadas/${id}/toggleActivo', [App\Http\Controllers\TemporadaController::class, 'toggleActivo'])->name('temporadas.toggleActivo');
     Route::post('temporadas/${id}/toggleInscripcion', [App\Http\Controllers\TemporadaController::class, 'toggleInscripcion'])->name('temporadas.toggleInscripcion');
     Route::post('temporadas/${id}/checkDelete', [App\Http\Controllers\TemporadaController::class, 'checkDelete'])->name('temporadas.checkDelete');

@@ -1100,41 +1100,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _$props$menu, _$props$menu$submenu, _$props$menu2, _$props$menu5;
   var _component_v_list_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-item");
   var _component_v_list_group = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-group");
-  return $props.menu.submenu.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 0
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-    href: $props.menu.url_ref,
+  return ((_$props$menu = $props.menu) === null || _$props$menu === void 0 ? void 0 : (_$props$menu$submenu = _$props$menu.submenu) === null || _$props$menu$submenu === void 0 ? void 0 : _$props$menu$submenu.length) === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["Link"], {
+    key: 0,
+    href: (_$props$menu2 = $props.menu) === null || _$props$menu2 === void 0 ? void 0 : _$props$menu2.url_ref,
     as: "div"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      var _$props$menu3, _$props$menu4;
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, {
-        title: $props.menu.nombre,
-        "prepend-icon": $props.menu.icon,
+        title: (_$props$menu3 = $props.menu) === null || _$props$menu3 === void 0 ? void 0 : _$props$menu3.nombre,
+        "prepend-icon": (_$props$menu4 = $props.menu) === null || _$props$menu4 === void 0 ? void 0 : _$props$menu4.icon,
         link: ""
       }, null, 8 /* PROPS */, ["title", "prepend-icon"])];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"menu.icon\" link>\r\n      <template v-slot:title>\r\n        <Link :href=\"menu.url_ref\" as=\"span\"> {{ menu.nombre }} </Link>\r\n      </template>\r\n</v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+  }, 8 /* PROPS */, ["href"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
     key: 1,
     modelValue: $setup.activeGroup,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.activeGroup = $event;
     }),
-    value: $props.menu.id,
+    value: (_$props$menu5 = $props.menu) === null || _$props$menu5 === void 0 ? void 0 : _$props$menu5.id,
     "class": "my-v-list-group"
   }, {
     activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+      var _$props$menu6, _$props$menu7;
       var props = _ref.props;
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)(props, {
-        title: $props.menu.nombre,
-        "prepend-icon": $props.menu.icon
+        title: (_$props$menu6 = $props.menu) === null || _$props$menu6 === void 0 ? void 0 : _$props$menu6.nombre,
+        "prepend-icon": (_$props$menu7 = $props.menu) === null || _$props$menu7 === void 0 ? void 0 : _$props$menu7.icon
       }), null, 16 /* FULL_PROPS */, ["title", "prepend-icon"])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      var _$props$menu8;
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["LeftMenuItemSub"], {
-        subMenu: $props.menu.submenu
+        subMenu: (_$props$menu8 = $props.menu) === null || _$props$menu8 === void 0 ? void 0 : _$props$menu8.submenu
       }, null, 8 /* PROPS */, ["subMenu"])];
     }),
     _: 1 /* STABLE */
@@ -1159,30 +1162,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_list_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-item");
   var _component_LeftMenuItemSub = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("LeftMenuItemSub", true);
   var _component_v_list_group = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-group");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.subMenu, function (subM, index) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.subMenu, function (subM) {
+    var _subM$submenu;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      key: subM.id + 'group'
-    }, [subM.submenu.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      key: 0
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-      href: subM.url_ref,
+      key: (subM === null || subM === void 0 ? void 0 : subM.id) + 'group'
+    }, [(subM === null || subM === void 0 ? void 0 : (_subM$submenu = subM.submenu) === null || _subM$submenu === void 0 ? void 0 : _subM$submenu.length) === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["Link"], {
+      key: 0,
+      href: subM === null || subM === void 0 ? void 0 : subM.url_ref,
       as: "div"
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, {
-          title: subM.nombre,
-          "prepend-icon": subM.icon,
+          title: subM === null || subM === void 0 ? void 0 : subM.nombre,
+          "prepend-icon": subM === null || subM === void 0 ? void 0 : subM.icon,
           link: ""
         }, null, 8 /* PROPS */, ["title", "prepend-icon"])];
       }),
       _: 2 /* DYNAMIC */
-    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"subM.icon\" link>\r\n        <template v-slot:title>\r\n          <Link :href=\"subM.url_ref\" as=\"span\"> {{ subM.nombre }} </Link>\r\n        </template>\r\n</v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
       key: 1,
       modelValue: $setup.activeGroup,
       "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
         return $setup.activeGroup = $event;
       }),
-      value: subM.id + 'subItem',
+      value: (subM === null || subM === void 0 ? void 0 : subM.id) + 'subItem',
       "class": "my-v-list-group"
     }, {
       activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
@@ -1190,14 +1193,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
           ref_for: true
         }, props, {
-          title: subM.nombre,
+          title: subM === null || subM === void 0 ? void 0 : subM.nombre,
           href: "#",
-          "prepend-icon": subM.icon
+          "prepend-icon": subM === null || subM === void 0 ? void 0 : subM.icon
         }), null, 16 /* FULL_PROPS */, ["title", "prepend-icon"])];
       }),
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LeftMenuItemSub, {
-          subMenu: subM.submenu
+          subMenu: subM === null || subM === void 0 ? void 0 : subM.submenu
         }, null, 8 /* PROPS */, ["subMenu"])];
       }),
       _: 2 /* DYNAMIC */
