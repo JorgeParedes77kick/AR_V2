@@ -16,13 +16,13 @@ jobs:
     - name: Deploy to cPanel
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: armgp.org  # ${{ secrets.FTP_SERVER }}
+        server: ftp.armgp.org  # ${{ secrets.FTP_SERVER }}
         username: userarmgp # ${{ secrets.FTP_USERNAME }}
         password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
         port: 22
         protocol: ftps
         # local-dir: ./ # Directorio local a subir
-        server-dir: /public_html/dev # Directorio en el servidor cPanel
+        server-dir: /public_html/dev/ # Directorio en el servidor cPanel
         exclude: |
           **/.git*
           **/.git*/**
