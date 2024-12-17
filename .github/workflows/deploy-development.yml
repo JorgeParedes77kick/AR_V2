@@ -30,10 +30,10 @@ jobs:
         node-version: '18'
 
     - name: Install npm Dependencies
-      run: npm install
+      run: npm install --legacy-peer-deps
 
     - name: Build Assets
-      run: npm run build
+      run: npm run development
 
     - name: Deploy to cPanel
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
