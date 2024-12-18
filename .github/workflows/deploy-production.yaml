@@ -33,7 +33,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build Assets
-        run: npm run prod
+        run: npm run production
 
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
