@@ -36,7 +36,7 @@ jobs:
         run: npm run production
 
       - name: Deploy to cPanel
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v3.1.2
         with:
           server: ftp.armgp.org  # ${{ secrets.FTP_SERVER }}
           username: userarmgp # ${{ secrets.FTP_USERNAME }}
