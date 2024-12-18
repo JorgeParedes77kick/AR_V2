@@ -28,9 +28,16 @@ jobs:
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.production', '.env');"
 
-  install-composer:
+  verify-composer:
     runs-on: ubuntu-latest
     needs: copy-env
+    steps:
+      - name: Verify composer.json
+        run: test -f composer.json || { echo "composer.json not found"; exit 1; }
+
+  install-composer:
+    runs-on: ubuntu-latest
+    needs: verify-composer
     steps:
       - name: Install Dependencies with Composer
         run: composer install --no-ansi --no-interaction --no-scripts --prefer-dist
