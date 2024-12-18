@@ -47,5 +47,5 @@ jobs:
           exclude: |
             **/.git*
             **/.git*/**
-          #  **/node_modules*/**
+            **/node_modules*/**
           # **/vendor*/**
