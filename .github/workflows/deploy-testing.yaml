@@ -42,7 +42,7 @@ jobs:
           username: userarmgp # ${{ secrets.FTP_USERNAME }}
           password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
-          server-dir: /public_html/dev/ # Directorio en el servidor cPanel
+          server-dir: /public_html/qa/ # Directorio en el servidor cPanel
           # Para excluir archivos o directorios del despliegue
           exclude: |
             **/.git*
