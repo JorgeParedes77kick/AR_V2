@@ -48,4 +48,4 @@ jobs:
             **/.git*
             **/.git*/**
             **/node_modules*/**
-            **/vendor*/**
+          #  **/vendor*/**
