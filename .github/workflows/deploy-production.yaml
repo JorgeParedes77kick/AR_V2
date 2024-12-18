@@ -6,35 +6,62 @@ on:
       - master
 
 jobs:
-  deploy:
+  checkout:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+  setup-php:
+    runs-on: ubuntu-latest
+    needs: checkout
+    steps:
       - name: Laravel initializer
         uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
           php-version: '7.4'
 
+  copy-env:
+    runs-on: ubuntu-latest
+    needs: setup-php
+    steps:
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.production', '.env');"
 
+  install-composer:
+    runs-on: ubuntu-latest
+    needs: copy-env
+    steps:
       - name: Install Dependencies with Composer
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: composer install -q --no-ansi --no-interaction --no-scripts --prefer-dist
 
+  setup-node:
+    runs-on: ubuntu-latest
+    needs: install-composer
+    steps:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+  install-npm:
+    runs-on: ubuntu-latest
+    needs: setup-node
+    steps:
       - name: Install npm Dependencies with Node.js
         run: npm install --legacy-peer-deps
 
+  build-assets:
+    runs-on: ubuntu-latest
+    needs: install-npm
+    steps:
       - name: Build Assets
         run: npm run production
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-assets
+    steps:
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -43,9 +70,8 @@ jobs:
           password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           server-dir: /public_html/app/ # Directorio en el servidor cPanel
-          # Para excluir archivos o directorios del despliegue
           exclude: |
             **/.git*
             **/.git*/**
             **/node_modules*/**
-          #  **/vendor*/**
+            **/vendor*/**
