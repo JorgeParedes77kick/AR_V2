@@ -24,7 +24,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: artifact
+          name: artifactARv2
           path: path/to/artifact
           overwrite: true
 
@@ -35,7 +35,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
-          name: artifact
+          name: artifactARv2
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -47,7 +47,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: artifact
+          name: artifactARv2
           path: path/to/artifact
           overwrite: true
 
@@ -58,7 +58,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
-          name: artifact
+          name: artifactARv2
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -86,7 +86,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
-          name: artifact
+          name: artifactARv2
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -102,7 +102,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: artifact
+          name: artifactARv2
           path: path/to/artifact
           overwrite: true
 
@@ -113,7 +113,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
-          name: artifact
+          name: artifactARv2
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
