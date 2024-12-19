@@ -75,7 +75,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: artifact
+          name: artifactARv2
           path: ./
           overwrite: true
 
