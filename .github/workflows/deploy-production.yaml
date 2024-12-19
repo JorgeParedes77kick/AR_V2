@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifactARv2
-          path: path/to/artifact
+          path: ./
           overwrite: true
 
   setup-node:
@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifactARv2
-          path: path/to/artifact
+          path: ./
           overwrite: true
 
   deploy-code:
@@ -76,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifact
-          path: path/to/artifact
+          path: ./
           overwrite: true
 
   deploy-vendor:
@@ -103,7 +103,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifactARv2
-          path: path/to/artifact
+          path: ./
           overwrite: true
 
   deploy-node-modules:
