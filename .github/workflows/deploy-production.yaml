@@ -72,6 +72,8 @@ jobs:
             **/.git*/**
             **/node_modules*/**
             **/vendor*/**
+          timeout: 60000
+          passive: true
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -99,6 +101,8 @@ jobs:
             *
             !vendor/
             !vendor/**
+          timeout: 60000
+          passive: true
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -126,3 +130,5 @@ jobs:
             *
             !node_modules/
             !node_modules/**
+          timeout: 60000
+          passive: true
