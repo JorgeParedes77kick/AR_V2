@@ -65,7 +65,7 @@ jobs:
           server: ftp.armgp.org  # ${{ secrets.FTP_SERVER }}
           username: userarmgp # ${{ secrets.FTP_USERNAME }}
           password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
+          protocol: ftp
           server-dir: /public_html/app/ # Directorio en el servidor cPanel
           exclude: |
             **/.git*
@@ -95,7 +95,7 @@ jobs:
           server: ftp.armgp.org  # ${{ secrets.FTP_SERVER }}
           username: userarmgp # ${{ secrets.FTP_USERNAME }}
           password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
+          protocol: ftp
           server-dir: /public_html/app/ # Directorio en el servidor cPanel
           exclude: |
             *
@@ -124,7 +124,7 @@ jobs:
           server: ftp.armgp.org  # ${{ secrets.FTP_SERVER }}
           username: userarmgp # ${{ secrets.FTP_USERNAME }}
           password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
+          protocol: ftp
           server-dir: /public_html/app/ # Directorio en el servidor cPanel
           exclude: |
             *
