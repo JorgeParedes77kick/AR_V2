@@ -1,0 +1,51 @@
+name: Deploy to cPanel Testing
+
+on:
+  push:
+    branches:
+      - testing
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Laravel initializer
+        uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: '7.4'
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
+
+      - name: Install Dependencies with Composer
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install npm Dependencies with Node.js
+        run: npm install --legacy-peer-deps
+
+      - name: Build Assets
+        run: npm run development
+
+      - name: Deploy to cPanel
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.armgp.org  # ${{ secrets.FTP_SERVER }}
+          username: userarmgp # ${{ secrets.FTP_USERNAME }}
+          password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          server-dir: /public_html/qa/ # Directorio en el servidor cPanel
+          # Para excluir archivos o directorios del despliegue
+          exclude: |
+            **/.git*
+            **/.git*/**
+          #  **/node_modules*/**
+          # **/vendor*/**
