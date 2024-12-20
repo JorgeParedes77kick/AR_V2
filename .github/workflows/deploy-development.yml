@@ -72,10 +72,6 @@ jobs:
             **/.git*/**
             **/node_modules*/**
             **/vendor*/**
-            !bootstrap/cache/
-            !bootstrap/cache/**
-            !storage/framework/
-            !storage/framework/**
           timeout: 60000
           port: 21
 #      - name: Upload Artifact
