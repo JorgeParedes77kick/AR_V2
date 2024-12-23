@@ -38,11 +38,9 @@ __webpack_require__.r(__webpack_exports__);
       // console.log(props.usuarios)
     });
     var headers = [
-    // { title: 'ID', key: 'id', fixed: true },
+    // { title: 'ID', key: 'id' },
+    // { title: 'Nick', key: 'nick_name' },
     {
-      title: 'Nick',
-      key: 'nick_name'
-    }, {
       title: 'Nombre',
       key: 'persona'
     }, {
@@ -535,7 +533,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" USUARIOS DE AR - INTERNOS ")];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ASIGNACIÓN DE ROLES A USUARIOS ")];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-row>\r\n            <v-col class=\"d-flex justify-end\">\r\n              <Link :href=\"route('usuarios-equipo.create')\">\r\n              <v-btn :to=\"{ name: 'usuarios-equipo.create' }\" color=\"success\" class=\"ms-auto\">\r\n                Crear Nuevo Rol\r\n              </v-btn>\r\n              </Link>\r\n            </v-col>\r\n          </v-row> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {

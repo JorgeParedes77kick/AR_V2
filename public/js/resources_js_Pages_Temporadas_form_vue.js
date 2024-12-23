@@ -785,12 +785,50 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           }, {
                             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+                                id: "inscripcion_inicio",
+                                name: "inscripcion_inicio",
+                                label: "Fecha de inicio de inscripcion",
+                                type: "date",
+                                modelValue: $setup.inputForm.inscripcion_inicio,
+                                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                                  return $setup.inputForm.inscripcion_inicio = $event;
+                                }),
+                                disabled: $setup.isDisabled,
+                                "error-messages": $setup.inputForm.errors.inscripcion_inicio
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12",
+                            sm: "6"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+                                id: "inscripcion_cierre",
+                                name: "inscripcion_cierre",
+                                label: "Fecha de cierre de inscripcion",
+                                type: "date",
+                                modelValue: $setup.inputForm.inscripcion_cierre,
+                                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                                  return $setup.inputForm.inscripcion_cierre = $event;
+                                }),
+                                disabled: $setup.isDisabled,
+                                "error-messages": $setup.inputForm.errors.inscripcion_cierre
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages"])];
+                            }),
+                            _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "12",
+                            sm: "6"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
                                 id: "fecha_inicio",
                                 name: "fecha_inicio",
                                 label: "Fecha de inicio",
                                 type: "week",
                                 modelValue: $setup.inputForm.fecha_inicio_w,
-                                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
                                   return $setup.inputForm.fecha_inicio_w = $event;
                                 }),
                                 disabled: $setup.isDisabled,
@@ -811,7 +849,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 label: "Fecha de cierre",
                                 type: "week",
                                 modelValue: $setup.inputForm.fecha_cierre_w,
-                                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
                                   return $setup.inputForm.fecha_cierre_w = $event;
                                 }),
                                 disabled: $setup.isDisabled,
@@ -831,7 +869,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 id: "extension",
                                 name: "extension",
                                 modelValue: $setup.inputForm.extension,
-                                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+                                "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
                                   return $setup.inputForm.extension = $event;
                                 }),
                                 label: $setup.inputForm.extension ? 'Con fecha para posible extension' : 'Normal',
@@ -852,51 +890,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 label: "Fecha de extension de temporada",
                                 type: "week",
                                 modelValue: $setup.inputForm.fecha_extension_w,
-                                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+                                "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
                                   return $setup.inputForm.fecha_extension_w = $event;
                                 }),
                                 disabled: $setup.isDisabled,
                                 "error-messages": $setup.inputForm.errors.fecha_extension,
                                 min: $setup.inputForm.fecha_cierre_w
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages", "min"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
-                            }),
-                            _: 1 /* STABLE */
-                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                            cols: "12",
-                            sm: "6"
-                          }, {
-                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                                id: "inscripcion_inicio",
-                                name: "inscripcion_inicio",
-                                label: "Fecha de inicio de inscripcion",
-                                type: "date",
-                                modelValue: $setup.inputForm.inscripcion_inicio,
-                                "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-                                  return $setup.inputForm.inscripcion_inicio = $event;
-                                }),
-                                disabled: $setup.isDisabled,
-                                "error-messages": $setup.inputForm.errors.inscripcion_inicio
-                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages"])];
-                            }),
-                            _: 1 /* STABLE */
-                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                            cols: "12",
-                            sm: "6"
-                          }, {
-                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
-                                id: "inscripcion_cierre",
-                                name: "inscripcion_cierre",
-                                label: "Fecha de cierre de inscripcion",
-                                type: "date",
-                                modelValue: $setup.inputForm.inscripcion_cierre,
-                                "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-                                  return $setup.inputForm.inscripcion_cierre = $event;
-                                }),
-                                disabled: $setup.isDisabled,
-                                "error-messages": $setup.inputForm.errors.inscripcion_cierre
-                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
                           })];

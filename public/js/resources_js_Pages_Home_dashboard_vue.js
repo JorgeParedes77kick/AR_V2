@@ -518,7 +518,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             key: 1
           }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, null, {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                cols: "12",
+                lg: "3",
+                md: "4",
+                sm: "6"
+              }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {
                     name: "totalUsuarios"
@@ -569,7 +574,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   })];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, null, {
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                cols: "12",
+                lg: "3",
+                md: "4",
+                sm: "6"
+              }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {
                     name: "registrosNuevos"
@@ -620,7 +630,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   })];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, null, {
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                cols: "12",
+                lg: "3",
+                md: "4",
+                sm: "6"
+              }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {
                     name: "inscritos"
@@ -684,6 +699,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                cols: "12",
+                lg: "3",
+                md: "4",
+                sm: "6",
                 "class": "d-grid gr-6"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -784,25 +803,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                 return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_content, {
-                                  "class": "d-flex justify-space-between"
+                                  "class": "d-flex"
                                 }, {
                                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                     return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_title, {
-                                      "class": "white-space-normal"
+                                      "class": "white-space-normal w-70"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.curriculum_nombre), 1 /* TEXT */)];
                                       }),
                                       _: 2 /* DYNAMIC */
                                     }, 1024 /* DYNAMIC_SLOTS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_subtitle, {
-                                      "class": "overflow-visible d-flex align-center"
+                                      "class": "overflow-visible d-flex align-center justify-end w-15"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.cantidad), 1 /* TEXT */)];
                                       }),
                                       _: 2 /* DYNAMIC */
                                     }, 1024 /* DYNAMIC_SLOTS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_subtitle, {
-                                      "class": "overflow-visible d-flex align-center"
+                                      "class": "overflow-visible d-flex align-center justify-end w-15"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getBadgePercentage(inscripcion.percentage).value), 1 /* TEXT */)];
@@ -849,25 +868,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                 return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_content, {
-                                  "class": "d-flex justify-space-between"
+                                  "class": "d-flex"
                                 }, {
                                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                     return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_title, {
-                                      "class": "white-space-normal"
+                                      "class": "white-space-normal w-70"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.curriculum_nombre) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.ciclo_nombre), 1 /* TEXT */)];
                                       }),
                                       _: 2 /* DYNAMIC */
                                     }, 1024 /* DYNAMIC_SLOTS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_subtitle, {
-                                      "class": "overflow-visible d-flex align-center"
+                                      "class": "overflow-visible d-flex align-center justify-end w-15"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.cantidad), 1 /* TEXT */)];
                                       }),
                                       _: 2 /* DYNAMIC */
                                     }, 1024 /* DYNAMIC_SLOTS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_subtitle, {
-                                      "class": "overflow-visible d-flex align-center"
+                                      "class": "overflow-visible d-flex align-center justify-end w-15"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getBadgePercentage(inscripcion.percentage).value), 1 /* TEXT */)];
@@ -914,25 +933,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                 return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_content, {
-                                  "class": "d-flex justify-space-between"
+                                  "class": "d-flex"
                                 }, {
                                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                     return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_title, {
-                                      "class": "white-space-normal"
+                                      "class": "white-space-normal w-70"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.pais_nombre), 1 /* TEXT */)];
                                       }),
                                       _: 2 /* DYNAMIC */
                                     }, 1024 /* DYNAMIC_SLOTS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_subtitle, {
-                                      "class": "overflow-visible d-flex align-center"
+                                      "class": "overflow-visible d-flex align-center justify-end w-15"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.cantidad), 1 /* TEXT */)];
                                       }),
                                       _: 2 /* DYNAMIC */
                                     }, 1024 /* DYNAMIC_SLOTS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_subtitle, {
-                                      "class": "overflow-visible d-flex align-center"
+                                      "class": "overflow-visible d-flex align-center justify-end w-15"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getBadgePercentage(inscripcion.percentage).value), 1 /* TEXT */)];
@@ -979,25 +998,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             }, {
                               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                 return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_content, {
-                                  "class": "d-flex justify-space-between"
+                                  "class": "d-flex"
                                 }, {
                                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                     return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_title, {
-                                      "class": "white-space-normal"
+                                      "class": "white-space-normal w-70"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.pais_nombre) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.region_nombre), 1 /* TEXT */)];
                                       }),
                                       _: 2 /* DYNAMIC */
                                     }, 1024 /* DYNAMIC_SLOTS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_subtitle, {
-                                      "class": "overflow-visible d-flex align-center"
+                                      "class": "overflow-visible d-flex align-center justify-end w-15"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.cantidad), 1 /* TEXT */)];
                                       }),
                                       _: 2 /* DYNAMIC */
                                     }, 1024 /* DYNAMIC_SLOTS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item_subtitle, {
-                                      "class": "overflow-visible d-flex align-center"
+                                      "class": "overflow-visible d-flex align-center justify-end w-15"
                                     }, {
                                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getBadgePercentage(inscripcion.percentage).value), 1 /* TEXT */)];
