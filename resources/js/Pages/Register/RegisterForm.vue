@@ -226,7 +226,7 @@ onMounted(() =>
         <legend>&nbsp;</legend>
         <!-- row 1 -->
         <v-row>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-text-field v-model="fieldsForm.nombre"
                           label="Nombres"
                           variant="outlined"
@@ -240,7 +240,7 @@ onMounted(() =>
                           tabindex="1"
             />
           </v-col>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-text-field v-model="fieldsForm.apellido"
                           label="Apellidos"
                           variant="outlined"
@@ -254,7 +254,7 @@ onMounted(() =>
                           tabindex="2"
             />
           </v-col>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-select v-model="fieldsForm.tipo_documento_id"
                       name="tipo_documento"
                       label="Tipo Documento"
@@ -269,7 +269,7 @@ onMounted(() =>
                       tabindex="3"
             ></v-select>
           </v-col>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-text-field v-model="fieldsForm.dni"
                           label="Número de Documento"
                           variant="outlined"
@@ -287,7 +287,7 @@ onMounted(() =>
         </v-row>
         <!-- row 2 -->
         <v-row>
-          <v-col cols="4" >
+          <v-col cols="12" sm="6" md="6" lg="4" xl="4" >
             <v-text-field v-model="fieldsForm.fecha_nacimiento"
                           label="Fecha Nacimiento"
                           variant="outlined"
@@ -305,7 +305,7 @@ onMounted(() =>
                           tabindex="5"
             />
           </v-col>
-          <v-col cols="4" >
+          <v-col cols="12" sm="6" md="6" lg="4" xl="4" >
             <v-select v-model="fieldsForm.genero_id"
                       name="genero_id"
                       label="G&eacute;nero"
@@ -320,7 +320,7 @@ onMounted(() =>
                       tabindex="6"
             ></v-select>
           </v-col>
-          <v-col cols="4" >
+          <v-col cols="12" sm="6" md="6" lg="4" xl="4" >
             <v-select v-model="fieldsForm.estado_civil_id"
                       name="estado_civil_id"
                       label="Estado Civil"
@@ -347,7 +347,7 @@ onMounted(() =>
         <legend>&nbsp;</legend>
         <!-- row 3 -->
         <v-row>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-select v-model="fieldsForm.nacionalidad_id"
                       name="nacionalidad"
                       label="Nacionalidad"
@@ -362,7 +362,7 @@ onMounted(() =>
                       tabindex="8"
             ></v-select>
           </v-col>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-select v-model="fieldsForm.pais_residencia"
                       name="pais"
                       label="Pa&iacute;s"
@@ -378,7 +378,7 @@ onMounted(() =>
                       tabindex="9"
             ></v-select>
           </v-col>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-select v-model="fieldsForm.region_id"
                       name="region_id"
                       label="Region"
@@ -393,7 +393,7 @@ onMounted(() =>
                       tabindex="10"
             ></v-select>
           </v-col>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-text-field v-model="fieldsForm.ciudad"
                           label="Ciudad/Comuna"
                           variant="outlined"
@@ -411,7 +411,7 @@ onMounted(() =>
         </v-row>
         <!-- row 4 -->
         <v-row>
-          <v-col cols="6" >
+          <v-col cols="12" sm="8" md="6" lg="6" xl="6" >
             <v-text-field v-model="fieldsForm.direccion"
                           label="Direcci&oacute;n"
                           variant="outlined"
@@ -426,7 +426,7 @@ onMounted(() =>
                           tabindex="12"
             />
           </v-col>
-          <v-col cols="3" >
+          <v-col cols="12" sm="4" md="3" lg="3" xl="3" >
             <v-text-field v-model="fieldsForm.ocupacion"
                           label="Ocupaci&oacute;n"
                           variant="outlined"
@@ -441,7 +441,7 @@ onMounted(() =>
                           tabindex="13"
             />
           </v-col>
-          <v-col cols="3" >
+          <v-col cols="12" sm="4" md="3" lg="3" xl="3" >
             <v-text-field v-model="fieldsForm.telefono"
                           label="Tel&eacute;fono"
                           variant="outlined"
@@ -470,7 +470,7 @@ onMounted(() =>
         <legend>&nbsp;</legend>
         <!-- row 5 -->
         <v-row>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-text-field v-model="fieldsForm.email"
                           label="Correo Electr&oacute;nico"
                           variant="outlined"
@@ -484,7 +484,7 @@ onMounted(() =>
                           tabindex="15"
             />
           </v-col>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-text-field v-model="fieldsForm.email_confirm"
                           label="Confirme Correo Electr&oacute;nico"
                           variant="outlined"
@@ -497,7 +497,7 @@ onMounted(() =>
                           tabindex="16"
             />
           </v-col>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-text-field v-model="fieldsForm.password"
                           label="Contrase&nacute;a"
                           variant="outlined"
@@ -512,7 +512,7 @@ onMounted(() =>
                           tabindex="17"
             />
           </v-col>
-          <v-col cols="3" >
+          <v-col cols="12" sm="6" md="4" lg="3" xl="3" >
             <v-text-field v-model="fieldsForm.password_confirm"
                           label="Confirme Contrase&nacute;a"
                           variant="outlined"
@@ -554,12 +554,12 @@ export default {
   data: () => ({
     email: '',
     rules: {
-      required: value => !!value || 'Required.',
-      counter_pass: value => value.length >= 8 || 'Min 8 characters',
-      counter_dir: value => value.length < 250 || 'Max 250 characters',
+      required: value => !!value || 'Dato Requerido.',
+      counter_pass: value => value.length >= 8 || 'Min 8 caracteres',
+      counter_dir: value => value.length < 250 || 'Max 250 caracteres',
       email: value => {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        return pattern.test(value) || 'Invalid e-mail.'
+        return pattern.test(value) || 'e-mail inválido.'
       },
       text_valid: value =>{
         const pattern = /^[a-zA-Z\s]{3,50}$/

@@ -1,5 +1,5 @@
 <script setup>
-import { useForm, usePage, router  } from '@inertiajs/vue3';
+import { router, useForm, usePage } from '@inertiajs/vue3';
 
 import axios from 'axios';
 import { onMounted, reactive, ref } from 'vue';
@@ -94,6 +94,7 @@ function handleSubmit(event, link) {
           setOverlay(false);
           console.log(JSON.stringify(error.response.data.message));
         });
+      setOverlay(false);
     } else {
       // window.location.href = link;
       router.visit(link);
@@ -131,8 +132,8 @@ const applyRol = async (event, id) => {
 };
 
 const myApp = ref([
-  { title: 'Home', icon: 'mdi-home', link: 'home' },
-  { title: 'Mi perfil', icon: 'mdi-account', link: 'home' },
+  { title: 'Home', icon: 'mdi-home', link: '/home' },
+  { title: 'Mi perfil', icon: 'mdi-account', link: '/mi-perfil' },
   { title: 'Roles', icon: 'mdi-power', link: '#' },
   { title: 'Logout', icon: 'mdi-power', link: 'logout' },
 ]);
