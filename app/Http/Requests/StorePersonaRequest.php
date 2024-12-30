@@ -36,7 +36,7 @@ class StorePersonaRequest extends FormRequest
           'region_id' => 'required|numeric',
           'ciudad' => 'nullable|regex:/^[a-zA-Z\s]*$/|max:100',
           'nacionalidad_id' => 'required|numeric',
-          'direccion' => 'nullable|alpha_num|max:250',
+          'direccion' => 'nullable|regex:/^[a-zA-Z0-9\s]*$/|max:250',
           'telefono' => 'nullable|max:20|regex:/\+[0-9\s-]+/',
           'ocupacion' => 'nullable|regex:/^[a-zA-Z\s]*$/|max:250',
         ];
