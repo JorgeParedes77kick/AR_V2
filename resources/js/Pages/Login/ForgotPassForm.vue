@@ -57,7 +57,7 @@ const submitForm = async (form) => {
 </script>
 
 <template>
-  <v-container fluid class="py-0 px-0" color="#222222" style=" height: 100vh; width: 40%"  >
+  <v-container id="forgotPassContainer" fluid class="py-0 px-0" color="#222222" style=" height: 100vh; width: 40%"  >
     <v-row no-gutters>
       <v-fab color="light" icon="mdi-reply-circle" variant="flat" href="login" location="top start" absolute style="right: 24px; top: 0;"></v-fab>
     </v-row>
@@ -117,10 +117,17 @@ const submitForm = async (form) => {
                               tabindex="2"
                 />
               </v-col>
-              <v-col cols="12" >
+              <!--<v-col cols="12" >
                 <v-btn type="submit" block style="background-color: #99c5c0;
                             font-weight: bolder; font-size: 14pt; border-color: beige;
                             border-width: 2pt; ">Recuperar Contrase&nacute;a</v-btn>
+              </v-col> -->
+
+              <v-col cols="12" class="d-flex justify-center">
+                <v-btn type="submit" class="btn-login" block style="background-color: #99c5c0;
+                            font-weight: bolder; border-color: beige;
+                            border-width: 2pt;">
+                  Recuperar Contrase&nacute;a</v-btn>
               </v-col>
             </v-row>
           </v-form>

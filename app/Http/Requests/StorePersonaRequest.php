@@ -26,19 +26,19 @@ class StorePersonaRequest extends FormRequest
     {
         $idValidate = $this->route('persona') == NULL ? "": ','.($this->route('persona')->id. ',id' );
         return [
-          'nombre' => 'required|alpha|max:50',
-          'apellido' => 'required|alpha|max:50',
+          'nombre' => 'required|regex:/^[a-zA-Z\s]*$/|max:50',
+          'apellido' => 'required|regex:/^[a-zA-Z\s]*$/|max:50',
           'tipo_documento_id' => 'required|numeric',
-          'dni' => 'required|alpha_num|max:20|unique:personas,dni,'.$idValidate,
+          'dni' => 'required|regex:/^[a-zA-Z0-9\s]*$/|max:20|unique:personas,dni,'.$idValidate,
           'fecha_nacimiento' => 'required|date',
           'genero_id' => 'required|numeric',
           'estado_civil_id' => 'required|numeric',
           'region_id' => 'required|numeric',
-          'ciudad' => 'nullable|alpha|max:100',
+          'ciudad' => 'nullable|regex:/^[a-zA-Z\s]*$/|max:100',
           'nacionalidad_id' => 'required|numeric',
           'direccion' => 'nullable|alpha_num|max:250',
           'telefono' => 'nullable|max:20|regex:/\+[0-9\s-]+/',
-          'ocupacion' => 'nullable|alpha|max:250',
+          'ocupacion' => 'nullable|regex:/^[a-zA-Z\s]*$/|max:250',
         ];
     }
 

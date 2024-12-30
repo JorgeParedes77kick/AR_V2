@@ -18622,12 +18622,24 @@ body {
   #registerContainer {
     width: 95% !important;
   }
+  #forgotPassContainer {
+    width: 95% !important;
+  }
+  #resetPassContainer {
+    width: 95% !important;
+  }
 }
 @media (max-width: 599.98px) {
   .btn-login {
     font-size: 3.3vw !important;
   }
   #registerContainer {
+    width: 95% !important;
+  }
+  #forgotPassContainer {
+    width: 95% !important;
+  }
+  #resetPassContainer {
     width: 95% !important;
   }
 }
@@ -18638,12 +18650,24 @@ body {
   #registerContainer {
     width: 95% !important;
   }
+  #forgotPassContainer {
+    width: 95% !important;
+  }
+  #resetPassContainer {
+    width: 95% !important;
+  }
 }
 @media (min-width: 960px) and (max-width: 1279.98px) {
   .btn-login {
     font-size: 1.7vw !important;
   }
   #registerContainer {
+    width: 95% !important;
+  }
+  #forgotPassContainer {
+    width: 95% !important;
+  }
+  #resetPassContainer {
     width: 95% !important;
   }
 }
@@ -18654,6 +18678,12 @@ body {
   #registerContainer {
     width: 65% !important;
   }
+  #forgotPassContainer {
+    width: 45% !important;
+  }
+  #resetPassContainer {
+    width: 45% !important;
+  }
 }
 @media (min-width: 1920px) and (max-width: 2559.98px) {
   .btn-login {
@@ -18662,6 +18692,12 @@ body {
   #registerContainer {
     width: 65% !important;
   }
+  #forgotPassContainer {
+    width: 45% !important;
+  }
+  #resetPassContainer {
+    width: 45% !important;
+  }
 }
 @media (min-width: 2560px) {
   .btn-login {
@@ -18669,6 +18705,12 @@ body {
   }
   #registerContainer {
     width: 65% !important;
+  }
+  #forgotPassContainer {
+    width: 45% !important;
+  }
+  #resetPassContainer {
+    width: 45% !important;
   }
 }
 /*
