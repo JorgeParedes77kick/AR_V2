@@ -562,6 +562,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           }),
                           _: 2 /* DYNAMIC */
                         }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])];
+                      })), _defineProperty(_createVNode2, "no-data", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Información no encontrada")];
                       })), _defineProperty(_createVNode2, "_", 2), _createVNode2), 1032 /* PROPS, DYNAMIC_SLOTS */, ["loading", "items"])];
                     }),
                     _: 1 /* STABLE */

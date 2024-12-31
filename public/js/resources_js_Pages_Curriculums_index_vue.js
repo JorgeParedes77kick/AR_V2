@@ -610,7 +610,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         items: $props.curriculums,
                         "items-per-page": 10,
                         "class": "elevation-1 rounded"
-                      }, (_createVNode2 = {}, _defineProperty(_createVNode2, "item.descripcion", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+                      }, (_createVNode2 = {
+                        "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Información no encontrada")];
+                        })
+                      }, _defineProperty(_createVNode2, "item.descripcion", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
                         var item = _ref.item;
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.truncarTexto(item.descripcion, 100)), 1 /* TEXT */)];
                       })), _defineProperty(_createVNode2, "item.activo", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {

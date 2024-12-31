@@ -640,7 +640,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             "class": "elevation-1 rounded",
                             "hide-default-footer": "",
                             "hide-default-header": ""
-                          }, (_createVNode2 = {}, _defineProperty(_createVNode2, "item.id", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+                          }, (_createVNode2 = {
+                            "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Información no encontrada")];
+                            })
+                          }, _defineProperty(_createVNode2, "item.id", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
                             var item = _ref.item;
                             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" #" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.grupo_pequeno.id), 1 /* TEXT */)];
                           })), _defineProperty(_createVNode2, "item.monitores", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {

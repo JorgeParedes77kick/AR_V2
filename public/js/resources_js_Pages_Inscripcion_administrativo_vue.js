@@ -1329,7 +1329,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 items: $setup.inscripciones,
                 "items-per-page": 20,
                 "class": "elevation-1 rounded"
-              }, (_createBlock2 = {}, _defineProperty(_createBlock2, "item.lideres", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+              }, (_createBlock2 = {
+                "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Información no encontrada")];
+                })
+              }, _defineProperty(_createBlock2, "item.lideres", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
                 var item = _ref.item;
                 return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.grupo_pequeno.lideres, function (lider) {
                   var _lider$persona, _lider$persona2;

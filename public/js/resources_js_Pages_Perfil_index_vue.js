@@ -962,6 +962,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "class": "elevation-1 rounded",
                         height: "50rem"
                       }, (_createVNode2 = {
+                        "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Información no encontrada")];
+                        }),
                         bottom: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Pagination"], (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)($setup.usuarios, {
                             onChangePage: $setup.onChangePage,

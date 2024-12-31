@@ -672,7 +672,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" GRUPOS PEQUEÑOS - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.action === 'horario' ? 'HORARIOS' : 'HISTORICO'), 1 /* TEXT */)];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" GRUPOS PEQUEÑOS - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.action === 'horario' ? 'HORARIOS' : 'HISTÓRICO'), 1 /* TEXT */)];
                 }),
                 _: 1 /* STABLE */
               }), $props.action === 'horario' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
@@ -858,7 +858,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         items: $setup.filteredItems,
                         "items-per-page": 20,
                         "class": "elevation-1 rounded"
-                      }, (_createVNode2 = {}, _defineProperty(_createVNode2, "item.monitores", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+                      }, (_createVNode2 = {
+                        "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Información no encontrada")];
+                        })
+                      }, _defineProperty(_createVNode2, "item.monitores", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
                         var item = _ref.item;
                         return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.monitores, function (monitor) {
                           return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {

@@ -550,6 +550,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "items-per-page": 20,
                         "class": "elevation-1 rounded"
                       }, (_createVNode2 = {
+                        "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Información no encontrada")];
+                        }),
                         top: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
                             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {

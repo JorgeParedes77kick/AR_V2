@@ -77,7 +77,7 @@ const filteredItems = computed(() => {
   });
 });
 // Watch to trigger the filteredItems whenever searchForm changes
-watch(searchForm, () => {}, { deep: true });
+watch(searchForm, () => { }, { deep: true });
 
 const onClickClean = (e) => {
   e.preventDefault();
@@ -120,13 +120,12 @@ const onClickDelete = async (item) => {
     <v-container>
       <v-card color="background" class="px-4 py-2">
         <v-card-title>
-          GRUPOS PEQUEÑOS - {{ action === 'horario' ? 'HORARIOS' : 'HISTORICO' }}</v-card-title
-        >
+          GRUPOS PEQUEÑOS - {{ action === 'horario' ? 'HORARIOS' : 'HISTÓRICO' }}</v-card-title>
         <div v-if="action === 'horario'">
           <v-row class="pb-2">
             <v-col class="d-flex justify-end">
               <Link :href="route('grupos-pequenos.create')">
-                <v-btn color="success" class="ms-auto"> Nuevo Horario </v-btn>
+              <v-btn color="success" class="ms-auto"> Nuevo Horario </v-btn>
               </Link>
             </v-col>
           </v-row>
@@ -137,63 +136,24 @@ const onClickDelete = async (item) => {
             <v-expansion-panel-text>
               <v-row class="row-gap-2">
                 <v-col cols="12">
-                  <v-text-field
-                    v-model="searchForm.nombre"
-                    label="Nombre"
-                    hide-details
-                  ></v-text-field>
+                  <v-text-field v-model="searchForm.nombre" label="Nombre" hide-details></v-text-field>
                 </v-col>
 
                 <v-col cols="12" sm="3">
-                  <v-select
-                    id="Temporada"
-                    name="Temporada"
-                    label="Temporada"
-                    chips
-                    multiple
-                    closable-chips
-                    v-model="searchForm.temporadas"
-                    :items="temporadas"
-                    item-title="prefijo"
-                  />
+                  <v-select id="Temporada" name="Temporada" label="Temporada" chips multiple closable-chips
+                    v-model="searchForm.temporadas" :items="temporadas" item-title="prefijo" />
                 </v-col>
                 <v-col cols="12" sm="3">
-                  <v-select
-                    id="Curriculum"
-                    name="Curriculum"
-                    label="Curriculum"
-                    chips
-                    multiple
-                    closable-chips
-                    v-model="searchForm.curriculums"
-                    :items="curriculums"
-                    item-title="nombre"
-                  />
+                  <v-select id="Curriculum" name="Curriculum" label="Curriculum" chips multiple closable-chips
+                    v-model="searchForm.curriculums" :items="curriculums" item-title="nombre" />
                 </v-col>
                 <v-col cols="12" sm="3">
-                  <v-select
-                    id="Ciclo"
-                    name="Ciclo"
-                    label="Ciclo"
-                    chips
-                    multiple
-                    closable-chips
-                    v-model="searchForm.ciclos"
-                    :items="ciclos"
-                    item-title="nombre"
-                  />
+                  <v-select id="Ciclo" name="Ciclo" label="Ciclo" chips multiple closable-chips
+                    v-model="searchForm.ciclos" :items="ciclos" item-title="nombre" />
                 </v-col>
                 <v-col cols="12" sm="3">
-                  <v-select
-                    id="Dia"
-                    name="Dia"
-                    label="Día"
-                    chips
-                    multiple
-                    closable-chips
-                    v-model="searchForm.dias"
-                    :items="dias"
-                  />
+                  <v-select id="Dia" name="Dia" label="Día" chips multiple closable-chips v-model="searchForm.dias"
+                    :items="dias" />
                 </v-col>
                 <v-col class="d-flex justify-end">
                   <v-btn size="x-small" @click="onClickClean">Limpiar</v-btn>
@@ -206,12 +166,8 @@ const onClickDelete = async (item) => {
         <div>
           <v-row>
             <v-col>
-              <v-data-table
-                :headers="headers"
-                :items="filteredItems"
-                :items-per-page="20"
-                class="elevation-1 rounded"
-              >
+              <v-data-table :headers="headers" :items="filteredItems" :items-per-page="20"
+                class="elevation-1 rounded"><template v-slot:no-data>Información no encontrada</template>
                 <template v-slot:[`item.monitores`]="{ item }">
                   <p v-for="monitor in item.monitores" :key="monitor.id">
                     {{ monitor?.nombreCompleto }}
@@ -232,18 +188,14 @@ const onClickDelete = async (item) => {
                 <template v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <Link :href="route('grupos-pequenos.show', item)">
-                      <v-btn as="v-btn" color="info" small> Ver </v-btn>
+                    <v-btn as="v-btn" color="info" small> Ver </v-btn>
                     </Link>
                     <Link v-if="item.temporada.activo" :href="route('grupos-pequenos.edit', item)">
-                      <v-btn color="secondary" small> Editar </v-btn>
+                    <v-btn color="secondary" small> Editar </v-btn>
                     </Link>
-                    <v-btn
-                      v-if="item.temporada.activo && item.alumnos_contar === 0"
-                      color="error"
-                      small
+                    <v-btn v-if="item.temporada.activo && item.alumnos_contar === 0" color="error" small
                       @click="onClickDelete(item)"
-                      v-tooltip:top="'Solo se pueden eliminar los que no tienen inscripciones'"
-                      >Eliminar
+                      v-tooltip:top="'Solo se pueden eliminar los que no tienen inscripciones'">Eliminar
                     </v-btn>
                   </div>
                 </template>

@@ -707,7 +707,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                   return $setup.inputForm.nombre = $event;
                                 }),
                                 disabled: $setup.isDisabled,
-                                rules: $setup.validate('Nombre', 'required'),
+                                rules: $setup.validate('Nombre', 'required|alphaNumericNotStart'),
                                 "error-messages": $setup.inputForm.errors.nombre
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
                             }),

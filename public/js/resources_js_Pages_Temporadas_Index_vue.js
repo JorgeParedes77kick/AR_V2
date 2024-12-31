@@ -705,7 +705,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         items: $props.temporadas,
                         "items-per-page": 10,
                         "class": "elevation-1 rounded"
-                      }, (_createVNode2 = {}, _defineProperty(_createVNode2, "item.fecha_inicio", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+                      }, (_createVNode2 = {
+                        "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Información no encontrada")];
+                        })
+                      }, _defineProperty(_createVNode2, "item.fecha_inicio", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
                         var item = _ref.item;
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.FormatFecha(item.fecha_inicio, 3)), 1 /* TEXT */)];
                       })), _defineProperty(_createVNode2, "item.fecha_cierre", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {

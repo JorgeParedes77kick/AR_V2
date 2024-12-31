@@ -591,7 +591,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         items: $props.menus,
                         "items-per-page": 10,
                         "class": "elevation-1 rounded"
-                      }, (_createVNode2 = {}, _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+                      }, (_createVNode2 = {
+                        "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Información no encontrada")];
+                        })
+                      }, _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
                         var item = _ref.item;
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
                           href: _ctx.route('menu.show', item)

@@ -68,7 +68,8 @@ const onClickDelete = async (item) => {
           <v-row>
             <v-col>
               <v-data-table :headers="headers" :items="recursos" :items-per-page="25" class="elevation-1 rounded">
-                <template v-slot:[`item.link_escritura`]="{ item }">
+                <template v-slot:no-data>Información no encontrada</template> <template
+                  v-slot:[`item.link_escritura`]="{ item }">
                   <a v-if="item.link_escritura" :href="item.link_escritura" target="_blank">Link Escritura</a>
                 </template>
                 <template v-slot:[`item.link_lectura`]="{ item }">
