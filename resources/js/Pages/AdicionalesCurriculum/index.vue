@@ -41,6 +41,8 @@ const headers = [
             <v-col>
               <v-data-table :headers="headers" :items="curriculums" :items-per-page="15" class="elevation-1 rounded"
                 show-expand>
+                <template v-slot:no-data>Información no encontrada</template>
+
                 <template v-slot:expanded-row="{ item }">
                   <tr v-for="adi in item.adicionales" :key="adi.id">
                     <td :colspan="2"></td>

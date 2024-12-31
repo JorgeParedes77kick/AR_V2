@@ -96,6 +96,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     });
     var onChangeFile = function onChangeFile() {
       inputForm.imagen = '';
+      inputForm.errors.imagenFile = null;
     };
     var validateForm = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
@@ -123,7 +124,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }();
     var submit = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var action, routeName, id, config, formData, keys, i, key, _response$data, response, message, _err$response, _err$response$data, _err$response2, _err$response2$data, _message, errors;
+        var action, routeName, id, config, formData, keys, i, key, _response$data, response, message, _err$response, _err$response$data, _err$response2, _err$response2$data, _err$response3, _err$response3$data, _message, errors;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
@@ -175,7 +176,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             case 24:
               _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_1__.router.visit(route('curriculums.index'));
             case 25:
-              _context2.next = 32;
+              _context2.next = 33;
               break;
             case 27:
               _context2.prev = 27;
@@ -189,19 +190,20 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                   icon: 'error'
                 });
               }
-              if (_context2.t0 !== null && _context2.t0 !== void 0 && (_err$response2 = _context2.t0.response) !== null && _err$response2 !== void 0 && (_err$response2$data = _err$response2.data) !== null && _err$response2$data !== void 0 && _err$response2$data.errors) {
+              console.log("err?.response?.data?.errors:", _context2.t0 === null || _context2.t0 === void 0 ? void 0 : (_err$response2 = _context2.t0.response) === null || _err$response2 === void 0 ? void 0 : (_err$response2$data = _err$response2.data) === null || _err$response2$data === void 0 ? void 0 : _err$response2$data.errors);
+              if (_context2.t0 !== null && _context2.t0 !== void 0 && (_err$response3 = _context2.t0.response) !== null && _err$response3 !== void 0 && (_err$response3$data = _err$response3.data) !== null && _err$response3$data !== void 0 && _err$response3$data.errors) {
                 errors = _context2.t0.response.data.errors;
                 inputForm.errors = errors;
               }
-            case 32:
-              _context2.prev = 32;
+            case 33:
+              _context2.prev = 33;
               loading.value = false;
-              return _context2.finish(32);
-            case 35:
+              return _context2.finish(33);
+            case 36:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[16, 27, 32, 35]]);
+        }, _callee2, null, [[16, 27, 33, 36]]);
       }));
       return function submit() {
         return _ref3.apply(this, arguments);
@@ -363,9 +365,19 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
       localStorage.setItem('theme', isDarkTheme.value ? 'dark' : 'light');
     };
+    var toggleDrawer = function toggleDrawer() {
+      drawer.value = !drawer.value;
+      localStorage.setItem('drawer', drawer.value ? 1 : 0);
+    };
+    var updateDrawer = function updateDrawer(value) {
+      drawer.value = value;
+      localStorage.setItem('drawer', drawer.value ? 1 : 0);
+    };
     (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)(function () {
       console.log('pageProps:', pageProps);
       isDarkTheme.value = localStorage.getItem('theme') === 'dark';
+      drawer.value = parseInt(localStorage.getItem('drawer'));
+      console.log("localStorage.getItem('drawer'):", localStorage.getItem('drawer'));
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
 
       // getList('/menu/list/byRol').then((data) => {
@@ -521,6 +533,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       userRoles: userRoles,
       rolSession: rolSession,
       toggleTheme: toggleTheme,
+      toggleDrawer: toggleDrawer,
+      updateDrawer: updateDrawer,
       activeGroup: activeGroup,
       toggleGroup: toggleGroup,
       handleSubmit: handleSubmit,
@@ -837,7 +851,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                   return $setup.inputForm.imagenFile = $event;
                                 }), $setup.onChangeFile],
                                 disabled: $setup.isDisabled,
-                                "error-messages": $setup.inputForm.errors.imagen,
+                                "error-messages": $setup.inputForm.errors.imagenFile || $setup.inputForm.errors.imagen,
                                 accept: "image/*",
                                 "prepend-icon": "mdi-camera"
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages"]), $setup.inputForm.imagenFile ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_img, {
@@ -1012,9 +1026,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_app_bar_nav_icon, {
-            onClick: _cache[0] || (_cache[0] = function ($event) {
-              return $setup.drawer = !$setup.drawer;
-            })
+            onClick: $setup.toggleDrawer
           })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$setup.isDarkTheme ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, {
             key: 0,
             icon: "mdi-weather-night",
@@ -1147,9 +1159,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_navigation_drawer, {
         color: "navbar-color",
         modelValue: $setup.drawer,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+        "onUpdate:modelValue": [_cache[0] || (_cache[0] = function ($event) {
           return $setup.drawer = $event;
-        }),
+        }), $setup.updateDrawer],
         app: "",
         "class": "text-navbar-text"
       }, {

@@ -70,7 +70,7 @@ onMounted(() => {
             <v-col cols="12" class="text-subtitle-2"> Inscripcion Actual </v-col>
             <v-col>
               <v-data-table :headers="headersIns" :items="[inscripcion]" class="elevation-1 rounded" hide-default-footer
-                hide-default-header>
+                hide-default-header><template v-slot:no-data>Información no encontrada</template>
                 <template v-slot:[`item.id`]="{ item }"> #{{ item.grupo_pequeno.id }} </template>
                 <template v-slot:[`item.monitores`]="{ item }">
                   <p v-for="monitor in item.grupo_pequeno.monitores" :key="monitor.id">

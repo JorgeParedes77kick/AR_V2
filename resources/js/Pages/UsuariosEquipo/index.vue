@@ -99,7 +99,7 @@ const onChange = (item) => {
           <v-row>
             <v-col>
               <v-data-table :headers="headers" :items="filteredItems" :items-per-page="20" class="elevation-1 rounded">
-                <template v-slot:top>
+                <template v-slot:no-data>Información no encontrada</template><template v-slot:top>
                   <v-row><v-col cols="12" sm="6" md="5">
                       <v-text-field v-model="search" label="Filtrar" class="mx-3 mt-2" append-icon="mdi-magnify"
                         variant="underlined" hide-details></v-text-field> </v-col></v-row>
