@@ -383,8 +383,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     function handleSubmit(event, link) {
       event.preventDefault();
       setOverlay(true);
-      setTimeout(function () {
-        if (!['', '/', '#'].includes(link)) {
+      if (!['', '/', '#'].includes(link)) {
+        setTimeout(function () {
           if (link === 'logout') {
             axios__WEBPACK_IMPORTED_MODULE_1___default().post(link, formLogout).then(function (result) {
               // window.location.href = 'login';
@@ -399,8 +399,10 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
             _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit(link);
             setOverlay(false);
           }
-        }
-      }, 2000);
+        }, 2000);
+      } else {
+        setOverlay(false);
+      }
     }
     var applyRol = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(event, id) {
