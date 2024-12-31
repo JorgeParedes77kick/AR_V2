@@ -69,7 +69,7 @@ const submit = async () => {
               class="elevation-1 rounded" hide-default-footer>
               <template v-slot:[`item.acciones`]="{ item }">
                 <v-btn color="secondary" small @click="onClickVer(item)">Editar</v-btn>
-              </template>
+              </template><template v-slot:no-data>Información no encontrada</template>
             </v-data-table>
           </v-col>
         </v-row>

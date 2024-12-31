@@ -51,6 +51,28 @@ function email(fieldName, fieldValue) {
   if (emailPattern.test(fieldValue)) return true;
   return `El campo ${fieldName} debe ser un correo electrónico válido`;
 }
+function numeric(fieldName, fieldValue) {
+  const numericPattern = /^[0-9]+$/; // Cambiado a + para permitir uno o más dígitos
+  if (numericPattern.test(fieldValue)) return true;
+  return `El campo ${fieldName} debe ser numérico`;
+}
+
+function alpha(fieldName, fieldValue) {
+  const alphaPattern = /^[A-Za-z]+( [A-Za-z]+)*$/; // Cambiado a + para permitir uno o más caracteres
+  if (alphaPattern.test(fieldValue)) return true;
+  return `El campo ${fieldName} debe ser solo letras`;
+}
+
+function alphaNumeric(fieldName, fieldValue) {
+  const alphaNumericPattern = /^[A-Za-z0-9 ]+$/; // Cambiado a + para permitir uno o más caracteres
+  if (alphaNumericPattern.test(fieldValue)) return true;
+  return `El campo ${fieldName} debe ser alfanumérico`;
+}
+function alphaNumericNotStart(fieldName, fieldValue) {
+  const alphaNumericPattern = /^[A-Za-z]+[A-Za-z0-9 ]+$/; // Cambiado a + para permitir uno o más caracteres
+  if (alphaNumericPattern.test(fieldValue)) return true;
+  return `El campo ${fieldName} debe ser alfanumérico`;
+}
 
 // Puedes añadir más reglas según tus necesidades
 
@@ -63,6 +85,10 @@ const rulesFun = {
   minDate,
   maxDate,
   email,
+  numeric,
+  alpha,
+  alphaNumeric,
+  alphaNumericNotStart,
   // Add other validation functions here
 };
 export function validate(fieldName, rules) {

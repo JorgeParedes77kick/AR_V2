@@ -166,7 +166,7 @@ onMounted(() => {
             <v-data-table fixed-header :headers="headers" :items="usuarios.data" :loading="loading"
               :items-per-page="options.perPage" class="elevation-1 rounded" height="50rem">
               <!-- Slot para el footer personalizado -->
-              <template #bottom>
+              <template v-slot:no-data>Información no encontrada</template><template #bottom>
                 <Pagination v-bind="usuarios" :onChangePage="onChangePage" :onChangePerPage="onChangePerPage" />
               </template>
               <template v-slot:[`item.acciones`]="{ item }">

@@ -76,7 +76,8 @@ const onClickDelete = async (item) => {
           <v-row justify="center">
             <v-col>
               <v-data-table :headers="headers" :items="curriculums" :items-per-page="10" class="elevation-1 rounded">
-                <template v-slot:[`item.descripcion`]="{ item }">
+                <template v-slot:no-data>Información no encontrada</template><template
+                  v-slot:[`item.descripcion`]="{ item }">
                   {{ truncarTexto(item.descripcion, 100) }}
                 </template>
                 <template v-slot:[`item.activo`]="{ item }">
