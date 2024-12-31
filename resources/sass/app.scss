@@ -21,6 +21,12 @@
   #registerContainer {
     width: 95% !important;
   }
+  #forgotPassContainer {
+    width: 95% !important;
+  }
+  #resetPassContainer {
+    width: 95% !important;
+  }
 }
 
 @media #{map-get($display-breakpoints, 'xs')} {
@@ -28,6 +34,12 @@
     font-size: 3.3vw !important;
   }
   #registerContainer {
+    width: 95% !important;
+  }
+  #forgotPassContainer {
+    width: 95% !important;
+  }
+  #resetPassContainer {
     width: 95% !important;
   }
 }
@@ -39,6 +51,12 @@
   #registerContainer {
     width: 95% !important;
   }
+  #forgotPassContainer {
+    width: 95% !important;
+  }
+  #resetPassContainer {
+    width: 95% !important;
+  }
 }
 
 @media #{map-get($display-breakpoints, 'md')} {
@@ -46,6 +64,12 @@
     font-size: 1.7vw !important;
   }
   #registerContainer {
+    width: 95% !important;
+  }
+  #forgotPassContainer {
+    width: 95% !important;
+  }
+  #resetPassContainer {
     width: 95% !important;
   }
 }
@@ -57,6 +81,12 @@
   #registerContainer {
     width: 65% !important;
   }
+  #forgotPassContainer {
+    width: 45% !important;
+  }
+  #resetPassContainer {
+    width: 45% !important;
+  }
 }
 
 @media #{map-get($display-breakpoints, 'xl')} {
@@ -66,6 +96,12 @@
   #registerContainer {
     width: 65% !important;
   }
+  #forgotPassContainer {
+    width: 45% !important;
+  }
+  #resetPassContainer {
+    width: 45% !important;
+  }
 }
 
 @media #{map-get($display-breakpoints, 'xxl')} {
@@ -74,6 +110,12 @@
   }
   #registerContainer {
     width: 65% !important;
+  }
+  #forgotPassContainer {
+    width: 45% !important;
+  }
+  #resetPassContainer {
+    width: 45% !important;
   }
 }
 

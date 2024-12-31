@@ -357,22 +357,25 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     }
     function handleSubmit(event, link) {
       event.preventDefault();
-      if (!['', '/', '#'].includes(link)) {
-        setOverlay(true);
-        if (link === 'logout') {
-          axios__WEBPACK_IMPORTED_MODULE_1___default().post(link, formLogout).then(function (result) {
-            // window.location.href = 'login';
-            _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit('login');
-          })["catch"](function (error) {
+      setOverlay(true);
+      setTimeout(function () {
+        if (!['', '/', '#'].includes(link)) {
+          if (link === 'logout') {
+            axios__WEBPACK_IMPORTED_MODULE_1___default().post(link, formLogout).then(function (result) {
+              // window.location.href = 'login';
+              _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit('login');
+              setOverlay(false);
+            })["catch"](function (error) {
+              setOverlay(false);
+              console.log(JSON.stringify(error.response.data.message));
+            });
+          } else {
+            // window.location.href = link;
+            _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit(link);
             setOverlay(false);
-            console.log(JSON.stringify(error.response.data.message));
-          });
-          setOverlay(false);
-        } else {
-          // window.location.href = link;
-          _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit(link);
+          }
         }
-      }
+      }, 2000);
     }
     var applyRol = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(event, id) {

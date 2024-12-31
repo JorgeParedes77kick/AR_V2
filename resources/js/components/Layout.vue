@@ -81,25 +81,29 @@ function toggleGroup(index) {
 
 function handleSubmit(event, link) {
   event.preventDefault();
-  if (!['', '/', '#'].includes(link)) {
-    setOverlay(true);
-    if (link === 'logout') {
-      axios
-        .post(link, formLogout)
-        .then((result) => {
-          // window.location.href = 'login';
-          router.visit('login');
-        })
-        .catch((error) => {
-          setOverlay(false);
-          console.log(JSON.stringify(error.response.data.message));
-        });
-      setOverlay(false);
-    } else {
-      // window.location.href = link;
-      router.visit(link);
+  setOverlay(true);
+  setTimeout(() => {
+    if (!['', '/', '#'].includes(link)) {
+      if (link === 'logout') {
+        axios
+          .post(link, formLogout)
+          .then((result) => {
+            // window.location.href = 'login';
+            router.visit('login');
+            setOverlay(false);
+          })
+          .catch((error) => {
+            setOverlay(false);
+            console.log(JSON.stringify(error.response.data.message));
+          });
+
+      } else {
+        // window.location.href = link;
+        router.visit(link);
+        setOverlay(false);
+      }
     }
-  }
+  }, 2000);
 }
 
 const applyRol = async (event, id) => {
@@ -229,7 +233,7 @@ const myApp = ref([
       <slot></slot>
     </v-main>
     <v-overlay :model-value="loadingPage" opacity="0.80" :absolute="true" contained persistent
-      class="align-center justify-center">
+               class="align-center justify-center">
       <v-progress-circular style="color: #99c5c0" size="37" indeterminate></v-progress-circular>
     </v-overlay>
   </v-app>
