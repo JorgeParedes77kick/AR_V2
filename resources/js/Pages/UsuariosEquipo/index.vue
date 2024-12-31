@@ -16,8 +16,8 @@ onMounted(() => {
 });
 
 const headers = [
-  // { title: 'ID', key: 'id', fixed: true },
-  { title: 'Nick', key: 'nick_name' },
+  // { title: 'ID', key: 'id' },
+  // { title: 'Nick', key: 'nick_name' },
   { title: 'Nombre', key: 'persona' },
   { title: 'Correo', key: 'email' },
   { title: 'Roles', key: 'roles', width: '20rem', sortable: false },
@@ -85,7 +85,7 @@ const onChange = (item) => {
   <MainLayout>
     <v-container>
       <v-card color="background" class="px-4 py-2">
-        <v-card-title> USUARIOS DE AR - INTERNOS </v-card-title>
+        <v-card-title> ASIGNACIÓN DE ROLES A USUARIOS </v-card-title>
         <div>
           <!-- <v-row>
             <v-col class="d-flex justify-end">

@@ -134,99 +134,47 @@ const semanasArray = computed(() => {
           <v-form @submit="validateForm" ref="form" lazy-validation>
             <v-row class="row-gap-2">
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="prefijo"
-                  name="prefijo"
-                  label="Prefijo"
-                  v-model="inputForm.prefijo"
-                  :disabled="isDisabled"
-                  :rules="validate('Nombre', 'required')"
-                  :error-messages="inputForm.errors.prefijo"
-                />
+                <v-text-field id="prefijo" name="prefijo" label="Prefijo" v-model="inputForm.prefijo"
+                  :disabled="isDisabled" :rules="validate('Nombre', 'required')"
+                  :error-messages="inputForm.errors.prefijo" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="nombre"
-                  name="nombre"
-                  label="Nombre"
-                  v-model="inputForm.nombre"
-                  :disabled="isDisabled"
-                  :rules="validate('Temporada', 'required')"
-                  :error-messages="inputForm.errors.nombre"
-                />
+                <v-text-field id="nombre" name="nombre" label="Nombre" v-model="inputForm.nombre" :disabled="isDisabled"
+                  :rules="validate('Temporada', 'required')" :error-messages="inputForm.errors.nombre" />
+              </v-col><v-col cols="12" sm="6">
+                <v-text-field id="inscripcion_inicio" name="inscripcion_inicio" label="Fecha de inicio de inscripcion"
+                  type="date" v-model="inputForm.inscripcion_inicio" :disabled="isDisabled"
+                  :error-messages="inputForm.errors.inscripcion_inicio" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="fecha_inicio"
-                  name="fecha_inicio"
-                  label="Fecha de inicio"
-                  type="week"
-                  v-model="inputForm.fecha_inicio_w"
-                  :disabled="isDisabled"
-                  :rules="validate('Fecha de inicio', 'required')"
-                  :error-messages="inputForm.errors.fecha_inicio"
-                  :max="inputForm.fecha_cierre_w"
-                />
+                <v-text-field id="inscripcion_cierre" name="inscripcion_cierre" label="Fecha de cierre de inscripcion"
+                  type="date" v-model="inputForm.inscripcion_cierre" :disabled="isDisabled"
+                  :error-messages="inputForm.errors.inscripcion_cierre" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="fecha_cierre"
-                  name="fecha_cierre"
-                  label="Fecha de cierre"
-                  type="week"
-                  v-model="inputForm.fecha_cierre_w"
-                  :disabled="isDisabled"
-                  :rules="validate('Fecha de cierre', 'required')"
-                  :error-messages="inputForm.errors.fecha_cierre"
-                  :min="inputForm.fecha_inicio_w"
-                  :max="inputForm.fecha_extension_w"
-                />
+                <v-text-field id="fecha_inicio" name="fecha_inicio" label="Fecha de inicio" type="week"
+                  v-model="inputForm.fecha_inicio_w" :disabled="isDisabled"
+                  :rules="validate('Fecha de inicio', 'required')" :error-messages="inputForm.errors.fecha_inicio"
+                  :max="inputForm.fecha_cierre_w" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-switch
-                  id="extension"
-                  name="extension"
-                  v-model="inputForm.extension"
-                  :label="inputForm.extension ? 'Con fecha para posible extension' : 'Normal'"
-                  color="success"
-                  class="px-2"
-                />
+                <v-text-field id="fecha_cierre" name="fecha_cierre" label="Fecha de cierre" type="week"
+                  v-model="inputForm.fecha_cierre_w" :disabled="isDisabled"
+                  :rules="validate('Fecha de cierre', 'required')" :error-messages="inputForm.errors.fecha_cierre"
+                  :min="inputForm.fecha_inicio_w" :max="inputForm.fecha_extension_w" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  v-if="inputForm.extension"
-                  id="fecha_extension"
-                  name="fecha_extension"
-                  label="Fecha de extension de temporada"
-                  type="week"
-                  v-model="inputForm.fecha_extension_w"
-                  :disabled="isDisabled"
-                  :error-messages="inputForm.errors.fecha_extension"
-                  :min="inputForm.fecha_cierre_w"
-                />
+                <v-switch id="extension" name="extension" v-model="inputForm.extension"
+                  :label="inputForm.extension ? 'Con fecha para posible extension' : 'Normal'" color="success"
+                  class="px-2" />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field
-                  id="inscripcion_inicio"
-                  name="inscripcion_inicio"
-                  label="Fecha de inicio de inscripcion"
-                  type="date"
-                  v-model="inputForm.inscripcion_inicio"
-                  :disabled="isDisabled"
-                  :error-messages="inputForm.errors.inscripcion_inicio"
-                />
+                <v-text-field v-if="inputForm.extension" id="fecha_extension" name="fecha_extension"
+                  label="Fecha de extension de temporada" type="week" v-model="inputForm.fecha_extension_w"
+                  :disabled="isDisabled" :error-messages="inputForm.errors.fecha_extension"
+                  :min="inputForm.fecha_cierre_w" />
               </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  id="inscripcion_cierre"
-                  name="inscripcion_cierre"
-                  label="Fecha de cierre de inscripcion"
-                  type="date"
-                  v-model="inputForm.inscripcion_cierre"
-                  :disabled="isDisabled"
-                  :error-messages="inputForm.errors.inscripcion_cierre"
-                />
-              </v-col>
+
             </v-row>
             <v-row class="my-3" v-if="!isDisabled">
               <v-col cols="12" class="d-flex">
@@ -241,20 +189,15 @@ const semanasArray = computed(() => {
             De acuerdo con lo ingresado, el plazo es de
             <b>{{ semanasArray.filter((x) => !x.ext).length }}</b> semanas, con la posibilidad de
             una extensión de <b>{{ semanasArray.filter((x) => x.ext).length }}</b> semanas, lo que
-            suma un total de <b>{{ semanasArray.length }}</b> semanas.</span
-          >
+            suma un total de <b>{{ semanasArray.length }}</b> semanas.</span>
           <span v-else>
             De acuerdo con lo ingresado, el plazo es de
-            <b>{{ semanasArray.filter((x) => !x.ext).length }}</b> semanas</span
-          >
+            <b>{{ semanasArray.filter((x) => !x.ext).length }}</b> semanas</span>
 
           <v-card>
             <v-list class="my-2" scroll-y max-height="500">
-              <v-list-item
-                v-for="semana in semanasArray"
-                :key="semana.inicio"
-                :class="`${semana.ext ? 'bg-warning' : ''}`"
-              >
+              <v-list-item v-for="semana in semanasArray" :key="semana.inicio"
+                :class="`${semana.ext ? 'bg-warning' : ''}`">
                 <v-row class="my-0">
                   <v-col class="py-0" lg="2" md="2" sm="3" cols="6">{{ semana.semana }}:</v-col>
                   <v-col class="py-0" lg="2" md="2" sm="3" cols="6">{{

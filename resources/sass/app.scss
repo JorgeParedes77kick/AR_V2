@@ -18,11 +18,17 @@
   #loginPanel {
     display: none;
   }
+  #registerContainer {
+    width: 95% !important;
+  }
 }
 
 @media #{map-get($display-breakpoints, 'xs')} {
   .btn-login {
     font-size: 3.3vw !important;
+  }
+  #registerContainer {
+    width: 95% !important;
   }
 }
 
@@ -30,11 +36,17 @@
   .btn-login {
     font-size: 2.3vw !important;
   }
+  #registerContainer {
+    width: 95% !important;
+  }
 }
 
 @media #{map-get($display-breakpoints, 'md')} {
   .btn-login {
     font-size: 1.7vw !important;
+  }
+  #registerContainer {
+    width: 95% !important;
   }
 }
 
@@ -42,17 +54,26 @@
   .btn-login {
     font-size: 1.3vw !important;
   }
+  #registerContainer {
+    width: 65% !important;
+  }
 }
 
 @media #{map-get($display-breakpoints, 'xl')} {
   .btn-login {
     font-size: 1.0vw !important;
   }
+  #registerContainer {
+    width: 65% !important;
+  }
 }
 
 @media #{map-get($display-breakpoints, 'xxl')} {
   .btn-login {
     font-size: 0.7vw !important;
+  }
+  #registerContainer {
+    width: 65% !important;
   }
 }
 

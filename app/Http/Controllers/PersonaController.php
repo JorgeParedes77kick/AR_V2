@@ -17,6 +17,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Throwable;
 
@@ -96,7 +97,7 @@ class PersonaController extends Controller {
         $id = base64_decode($idCrypt);
 
         $usuario = Usuario::where('id', $id)->with('persona.genero')->with('persona.estadoCivil')
-            ->with('persona.pais')->with('persona.region')->with('persona.nacionalidad')
+            ->with('persona.pais.regiones')->with('persona.region')->with('persona.nacionalidad')
             ->select('id', 'nick_name', 'email', 'persona_id')
             ->first();
 
@@ -109,10 +110,10 @@ class PersonaController extends Controller {
             'action' => 'edit',
             'mi-perfil' => Auth::user()->id == $id,
             'usuario' => $usuario,
-            'genero' => $genero,
-            'estadoCivil' => $estadoCivil,
-            'pais' => $pais,
-            'nacionalidad' => $nacionalidad,
+            'generos' => $genero,
+            'estadosCivil' => $estadoCivil,
+            'paises' => $pais,
+            'nacionalidades' => $nacionalidad,
         ]
         );
 
@@ -122,8 +123,30 @@ class PersonaController extends Controller {
      * Update the specified resource in storage.
      *
      */
-    public function update(UpdatePersonaRequest $request, Persona $persona) {
-        //
+    public function update(UpdatePersonaRequest $request, String $idCrypt) {
+        $id = base64_decode($idCrypt);
+        $data = $request->validated();
+        $newContrasena = $request->input('newContrasena');
+        $usuario = Usuario::find($id);
+        $persona = $usuario->persona;
+
+        try {
+            DB::beginTransaction();
+            $state = $persona->update($data);
+            if ($newContrasena) {
+                $usuario->update([Hash::make($newContrasena)]);
+            }
+            DB::commit();
+            if ($state) {
+                return response()->json(["message" => "El Persona fue actualizada exitosamente!", "persona" => $persona], 200);
+            } else {
+                return response()->json(["message" => "", 'server' => '¡El Persona no pudo ser actualizada, intente más tarde!'], 400);
+            }
+        } catch (Throwable $th) {
+            DB::rollBack();
+            return response()->json(["message" => $th->getMessage(), 'server' => '¡El Persona no pudo ser actualizada, intente más tarde!'], 500);
+
+        }
     }
 
     /**

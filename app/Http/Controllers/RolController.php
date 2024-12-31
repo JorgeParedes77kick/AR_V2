@@ -126,8 +126,8 @@ class RolController extends Controller {
     public function applyRol(Request $request) {
         $role = Rol::whereId($request->input('role_id'))->first();
         if ($role) {
-          $request->session()->put('rol_id', $role->id);
-          return response()->json(["message" => "Role Apply Success"], 200);
+            $request->session()->put('rol_id', $role->id);
+            return response()->json(["message" => "Role Apply Success"], 200);
         }
         return response()->json(["message" => "Role Not Apply"], 403);
     }
@@ -140,4 +140,5 @@ class RolController extends Controller {
     public function getRolSession() {
         return response()->json(["rol" => session('rol_id')], 200);
     }
+
 }

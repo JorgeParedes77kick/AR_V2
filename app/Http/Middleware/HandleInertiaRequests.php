@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Helpers\Debug;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,8 +32,8 @@ class HandleInertiaRequests extends Middleware {
      * @return array
      */
     public function share(Request $request) {
-        Debug::info($request->path());
-        Debug::info($request->url());
+        // Debug::info($request->path());
+        // Debug::info($request->url());
         // Debug::info($request->all());
         // Debug::info($request->isMethod('get'));
         // Debug::info(!$request->ajax());

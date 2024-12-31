@@ -11,7 +11,7 @@ return [
     | la clase de validador. Algunas de estas reglas tienen múltiples versiones,
     | como las reglas de tamaño. Siéntete libre de ajustar cada uno de estos mensajes aquí.
     |
-    */
+     */
 
     'accepted' => 'El campo :attribute debe ser aceptado.',
     'accepted_if' => 'El campo :attribute debe ser aceptado cuando :other es :value.',
@@ -127,6 +127,7 @@ return [
     'timezone' => 'El campo :attribute debe ser una zona horaria válida.',
     'unique' => 'El campo :attribute ya ha sido tomado.',
     'uploaded' => 'El campo :attribute falló al subir.',
+    'unauthorized' => 'No tienes permiso para realizar esta acción.',
     'url' => 'El campo :attribute debe ser una URL válida.',
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
 
@@ -139,7 +140,7 @@ return [
     | formato "attribute.rule" para nombrar las líneas. Esto hace que sea rápido
     | especificar una custom language line for a given attribute rule.
     |
-    */
+     */
 
     'custom' => [
         'attribute-name' => [
@@ -156,7 +157,7 @@ return [
     | with something more reader friendly such as "E-Mail Address" instead
     | of "email". This simply helps us make our message more expressive.
     |
-    */
+     */
 
     'attributes' => [],
 ];

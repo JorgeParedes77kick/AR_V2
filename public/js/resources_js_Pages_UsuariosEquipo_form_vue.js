@@ -435,6 +435,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
             setOverlay(false);
             console.log(JSON.stringify(error.response.data.message));
           });
+          setOverlay(false);
         } else {
           // window.location.href = link;
           _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit(link);
@@ -507,11 +508,11 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     var myApp = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([{
       title: 'Home',
       icon: 'mdi-home',
-      link: 'home'
+      link: '/home'
     }, {
       title: 'Mi perfil',
       icon: 'mdi-account',
-      link: 'home'
+      link: '/mi-perfil'
     }, {
       title: 'Roles',
       icon: 'mdi-power',
@@ -540,14 +541,14 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       handleSubmit: handleSubmit,
       applyRol: applyRol,
       myApp: myApp,
+      get router() {
+        return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router;
+      },
       get useForm() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm;
       },
       get usePage() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage;
-      },
-      get router() {
-        return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router;
       },
       get axios() {
         return (axios__WEBPACK_IMPORTED_MODULE_1___default());
@@ -791,7 +792,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "class": "row-gap-2"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-col v-if=\"action !== CRUD.create\" cols=\"12\" sm=\"6\">\n                <v-text-field id=\"id\" name=\"id\" label=\"ID\" v-model=\"inputForm.id\" disabled\n                  :error-messages=\"inputForm.errors.id\" />\n              </v-col> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-col v-if=\"action !== CRUD.create\" cols=\"12\" sm=\"6\">\r\n                <v-text-field id=\"id\" name=\"id\" label=\"ID\" v-model=\"inputForm.id\" disabled\r\n                  :error-messages=\"inputForm.errors.id\" />\r\n              </v-col> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
                             cols: "12",
                             sm: "6"
                           }, {
@@ -1140,7 +1141,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\n        <v-hover>\n          <template v-slot:default=\"{ isHovering, props }\">\n            <v-list-item\n              :title=\"item.title\"\n              :to=\"item.link\"\n              v-bind=\"props\"\n              :class=\"\n                classnames({\n                  'bg-navbar-hover': isHovering,\n                  'text-navbar-hover-text': isHovering,\n                })\n              \"\n            >\n            </v-list-item>\n          </template>\n</v-hover>\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dynamic Menu Init"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\r\n        <v-hover>\r\n          <template v-slot:default=\"{ isHovering, props }\">\r\n            <v-list-item\r\n              :title=\"item.title\"\r\n              :to=\"item.link\"\r\n              v-bind=\"props\"\r\n              :class=\"\r\n                classnames({\r\n                  'bg-navbar-hover': isHovering,\r\n                  'text-navbar-hover-text': isHovering,\r\n                })\r\n              \"\r\n            >\r\n            </v-list-item>\r\n          </template>\r\n</v-hover>\r\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dynamic Menu Init"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.dynamicMenu, function (menu, index) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
@@ -1203,41 +1204,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _$props$menu, _$props$menu$submenu, _$props$menu2, _$props$menu5;
   var _component_v_list_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-item");
   var _component_v_list_group = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-group");
-  return $props.menu.submenu.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 0
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-    href: $props.menu.url_ref,
+  return ((_$props$menu = $props.menu) === null || _$props$menu === void 0 ? void 0 : (_$props$menu$submenu = _$props$menu.submenu) === null || _$props$menu$submenu === void 0 ? void 0 : _$props$menu$submenu.length) === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["Link"], {
+    key: 0,
+    href: (_$props$menu2 = $props.menu) === null || _$props$menu2 === void 0 ? void 0 : _$props$menu2.url_ref,
     as: "div"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      var _$props$menu3, _$props$menu4;
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, {
-        title: $props.menu.nombre,
-        "prepend-icon": $props.menu.icon,
+        title: (_$props$menu3 = $props.menu) === null || _$props$menu3 === void 0 ? void 0 : _$props$menu3.nombre,
+        "prepend-icon": (_$props$menu4 = $props.menu) === null || _$props$menu4 === void 0 ? void 0 : _$props$menu4.icon,
         link: ""
       }, null, 8 /* PROPS */, ["title", "prepend-icon"])];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"menu.icon\" link>\n      <template v-slot:title>\n        <Link :href=\"menu.url_ref\" as=\"span\"> {{ menu.nombre }} </Link>\n      </template>\n</v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+  }, 8 /* PROPS */, ["href"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
     key: 1,
     modelValue: $setup.activeGroup,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.activeGroup = $event;
     }),
-    value: $props.menu.id,
+    value: (_$props$menu5 = $props.menu) === null || _$props$menu5 === void 0 ? void 0 : _$props$menu5.id,
     "class": "my-v-list-group"
   }, {
     activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+      var _$props$menu6, _$props$menu7;
       var props = _ref.props;
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)(props, {
-        title: $props.menu.nombre,
-        "prepend-icon": $props.menu.icon
+        title: (_$props$menu6 = $props.menu) === null || _$props$menu6 === void 0 ? void 0 : _$props$menu6.nombre,
+        "prepend-icon": (_$props$menu7 = $props.menu) === null || _$props$menu7 === void 0 ? void 0 : _$props$menu7.icon
       }), null, 16 /* FULL_PROPS */, ["title", "prepend-icon"])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      var _$props$menu8;
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["LeftMenuItemSub"], {
-        subMenu: $props.menu.submenu
+        subMenu: (_$props$menu8 = $props.menu) === null || _$props$menu8 === void 0 ? void 0 : _$props$menu8.submenu
       }, null, 8 /* PROPS */, ["subMenu"])];
     }),
     _: 1 /* STABLE */
@@ -1263,30 +1267,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_list_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-item");
   var _component_LeftMenuItemSub = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("LeftMenuItemSub", true);
   var _component_v_list_group = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-list-group");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.subMenu, function (subM, index) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.subMenu, function (subM) {
+    var _subM$submenu;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      key: subM.id + 'group'
-    }, [subM.submenu.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      key: 0
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-      href: subM.url_ref,
+      key: (subM === null || subM === void 0 ? void 0 : subM.id) + 'group'
+    }, [(subM === null || subM === void 0 ? void 0 : (_subM$submenu = subM.submenu) === null || _subM$submenu === void 0 ? void 0 : _subM$submenu.length) === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["Link"], {
+      key: 0,
+      href: subM === null || subM === void 0 ? void 0 : subM.url_ref,
       as: "div"
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, {
-          title: subM.nombre,
-          "prepend-icon": subM.icon,
+          title: subM === null || subM === void 0 ? void 0 : subM.nombre,
+          "prepend-icon": subM === null || subM === void 0 ? void 0 : subM.icon,
           link: ""
         }, null, 8 /* PROPS */, ["title", "prepend-icon"])];
       }),
       _: 2 /* DYNAMIC */
-    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-list-item :prepend-icon=\"subM.icon\" link>\n        <template v-slot:title>\n          <Link :href=\"subM.url_ref\" as=\"span\"> {{ subM.nombre }} </Link>\n        </template>\n</v-list-item> ")], 64 /* STABLE_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
+    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_group, {
       key: 1,
       modelValue: $setup.activeGroup,
       "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
         return $setup.activeGroup = $event;
       }),
-      value: subM.id + 'subItem',
+      value: (subM === null || subM === void 0 ? void 0 : subM.id) + 'subItem',
       "class": "my-v-list-group"
     }, {
       activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
@@ -1294,14 +1298,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list_item, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
           ref_for: true
         }, props, {
-          title: subM.nombre,
+          title: subM === null || subM === void 0 ? void 0 : subM.nombre,
           href: "#",
-          "prepend-icon": subM.icon
+          "prepend-icon": subM === null || subM === void 0 ? void 0 : subM.icon
         }), null, 16 /* FULL_PROPS */, ["title", "prepend-icon"])];
       }),
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LeftMenuItemSub, {
-          subMenu: subM.submenu
+          subMenu: subM === null || subM === void 0 ? void 0 : subM.submenu
         }, null, 8 /* PROPS */, ["subMenu"])];
       }),
       _: 2 /* DYNAMIC */
