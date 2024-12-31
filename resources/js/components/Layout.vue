@@ -92,28 +92,32 @@ function toggleGroup(index) {
 function handleSubmit(event, link) {
   event.preventDefault();
   setOverlay(true);
-  setTimeout(() => {
-    if (!['', '/', '#'].includes(link)) {
-      if (link === 'logout') {
-        axios
-          .post(link, formLogout)
-          .then((result) => {
-            // window.location.href = 'login';
-            router.visit('login');
-            setOverlay(false);
-          })
-          .catch((error) => {
-            setOverlay(false);
-            console.log(JSON.stringify(error.response.data.message));
-          });
 
-      } else {
-        // window.location.href = link;
-        router.visit(link);
-        setOverlay(false);
-      }
+    if (!['', '/', '#'].includes(link)) {
+      setTimeout(() => {
+        if (link === 'logout') {
+          axios
+            .post(link, formLogout)
+            .then((result) => {
+              // window.location.href = 'login';
+              router.visit('login');
+              setOverlay(false);
+            })
+            .catch((error) => {
+              setOverlay(false);
+              console.log(JSON.stringify(error.response.data.message));
+            });
+
+        } else {
+          // window.location.href = link;
+          router.visit(link);
+          setOverlay(false);
+        }
+      }, 2000);
+    }else{
+      setOverlay(false);
     }
-  }, 2000);
+
 }
 
 const applyRol = async (event, id) => {
