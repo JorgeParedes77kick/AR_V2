@@ -136,7 +136,8 @@ const onClickDelete = async (item) => {
             <v-expansion-panel-text>
               <v-row class="row-gap-2">
                 <v-col cols="12">
-                  <v-text-field v-model="searchForm.nombre" label="Nombre" hide-details></v-text-field>
+                  <v-text-field v-model="searchForm.nombre" label="Ingrese información a buscar"
+                    hide-details></v-text-field>
                 </v-col>
 
                 <v-col cols="12" sm="3">
