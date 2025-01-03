@@ -26,19 +26,19 @@ class StorePersonaRequest extends FormRequest
     {
         $idValidate = $this->route('persona') == NULL ? "": ','.($this->route('persona')->id. ',id' );
         return [
-          'nombre' => 'required|regex:/^[a-zA-Z\s]*$/|max:50',
-          'apellido' => 'required|regex:/^[a-zA-Z\s]*$/|max:50',
+          'nombre' => "required|regex:/^[a-zA-Z\u00C0-\u017F'\-_\s]*$/|max:50",
+          'apellido' => "required|regex:/^[a-zA-Z\u00C0-\u017F'\-_\s]*$/|max:50",
           'tipo_documento_id' => 'required|numeric',
           'dni' => 'required|regex:/^[a-zA-Z0-9\s]*$/|max:20|unique:personas,dni,'.$idValidate,
           'fecha_nacimiento' => 'required|date',
           'genero_id' => 'required|numeric',
           'estado_civil_id' => 'required|numeric',
           'region_id' => 'required|numeric',
-          'ciudad' => 'nullable|regex:/^[a-zA-Z\s]*$/|max:100',
+          'ciudad' => "nullable|regex:/^[a-zA-Z\u00C0-\u017F'\-_\s]*$/|max:100",
           'nacionalidad_id' => 'required|numeric',
-          'direccion' => 'nullable|regex:/^[a-zA-Z0-9\s]*$/|max:250',
+          'direccion' => "nullable|regex:/^[a-zA-Z0-9\u00C0-\u017F'\-_\s]*$/|max:250",
           'telefono' => 'nullable|max:20|regex:/\+[0-9\s-]+/',
-          'ocupacion' => 'nullable|regex:/^[a-zA-Z\s]*$/|max:250',
+          'ocupacion' => "nullable|regex:/^[a-zA-Z\u00C0-\u017F'\-_\s]*$/|max:250",
         ];
     }
 

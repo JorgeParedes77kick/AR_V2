@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const fs = require("fs");
 
 mix
   .js('resources/js/app.js', 'public/js')
@@ -18,3 +19,10 @@ mix
 if (mix.inProduction()) {
   mix.version();
 }
+mix.then(() => {
+    const fs = require('fs');
+    const gitignorePath = 'public/js/.gitignore';
+    if (!fs.existsSync(gitignorePath)) {
+        fs.writeFileSync(gitignorePath, '*\n!.gitignore');
+    }
+});

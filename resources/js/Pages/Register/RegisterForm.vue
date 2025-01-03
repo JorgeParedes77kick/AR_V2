@@ -562,7 +562,7 @@ export default {
         return pattern.test(value) || 'e-mail inválido.'
       },
       text_valid: value =>{
-        const pattern = /^[a-zA-Z\s]{3,50}$/
+        const pattern = /^[a-zA-Z\u00C0-\u017F'\-_\s]{3,50}$/
         return pattern.test(value) || 'Letras mayusculas o minúsculas'
       },
       phone: value =>{
