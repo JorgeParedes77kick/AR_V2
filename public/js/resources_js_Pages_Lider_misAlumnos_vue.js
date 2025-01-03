@@ -722,7 +722,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         fluid: ""
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-if=\"status\">\r\n        <v-alert type=\"success\" :text=\"status\"></v-alert>\r\n      </template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-if=\"status\">\n        <v-alert type=\"success\" :text=\"status\"></v-alert>\n      </template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {
             color: "background",
             "class": "shadow-md px-4 py-2"
           }, {
@@ -1405,7 +1405,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\r\n        <v-hover>\r\n          <template v-slot:default=\"{ isHovering, props }\">\r\n            <v-list-item\r\n              :title=\"item.title\"\r\n              :to=\"item.link\"\r\n              v-bind=\"props\"\r\n              :class=\"\r\n                classnames({\r\n                  'bg-navbar-hover': isHovering,\r\n                  'text-navbar-hover-text': isHovering,\r\n                })\r\n              \"\r\n            >\r\n            </v-list-item>\r\n          </template>\r\n</v-hover>\r\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dynamic Menu Init"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\n        <v-hover>\n          <template v-slot:default=\"{ isHovering, props }\">\n            <v-list-item\n              :title=\"item.title\"\n              :to=\"item.link\"\n              v-bind=\"props\"\n              :class=\"\n                classnames({\n                  'bg-navbar-hover': isHovering,\n                  'text-navbar-hover-text': isHovering,\n                })\n              \"\n            >\n            </v-list-item>\n          </template>\n</v-hover>\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dynamic Menu Init"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.dynamicMenu, function (menu, index) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
