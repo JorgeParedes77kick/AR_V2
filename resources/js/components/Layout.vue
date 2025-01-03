@@ -160,8 +160,8 @@ const myApp = ref([
   <v-app>
     <v-app-bar app color="navbar-color" class="text-navbar-text">
       <div class="mr-auto ml-2">
-        <img src="/img/logos/ar ministries_white.png" width="100" class="px-2"
-          style="filter: drop-shadow(3px 3px 3px rgba(153, 197, 192, 1))" />
+        <img src="/img/logos/logo_global_blanco.png" width="100" class="px-2"
+          style="filter: drop-shadow(3px 3px 3px rgba(153, 197, 192, 1))"  alt="arm global"/>
         <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
       </div>
       <div class="d-flex align-center ml-auto mr-2">
