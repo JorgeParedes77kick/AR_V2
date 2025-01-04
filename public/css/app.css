@@ -18531,14 +18531,6 @@ body {
   width: calc(99 * 1%) !important;
 }
 
-.h-100 {
-  height: calc(100 * 1%) !important;
-}
-
-.w-100 {
-  width: calc(100 * 1%) !important;
-}
-
 .overflowauto {
   overflow: auto !important;
 }

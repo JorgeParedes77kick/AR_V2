@@ -193,24 +193,6 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       drawer.value = parseInt(localStorage.getItem('drawer'));
       console.log("localStorage.getItem('drawer'):", localStorage.getItem('drawer'));
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
-
-      // getList('/menu/list/byRol').then((data) => {
-      //   //console.log("Menus byRol: " + JSON.stringify(data));
-      //   dynamicMenu.value = data;
-      //   //console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
-      // });
-
-      // getList('/roles/list/byUser').then((data) => {
-      //   //console.log("Roles byUser: " + JSON.stringify(data));
-      //   userRoles.value = data;
-      //   //console.log("userRoles: " + JSON.stringify(userRoles));
-      // });
-
-      // getList('/roles/session').then((data) => {
-      //   //console.log("Rol session: " + JSON.stringify(data));
-      //   rolSession.value = data.rol;
-      //   //console.log("rolSession: " + JSON.stringify(rolSession));
-      // });
       try {
         var _pageProps$auth = pageProps.auth,
           roles = _pageProps$auth.roles,
@@ -236,7 +218,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       setOverlay(true);
       if (!['', '/', '#'].includes(link)) {
         setTimeout(function () {
-          if (link === 'logout') {
+          if (link === '/logout') {
             axios__WEBPACK_IMPORTED_MODULE_1___default().post(link, formLogout).then(function (result) {
               // window.location.href = 'login';
               _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit('login');
@@ -333,8 +315,18 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     }, {
       title: 'Cerrar Sesión',
       icon: 'mdi-power',
-      link: 'logout'
+      link: '/logout'
     }]);
+    (0,vue__WEBPACK_IMPORTED_MODULE_2__.watch)(function () {
+      return userRoles.value.length;
+    }, function (new_value) {
+      if (new_value === 1) {
+        var index = myApp.value.findIndex(function (x) {
+          return x.title == 'Roles';
+        });
+        if (index != -1) myApp.value.splice(index, 1);
+      }
+    });
     var __returned__ = {
       pageProps: pageProps,
       theme: theme,
@@ -356,6 +348,9 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       handleSubmit: handleSubmit,
       applyRol: applyRol,
       myApp: myApp,
+      get Link() {
+        return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.Link;
+      },
       get router() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router;
       },
@@ -371,6 +366,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       onMounted: vue__WEBPACK_IMPORTED_MODULE_2__.onMounted,
       reactive: vue__WEBPACK_IMPORTED_MODULE_2__.reactive,
       ref: vue__WEBPACK_IMPORTED_MODULE_2__.ref,
+      watch: vue__WEBPACK_IMPORTED_MODULE_2__.watch,
       get useTheme() {
         return vuetify__WEBPACK_IMPORTED_MODULE_4__.useTheme;
       },
@@ -632,7 +628,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "mr-auto ml-2"
+  "class": "mr-auto ml-2 d-flex"
 };
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
   src: "/img/logos/logo_global_blanco.png",
@@ -670,7 +666,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_app_bar_nav_icon, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+            "class": "v-btn--icon v-btn--density-default my-auto",
+            href: _ctx.route('home')
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [_hoisted_2];
+            }),
+            _: 1 /* STABLE */
+          }, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_app_bar_nav_icon, {
             onClick: $setup.toggleDrawer
           })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$setup.isDarkTheme ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, {
             key: 0,

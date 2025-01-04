@@ -1,8 +1,8 @@
 <script setup>
-  import { router, useForm, usePage } from '@inertiajs/vue3';
+  import { Link, router, useForm, usePage } from '@inertiajs/vue3';
 
   import axios from 'axios';
-  import { onMounted, reactive, ref } from 'vue';
+  import { onMounted, reactive, ref, watch } from 'vue';
   import { useTheme } from 'vuetify';
   import LeftMenuItem from './LeftMenuItem.vue';
 
@@ -51,23 +51,6 @@
     console.log("localStorage.getItem('drawer'):", localStorage.getItem('drawer'));
     theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
 
-    // getList('/menu/list/byRol').then((data) => {
-    //   //console.log("Menus byRol: " + JSON.stringify(data));
-    //   dynamicMenu.value = data;
-    //   //console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
-    // });
-
-    // getList('/roles/list/byUser').then((data) => {
-    //   //console.log("Roles byUser: " + JSON.stringify(data));
-    //   userRoles.value = data;
-    //   //console.log("userRoles: " + JSON.stringify(userRoles));
-    // });
-
-    // getList('/roles/session').then((data) => {
-    //   //console.log("Rol session: " + JSON.stringify(data));
-    //   rolSession.value = data.rol;
-    //   //console.log("rolSession: " + JSON.stringify(rolSession));
-    // });
     try {
       const {
         auth: { roles, rol_selected },
@@ -94,7 +77,7 @@
 
     if (!['', '/', '#'].includes(link)) {
       setTimeout(() => {
-        if (link === 'logout') {
+        if (link === '/logout') {
           axios
             .post(link, formLogout)
             .then((result) => {
@@ -150,20 +133,30 @@
     { title: 'Home', icon: 'mdi-home', link: '/home' },
     { title: 'Mi perfil', icon: 'mdi-account', link: '/mi-perfil' },
     { title: 'Roles', icon: 'mdi-power', link: '#' },
-    { title: 'Cerrar Sesión', icon: 'mdi-power', link: 'logout' },
+    { title: 'Cerrar Sesión', icon: 'mdi-power', link: '/logout' },
   ]);
+  watch(
+    () => userRoles.value.length,
+    (new_value) => {
+      if (new_value === 1) {
+        const index = myApp.value.findIndex((x) => x.title == 'Roles');
+        if (index != -1) myApp.value.splice(index, 1);
+      }
+    },
+  );
 </script>
 <template>
   <v-app>
     <v-app-bar app color="navbar-color" class="text-navbar-text">
-      <div class="mr-auto ml-2">
-        <img
-          src="/img/logos/logo_global_blanco.png"
-          width="100"
-          class="px-2"
-          style="filter: drop-shadow(3px 3px 3px rgba(153, 197, 192, 1))"
-          alt="arm global"
-        />
+      <div class="mr-auto ml-2 d-flex">
+        <Link class="v-btn--icon v-btn--density-default my-auto" :href="route('home')">
+          <img
+            src="/img/logos/logo_global_blanco.png"
+            width="100"
+            class="px-2"
+            style="filter: drop-shadow(3px 3px 3px rgba(153, 197, 192, 1))"
+            alt="arm global"
+        /></Link>
         <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
       </div>
       <div class="d-flex align-center ml-auto mr-2">
