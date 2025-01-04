@@ -44,43 +44,45 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/roles/list/byUser', [App\Http\Controllers\UsuarioController::class, 'userRoles'])->name('roles.list.byUser');
     Route::post('/roles/rolApply', [App\Http\Controllers\RolController::class, 'applyRol'])->name('roles.rolApply');
     Route::get('/roles/session', [App\Http\Controllers\RolController::class, 'getRolSession'])->name('roles.session');
+    Route::middleware(['checkRole'])->group(function () {
+        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        //ALUMNO
+        Route::post('/horario/inscripcion', [App\Http\Controllers\Alumno\InscripcionController::class, 'inscribir'])->name('horario.inscripcion.store');
+        Route::delete('/horario/inscripcion/{idCrypt}', [App\Http\Controllers\Alumno\InscripcionController::class, 'desinscribir'])->name('horario.inscripcion.delete');
+        Route::get('horario/{idCrypt}', [App\Http\Controllers\Alumno\InscripcionController::class, 'curriculum'])->name('horario.curriculum');
+        Route::get('mis-cursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'cursos'])->name('mis-cursos');
+        Route::resource('mis-recursos', App\Http\Controllers\Alumno\RecursosController::class)->only(['index', 'show']);
+        //LIDER
+        Route::resource('mis-salones', App\Http\Controllers\Lider\SalonesController::class)->only(['index', 'update']);
+        Route::get('/mis-salones/{idGrupo}/asistencia', [App\Http\Controllers\Lider\SalonesController::class, 'misSalonesAsistencia'])->name('mis-salones.asistencia');
+        Route::get('/mis-salones/{idCryptCurriculum}/{id}', [App\Http\Controllers\Lider\SalonesController::class, 'misAlumnos'])->name('mis-salones.grupo');
+        Route::get('/mis-salones/{idCryptCurriculum}', [App\Http\Controllers\Lider\SalonesController::class, 'curriculum'])->name('mis-salones.curriculum');
 
-    //ALUMNO
-    Route::post('/horario/inscripcion', [App\Http\Controllers\Alumno\InscripcionController::class, 'inscribir'])->name('horario.inscripcion.store');
-    Route::delete('/horario/inscripcion/{idCrypt}', [App\Http\Controllers\Alumno\InscripcionController::class, 'desinscribir'])->name('horario.inscripcion.delete');
-    Route::get('horario/{idCrypt}', [App\Http\Controllers\Alumno\InscripcionController::class, 'curriculum'])->name('horario.curriculum');
-    Route::get('mis-cursos', [App\Http\Controllers\Alumno\InscripcionController::class, 'cursos'])->name('mis-cursos');
-    Route::resource('mis-recursos', App\Http\Controllers\Alumno\RecursosController::class)->only(['index', 'show']);
-    //LIDER
-    Route::resource('mis-salones', App\Http\Controllers\Lider\SalonesController::class)->only(['index', 'update']);
-    Route::get('/mis-salones/{idGrupo}/asistencia', [App\Http\Controllers\Lider\SalonesController::class, 'misSalonesAsistencia'])->name('mis-salones.asistencia');
-    Route::get('/mis-salones/{idCryptCurriculum}/{id}', [App\Http\Controllers\Lider\SalonesController::class, 'misAlumnos'])->name('mis-salones.grupo');
-    Route::get('/mis-salones/{idCryptCurriculum}', [App\Http\Controllers\Lider\SalonesController::class, 'curriculum'])->name('mis-salones.curriculum');
+        Route::resource('/roles', App\Http\Controllers\RolController::class);
+        Route::resource('/estados-asistencia', App\Http\Controllers\EstadoAsistenciaController::class);
+        Route::resource('/estados-inscripcion', App\Http\Controllers\EstadoInscripcionController::class);
+        Route::resource('/curriculums', App\Http\Controllers\CurriculumController::class)->except(['update']);
+        Route::post('curriculums/{curriculum}/update', [App\Http\Controllers\CurriculumController::class, 'update'])->name('curriculums.update');
+        Route::resource('/restricciones', App\Http\Controllers\RestriccionController::class);
+        Route::resource('/adicionales-curriculum', App\Http\Controllers\AdicionalController::class)->except(['update', 'destroy']);
+        Route::resource('/ciclos', App\Http\Controllers\CicloController::class);
+        Route::resource('/recursos', App\Http\Controllers\RecursoController::class);
+        Route::resource('/usuarios-equipo', App\Http\Controllers\UsuarioRolesController::class)->except(['destroy']);
 
-    Route::resource('/roles', App\Http\Controllers\RolController::class);
-    Route::resource('/estados-asistencia', App\Http\Controllers\EstadoAsistenciaController::class);
-    Route::resource('/estados-inscripcion', App\Http\Controllers\EstadoInscripcionController::class);
-    Route::resource('/curriculums', App\Http\Controllers\CurriculumController::class)->except(['update']);
-    Route::post('curriculums/{curriculum}/update', [App\Http\Controllers\CurriculumController::class, 'update'])->name('curriculums.update');
-    Route::resource('/restricciones', App\Http\Controllers\RestriccionController::class);
-    Route::resource('/adicionales-curriculum', App\Http\Controllers\AdicionalController::class)->except(['update', 'destroy']);
-    Route::resource('/ciclos', App\Http\Controllers\CicloController::class);
-    Route::resource('/recursos', App\Http\Controllers\RecursoController::class);
-    Route::resource('/usuarios-equipo', App\Http\Controllers\UsuarioRolesController::class)->except(['destroy']);
+        Route::resource('/inscripcion', App\Http\Controllers\InscripcionController::class)->except(['show', 'create', 'update', 'destroy']);
+        Route::get('inscripcion/find-email/{email}', [App\Http\Controllers\InscripcionController::class, 'findEmail'])->name('inscripcion.find-email');
+        Route::post('inscripcion/find-lideres', [App\Http\Controllers\InscripcionController::class, 'findGrupos'])->name('inscripcion.find-lideres');
+        Route::post('inscripcion/find-grupos', [App\Http\Controllers\InscripcionController::class, 'findGrupos'])->name('inscripcion.find-grupos');
 
-    Route::resource('/inscripcion', App\Http\Controllers\InscripcionController::class)->except(['show', 'create', 'destroy']);
-    Route::get('inscripcion/find-email/{email}', [App\Http\Controllers\InscripcionController::class, 'findEmail'])->name('inscripcion.find-email');
-    Route::post('inscripcion/find-lideres', [App\Http\Controllers\InscripcionController::class, 'findGrupos'])->name('inscripcion.find-lideres');
-    Route::post('inscripcion/find-grupos', [App\Http\Controllers\InscripcionController::class, 'findGrupos'])->name('inscripcion.find-grupos');
+        Route::get('grupos-pequenos/horario', [App\Http\Controllers\GrupoPequenoController::class, 'horario']);
+        Route::resource('/grupos-pequenos', App\Http\Controllers\GrupoPequenoController::class);
+        Route::resource('/asistencias', App\Http\Controllers\AsistenciaController::class)->only(['index', 'show']);
+        Route::get('/mi-perfil', [App\Http\Controllers\PersonaController::class, 'perfil'])->name('mi-perfil');
+        Route::post('/persona/find', [App\Http\Controllers\PersonaController::class, 'find'])->name('personas.find');
+        Route::resource('/personas', App\Http\Controllers\PersonaController::class)->only(['index', 'edit', 'update']);
+    });
 
-    Route::get('grupos-pequenos/horario', [App\Http\Controllers\GrupoPequenoController::class, 'horario']);
-    Route::resource('/grupos-pequenos', App\Http\Controllers\GrupoPequenoController::class);
-    Route::resource('/asistencias', App\Http\Controllers\AsistenciaController::class)->only(['index', 'show']);
-    Route::get('/mi-perfil', [App\Http\Controllers\PersonaController::class, 'perfil'])->name('mi-perfil');
-    Route::post('/persona/find', [App\Http\Controllers\PersonaController::class, 'find'])->name('personas.find');
-    Route::resource('/personas', App\Http\Controllers\PersonaController::class)->only(['index', 'edit', 'update']);
 });
 
 /**
