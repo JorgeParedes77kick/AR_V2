@@ -41,7 +41,7 @@ class GrupoPequenoController extends Controller {
         //     $grupo->monitores = $monitores;
         // });
 
-        $temporadas = Temporada::select('prefijo')->get();
+        $temporadas = Temporada::select('prefijo')->orderBy('prefijo', 'desc')->get();
         $curriculums = Curriculum::activo()->select('nombre')->get();
         $ciclos = Ciclo::whereHas('curriculum', function ($q) {$q->activo();})->select('nombre')
             ->distinct()->get();
@@ -85,7 +85,7 @@ class GrupoPequenoController extends Controller {
             $grupo->monitores = $monitores;
         });
 
-        $temporadas = Temporada::where('activo', true)->select('prefijo')->get();
+        $temporadas = Temporada::where('activo', true)->select('prefijo')->orderBy('prefijo', 'desc')->get();
         $curriculums = Curriculum::activo()->select('nombre')->get();
         $ciclos = Ciclo::whereHas('curriculum', function ($q) {$q->activo();})->select('nombre')
             ->distinct()->get();

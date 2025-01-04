@@ -29,7 +29,7 @@ class CurriculumRequest extends FormRequest {
             'cantidad_cupos' => 'required|integer',
             'imagen' => 'required_without:imagenFile',
             'imagenFile' => 'required_without:imagen|file',
-            'activo' => 'required',
+            // 'activo' => 'required',
 
         ];
         // if (in_array($this->method(), ['PUT', 'PATCH'])) {

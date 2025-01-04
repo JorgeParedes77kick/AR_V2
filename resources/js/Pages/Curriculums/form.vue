@@ -41,6 +41,7 @@ onMounted(() => {
 
 const onChangeFile = () => {
   inputForm.imagen = '';
+  inputForm.errors.imagenFile = null
 };
 
 const validateForm = async (e) => {
@@ -78,6 +79,7 @@ const submit = async () => {
       const { server: message } = err.response.data;
       Swal.fire({ title: 'Error!', text: message, icon: 'error' });
     }
+    console.log("err?.response?.data?.errors:", err?.response?.data?.errors)
     if (err?.response?.data?.errors) {
       const { errors } = err.response.data;
       inputForm.errors = errors;
@@ -130,8 +132,8 @@ const submit = async () => {
               </v-col>
               <v-col cols="12" sm="6">
                 <v-file-input id="imagen" name="imagen" label="Imagen" v-model="inputForm.imagenFile"
-                  :disabled="isDisabled" :error-messages="inputForm.errors.imagen" accept="image/*"
-                  prepend-icon="mdi-camera" @update:modelValue="onChangeFile" />
+                  :disabled="isDisabled" :error-messages="inputForm.errors.imagenFile || inputForm.errors.imagen"
+                  accept="image/*" prepend-icon="mdi-camera" @update:modelValue="onChangeFile" />
                 <v-img v-if="inputForm.imagenFile" :src="previewImage(inputForm.imagenFile)" max-width="500"
                   max-height="500" class="d-block mx-auto" />
                 <v-img v-if="typeof inputForm.imagen == 'string' && inputForm.imagen.length > 0"

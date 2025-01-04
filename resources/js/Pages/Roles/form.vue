@@ -85,7 +85,8 @@ const submit = async () => {
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field id="nombre" name="nombre" label="Nombre" v-model="inputForm.nombre" :disabled="isDisabled"
-                  :rules="validate('Nombre', 'required')" :error-messages="inputForm.errors.nombre" />
+                  :rules="validate('Nombre', 'required|alphaNumericNotStart')"
+                  :error-messages="inputForm.errors.nombre" />
               </v-col>
             </v-row>
             <v-row class="my-3" v-if="!isDisabled">

@@ -21,12 +21,12 @@ class RolRequest extends FormRequest {
      */
     public function rules() {
         $rules = [
-            'nombre' => 'required|alpha_num|unique:roles,nombre',
+            'nombre' => 'required|string|unique:roles,nombre',
 
         ];
         if (in_array($this->method(), ['PUT', 'PATCH'])) {
             $rules['id'] = 'required|numeric';
-            $rules['nombre'] = 'required|alpha_num|unique:roles,nombre,' . $this->id;
+            $rules['nombre'] = 'required|string|unique:roles,nombre,' . $this->id;
         }
         return $rules;
     }

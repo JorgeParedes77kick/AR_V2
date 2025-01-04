@@ -35,10 +35,20 @@ const toggleTheme = () => {
   theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
   localStorage.setItem('theme', isDarkTheme.value ? 'dark' : 'light');
 };
+const toggleDrawer = () => {
+  drawer.value = !drawer.value
+  localStorage.setItem('drawer', drawer.value ? 1 : 0);
+}
+const updateDrawer = (value) => {
+  drawer.value = value
+  localStorage.setItem('drawer', drawer.value ? 1 : 0);
+}
 
 onMounted(() => {
   console.log('pageProps:', pageProps);
   isDarkTheme.value = localStorage.getItem('theme') === 'dark';
+  drawer.value = parseInt(localStorage.getItem('drawer'))
+  console.log("localStorage.getItem('drawer'):", localStorage.getItem('drawer'))
   theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
 
   // getList('/menu/list/byRol').then((data) => {
@@ -80,25 +90,33 @@ function toggleGroup(index) {
 
 function handleSubmit(event, link) {
   event.preventDefault();
-  if (!['', '/', '#'].includes(link)) {
-    setOverlay(true);
-    if (link === 'logout') {
-      axios
-        .post(link, formLogout)
-        .then((result) => {
-          // window.location.href = 'login';
-          router.visit('login');
-        })
-        .catch((error) => {
+  setOverlay(true);
+
+    if (!['', '/', '#'].includes(link)) {
+      setTimeout(() => {
+        if (link === 'logout') {
+          axios
+            .post(link, formLogout)
+            .then((result) => {
+              // window.location.href = 'login';
+              router.visit('login');
+              setOverlay(false);
+            })
+            .catch((error) => {
+              setOverlay(false);
+              console.log(JSON.stringify(error.response.data.message));
+            });
+
+        } else {
+          // window.location.href = link;
+          router.visit(link);
           setOverlay(false);
-          console.log(JSON.stringify(error.response.data.message));
-        });
+        }
+      }, 2000);
+    }else{
       setOverlay(false);
-    } else {
-      // window.location.href = link;
-      router.visit(link);
     }
-  }
+
 }
 
 const applyRol = async (event, id) => {
@@ -141,9 +159,9 @@ const myApp = ref([
   <v-app>
     <v-app-bar app color="navbar-color" class="text-navbar-text">
       <div class="mr-auto ml-2">
-        <img src="/img/logos/ar ministries_white.png" width="100" class="px-2"
-          style="filter: drop-shadow(3px 3px 3px rgba(153, 197, 192, 1))" />
-        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <img src="/img/logos/logo_global_blanco.png" width="100" class="px-2"
+          style="filter: drop-shadow(3px 3px 3px rgba(153, 197, 192, 1))"  alt="arm global"/>
+        <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
       </div>
       <div class="d-flex align-center ml-auto mr-2">
         <v-btn v-if="isDarkTheme" icon="mdi-weather-night" @click="toggleTheme" />
@@ -193,7 +211,8 @@ const myApp = ref([
         </v-btn>
       </div>
     </v-app-bar>
-    <v-navigation-drawer color="navbar-color" v-model="drawer" app class="text-navbar-text">
+    <v-navigation-drawer color="navbar-color" v-model="drawer" @update:modelValue="updateDrawer" app
+      class="text-navbar-text">
       <!-- Sidebar content -->
       <!-- <template v-for="(item, index) in items" :key="index">
         <v-hover>

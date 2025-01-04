@@ -71,7 +71,8 @@ const onClickDelete = async (item) => {
           <v-row>
             <v-col>
               <v-data-table :headers="headers" :items="estados" :items-per-page="10" class="elevation-1 rounded">
-                <template v-slot:[`item.acciones`]="{ item }">
+                <template v-slot:no-data>Información no encontrada</template><template
+                  v-slot:[`item.acciones`]="{ item }">
                   <div class="d-flex inline-flex ga-2">
                     <Link :href="route('estados-asistencia.show', item)">
                     <v-btn as="v-btn" color="info" small> Ver </v-btn>
