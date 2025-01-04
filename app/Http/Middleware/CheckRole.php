@@ -18,9 +18,12 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && $request->isMethod('get')
-            // && !$request->ajax()
-            && !$request->wantsJson()) {
+        if (
+            Auth::check() &&
+            $request->isMethod('get') &&
+            !$request->wantsJson() &&
+            $request->path() != 'home'
+        ) {
             $rol_id = $request->session()->get('rol_id');
             $check_path_rol_selected = DB::table('roles as r')
                 ->join('roles_menus as rm', 'rm.rol_id', '=', 'r.id')
