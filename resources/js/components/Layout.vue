@@ -71,9 +71,8 @@ onMounted(() => {
   try {
     const {
       auth: { roles, rol_selected },
-      menus_layout,
+      menus_layout
     } = pageProps;
-
     dynamicMenu.value = menus_layout.map(({ url_ref, ...x }) => ({
       ...x,
       url_ref: url_ref.startsWith('#') || url_ref.startsWith('/') ? url_ref : `/${url_ref}`,
