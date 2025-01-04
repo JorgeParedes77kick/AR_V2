@@ -70,7 +70,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/recursos', App\Http\Controllers\RecursoController::class);
     Route::resource('/usuarios-equipo', App\Http\Controllers\UsuarioRolesController::class)->except(['destroy']);
 
-    Route::resource('/inscripcion', App\Http\Controllers\InscripcionController::class)->except(['show', 'create', 'update', 'destroy']);
+    Route::resource('/inscripcion', App\Http\Controllers\InscripcionController::class)->except(['show', 'create', 'destroy']);
     Route::get('inscripcion/find-email/{email}', [App\Http\Controllers\InscripcionController::class, 'findEmail'])->name('inscripcion.find-email');
     Route::post('inscripcion/find-lideres', [App\Http\Controllers\InscripcionController::class, 'findGrupos'])->name('inscripcion.find-lideres');
     Route::post('inscripcion/find-grupos', [App\Http\Controllers\InscripcionController::class, 'findGrupos'])->name('inscripcion.find-grupos');
