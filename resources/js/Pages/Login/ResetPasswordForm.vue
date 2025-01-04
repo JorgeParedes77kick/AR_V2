@@ -192,7 +192,7 @@ onMounted(() => {
               <v-col cols="12" >
                 <v-btn :disabled="btnActive" type="submit" block style="background-color: #99c5c0;
                             font-weight: bolder; font-size: 14pt; border-color: beige;
-                            border-width: 2pt; ">Crear Nueva Contrase&nacute;a</v-btn>
+                            border-width: 2pt; ">Crear Nueva Contraseña</v-btn>
               </v-col>
             </v-row>
           </v-form>

@@ -2,9 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Debug;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware {
@@ -33,7 +36,6 @@ class HandleInertiaRequests extends Middleware {
      */
     public function share(Request $request) {
         // Debug::info($request->path());
-        // Debug::info($request->url());
         // Debug::info($request->all());
         // Debug::info($request->isMethod('get'));
         // Debug::info(!$request->ajax());
