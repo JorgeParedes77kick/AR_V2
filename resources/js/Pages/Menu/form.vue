@@ -27,7 +27,7 @@
     nombre: '',
     url_ref: '',
     icon: '',
-    orden: '',
+    orden: '0',
     ...props.menu,
   });
   const form = ref(null);
@@ -110,6 +110,20 @@
                   tabindex="1"
                 ></v-select>
               </v-col>
+              <v-col cols="4">
+                <v-text-field
+                  id="orden"
+                  name="orden"
+                  label="orden"
+                  v-model="inputForm.orden"
+                  :disabled="isDisabled"
+                  :error-messages="inputForm.errors.orden"
+                  class="rounded-l"
+                  variant="outlined"
+                  type="number"
+                  autocomplete="off"
+                />
+              </v-col>
             </v-row>
             <v-row>
               <v-col cols="4">
@@ -125,6 +139,7 @@
                   variant="outlined"
                   clearable
                   tabindex="2"
+                  autocomplete="off"
                 />
               </v-col>
               <v-col cols="4">

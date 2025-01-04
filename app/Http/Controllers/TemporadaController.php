@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AsistenciaHelper;
 use App\Helpers\Debug;
+use App\Helpers\InscripcionHelper;
 use App\Helpers\RolHelper;
 use App\Http\Requests\TemporadaRequest;
 use App\Models\Asistencia;
@@ -269,5 +271,80 @@ class TemporadaController extends Controller {
         }
 
         return $weeks;
+    }
+
+    public function calificarAlumnos(Request $request) {
+        $temporada_id = $request->input('temporada_id');
+        $ids_temporadas = $temporada_id ? collect([$temporada_id]) : Temporada::activo()->pluck('id');
+        if ($ids_temporadas->count() == 0) {
+            return response()->json(["server" => 'No hay Temporada activa para calificar a sus alumnos', 'message' => []], 400);
+
+        }
+        try {
+            DB::beginTransaction();
+            // Obtener reprobados
+            $reprobados = Inscripcion::alumno()
+                ->whereHas('grupoPequeno', function ($q) use ($ids_temporadas) {
+                    $q->whereIn('temporada_id', $ids_temporadas);
+                })
+                ->withCount(['semanas' => function ($q) {
+                    $q->where('estado_asistencia_id', AsistenciaHelper::$AUSENTE);
+                }])
+                ->having('semanas_count', '>=', 3)
+                ->pluck('id'); // Obtener solo los IDs de los reprobados
+
+            // Actualizar estado de reprobados
+            if ($reprobados->isNotEmpty()) {
+                Inscripcion::whereIn('id', $reprobados)
+                    ->update(['estado_inscripcion_id' => InscripcionHelper::$REPROBADO]);
+            }
+
+            // Obtener inscritos
+            $inscritos = Inscripcion::alumno()
+                ->whereNotIn('id', $reprobados)
+                ->whereHas('grupoPequeno', function ($q) use ($ids_temporadas) {
+                    $q->whereIn('temporada_id', $ids_temporadas);
+                })
+                ->withCount(['semanas' => function ($q) {
+                    $q->where('estado_asistencia_id', AsistenciaHelper::$INSCRITO);
+                }])
+                ->having('semanas_count', '>=', 3)
+                ->pluck('id'); // Obtener solo los IDs de los inscritos
+
+            // Actualizar estado de inscritos
+            if ($inscritos->isNotEmpty()) {
+                Inscripcion::whereIn('id', $inscritos)
+                    ->update(['estado_inscripcion_id' => InscripcionHelper::$INSCRITO]);
+            }
+
+            // Combinar IDs de reprobados e inscritos
+            $ids = $reprobados->merge($inscritos);
+
+            // Obtener aprobados
+            $aprobados = Inscripcion::alumno()
+                ->whereNotIn('id', $ids)
+                ->whereHas('grupoPequeno', function ($q) use ($ids_temporadas) {
+                    $q->whereIn('temporada_id', $ids_temporadas);
+                })
+                ->withCount(['semanas' => function ($q) {
+                    $q->whereIn('estado_asistencia_id', [AsistenciaHelper::$PRESENTE, AsistenciaHelper::$RECUPERADO]);
+                }])
+                ->having('semanas_count', '>=', 3)
+                ->pluck('id'); // Obtener solo los IDs de los aprobados
+
+            // Actualizar estado de aprobados
+            if ($aprobados->isNotEmpty()) {
+                Inscripcion::whereIn('id', $aprobados)
+                    ->update(['estado_inscripcion_id' => InscripcionHelper::$APROBADO]);
+            }
+            DB::commit();
+            return response()->json(['message' => 'La Calificación de las actualizadas se hizo correctamente.']);
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            return response()->json(["message" => [], 'server' => '¡La calificación de las Inscripciones fallo, intente más tarde!'], 500);
+
+        }
     }
 }

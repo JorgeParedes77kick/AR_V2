@@ -81,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/persona/find', [App\Http\Controllers\PersonaController::class, 'find'])->name('personas.find');
         Route::resource('/personas', App\Http\Controllers\PersonaController::class)->only(['index', 'edit', 'update']);
         Route::resource('/temporadas', App\Http\Controllers\TemporadaController::class);
+        Route::post('/calificar-alumnos', [App\Http\Controllers\TemporadaController::class, 'calificarAlumnos'])->name('calificar');
 
     });
 
