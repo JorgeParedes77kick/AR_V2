@@ -8,10 +8,12 @@ use App\Helpers\InscripcionHelper;
 use App\Helpers\RolHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Asistencia;
+use App\Models\Ciclo;
 use App\Models\Curriculum;
 use App\Models\GlobalProject;
 use App\Models\GrupoPequeno;
 use App\Models\Inscripcion;
+use App\Models\Requisito;
 use App\Models\Restriccion;
 use App\Models\Semana;
 use App\Models\Temporada;
@@ -28,7 +30,9 @@ class InscripcionController extends Controller {
         $temporadasId = $temporadas->pluck('id');
 
         $curriculum = Curriculum::where('curriculums.id', $id)->activo()
-            ->with('ciclos', function ($query) use ($temporadasId) {$query->withHorarios($temporadasId);})
+            ->with('ciclos', function ($query) use ($temporadasId) {
+                $query->withHorarios($temporadasId)->whereHasHorarios($temporadasId);
+            })
             ->whereHas('ciclos.grupospequenos', function ($query) use ($temporadasId) {
                 $query->whereIn('temporada_id', $temporadasId);
             })
@@ -53,52 +57,21 @@ class InscripcionController extends Controller {
 
         // Obtener los parámetros necesarios del request
         $temporada_id = $request->input('temporada_id');
-        $ciclo_id = $request->input('ciclo_id');
-        $dia_curso = $request->input('dia_curso');
-        $hora_inicio = $request->input('hora_inicio');
-        $hora_fin = $request->input('hora_fin');
-
-        // Obtener las inscripciones del usuario en la temporada actual
-        $inscripcionesUsuario = Inscripcion::where('usuario_id', $usuario->id)
-            ->whereHas('grupoPequeno', function ($query) use ($temporada_id) {
-                $query->where('temporada_id', $temporada_id);
-            })->where('rol_id', RolHelper::$ALUMNO)
-            ->count();
 
         // Obtener los valores globales para límites de inscripciones
         $globales = GlobalProject::whereIn('id', [GlobalHelper::$GRUPOS_POR_USUARIO, GlobalHelper::$INSCRIPCION_POR_GRUPO])
             ->get()
             ->pluck('castValor', 'id');
 
-        $inscripcionesMaximas = $globales[GlobalHelper::$GRUPOS_POR_USUARIO] ?? 0;
         $inscripcionesEnGrupo = $globales[GlobalHelper::$INSCRIPCION_POR_GRUPO] ?? 0;
-        // Debug::info($inscripcionesMaximas);
-        // Debug::info($inscripcionesEnGrupo);
-        // Debug::info($inscripcionesUsuario);
 
-        // Verificar si el usuario ya alcanzó el número máximo de inscripciones permitidas
-        if ($inscripcionesUsuario >= $inscripcionesMaximas) {
-            return response()->json(['server' => 'Has alcanzado el límite de inscripciones permitidas.'], 400);
+        $retorno = $this->validacionInscripcion($request, $usuario->id);
+
+        if (!$retorno->status) {
+            return $retorno->response;
         }
 
-        // Buscar los grupos disponibles que coincidan con los parámetros
-        $grupos = GrupoPequeno::where('temporada_id', $temporada_id)
-            ->where('ciclo_id', $ciclo_id)
-            ->where('dia_curso', $dia_curso)
-            ->where('hora_inicio', $hora_inicio)
-            ->where('hora_fin', $hora_fin)
-            ->activo()
-            ->withCount('alumnos')
-            ->having('alumnos_count', '<', $inscripcionesEnGrupo)
-            ->first();
-
-        // Si no hay grupos disponibles, retornar una respuesta
-        if (!$grupos) {
-            return response()->json(['server' => 'No hay inscripciones disponibles en este grupo.'], 400);
-        }
-
-// Obtener las semanas de la temporada (solo los IDs)
-        $semanas = Semana::where('temporada_id', $temporada_id)->pluck('id');
+        $grupo = $retorno->grupo;
         // Iniciar transacción
         try {
             DB::beginTransaction();
@@ -107,30 +80,31 @@ class InscripcionController extends Controller {
             $inscripcion = Inscripcion::create([
                 'usuario_id' => $usuario->id,
                 'rol_id' => RolHelper::$ALUMNO,
-                'grupo_pequeno_id' => $grupos->id,
+                'grupo_pequeno_id' => $grupo->id,
                 'estado_inscripcion_id' => InscripcionHelper::$INSCRITO,
                 'info_adicional' => '',
             ]);
 
+            // Obtener las semanas de la temporada (solo los IDs)
+            $semanas = Semana::where('temporada_id', $temporada_id)->pluck('id');
             // Sincronizar las semanas con la inscripción, si existen semanas
             $semanas->each(function ($semana_id) use ($inscripcion) {
                 Asistencia::create(['semana_id' => $semana_id, 'inscripcion_id' => $inscripcion->id, 'estado_asistencia_id' => InscripcionHelper::$INSCRITO]);
             });
             //Si ahora llega al maximo;
-            if ($grupos->alumnos_count == $inscripcionesEnGrupo - 1) {
-                $grupos->update(['activo_inscripcion' => false]);
+            if ($grupo->alumnos_count == $inscripcionesEnGrupo - 1) {
+                $grupo->update(['activo_inscripcion' => false]);
             }
 
             DB::commit();
             return response()->json(['message' => 'Inscripción realizada con éxito.'], 200);
-
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
                 'server' => '¡Error al realizar la inscripción, intente más tarde!',
-                'message' => $th->getMessage()], 500);
+                'message' => $th->getMessage(),
+            ], 500);
         }
-
     }
 
     public function cursos() {
@@ -141,7 +115,8 @@ class InscripcionController extends Controller {
             ->whereHas('grupoPequeno', function ($query) use ($temporadasId) {
                 $query->whereIn('temporada_id', $temporadasId);
             })
-            ->with('grupoPequeno.ciclo:id,nombre,curriculum_id',
+            ->with(
+                'grupoPequeno.ciclo:id,nombre,curriculum_id',
                 'grupoPequeno.ciclo.curriculum:id,nombre',
                 'grupoPequeno.temporada:id,prefijo',
                 'estadoInscripcion:id,estado'
@@ -173,8 +148,98 @@ class InscripcionController extends Controller {
             DB::rollBack();
             return response()->json([
                 'server' => '¡La inscripción no pudo ser eliminada, intente más tarde!',
-                'message' => $th->getMessage()], 500);
+                'message' => $th->getMessage(),
+            ], 500);
         }
+    }
+
+    function validacionInscripcion(Request $request, $usuario_id) {
+        // Obtener los valores globales para límites de inscripciones
+        $globales = GlobalProject::whereIn('id', [GlobalHelper::$GRUPOS_POR_USUARIO, GlobalHelper::$INSCRIPCION_POR_GRUPO])
+            ->get()
+            ->pluck('castValor', 'id');
+        $inscripcionesMaximas = $globales[GlobalHelper::$GRUPOS_POR_USUARIO] ?? 0;
+        $inscripcionesEnGrupo = $globales[GlobalHelper::$INSCRIPCION_POR_GRUPO] ?? 0;
+
+        // Obtener los parámetros necesarios del request
+        $temporada_id = $request->input('temporada_id');
+        $ciclo_id = $request->input('ciclo_id');
+        $dia_curso = $request->input('dia_curso');
+        $hora_inicio = $request->input('hora_inicio');
+        $hora_fin = $request->input('hora_fin');
+
+        // Obtener las inscripciones del usuario en la temporada enviada
+        // Verificar si el usuario ya alcanzó el número máximo de inscripciones permitidas
+        $inscripcionesUsuario = Inscripcion::where('usuario_id', $usuario_id)
+            ->whereHas('grupoPequeno', function ($query) use ($temporada_id) {
+                $query->where('temporada_id', $temporada_id);
+            })->where('rol_id', RolHelper::$ALUMNO)
+            ->count();
+
+        if ($inscripcionesUsuario >= $inscripcionesMaximas) {
+            return (object) ['status' => false, 'response' => response()->json(['server' => 'Has alcanzado el límite de inscripciones permitidas.'], 400)];
+        }
+
+        // Valida si ya estas inscrito en el mismo ciclo
+        // Validar si ya estás inscrito en el mismo ciclo
+        $preExistencia = Inscripcion::where('usuario_id', $usuario_id)
+            ->whereHas('grupoPequeno', function ($query) use ($temporada_id, $ciclo_id) {
+                $query->where('temporada_id', $temporada_id)
+                    ->where('ciclo_id', $ciclo_id);
+            })
+            ->where('rol_id', RolHelper::$ALUMNO)
+            ->exists(); // Cambiado a exists() para mejorar rendimiento
+
+        if ($preExistencia) {
+            return (object) ['status' => false, 'response' => response()->json(['server' => 'Ya te has inscrito en este grupo pequeño'], 400)];
+        }
+
+        // Validar si ya aprobaste este ciclo previamente
+        $cursoAprobado = Inscripcion::where('usuario_id', $usuario_id)
+            ->whereHas('grupoPequeno', function ($query) use ($ciclo_id) {
+                $query->where('ciclo_id', $ciclo_id);
+            })
+            ->where('rol_id', RolHelper::$ALUMNO)
+            ->where('estado_inscripcion_id', InscripcionHelper::$APROBADO)
+            ->exists(); // Cambiado a exists() para mejorar rendimiento
+
+        if ($cursoAprobado) {
+            return (object) ['status' => false, 'response' => response()->json(['server' => 'Ya aprobaste este curso previamente'], 400)];
+        }
+
+        // Valida que tengas todos los prerequisitos de ciclos
+        $idsCicloRequisitos = Requisito::where('ciclo_id', $ciclo_id)->orderBy('ciclo_pre_id', 'asc')->pluck('ciclo_pre_id');
+        $incripcionesAprobadas = Inscripcion::join('grupo_pequenos as grupo', 'grupo_pequeno_id', 'grupo.id')
+            ->whereIn('ciclo_id', $idsCicloRequisitos)
+            ->where('usuario_id', $usuario_id)
+            ->where('estado_inscripcion_id', InscripcionHelper::$APROBADO)
+            ->where('rol_id', RolHelper::$ALUMNO)
+            ->select('ciclo_id')
+            ->orderBy('ciclo_id', 'asc')->distinct()->pluck('ciclo_id');
+        if ($idsCicloRequisitos->count() !== $incripcionesAprobadas->count()) {
+            $requisitos = Ciclo::join('curriculums as c', 'curriculum_id', 'c.id')
+                ->select('ciclos.nombre as nombre_ciclo', 'c.nombre as nombre_curriculum')
+                ->whereIn('ciclos.id', $idsCicloRequisitos)->get();
+            return (object) ['status' => false, 'response' => response()->json(['server' => 'No cumples con todos los pre requisitos para inscribirte en este ciclo', 'requisitos' => $requisitos], 400)];
+        }
+        // Indica a que Grupo de puede inscribir
+        // Buscar los grupos disponibles que coincidan con los parámetros
+        $grupo = GrupoPequeno::where('temporada_id', $temporada_id)
+            ->where('ciclo_id', $ciclo_id)
+            ->where('dia_curso', $dia_curso)
+            ->where('hora_inicio', $hora_inicio)
+            ->where('hora_fin', $hora_fin)
+            ->activo()
+            ->withCount('alumnos')
+            ->having('alumnos_count', '<', $inscripcionesEnGrupo)
+            ->orderBy('alumnos_count', 'asc')
+            ->first();
+
+        // Si no hay grupos disponibles, retornar una respuesta
+        if (!$grupo) {
+            return (object) ['status' => false, 'response' => response()->json(['server' => 'No hay inscripciones disponibles en este grupo.'], 400)];
+        }
+        return (object) ['status' => true, 'grupo' => $grupo];
 
     }
 }
