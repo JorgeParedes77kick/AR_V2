@@ -73,6 +73,10 @@ class Inscripcion extends Model {
         return $this->hasMany(Asistencia::class, 'inscripcion_id');
     }
 
+    public function semanas() {
+        return $this->hasManyThrough(
+            Semana::class, Asistencia::class, 'inscripcion_id', 'id', 'id', 'semana_id');
+    }
     public function semanasInscritos() {
         return $this->hasManyThrough(
             Semana::class, Asistencia::class, 'inscripcion_id', 'id', 'id', 'semana_id')

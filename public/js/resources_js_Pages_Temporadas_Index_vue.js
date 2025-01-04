@@ -45,6 +45,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     (0,vue__WEBPACK_IMPORTED_MODULE_3__.onMounted)(function () {
       // console.log(props);
     });
+    var loading = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)(false);
     var isActive = function isActive(fecha_ini, fecha_fin) {
       var fecha_iniJS = dayjs__WEBPACK_IMPORTED_MODULE_1___default()(fecha_ini);
       var fecha_finJS = dayjs__WEBPACK_IMPORTED_MODULE_1___default()(fecha_fin);
@@ -200,42 +201,111 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }();
     var onClickToggle = /*#__PURE__*/function () {
       var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(item, name) {
-        var index, response, temporada;
+        var index, _yield$Swal$fire3, isConfirmed, response, temporada;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               index = props.temporadas.findIndex(function (x) {
                 return x.id === item.id;
               });
-              _context3.prev = 1;
-              _context3.next = 4;
+              loading.value = true;
+              if (!(props.temporadas[index].activo && name == 'toggleActivo')) {
+                _context3.next = 8;
+                break;
+              }
+              _context3.next = 5;
+              return Swal.fire({
+                title: 'Cerrar la temporada',
+                text: "Vas cerrar la temporada ".concat(item.prefijo, " quieres calificar a sus alumnos?"),
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar'
+              });
+            case 5:
+              _yield$Swal$fire3 = _context3.sent;
+              isConfirmed = _yield$Swal$fire3.isConfirmed;
+              if (isConfirmed) calificarAlumnos(item.id);
+            case 8:
+              _context3.prev = 8;
+              _context3.next = 11;
               return axios.post(route("temporadas.".concat(name), item.id));
-            case 4:
+            case 11:
               response = _context3.sent;
               temporada = response.data.temporada;
               props.temporadas[index] = temporada;
-              _context3.next = 11;
+              _context3.next = 18;
               break;
-            case 9:
-              _context3.prev = 9;
-              _context3.t0 = _context3["catch"](1);
-            case 11:
+            case 16:
+              _context3.prev = 16;
+              _context3.t0 = _context3["catch"](8);
+            case 18:
+              _context3.prev = 18;
+              loading.value = false;
+              return _context3.finish(18);
+            case 21:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[1, 9]]);
+        }, _callee3, null, [[8, 16, 18, 21]]);
       }));
       return function onClickToggle(_x3, _x4) {
         return _ref4.apply(this, arguments);
       };
     }();
+    var calificarAlumnos = /*#__PURE__*/function () {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(temporada_id) {
+        var _response$data2, response, message, _err$response2, _err$response2$data, _err$response$data3, msg, _message2;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.prev = 0;
+              _context4.next = 3;
+              return axios.post(route("calificar"), {
+                temporada_id: temporada_id
+              });
+            case 3:
+              response = _context4.sent;
+              if (response !== null && response !== void 0 && (_response$data2 = response.data) !== null && _response$data2 !== void 0 && _response$data2.message) {
+                message = response.data.message;
+                Swal.fire({
+                  title: 'Exito!',
+                  text: message,
+                  icon: 'success'
+                });
+              }
+              _context4.next = 10;
+              break;
+            case 7:
+              _context4.prev = 7;
+              _context4.t0 = _context4["catch"](0);
+              if (_context4.t0 !== null && _context4.t0 !== void 0 && (_err$response2 = _context4.t0.response) !== null && _err$response2 !== void 0 && (_err$response2$data = _err$response2.data) !== null && _err$response2$data !== void 0 && _err$response2$data.server) {
+                _err$response$data3 = _context4.t0.response.data, msg = _err$response$data3.server, _message2 = _err$response$data3.message;
+                Swal.fire({
+                  title: 'Sin Temporada!',
+                  text: msg + '\n' + (0,_utils_string__WEBPACK_IMPORTED_MODULE_6__.truncarTexto)(_message2),
+                  icon: 'warning'
+                });
+              }
+            case 10:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4, null, [[0, 7]]);
+      }));
+      return function calificarAlumnos(_x5) {
+        return _ref5.apply(this, arguments);
+      };
+    }();
     var __returned__ = {
       props: props,
+      loading: loading,
       isActive: isActive,
       headers: headers,
       deleteAccion: deleteAccion,
       onClickDelete: onClickDelete,
       onClickToggle: onClickToggle,
+      calificarAlumnos: calificarAlumnos,
       get Link() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.Link;
       },
@@ -246,6 +316,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return (dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_2___default());
       },
       onMounted: vue__WEBPACK_IMPORTED_MODULE_3__.onMounted,
+      ref: vue__WEBPACK_IMPORTED_MODULE_3__.ref,
       get MainLayout() {
         return _components_Layout__WEBPACK_IMPORTED_MODULE_4__["default"];
       },
@@ -651,6 +722,7 @@ var _hoisted_2 = {
   "class": "d-flex inline-flex ga-2"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_v_progress_linear = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-progress-linear");
   var _component_v_card_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-title");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
   var _component_v_col = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-col");
@@ -667,21 +739,45 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card, {
             color: "background",
-            "class": "px-4 py-2"
+            "class": "px-4 py-2",
+            disabled: $setup.loading,
+            loading: $setup.loading
           }, {
+            loader: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
+              var isActive = _ref.isActive;
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_progress_linear, {
+                active: isActive,
+                color: "primary",
+                height: "4",
+                indeterminate: ""
+              }, null, 8 /* PROPS */, ["active"])];
+            }),
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_title, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" TEMPORADAS ")];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
+                "class": ""
+              }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
-                    "class": "d-flex justify-end"
+                    "class": "d-flex justify-end ga-2"
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
+                        color: "secondary",
+                        onClick: _cache[0] || (_cache[0] = function () {
+                          return $setup.calificarAlumnos();
+                        }),
+                        "class": "ms-auto"
+                      }, {
+                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Calificar Temporadas ")];
+                        }),
+                        _: 1 /* STABLE */
+                      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
                         href: _ctx.route('temporadas.create')
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -719,17 +815,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Información no encontrada")];
                         })
-                      }, _defineProperty(_createVNode2, "item.fecha_inicio", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
-                        var item = _ref.item;
-                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.FormatFecha(item.fecha_inicio, 3)), 1 /* TEXT */)];
-                      })), _defineProperty(_createVNode2, "item.fecha_cierre", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
+                      }, _defineProperty(_createVNode2, "item.fecha_inicio", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
                         var item = _ref2.item;
-                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.FormatFecha(item.fecha_cierre, 3)), 1 /* TEXT */)];
-                      })), _defineProperty(_createVNode2, "item.inscripcion_inicio", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref3) {
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.FormatFecha(item.fecha_inicio, 3)), 1 /* TEXT */)];
+                      })), _defineProperty(_createVNode2, "item.fecha_cierre", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref3) {
                         var item = _ref3.item;
-                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.FormatFecha(item.inscripcion_inicio, 3)) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.FormatFecha(item.inscripcion_cierre, 3)), 1 /* TEXT */)];
-                      })), _defineProperty(_createVNode2, "item.activo", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref4) {
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.FormatFecha(item.fecha_cierre, 3)), 1 /* TEXT */)];
+                      })), _defineProperty(_createVNode2, "item.inscripcion_inicio", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref4) {
                         var item = _ref4.item;
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.FormatFecha(item.inscripcion_inicio, 3)) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.FormatFecha(item.inscripcion_cierre, 3)), 1 /* TEXT */)];
+                      })), _defineProperty(_createVNode2, "item.activo", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref5) {
+                        var item = _ref5.item;
                         return [item.activo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
                           key: 0,
                           color: "success",
@@ -749,8 +845,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           }),
                           _: 1 /* STABLE */
                         }))];
-                      })), _defineProperty(_createVNode2, "item.activo_inscripcion", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref5) {
-                        var item = _ref5.item;
+                      })), _defineProperty(_createVNode2, "item.activo_inscripcion", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref6) {
+                        var item = _ref6.item;
                         return [item.activo_inscripcion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_chip, {
                           key: 0,
                           color: "success",
@@ -770,8 +866,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           }),
                           _: 1 /* STABLE */
                         }))];
-                      })), _defineProperty(_createVNode2, "item.toggle", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref6) {
-                        var item = _ref6.item;
+                      })), _defineProperty(_createVNode2, "item.toggle", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref7) {
+                        var item = _ref7.item;
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Link :href=\"route('temporadas.show', item)\"> "), item.activo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, {
                           key: 0,
                           color: "error",
@@ -825,8 +921,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           }),
                           _: 2 /* DYNAMIC */
                         }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </Link> ")])];
-                      })), _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref7) {
-                        var item = _ref7.item;
+                      })), _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref8) {
+                        var item = _ref8.item;
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
                           href: _ctx.route('temporadas.show', item)
                         }, {
@@ -885,7 +981,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               })])];
             }),
             _: 1 /* STABLE */
-          })];
+          }, 8 /* PROPS */, ["disabled", "loading"])];
         }),
         _: 1 /* STABLE */
       })];

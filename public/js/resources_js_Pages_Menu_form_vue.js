@@ -62,7 +62,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       nombre: '',
       url_ref: '',
       icon: '',
-      orden: ''
+      orden: '0'
     }, props.menu));
     var form = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
     var validateForm = /*#__PURE__*/function () {
@@ -630,8 +630,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_card_subtitle = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-subtitle");
   var _component_v_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-select");
   var _component_v_col = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-col");
-  var _component_v_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-row");
   var _component_v_text_field = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-text-field");
+  var _component_v_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-row");
   var _component_v_autocomplete = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-autocomplete");
   var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
   var _component_v_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-form");
@@ -701,6 +701,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                               }, null, 8 /* PROPS */, ["modelValue", "items"])];
                             }),
                             _: 1 /* STABLE */
+                          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                            cols: "4"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+                                id: "orden",
+                                name: "orden",
+                                label: "orden",
+                                modelValue: $setup.inputForm.orden,
+                                "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                                  return $setup.inputForm.orden = $event;
+                                }),
+                                disabled: $setup.isDisabled,
+                                "error-messages": $setup.inputForm.errors.orden,
+                                "class": "rounded-l",
+                                variant: "outlined",
+                                type: "number",
+                                autocomplete: "off"
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages"])];
+                            }),
+                            _: 1 /* STABLE */
                           })];
                         }),
                         _: 1 /* STABLE */
@@ -715,7 +736,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "nombre",
                                 label: "Nombre",
                                 modelValue: $setup.inputForm.nombre,
-                                "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
                                   return $setup.inputForm.nombre = $event;
                                 }),
                                 disabled: $setup.isDisabled,
@@ -724,7 +745,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 "class": "rounded-l",
                                 variant: "outlined",
                                 clearable: "",
-                                tabindex: "2"
+                                tabindex: "2",
+                                autocomplete: "off"
                               }, null, 8 /* PROPS */, ["modelValue", "disabled", "rules", "error-messages"])];
                             }),
                             _: 1 /* STABLE */
@@ -737,7 +759,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "url_ref",
                                 label: "Url",
                                 modelValue: $setup.inputForm.url_ref,
-                                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
                                   return $setup.inputForm.url_ref = $event;
                                 }),
                                 placeholder: "Seleccione el simbolo # para Menus Principales",
@@ -762,7 +784,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "icon",
                                 label: "Icono",
                                 modelValue: $setup.inputForm.icon,
-                                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
                                   return $setup.inputForm.icon = $event;
                                 }),
                                 "error-messages": $setup.inputForm.errors.icon,
