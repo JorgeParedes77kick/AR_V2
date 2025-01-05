@@ -80,6 +80,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       type: Array,
       "default": []
     },
+    curriculums: {
+      type: Array,
+      "default": []
+    },
     status: String
   },
   setup: function setup(__props, _ref) {
@@ -95,7 +99,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       email: '',
       persona: {},
       nombreApellido: '',
-      roles: []
+      roles: [],
+      curriculums: []
     }, props.usuario));
     var form = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(null);
     var persona = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)('');
@@ -204,8 +209,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         return _ref3.apply(this, arguments);
       };
     }();
-    var focus = function focus(state) {
-      if (!state && typeof persona == 'string') {
+    var focus = function focus(state, name) {
+      // console.log('state, name:', state, name);
+      if (!state && typeof persona == 'string' && name == 'persona') {
         persona.value = '';
         inputForm.nick_name = '';
         inputForm.nombreApellido = '';
@@ -213,8 +219,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         inputForm.id = '';
       }
     };
-    var onChange = function onChange(item) {
-      if (_typeof(item) === 'object' && (0,_utils_isType__WEBPACK_IMPORTED_MODULE_7__.Truthty)(item)) {
+    var onChange = function onChange(item, name) {
+      // console.log('item, name:', item, name);
+      if (_typeof(item) === 'object' && (0,_utils_isType__WEBPACK_IMPORTED_MODULE_7__.Truthty)(item) && name == 'persona') {
         var nick_name = item.nick_name,
           nombre = item.nombre,
           apellido = item.apellido,
@@ -224,6 +231,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         inputForm.nombreApellido = "".concat(nombre, " ").concat(apellido);
         inputForm.email = email;
         inputForm.id = id;
+      }
+      if ((0,_utils_isType__WEBPACK_IMPORTED_MODULE_7__.Truthty)(item) && name == 'curriculums' && inputForm.curriculums.some(function (x) {
+        return typeof x === 'string';
+      })) {
+        inputForm.curriculums = item.filter(function (x) {
+          return typeof x !== 'string';
+        });
       }
     };
     var __returned__ = {
@@ -744,6 +758,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "lazy-validation": ""
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      var _$setup$inputForm$rol, _$setup$inputForm$rol2;
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
                         "class": "row-gap-2"
                       }, {
@@ -760,13 +775,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 modelValue: $setup.persona,
                                 "onUpdate:modelValue": [_cache[0] || (_cache[0] = function ($event) {
                                   return $setup.persona = $event;
-                                }), $setup.onChange],
+                                }), _cache[1] || (_cache[1] = function (s) {
+                                  return $setup.onChange(s, 'persona');
+                                })],
                                 "item-title": "fullNombre",
                                 "item-value": "id",
                                 rules: $setup.validate('Persona', 'required'),
                                 items: $props.personas,
                                 autocomplete: "off",
-                                "onUpdate:focused": $setup.focus
+                                "onUpdate:focused": _cache[2] || (_cache[2] = function (s) {
+                                  return $setup.focus(s, 'persona');
+                                })
                               }, {
                                 item: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
                                   var props = _ref2.props,
@@ -789,7 +808,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "nick_name",
                                 label: "Nick",
                                 modelValue: $setup.inputForm.nick_name,
-                                "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
                                   return $setup.inputForm.nick_name = $event;
                                 }),
                                 disabled: "",
@@ -815,7 +834,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "Nombre",
                                 label: "Nombre",
                                 modelValue: $setup.inputForm.nombreApellido,
-                                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
                                   return $setup.inputForm.nombreApellido = $event;
                                 }),
                                 disabled: "",
@@ -834,7 +853,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "email",
                                 label: "Correo",
                                 modelValue: $setup.inputForm.email,
-                                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
                                   return $setup.inputForm.email = $event;
                                 }),
                                 disabled: "",
@@ -876,8 +895,42 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           }), 128 /* KEYED_FRAGMENT */))];
                         }),
                         _: 1 /* STABLE */
-                      }), !$setup.isDisabled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_row, {
-                        key: 0,
+                      }), (_$setup$inputForm$rol = $setup.inputForm.roles) !== null && _$setup$inputForm$rol !== void 0 && (_$setup$inputForm$rol2 = _$setup$inputForm$rol[1]) !== null && _$setup$inputForm$rol2 !== void 0 && _$setup$inputForm$rol2.activo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_row, {
+                        key: 0
+                      }, {
+                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, null, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_combobox, {
+                                id: "curriculums",
+                                name: "curriculums",
+                                modelValue: $setup.inputForm.curriculums,
+                                "onUpdate:modelValue": [_cache[6] || (_cache[6] = function ($event) {
+                                  return $setup.inputForm.curriculums = $event;
+                                }), _cache[7] || (_cache[7] = function (s) {
+                                  return $setup.onChange(s, 'curriculums');
+                                })],
+                                disabled: $setup.isDisabled,
+                                "error-messages": $setup.inputForm.errors.curriculums,
+                                items: $props.curriculums,
+                                "item-title": "nombre",
+                                "item-value": "id",
+                                autocomplete: "off",
+                                clearable: "",
+                                chips: "",
+                                multiple: "",
+                                label: "Curriculumns Asignados para Coordinador",
+                                "onUpdate:focused": _cache[8] || (_cache[8] = function (s) {
+                                  return $setup.focus(s, 'curriculums');
+                                })
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages", "items"])];
+                            }),
+                            _: 1 /* STABLE */
+                          })];
+                        }),
+                        _: 1 /* STABLE */
+                      })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$setup.isDisabled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_row, {
+                        key: 1,
                         "class": "my-3"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {

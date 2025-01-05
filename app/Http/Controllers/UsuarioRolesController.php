@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\RolHelper;
+use App\Models\Curriculum;
 use App\Models\Rol;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -16,7 +18,10 @@ class UsuarioRolesController extends Controller {
     public function index() {
         $usuarios = Usuario::with('persona')->with('roles')->whereHas('roles', function ($query) {
             $query->whereIn('roles.id', [1, 2, 3, 4]);
-        })->get();
+        })
+            ->selectRaw('*,
+        (SELECT COUNT(*) FROM usuario_curriculums WHERE usuario_curriculums.usuario_id = usuarios.id) AS tiene_curriculums')
+            ->get();
         $roles = Rol::all();
         return Inertia::render('UsuariosEquipo/index', [
             'usuarios' => $usuarios,
@@ -41,14 +46,14 @@ class UsuarioRolesController extends Controller {
             ->join('personas', 'usuarios.persona_id', '=', 'personas.id')
             ->whereHas('roles', function ($query) {$query->where('roles.id', 5);})
             ->whereDoesntHave('roles', function ($query) {$query->whereNotIn('roles.id', [5]);})
-
             ->get();
         $roles = Rol::all();
-
+        $curriculums = Curriculum::all();
         return Inertia::render('UsuariosEquipo/form', [
             'action' => 'create',
             'roles' => $roles,
             'personas' => $personas,
+            'curriculums' => $curriculums,
 
         ]);
     }
@@ -70,14 +75,23 @@ class UsuarioRolesController extends Controller {
             return $item['id'];
         }, $roles);
 
-        try {
+        $curriculums = $request->input('curriculums', []);
+        if (array_search(RolHelper::$COORDINADOR, $roles)) {
+            $curriculums = array_map(function ($item) {
+                return $item['id'];
+            }, $curriculums);
+        }try {
+            DB::beginTransaction();
             $state = $usuario->roles()->sync($roles);
+            $state = $usuario->curriculums()->sync($curriculums);
+            DB::commit();
             if ($state) {
                 return response()->json(["message" => "Los Roles fueron asignados exitosamente!"], 200);
             } else {
                 return response()->json(["message" => "", 'server' => '¡Los Roles no puedieron ser asignados, intente más tarde!'], 400);
             }
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json(["message" => $th->getMessage(), 'server' => '¡Los Roles no puedieron ser asignados, intente más tarde!'], 500);
         }
     }
@@ -88,12 +102,15 @@ class UsuarioRolesController extends Controller {
      * @param  int  $id
      */
     public function edit($id) {
-        $usuario = Usuario::whereId($id)->with('persona')->with('roles')->first();
+        $usuario = Usuario::whereId($id)->with('persona')->with('roles', 'curriculums')->first();
         $roles = Rol::all();
+        $curriculums = Curriculum::all();
+
         return Inertia::render('UsuariosEquipo/form', [
             'action' => 'edit',
             'usuario' => $usuario,
             'roles' => $roles,
+            'curriculums' => $curriculums,
 
         ]);
     }
@@ -114,14 +131,24 @@ class UsuarioRolesController extends Controller {
             return $item['id'];
         }, $roles);
 
+        $curriculums = $request->input('curriculums', []);
+        if (array_search(RolHelper::$COORDINADOR, $roles)) {
+            $curriculums = array_map(function ($item) {
+                return $item['id'];
+            }, $curriculums);
+        }
         try {
+            DB::beginTransaction();
             $state = $usuario->roles()->sync($roles);
+            $state = $usuario->curriculums()->sync($curriculums);
+            DB::commit();
             if ($state) {
                 return response()->json(["message" => "Los Roles fueron asignados exitosamente!"], 200);
             } else {
                 return response()->json(["message" => "", 'server' => '¡Los Roles no puedieron ser asignados, intente más tarde!'], 400);
             }
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json(["message" => $th->getMessage(), 'server' => '¡Los Roles no puedieron ser asignados, intente más tarde!'], 500);
         }
 

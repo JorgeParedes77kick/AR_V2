@@ -52,6 +52,10 @@ __webpack_require__.r(__webpack_exports__);
       width: '20rem',
       sortable: false
     }, {
+      title: 'Tiene curriculums',
+      key: 'curriculums',
+      sortable: false
+    }, {
       title: 'Acciones',
       key: 'acciones',
       sortable: false
@@ -527,11 +531,11 @@ var _hoisted_1 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_card_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-title");
-  var _component_v_text_field = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-text-field");
+  var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
   var _component_v_col = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-col");
   var _component_v_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-row");
+  var _component_v_text_field = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-text-field");
   var _component_v_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-select");
-  var _component_v_btn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-btn");
   var _component_v_data_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-data-table");
   var _component_v_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card");
   var _component_v_container = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-container");
@@ -549,7 +553,34 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ASIGNACIÓN DE ROLES A USUARIOS ")];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-row>\r\n            <v-col class=\"d-flex justify-end\">\r\n              <Link :href=\"route('usuarios-equipo.create')\">\r\n              <v-btn :to=\"{ name: 'usuarios-equipo.create' }\" color=\"success\" class=\"ms-auto\">\r\n                Crear Nuevo Rol\r\n              </v-btn>\r\n              </Link>\r\n            </v-col>\r\n          </v-row> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                    "class": "d-flex justify-end"
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+                        href: _ctx.route('usuarios-equipo.create')
+                      }, {
+                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
+                            color: "success",
+                            "class": "ms-auto"
+                          }, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Asignar Roles a alumno ")];
+                            }),
+                            _: 1 /* STABLE */
+                          })];
+                        }),
+                        _: 1 /* STABLE */
+                      }, 8 /* PROPS */, ["href"])];
+                    }),
+                    _: 1 /* STABLE */
+                  })];
+                }),
+                _: 1 /* STABLE */
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, null, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -617,8 +648,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       })), _defineProperty(_createVNode2, "item.persona", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref3) {
                         var item = _ref3.item;
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.persona.nombre) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.persona.apellido), 1 /* TEXT */)];
-                      })), _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref4) {
+                      })), _defineProperty(_createVNode2, "item.curriculums", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref4) {
                         var item = _ref4.item;
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tiene_curriculums ? "SI (".concat(item.tiene_curriculums, ")") : ''), 1 /* TEXT */)];
+                      })), _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref5) {
+                        var item = _ref5.item;
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Link :href=\"route('usuarios-equipo.show', item)\">\r\n                    <v-btn as=\"v-btn\" color=\"info\" small> Ver </v-btn>\r\n                    </Link> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
                           href: _ctx.route('usuarios-equipo.edit', item)
                         }, {
