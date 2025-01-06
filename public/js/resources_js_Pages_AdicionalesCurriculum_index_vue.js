@@ -155,24 +155,6 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       drawer.value = parseInt(localStorage.getItem('drawer'));
       console.log("localStorage.getItem('drawer'):", localStorage.getItem('drawer'));
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
-
-      // getList('/menu/list/byRol').then((data) => {
-      //   //console.log("Menus byRol: " + JSON.stringify(data));
-      //   dynamicMenu.value = data;
-      //   //console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
-      // });
-
-      // getList('/roles/list/byUser').then((data) => {
-      //   //console.log("Roles byUser: " + JSON.stringify(data));
-      //   userRoles.value = data;
-      //   //console.log("userRoles: " + JSON.stringify(userRoles));
-      // });
-
-      // getList('/roles/session').then((data) => {
-      //   //console.log("Rol session: " + JSON.stringify(data));
-      //   rolSession.value = data.rol;
-      //   //console.log("rolSession: " + JSON.stringify(rolSession));
-      // });
       try {
         var _pageProps$auth = pageProps.auth,
           roles = _pageProps$auth.roles,
@@ -198,7 +180,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       setOverlay(true);
       if (!['', '/', '#'].includes(link)) {
         setTimeout(function () {
-          if (link === 'logout') {
+          if (link === '/logout') {
             axios__WEBPACK_IMPORTED_MODULE_1___default().post(link, formLogout).then(function (result) {
               // window.location.href = 'login';
               _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit('login');
@@ -293,10 +275,20 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       icon: 'mdi-power',
       link: '#'
     }, {
-      title: 'Logout',
+      title: 'Cerrar Sesión',
       icon: 'mdi-power',
-      link: 'logout'
+      link: '/logout'
     }]);
+    (0,vue__WEBPACK_IMPORTED_MODULE_2__.watch)(function () {
+      return userRoles.value.length;
+    }, function (new_value) {
+      if (new_value === 1) {
+        var index = myApp.value.findIndex(function (x) {
+          return x.title == 'Roles';
+        });
+        if (index != -1) myApp.value.splice(index, 1);
+      }
+    });
     var __returned__ = {
       pageProps: pageProps,
       theme: theme,
@@ -318,6 +310,9 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       handleSubmit: handleSubmit,
       applyRol: applyRol,
       myApp: myApp,
+      get Link() {
+        return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.Link;
+      },
       get router() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router;
       },
@@ -333,6 +328,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       onMounted: vue__WEBPACK_IMPORTED_MODULE_2__.onMounted,
       reactive: vue__WEBPACK_IMPORTED_MODULE_2__.reactive,
       ref: vue__WEBPACK_IMPORTED_MODULE_2__.ref,
+      watch: vue__WEBPACK_IMPORTED_MODULE_2__.watch,
       get useTheme() {
         return vuetify__WEBPACK_IMPORTED_MODULE_4__.useTheme;
       },
@@ -494,7 +490,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ADICIONALES CURRICULUM ")];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-row>\n            <v-col class=\"d-flex justify-end\">\n              <Link :href=\"route('adicionales-curriculum.create')\">\n              <v-btn :to=\"{ name: 'adicionales-curriculum.create' }\" color=\"success\" class=\"ms-auto\">\n                Crear Nuevas Adicionales\n              </v-btn>\n              </Link>\n            </v-col>\n          </v-row> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-row>\r\n            <v-col class=\"d-flex justify-end\">\r\n              <Link :href=\"route('adicionales-curriculum.create')\">\r\n              <v-btn :to=\"{ name: 'adicionales-curriculum.create' }\" color=\"success\" class=\"ms-auto\">\r\n                Crear Nuevas Adicionales\r\n              </v-btn>\r\n              </Link>\r\n            </v-col>\r\n          </v-row> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, null, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -556,7 +552,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["to"])];
                           }),
                           _: 2 /* DYNAMIC */
-                        }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-btn color=\"error\" small @click=\"onClickDelete(item)\">Eliminar\n                    </v-btn> ")])];
+                        }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-btn color=\"error\" small @click=\"onClickDelete(item)\">Eliminar\r\n                    </v-btn> ")])];
                       })), _defineProperty(_createVNode2, "_", 2), _createVNode2), 1032 /* PROPS, DYNAMIC_SLOTS */, ["items"])];
                     }),
                     _: 1 /* STABLE */
@@ -591,7 +587,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "mr-auto ml-2"
+  "class": "mr-auto ml-2 d-flex"
 };
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
   src: "/img/logos/logo_global_blanco.png",
@@ -629,7 +625,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_app_bar_nav_icon, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+            "class": "v-btn--icon v-btn--density-default my-auto",
+            href: _ctx.route('home')
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [_hoisted_2];
+            }),
+            _: 1 /* STABLE */
+          }, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_app_bar_nav_icon, {
             onClick: $setup.toggleDrawer
           })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$setup.isDarkTheme ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, {
             key: 0,
@@ -770,7 +774,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\n        <v-hover>\n          <template v-slot:default=\"{ isHovering, props }\">\n            <v-list-item\n              :title=\"item.title\"\n              :to=\"item.link\"\n              v-bind=\"props\"\n              :class=\"\n                classnames({\n                  'bg-navbar-hover': isHovering,\n                  'text-navbar-hover-text': isHovering,\n                })\n              \"\n            >\n            </v-list-item>\n          </template>\n</v-hover>\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dynamic Menu Init"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\r\n        <v-hover>\r\n          <template v-slot:default=\"{ isHovering, props }\">\r\n            <v-list-item\r\n              :title=\"item.title\"\r\n              :to=\"item.link\"\r\n              v-bind=\"props\"\r\n              :class=\"\r\n                classnames({\r\n                  'bg-navbar-hover': isHovering,\r\n                  'text-navbar-hover-text': isHovering,\r\n                })\r\n              \"\r\n            >\r\n            </v-list-item>\r\n          </template>\r\n</v-hover>\r\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dynamic Menu Init"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.dynamicMenu, function (menu, index) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {

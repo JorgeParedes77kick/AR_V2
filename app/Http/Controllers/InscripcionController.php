@@ -183,4 +183,42 @@ class InscripcionController extends Controller {
     // $dias = collect(GlobalApp::$DIAS);
     // $estados = EstadoInscripcion::whereNotIn('id', [InscripcionHelper::$LIDER, InscripcionHelper::$MONITOR])->get();
 
+    public function update(InscripcionRequest $request, $id) {
+        try {
+            DB::beginTransaction();
+
+            $inscripcion = Inscripcion::whereId($id)->with(
+                'usuario',
+                'grupoPequeno.temporada:id,prefijo,activo',
+                'grupoPequeno.ciclo:id,nombre,curriculum_id',
+                'grupoPequeno.ciclo.curriculum:id,nombre',
+                'grupoPequeno.lideres',
+                'grupoPequeno.monitores',
+            )->first();
+            if (is_null($inscripcion)) {
+                return redirect()->route('inscripcion.index')->with([
+                    'error' => 'Inscripción no encontrada',
+                ]);
+            }
+            if (!$inscripcion->grupoPequeno->temporada->activo) {
+                return redirect()->route('inscripcion.index')->with([
+                    'error' => 'No tienes acceso a esta inscripción.',
+                ]);
+            }
+            $inscripcion->update($request->all());
+            DB::commit();
+            $message = $request->filled('id')
+            ? "¡La Inscripción fue actualizada exitosamente!"
+            : "¡La Inscripción fue creada exitosamente!";
+
+            return response()->json(["message" => $message], 200);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                "message" => $th->getMessage(),
+                "server" => "¡No se pudo realizar la Inscripción, intente más tarde!",
+            ], 500);
+        }
+    }
 }

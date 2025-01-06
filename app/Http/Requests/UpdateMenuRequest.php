@@ -2,18 +2,15 @@
 
 namespace App\Http\Requests;
 
-use App\Helpers\Debug;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateMenuRequest extends FormRequest
-{
+class UpdateMenuRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return true;
     }
 
@@ -22,16 +19,15 @@ class UpdateMenuRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
-      $idValidate = $this->route('menu') == NULL ? "": ','.($this->route('menu'). ',id' );
-      return [
-        'nombre' => 'required|max:50|unique:menus,nombre,'.$this->route('menu'),
-        'url_ref' => 'required|max:255',
-      ];
+    public function rules() {
+        $idValidate = $this->route('menu') == NULL ? "" : ',' . ($this->route('menu') . ',id');
+        return [
+            'nombre' => 'required|max:50|string', //|unique:menus,nombre,'.$this->route('menu'),
+            'url_ref' => 'required|max:255',
+        ];
     }
 
-    protected function prepareForValidation(){
+    protected function prepareForValidation() {
 
     }
 }

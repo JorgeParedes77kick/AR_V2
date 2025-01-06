@@ -127,9 +127,9 @@ class RolController extends Controller {
         $role = Rol::whereId($request->input('role_id'))->first();
         if ($role) {
             $request->session()->put('rol_id', $role->id);
-            return response()->json(["message" => "Role Apply Success"], 200);
+            return response()->json(["message" => "Cambio de Rol Exitoso!"], 200);
         }
-        return response()->json(["message" => "Role Not Apply"], 403);
+        return response()->json(["message" => "No es posible cambiar el rol!"], 403);
     }
 
     /**
