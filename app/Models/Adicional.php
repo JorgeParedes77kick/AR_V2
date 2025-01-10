@@ -27,28 +27,28 @@ class Adicional extends Model {
 
     protected $appends = ['castValor'];
 
-    // public function getCastValorAttribute() {
-    //     $castValor = '';
-    //     switch ($this->type_value) {
+    public function getCastValorAttribute() {
+        $castValor = '';
+        switch ($this->type_value) {
 
-    //     case 'number':
-    //         $castValor = (float) $this->valor;
-    //         break;
-    //     case 'boolean':
-    //         $castValor = (boolean) $this->valor;
-    //         break;
-    //     case 'none':
-    //         $castValor = '';
-    //         break;
-    //     default:
-    //         if (!in_array($this->type_value, ['string', 'date'])) {
-    //             throw new \InvalidArgumentException("Tipo de dato desconocido: {$this->type_value}");
-    //         }
-    //         $castValor = trim($this->valor);
-    //         break;
-    //     }
-    //     return $castValor;
-    // }
+        case 'number':
+            $castValor = (float) $this->valor;
+            break;
+        case 'boolean':
+            $castValor = (boolean) $this->valor;
+            break;
+        case 'none':
+            $castValor = '';
+            break;
+        default:
+            if (!in_array($this->type_value, ['string', 'date'])) {
+                throw new \InvalidArgumentException("Tipo de dato desconocido: {$this->type_value}");
+            }
+            $castValor = trim($this->valor);
+            break;
+        }
+        return $castValor;
+    }
     /**
      * Relación con el curriculum
      */

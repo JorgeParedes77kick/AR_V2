@@ -13,6 +13,7 @@ use App\Models\Nacionalidad;
 use App\Models\Pais;
 use App\Models\Persona;
 use App\Models\Usuario;
+use function App\Helpers\castParams;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,16 +25,32 @@ use Throwable;
 class PersonaController extends Controller {
     /**
      */
-    public function index() {
-        $genero = Genero::all();
-        $estadoCivil = EstadoCivil::all();
-        $pais = Pais::with('regiones')->orderBy('nombre', 'asc')->get();
-        $nacionalidad = Nacionalidad::all();
-        return Inertia::render('Perfil/index', [
+    public function index(Request $request) {
+
+        $genero = cache()->remember('genero', 60 * 60, function () {
+            return Genero::all();
+        });
+        $estadoCivil = cache()->remember('estadoCivil', 60 * 60, function () {
+            return EstadoCivil::all();
+        });
+        $pais = cache()->remember('pais', 60 * 60, function () {
+            return Pais::with('regiones')->orderBy('nombre', 'asc')->get();
+        });
+        $nacionalidad = cache()->remember('nacionalidad', 60 * 60, function () {
+            return Nacionalidad::all();
+        });
+        $usuarios = $this->find($request);
+
+        $form = castParams($request->except('perPage', 'page', 'buscador'), 'int');
+        $form = array_merge($form, $request->only('buscador'));
+        return Inertia::render('Personas/index', [
             'genero' => $genero,
             'estadoCivil' => $estadoCivil,
             'pais' => $pais,
             'nacionalidad' => $nacionalidad,
+            'usuarios' => $usuarios,
+            'form' => $form,
+
         ]);
     }
 
@@ -47,7 +64,6 @@ class PersonaController extends Controller {
      * Store a newly created resource in storage.
      *
      * @param StorePersonaRequest $request
-     * @return JsonResponse
      * @throws Throwable
      */
     public function store(StorePersonaRequest $request) {
@@ -106,7 +122,7 @@ class PersonaController extends Controller {
         $pais = Pais::with('regiones')->orderBy('nombre', 'asc')->get();
         $nacionalidad = Nacionalidad::all();
         // user
-        return Inertia::render('Perfil/form', [
+        return Inertia::render('Personas/form', [
             'action' => 'edit',
             'mi-perfil' => Auth::user()->id == $id,
             'usuario' => $usuario,
@@ -167,9 +183,10 @@ class PersonaController extends Controller {
     }
 
     public function find(Request $request) {
-
+        $all = $request->all();
+        Debug::info($all);
         $buscador = trim($request->input('buscador', ''));
-        $perPage = trim($request->input('perPage', 50));
+        $perPage = trim($request->input('perPage', 20));
 
         $usuarios = Usuario::with('persona')->whereHas('persona', function ($query) use ($request, $buscador) {
             if ($buscador != '') {
@@ -201,9 +218,11 @@ class PersonaController extends Controller {
         if ($buscador != '') {
             $usuarios->orWhere('email', 'like', '%' . $buscador . '%');
         }
-        $usuarios = $usuarios->paginate($perPage);
+        $usuarios = $usuarios->paginate($perPage)
+        // ->withQueryString()
+        ;
 
-        return response()->json(['message' => 'OK', 'usuarios' => $usuarios], 200);
+        return $usuarios;
     }
 
 }

@@ -3,6 +3,7 @@
 use Database\Seeders\GlobalesSeeder;
 use Database\Seeders\MenuSeeder;
 use Database\Seeders\RolesMenusSeeder;
+use Database\Seeders\UsuarioCurriculumSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder {
@@ -10,7 +11,7 @@ class DatabaseSeeder extends Seeder {
         $this->call(GlobalesSeeder::class);
         $this->call(MenuSeeder::class);
         $this->call(RolesMenusSeeder::class);
-        // $this->call(PaisesTableSeeder::class);
+        $this->call(UsuarioCurriculumSeeder::class);
         // $this->call(EstadosTableSeeder::class);
         // $this->call(NacionalidadesSeeder::class);
         // $this->call(GrupospequenosTableSeeder::class);

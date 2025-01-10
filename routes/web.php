@@ -74,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('inscripcion/find-lideres', [App\Http\Controllers\InscripcionController::class, 'findGrupos'])->name('inscripcion.find-lideres');
         Route::post('inscripcion/find-grupos', [App\Http\Controllers\InscripcionController::class, 'findGrupos'])->name('inscripcion.find-grupos');
 
-        Route::get('/grupos-pequenos/horario', [App\Http\Controllers\GrupoPequenoController::class, 'horario']);
+        Route::get('/grupos-pequenos/horario', [App\Http\Controllers\GrupoPequenoController::class, 'horario'])->name('grupos-pequenos.horarios');
         Route::resource('/grupos-pequenos', App\Http\Controllers\GrupoPequenoController::class);
         Route::resource('/asistencias', App\Http\Controllers\AsistenciaController::class)->only(['index', 'show']);
         Route::get('/mi-perfil', [App\Http\Controllers\PersonaController::class, 'perfil'])->name('mi-perfil');

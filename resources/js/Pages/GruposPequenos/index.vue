@@ -1,28 +1,38 @@
 <script setup>
-  import { Link } from '@inertiajs/vue3';
+  import { Link, router } from '@inertiajs/vue3';
 
   import dayjs from 'dayjs';
   import customParseFormat from 'dayjs/plugin/customParseFormat';
   import isBetween from 'dayjs/plugin/isBetween';
 
-  import { computed, defineProps, onMounted, ref, watch } from 'vue';
+  import { defineProps, ref, watch } from 'vue';
 
   import MainLayout from '../../components/Layout';
+  import Pagination from '../../components/Pagination.vue';
+
   dayjs.extend(isBetween);
   dayjs.extend(customParseFormat);
 
   const props = defineProps({
-    gruposPequenos: { type: Array, default: [] },
     temporadas: { type: Array, default: [] },
     curriculums: { type: Array, default: [] },
     ciclos: { type: Array, default: [] },
     dias: { type: Array, default: [] },
     action: String,
-  });
-  onMounted(() => {
-    console.log(props);
+    gruposPequenos: { type: Object, default: () => ({}) },
+    form: { type: Object, default: () => ({}) },
   });
 
+  const loading = ref(false);
+  const gruposPequenos = ref(props.gruposPequenos);
+
+  watch(
+    () => props.gruposPequenos,
+    (newGruposPequenos) => {
+      gruposPequenos.value = newGruposPequenos;
+      loading.value = false;
+    },
+  );
   const headers = [
     { title: 'ID', key: 'id', fixed: true },
     { title: 'Temporada', key: 'temporada.prefijo' },
@@ -44,46 +54,72 @@
     ciclos: [],
     dias: [],
     nombre: '',
+    ...props.form,
   });
 
-  const filteredItems = computed(() => {
-    return props.gruposPequenos.filter((item) => {
-      const { temporadas, curriculums, ciclos, dias, nombre } = searchForm.value;
-      const nombreCast = nombre.toLowerCase();
+  //   const filteredItems = computed(() => {
+  //     return props.gruposPequenos.filter((item) => {
+  //       const { temporadas, curriculums, ciclos, dias, nombre } = searchForm.value;
+  //       const nombreCast = nombre.toLowerCase();
 
-      if (temporadas.length > 0 && !temporadas.includes(item.temporada.prefijo)) return false;
-      if (curriculums.length > 0 && !curriculums.includes(item.ciclo.curriculum.nombre))
-        return false;
-      if (ciclos.length > 0 && !ciclos.includes(item.ciclo.nombre)) return false;
-      if (dias.length > 0 && !dias.includes(item.dia_curso)) return false;
+  //       if (temporadas.length > 0 && !temporadas.includes(item.temporada.prefijo)) return false;
+  //       if (curriculums.length > 0 && !curriculums.includes(item.ciclo.curriculum.nombre))
+  //         return false;
+  //       if (ciclos.length > 0 && !ciclos.includes(item.ciclo.nombre)) return false;
+  //       if (dias.length > 0 && !dias.includes(item.dia_curso)) return false;
 
-      const inscripciones = [...item.monitores, ...item.lideres].map((x) => {
-        return {
-          nombre: x.persona.nombre.toLowerCase(),
-          apellido: x.persona.apellido.toLowerCase(),
-          email: x.email.toLowerCase(),
-          fullName: `${x.persona.nombre} ${x.persona.apellido}`.toLowerCase(),
-        };
-      });
+  //       const inscripciones = [...item.monitores, ...item.lideres].map((x) => {
+  //         return {
+  //           nombre: x.persona.nombre.toLowerCase(),
+  //           apellido: x.persona.apellido.toLowerCase(),
+  //           email: x.email.toLowerCase(),
+  //           fullName: `${x.persona.nombre} ${x.persona.apellido}`.toLowerCase(),
+  //         };
+  //       });
 
-      const matchNombre =
-        nombreCast.length === 0 ||
-        inscripciones.some((x) =>
-          [x.nombre, x.apellido, x.email, x.fullName].some((y) => {
-            return y.includes(nombreCast);
-          }),
-        );
+  //       const matchNombre =
+  //         nombreCast.length === 0 ||
+  //         inscripciones.some((x) =>
+  //           [x.nombre, x.apellido, x.email, x.fullName].some((y) => {
+  //             return y.includes(nombreCast);
+  //           }),
+  //         );
 
-      return matchNombre;
-    });
-  });
-  // Watch to trigger the filteredItems whenever searchForm changes
-  watch(searchForm, () => {}, { deep: true });
+  //       return matchNombre;
+  //     });
+  //   });
+  //   watch(searchForm, () => {}, { deep: true });
 
   const onClickClean = (e) => {
     e.preventDefault();
     searchForm.value = { temporadas: [], curriculums: [], ciclos: [], dias: [], nombre: '' };
     openFilter.value = false;
+  };
+
+  // Actualiza la tabla al cambiar `options` o realizar una búsqueda
+
+  const fetchData = async () => {
+    try {
+      loading.value = true;
+      const { page, perPage } = options.value;
+      const routeEnd = props.action === 'horarios' ? 'horarios' : 'index';
+      await router.get(
+        route(`grupos-pequenos.${routeEnd}`),
+        { page, perPage, ...searchForm.value },
+        { preserveState: true },
+      );
+      openFilter.value = false;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const validateForm = async (e) => {
+    e?.preventDefault?.();
+    options.value.page = 1;
+    fetchData();
   };
 
   const onClickDelete = async (item) => {
@@ -115,15 +151,30 @@
       }
     }
   };
+
+  const options = ref({ page: 1, perPage: 20 });
+
+  watch(
+    () => options.value,
+    () => fetchData(),
+    { deep: true },
+  );
+  const onChangePage = (page) => {
+    options.value.page = page;
+  };
+  const onChangePerPage = (perPage) => {
+    options.value.perPage = perPage;
+    options.value.page = 1; // Reinicia la página al cambiar el tamaño
+  };
 </script>
 <template>
   <MainLayout>
     <v-container fluid>
       <v-card color="background" class="px-4 py-2">
         <v-card-title>
-          GRUPOS PEQUEÑOS - {{ action === 'horario' ? 'HORARIOS' : 'HISTÓRICO' }}</v-card-title
+          GRUPOS PEQUEÑOS - {{ action === 'horarios' ? 'HORARIOS' : 'HISTÓRICO' }}</v-card-title
         >
-        <div v-if="action === 'horario'">
+        <div v-if="action === 'horarios'">
           <v-row class="pb-2">
             <v-col class="d-flex justify-end">
               <Link :href="route('grupos-pequenos.create')">
@@ -136,70 +187,80 @@
           <v-expansion-panel>
             <v-expansion-panel-title> Filtros de búsqueda </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <v-row class="row-gap-2">
-                <v-col cols="12">
-                  <v-text-field
-                    v-model="searchForm.nombre"
-                    label="Ingrese información a buscar"
-                    hide-details
-                  ></v-text-field>
-                </v-col>
+              <v-form @submit="validateForm" lazy-validation>
+                <v-row class="row-gap-2">
+                  <v-col cols="12">
+                    <!-- <v-text-field
+                      v-model="searchForm.nombre"
+                      label="Ingrese información a buscar"
+                      hide-details
+                    ></v-text-field> -->
+                  </v-col>
 
-                <v-col cols="12" sm="3">
-                  <v-select
-                    id="Temporada"
-                    name="Temporada"
-                    label="Temporada"
-                    chips
-                    multiple
-                    closable-chips
-                    v-model="searchForm.temporadas"
-                    :items="temporadas"
-                    item-title="prefijo"
-                  />
-                </v-col>
-                <v-col cols="12" sm="3">
-                  <v-select
-                    id="Curriculum"
-                    name="Curriculum"
-                    label="Curriculum"
-                    chips
-                    multiple
-                    closable-chips
-                    v-model="searchForm.curriculums"
-                    :items="curriculums"
-                    item-title="nombre"
-                  />
-                </v-col>
-                <v-col cols="12" sm="3">
-                  <v-select
-                    id="Ciclo"
-                    name="Ciclo"
-                    label="Ciclo"
-                    chips
-                    multiple
-                    closable-chips
-                    v-model="searchForm.ciclos"
-                    :items="ciclos"
-                    item-title="nombre"
-                  />
-                </v-col>
-                <v-col cols="12" sm="3">
-                  <v-select
-                    id="Dia"
-                    name="Dia"
-                    label="Día"
-                    chips
-                    multiple
-                    closable-chips
-                    v-model="searchForm.dias"
-                    :items="dias"
-                  />
-                </v-col>
-                <v-col class="d-flex justify-end">
-                  <v-btn size="x-small" @click="onClickClean">Limpiar</v-btn>
-                </v-col>
-              </v-row>
+                  <v-col cols="12" sm="3">
+                    <v-select
+                      id="Temporada"
+                      name="Temporada"
+                      label="Temporada"
+                      chips
+                      multiple
+                      closable-chips
+                      v-model="searchForm.temporadas"
+                      :items="temporadas"
+                      item-title="prefijo"
+                      item-value="id"
+                      clearable
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="3">
+                    <v-select
+                      id="Curriculum"
+                      name="Curriculum"
+                      label="Curriculum"
+                      chips
+                      multiple
+                      closable-chips
+                      v-model="searchForm.curriculums"
+                      :items="curriculums"
+                      item-title="nombre"
+                      clearable
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="3">
+                    <v-select
+                      id="Ciclo"
+                      name="Ciclo"
+                      label="Ciclo"
+                      chips
+                      multiple
+                      closable-chips
+                      v-model="searchForm.ciclos"
+                      :items="ciclos"
+                      item-title="nombre"
+                      clearable
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="3">
+                    <v-select
+                      id="Dia"
+                      name="Dia"
+                      label="Día"
+                      chips
+                      multiple
+                      closable-chips
+                      v-model="searchForm.dias"
+                      :items="dias"
+                      clearable
+                    />
+                  </v-col>
+                  <v-col class="d-flex justify-end ga-2">
+                    <v-btn size="x-small" @click="onClickClean">Limpiar</v-btn>
+                    <v-btn size="x-small" type="submit" color="info" :loading="loading">
+                      BUSCAR
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-form>
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -209,10 +270,19 @@
             <v-col>
               <v-data-table
                 :headers="headers"
-                :items="filteredItems"
-                :items-per-page="20"
+                :items="gruposPequenos.data"
+                :loading="loading"
+                :items-per-page="options.perPage"
                 class="elevation-1 rounded"
-                ><template v-slot:no-data>Información no encontrada</template>
+              >
+                <template #no-data> Información no encontrada </template>
+                <template #bottom>
+                  <Pagination
+                    v-bind="gruposPequenos"
+                    :onChangePage="onChangePage"
+                    :onChangePerPage="onChangePerPage"
+                  />
+                </template>
                 <template v-slot:[`item.monitores`]="{ item }">
                   <p v-for="monitor in item.monitores" :key="monitor.id">
                     {{ monitor?.nombreCompleto }}
@@ -239,7 +309,7 @@
                       <v-btn color="secondary" small> Editar </v-btn>
                     </Link>
                     <v-btn
-                      v-if="item.temporada.activo && item.alumnos_contar === 0"
+                      v-if="item.alumnos_count === 0"
                       color="error"
                       small
                       @click="onClickDelete(item)"
