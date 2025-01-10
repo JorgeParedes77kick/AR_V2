@@ -35,15 +35,16 @@
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/"
     },
-    "files":[
-      "app/Helpers/Arm.php"
+    "files": [
+      "app/Helpers/Arm.php",
+      "app/Helpers/Cast.php"
     ]
   },
   "autoload-dev": {
     "psr-4": {
       "Tests\\": "tests/"
     },
-    "files":[
+    "files": [
       "app/Helpers/Arm.php"
     ]
   },

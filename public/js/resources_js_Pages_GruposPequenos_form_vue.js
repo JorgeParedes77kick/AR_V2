@@ -197,13 +197,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 icon: 'success'
               });
             case 15:
-              _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_1__.router.visit(route('horario'));
+              _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_1__.router.visit(route('grupos-pequenos.horarios'));
             case 16:
-              _context2.next = 23;
+              _context2.next = 24;
               break;
             case 18:
               _context2.prev = 18;
               _context2.t0 = _context2["catch"](7);
+              console.log('err:', _context2.t0);
               console.log(_context2.t0 === null || _context2.t0 === void 0 ? void 0 : _context2.t0.response);
               if (_context2.t0 !== null && _context2.t0 !== void 0 && (_err$response = _context2.t0.response) !== null && _err$response !== void 0 && (_err$response$data = _err$response.data) !== null && _err$response$data !== void 0 && _err$response$data.server) {
                 _message = _context2.t0.response.data.server;
@@ -217,15 +218,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 errors = _context2.t0.response.data.errors;
                 inputForm.errors = errors;
               }
-            case 23:
-              _context2.prev = 23;
+            case 24:
+              _context2.prev = 24;
               loading.value = false;
-              return _context2.finish(23);
-            case 26:
+              return _context2.finish(24);
+            case 27:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[7, 18, 23, 26]]);
+        }, _callee2, null, [[7, 18, 24, 27]]);
       }));
       return function submit() {
         return _ref3.apply(this, arguments);
@@ -398,14 +399,13 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     var theme = (0,vuetify__WEBPACK_IMPORTED_MODULE_4__.useTheme)();
     var isDarkTheme = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
     var drawer = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
-    var csrf = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+    //   const csrf = ref(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
     var loadingPage = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
-    var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_2__.reactive)({
-      _token: csrf
-    });
+    var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_2__.reactive)({});
     var fieldRoles = (0,_inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)({
-      role_id: 0,
-      _token: csrf
+      role_id: 0
     });
     var setOverlay = function setOverlay(v) {
       return loadingPage.value = v;
@@ -429,8 +429,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)(function () {
       console.log('pageProps:', pageProps);
       isDarkTheme.value = localStorage.getItem('theme') === 'dark';
-      drawer.value = parseInt(localStorage.getItem('drawer'));
-      console.log("localStorage.getItem('drawer'):", localStorage.getItem('drawer'));
+      drawer.value = Boolean(parseInt(localStorage.getItem('drawer')));
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
       try {
         var _pageProps$auth = pageProps.auth,
@@ -571,7 +570,6 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       theme: theme,
       isDarkTheme: isDarkTheme,
       drawer: drawer,
-      csrf: csrf,
       loadingPage: loadingPage,
       formLogout: formLogout,
       fieldRoles: fieldRoles,
