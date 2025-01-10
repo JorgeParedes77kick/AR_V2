@@ -197,14 +197,13 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     var theme = (0,vuetify__WEBPACK_IMPORTED_MODULE_4__.useTheme)();
     var isDarkTheme = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
     var drawer = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
-    var csrf = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+    //   const csrf = ref(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
     var loadingPage = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
-    var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_2__.reactive)({
-      _token: csrf
-    });
+    var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_2__.reactive)({});
     var fieldRoles = (0,_inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)({
-      role_id: 0,
-      _token: csrf
+      role_id: 0
     });
     var setOverlay = function setOverlay(v) {
       return loadingPage.value = v;
@@ -228,8 +227,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)(function () {
       console.log('pageProps:', pageProps);
       isDarkTheme.value = localStorage.getItem('theme') === 'dark';
-      drawer.value = parseInt(localStorage.getItem('drawer'));
-      console.log("localStorage.getItem('drawer'):", localStorage.getItem('drawer'));
+      drawer.value = Boolean(parseInt(localStorage.getItem('drawer')));
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
       try {
         var _pageProps$auth = pageProps.auth,
@@ -370,7 +368,6 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       theme: theme,
       isDarkTheme: isDarkTheme,
       drawer: drawer,
-      csrf: csrf,
       loadingPage: loadingPage,
       formLogout: formLogout,
       fieldRoles: fieldRoles,

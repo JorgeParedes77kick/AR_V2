@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Helpers\Debug;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +16,6 @@ class CheckRole {
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next) {
-        Debug::info($request);
         if (
             Auth::check() &&
             $request->isMethod('get') &&

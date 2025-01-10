@@ -87,9 +87,10 @@
         const { message } = response.data;
         await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
 
-        router.visit(route('horario'));
+        router.visit(route('grupos-pequenos.horarios'));
       }
     } catch (err) {
+      console.log('err:', err);
       console.log(err?.response);
       if (err?.response?.data?.server) {
         const { server: message } = err.response.data;

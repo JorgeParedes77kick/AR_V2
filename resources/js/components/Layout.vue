@@ -13,16 +13,13 @@
 
   const drawer = ref(false);
 
-  const csrf = ref(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+  //   const csrf = ref(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 
   const loadingPage = ref(false);
-  const formLogout = reactive({
-    _token: csrf,
-  });
+  const formLogout = reactive({});
 
   const fieldRoles = useForm({
     role_id: 0,
-    _token: csrf,
   });
   const setOverlay = (v) => (loadingPage.value = v);
 
@@ -47,8 +44,7 @@
   onMounted(() => {
     console.log('pageProps:', pageProps);
     isDarkTheme.value = localStorage.getItem('theme') === 'dark';
-    drawer.value = parseInt(localStorage.getItem('drawer'));
-    console.log("localStorage.getItem('drawer'):", localStorage.getItem('drawer'));
+    drawer.value = Boolean(parseInt(localStorage.getItem('drawer')));
     theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
 
     try {
