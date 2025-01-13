@@ -36,8 +36,7 @@
       "Database\\Seeders\\": "database/seeders/"
     },
     "files": [
-      "app/Helpers/Arm.php",
-      "app/Helpers/Cast.php"
+      "app/Helpers/Arm.php"
     ]
   },
   "autoload-dev": {
@@ -45,8 +44,7 @@
       "Tests\\": "tests/"
     },
     "files": [
-      "app/Helpers/Arm.php",
-      "app/Helpers/Cast.php"
+      "app/Helpers/Arm.php"
     ]
   },
   "scripts": {
