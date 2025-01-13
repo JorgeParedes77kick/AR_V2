@@ -45,7 +45,8 @@
       "Tests\\": "tests/"
     },
     "files": [
-      "app/Helpers/Arm.php"
+      "app/Helpers/Arm.php",
+      "app/Helpers/Cast.php"
     ]
   },
   "scripts": {
