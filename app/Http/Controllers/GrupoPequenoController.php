@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Cast;
 use App\Helpers\Debug;
 use App\Helpers\RolHelper;
 use App\Models\Ciclo;
@@ -9,7 +10,6 @@ use App\Models\Curriculum;
 use App\Models\GrupoPequeno;
 use App\Models\Temporada;
 use App\Models\Usuario;
-use function App\Helpers\castParams;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -47,7 +47,7 @@ class GrupoPequenoController extends Controller {
         $dias = collect(['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'none']);
 
         $form = $request->except('perPage', 'page', 'temporadas');
-        $temporadasId = castParams($request->input('temporadas', []), 'int');
+        $temporadasId = Cast::castParams($request->input('temporadas', []), 'int');
         $form = array_merge($form, $request->only('buscador'), ['temporadas' => $temporadasId]);
         return Inertia::render('GruposPequenos/index', [
             'gruposPequenos' => $gruposPequenos,
@@ -112,7 +112,7 @@ class GrupoPequenoController extends Controller {
         $dias = collect(['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'none']);
 
         $form = $request->except('perPage', 'page', 'temporadas');
-        $temporadasId = castParams($request->input('temporadas', []), 'int');
+        $temporadasId = Cast::castParams($request->input('temporadas', []), 'int');
         $form = array_merge($form, $request->only('buscador'), ['temporadas' => $temporadasId]);
 
         return Inertia::render('GruposPequenos/index', [

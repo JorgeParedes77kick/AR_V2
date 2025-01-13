@@ -2,8 +2,9 @@
 
 namespace App\Helpers;
 
-if (!function_exists('castParams')) {
-    function castParams(array $params, $castType = 'int' | 'float' | 'string' | 'bool', array $keysToCast = []) {
+class Cast {
+
+    public static function castParams(array $params, $castType = 'int' | 'float' | 'string' | 'bool', array $keysToCast = []) {
         // Si $keysToCast está vacío, se castea todos los elementos
         if (empty($keysToCast)) {
             $keysToCast = array_keys($params);
@@ -36,4 +37,5 @@ if (!function_exists('castParams')) {
         }
         return $params;
     }
+
 }

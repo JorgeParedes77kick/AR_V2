@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Helpers\Cast;
 use App\Helpers\Debug;
 use App\Helpers\RolHelper;
 use App\Http\Requests\StorePersonaRequest;
@@ -41,7 +42,7 @@ class PersonaController extends Controller {
         });
         $usuarios = $this->find($request);
 
-        $form = castParams($request->except('perPage', 'page', 'buscador'), 'int');
+        $form = Cast::castParams($request->except('perPage', 'page', 'buscador'), 'int');
         $form = array_merge($form, $request->only('buscador'));
         return Inertia::render('Personas/index', [
             'genero' => $genero,

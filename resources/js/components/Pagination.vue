@@ -28,7 +28,6 @@
     () => props.per_page,
     (newPage, oldPage) => {
       perPage.value = parseInt(newPage);
-      console.log('newPage:', newPage);
       current.value = 1;
     },
   );

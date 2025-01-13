@@ -800,7 +800,6 @@ __webpack_require__.r(__webpack_exports__);
       return props.per_page;
     }, function (newPage, oldPage) {
       perPage.value = parseInt(newPage);
-      console.log('newPage:', newPage);
       current.value = 1;
     });
     var updateModelPaginate = function updateModelPaginate(item) {
