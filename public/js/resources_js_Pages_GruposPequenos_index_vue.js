@@ -75,6 +75,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     __expose();
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_3___default()));
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_customParseFormat__WEBPACK_IMPORTED_MODULE_2___default()));
+    var page = (0,_inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage)().props;
     var props = __props;
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_4__.ref)(false);
     var gruposPequenos = (0,vue__WEBPACK_IMPORTED_MODULE_4__.ref)(props.gruposPequenos);
@@ -182,17 +183,17 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
     var fetchData = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _options$value, page, perPage, routeEnd;
+        var _options$value, _page, perPage, routeEnd;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
               loading.value = true;
-              _options$value = options.value, page = _options$value.page, perPage = _options$value.perPage;
+              _options$value = options.value, _page = _options$value.page, perPage = _options$value.perPage;
               routeEnd = props.action === 'horarios' ? 'horarios' : 'index';
               _context.next = 6;
               return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.get(route("grupos-pequenos.".concat(routeEnd)), _objectSpread({
-                page: page,
+                page: _page,
                 perPage: perPage
               }, searchForm.value), {
                 preserveState: true
@@ -324,7 +325,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       options.value.perPage = perPage;
       options.value.page = 1; // Reinicia la página al cambiar el tamaño
     };
+    var coorNodata = (0,vue__WEBPACK_IMPORTED_MODULE_4__.ref)(false);
+    (0,vue__WEBPACK_IMPORTED_MODULE_4__.onMounted)(function () {
+      var _page$auth = page === null || page === void 0 ? void 0 : page.auth,
+        rol_selected = _page$auth.rol_selected;
+      var curriculums = props.curriculums;
+      if (rol_selected == 2 && curriculums.length === 0) coorNodata.value = true;
+    });
     var __returned__ = {
+      page: page,
       props: props,
       loading: loading,
       gruposPequenos: gruposPequenos,
@@ -338,11 +347,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       options: options,
       onChangePage: onChangePage,
       onChangePerPage: onChangePerPage,
+      coorNodata: coorNodata,
       get Link() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.Link;
       },
       get router() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router;
+      },
+      get usePage() {
+        return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage;
       },
       get dayjs() {
         return (dayjs__WEBPACK_IMPORTED_MODULE_1___default());
@@ -353,6 +366,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       get isBetween() {
         return (dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_3___default());
       },
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_4__.onMounted,
       ref: vue__WEBPACK_IMPORTED_MODULE_4__.ref,
       watch: vue__WEBPACK_IMPORTED_MODULE_4__.watch,
       get MainLayout() {
@@ -895,7 +909,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "class": "d-flex justify-end"
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+                      return [!$setup.coorNodata ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["Link"], {
+                        key: 0,
                         href: _ctx.route('grupos-pequenos.create')
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -910,7 +925,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           })];
                         }),
                         _: 1 /* STABLE */
-                      }, 8 /* PROPS */, ["href"])];
+                      }, 8 /* PROPS */, ["href"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
                     }),
                     _: 1 /* STABLE */
                   })];
@@ -1089,7 +1104,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "class": "elevation-1 rounded"
                       }, (_createVNode2 = {
                         "no-data": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Información no encontrada ")];
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coorNodata ? 'Ha este coordinador no se le asignado ningún curriculum' : 'Información no encontrada'), 1 /* TEXT */)];
                         }),
                         bottom: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Pagination"], (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)($setup.gruposPequenos, {

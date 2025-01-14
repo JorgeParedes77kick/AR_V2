@@ -29,12 +29,16 @@ class GrupoPequenoController extends Controller {
             return Temporada::select('id', 'prefijo')->orderBy('prefijo', 'desc')->get()
                 ->makeHidden(['semanas', 'fecha_inicio_w', 'fecha_cierre_w', 'fecha_extension_w']);
         });
+        $curriculums = collect();
+        $ciclos = collect();
         if ($rol === RolHelper::$COORDINADOR) {
             $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
-            $curriculums = Curriculum::activo()->whereIn('curriculums.id', $idsCurriculum)->get();
-            $ciclos = Ciclo::whereHas('curriculum', function ($q) use ($idsCurriculum) {
-                $q->activo()->whereIn('curriculums.id', $idsCurriculum);
-            })->select('nombre')->distinct()->get();
+            if ($idsCurriculum->count() > 0) {
+                $curriculums = Curriculum::activo()->whereIn('curriculums.id', $idsCurriculum)->get();
+                $ciclos = Ciclo::whereHas('curriculum', function ($q) use ($idsCurriculum) {
+                    $q->activo()->whereIn('curriculums.id', $idsCurriculum);
+                })->select('nombre')->distinct()->get();
+            }
         } else {
             $curriculums = cache()->remember('curriculums', 60 * 20, function () {
                 return Curriculum::activo()->select('nombre')->get();
@@ -62,32 +66,6 @@ class GrupoPequenoController extends Controller {
 
     public function horario(Request $request) {
         $gruposPequenos = $this->find($request, true);
-        // $gruposPequenos = GrupoPequeno::with('ciclo.curriculum', 'temporada', 'inscripciones.usuario.persona')
-        //     ->whereHas('temporada', function ($query) {$query->where('activo', true);})
-        //     ->with('inscripciones', function ($query) {
-        //         $query->whereIn('rol_id', [3, 4]);
-        //     })
-        // // Contar inscripciones con rol_id = 5
-        //     ->withCount(['inscripciones as alumnos_contar' => function ($query) {
-        //         $query->where('rol_id', 5);
-        //     }])
-        //     ->orderBy('temporada_id', 'desc')->get();
-        // $gruposPequenos->each(function ($grupo) {
-        //     $lideres = collect();
-        //     $monitores = collect();
-
-        //     foreach ($grupo->inscripciones as $inscripcion) {
-        //         if ($inscripcion->rol_id === 3) {
-        //             $lideres->push($inscripcion->usuario);
-        //         } elseif ($inscripcion->rol_id === 4) {
-        //             $monitores->push($inscripcion->usuario);
-        //         }
-        //     }
-
-        //     // Asignar líderes y monitores al grupo
-        //     $grupo->lideres = $lideres;
-        //     $grupo->monitores = $monitores;
-        // });
         $rol = session()->get('rol_id');
 
         $temporadas = cache()->remember('temporadas', 60 * 20, function () {
@@ -133,9 +111,18 @@ class GrupoPequenoController extends Controller {
      */
     public function create() {
         $temporadas = Temporada::where('activo', true)->select(['id', 'prefijo'])->get();
-        $curriculums = Curriculum::activo()->select(['id', 'nombre'])->with('ciclos:id,nombre,curriculum_id')->get();
-        // $ciclos = Ciclo::whereHas('curriculum', function ($q) {$q->activo();})->select('nombre')
-        //     ->distinct()->get();
+
+        $rol = session()->get('rol_id');
+        $curriculums = collect();
+        if ($rol === RolHelper::$COORDINADOR) {
+            $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
+            if ($idsCurriculum->count() > 0) {
+                $curriculums = Curriculum::activo()->select(['id', 'nombre'])->with('ciclos:id,nombre,curriculum_id')->whereIn('curriculums.id', $idsCurriculum)->get();
+            }
+        } else {
+            $curriculums = Curriculum::activo()->select(['id', 'nombre'])->with('ciclos:id,nombre,curriculum_id')->get();
+        }
+
         $dias = collect(['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'none']);
         $lideres = Usuario::select(['usuarios.id', 'usuarios.nick_name', 'usuarios.email', 'personas.id as persona_id', 'personas.nombre', 'personas.apellido',
             DB::raw("CONCAT(personas.nombre, ' ', personas.apellido, ' - ', usuarios.email) as fullNombre"),
@@ -302,8 +289,17 @@ class GrupoPequenoController extends Controller {
         // unset($grupoPequeno->inscripciones);
 
         $temporadas = Temporada::where('activo', true)->select(['id', 'prefijo'])->get();
-        $curriculums = Curriculum::activo()->select(['id', 'nombre'])->with('ciclos:id,nombre,curriculum_id')->get();
 
+        $rol = session()->get('rol_id');
+        $curriculums = collect();
+        if ($rol === RolHelper::$COORDINADOR) {
+            $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
+            if ($idsCurriculum->count() > 0) {
+                $curriculums = Curriculum::activo()->select(['id', 'nombre'])->with('ciclos:id,nombre,curriculum_id')->whereIn('curriculums.id', $idsCurriculum)->get();
+            }
+        } else {
+            $curriculums = Curriculum::activo()->select(['id', 'nombre'])->with('ciclos:id,nombre,curriculum_id')->get();
+        }
         $dias = collect(['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'none']);
         $lideres = Usuario::select(['usuarios.id', 'usuarios.nick_name', 'usuarios.email', 'personas.id as persona_id', 'personas.nombre', 'personas.apellido',
             DB::raw("CONCAT(personas.nombre, ' ', personas.apellido, ' - ', usuarios.email) as fullNombre"),
@@ -457,20 +453,25 @@ class GrupoPequenoController extends Controller {
         $dias = $request->input('dias', []);
         $nombre = trim($request->input('nombre'));
 
+        $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
+        if ($rol === RolHelper::$COORDINADOR && $idsCurriculum->count() == 0) {
+            return collect([]);
+        }
+
         $gruposPequenos =
         GrupoPequeno::with(
             [
                 'ciclo' => function ($q) {$q->select('id', 'nombre', 'curriculum_id');},
                 'ciclo.curriculum' => function ($q) {$q->select('id', 'nombre');},
-                'temporada' => function ($q) {$q->select('id', 'nombre', 'prefijo');},
+                'temporada' => function ($q) {$q->select('id', 'nombre', 'prefijo', 'activo');},
                 // 'lideres' => function ($q) {$q->select('id', 'email', 'persona_id');},
                 // 'monitores' => function ($q) {$q->select('id', 'email', 'persona_id');},
                 'lideres.persona' => function ($q) {$q->select('id', 'nombre', 'apellido');},
                 'monitores.persona' => function ($q) {$q->select('id', 'nombre', 'apellido');},
             ]
         )->withCount('alumnos');
+
         if ($rol === RolHelper::$COORDINADOR) {
-            $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
             $gruposPequenos = $gruposPequenos->whereHas('ciclo.curriculum',
                 function ($q) use ($idsCurriculum) {$q->whereIn('curriculums.id', $idsCurriculum);});
         }
