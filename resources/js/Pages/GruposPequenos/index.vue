@@ -1,17 +1,18 @@
 <script setup>
-  import { Link, router } from '@inertiajs/vue3';
+  import { Link, router, usePage } from '@inertiajs/vue3';
 
   import dayjs from 'dayjs';
   import customParseFormat from 'dayjs/plugin/customParseFormat';
   import isBetween from 'dayjs/plugin/isBetween';
 
-  import { defineProps, ref, watch } from 'vue';
+  import { defineProps, onMounted, ref, watch } from 'vue';
 
   import MainLayout from '../../components/Layout';
   import Pagination from '../../components/Pagination.vue';
 
   dayjs.extend(isBetween);
   dayjs.extend(customParseFormat);
+  const page = usePage().props;
 
   const props = defineProps({
     temporadas: { type: Array, default: [] },
@@ -166,6 +167,13 @@
     options.value.perPage = perPage;
     options.value.page = 1; // Reinicia la página al cambiar el tamaño
   };
+
+  const coorNodata = ref(false);
+  onMounted(() => {
+    const { rol_selected } = page?.auth;
+    const { curriculums } = props;
+    if (rol_selected == 2 && curriculums.length === 0) coorNodata.value = true;
+  });
 </script>
 <template>
   <MainLayout>
@@ -177,7 +185,7 @@
         <div v-if="action === 'horarios'">
           <v-row class="pb-2">
             <v-col class="d-flex justify-end">
-              <Link :href="route('grupos-pequenos.create')">
+              <Link v-if="!coorNodata" :href="route('grupos-pequenos.create')">
                 <v-btn color="success" class="ms-auto"> Nuevo Horario </v-btn>
               </Link>
             </v-col>
@@ -275,7 +283,13 @@
                 :items-per-page="options.perPage"
                 class="elevation-1 rounded"
               >
-                <template #no-data> Información no encontrada </template>
+                <template #no-data>
+                  {{
+                    coorNodata
+                      ? 'Ha este coordinador no se le asignado ningún curriculum'
+                      : 'Información no encontrada'
+                  }}
+                </template>
                 <template #bottom>
                   <Pagination
                     v-bind="gruposPequenos"

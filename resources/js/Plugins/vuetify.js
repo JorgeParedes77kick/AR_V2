@@ -106,6 +106,16 @@ const dark = {
 };
 
 const vuetify = createVuetify({
+  defaults: {
+    // Define mensajes predeterminados globales
+    VDataTable: {
+      noDataText: 'No hay datos disponibles',
+    },
+    VSelect: {
+      noDataText: 'No hay opciones disponibles',
+    },
+    // Agrega más componentes si es necesario
+  },
   components,
   directives,
   theme: {
