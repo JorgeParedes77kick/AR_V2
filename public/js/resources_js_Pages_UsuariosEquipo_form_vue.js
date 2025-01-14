@@ -80,6 +80,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       type: Array,
       "default": []
     },
+    curriculums: {
+      type: Array,
+      "default": []
+    },
     status: String
   },
   setup: function setup(__props, _ref) {
@@ -95,7 +99,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       email: '',
       persona: {},
       nombreApellido: '',
-      roles: []
+      roles: [],
+      curriculums: []
     }, props.usuario));
     var form = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(null);
     var persona = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)('');
@@ -204,8 +209,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         return _ref3.apply(this, arguments);
       };
     }();
-    var focus = function focus(state) {
-      if (!state && typeof persona == 'string') {
+    var focus = function focus(state, name) {
+      // console.log('state, name:', state, name);
+      if (!state && typeof persona == 'string' && name == 'persona') {
         persona.value = '';
         inputForm.nick_name = '';
         inputForm.nombreApellido = '';
@@ -213,8 +219,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         inputForm.id = '';
       }
     };
-    var onChange = function onChange(item) {
-      if (_typeof(item) === 'object' && (0,_utils_isType__WEBPACK_IMPORTED_MODULE_7__.Truthty)(item)) {
+    var onChange = function onChange(item, name) {
+      // console.log('item, name:', item, name);
+      if (_typeof(item) === 'object' && (0,_utils_isType__WEBPACK_IMPORTED_MODULE_7__.Truthty)(item) && name == 'persona') {
         var nick_name = item.nick_name,
           nombre = item.nombre,
           apellido = item.apellido,
@@ -224,6 +231,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         inputForm.nombreApellido = "".concat(nombre, " ").concat(apellido);
         inputForm.email = email;
         inputForm.id = id;
+      }
+      if ((0,_utils_isType__WEBPACK_IMPORTED_MODULE_7__.Truthty)(item) && name == 'curriculums' && inputForm.curriculums.some(function (x) {
+        return typeof x === 'string';
+      })) {
+        inputForm.curriculums = item.filter(function (x) {
+          return typeof x !== 'string';
+        });
       }
     };
     var __returned__ = {
@@ -361,14 +375,13 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     var theme = (0,vuetify__WEBPACK_IMPORTED_MODULE_4__.useTheme)();
     var isDarkTheme = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
     var drawer = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
-    var csrf = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+    //   const csrf = ref(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
     var loadingPage = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
-    var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_2__.reactive)({
-      _token: csrf
-    });
+    var formLogout = (0,vue__WEBPACK_IMPORTED_MODULE_2__.reactive)({});
     var fieldRoles = (0,_inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)({
-      role_id: 0,
-      _token: csrf
+      role_id: 0
     });
     var setOverlay = function setOverlay(v) {
       return loadingPage.value = v;
@@ -392,27 +405,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)(function () {
       console.log('pageProps:', pageProps);
       isDarkTheme.value = localStorage.getItem('theme') === 'dark';
-      drawer.value = parseInt(localStorage.getItem('drawer'));
-      console.log("localStorage.getItem('drawer'):", localStorage.getItem('drawer'));
+      drawer.value = Boolean(parseInt(localStorage.getItem('drawer')));
       theme.global.name.value = isDarkTheme.value ? 'dark' : 'light';
-
-      // getList('/menu/list/byRol').then((data) => {
-      //   //console.log("Menus byRol: " + JSON.stringify(data));
-      //   dynamicMenu.value = data;
-      //   //console.log("dynamicMenu: " + JSON.stringify(dynamicMenu));
-      // });
-
-      // getList('/roles/list/byUser').then((data) => {
-      //   //console.log("Roles byUser: " + JSON.stringify(data));
-      //   userRoles.value = data;
-      //   //console.log("userRoles: " + JSON.stringify(userRoles));
-      // });
-
-      // getList('/roles/session').then((data) => {
-      //   //console.log("Rol session: " + JSON.stringify(data));
-      //   rolSession.value = data.rol;
-      //   //console.log("rolSession: " + JSON.stringify(rolSession));
-      // });
       try {
         var _pageProps$auth = pageProps.auth,
           roles = _pageProps$auth.roles,
@@ -438,7 +432,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       setOverlay(true);
       if (!['', '/', '#'].includes(link)) {
         setTimeout(function () {
-          if (link === 'logout') {
+          if (link === '/logout') {
             axios__WEBPACK_IMPORTED_MODULE_1___default().post(link, formLogout).then(function (result) {
               // window.location.href = 'login';
               _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router.visit('login');
@@ -533,16 +527,25 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       icon: 'mdi-power',
       link: '#'
     }, {
-      title: 'Logout',
+      title: 'Cerrar Sesión',
       icon: 'mdi-power',
-      link: 'logout'
+      link: '/logout'
     }]);
+    (0,vue__WEBPACK_IMPORTED_MODULE_2__.watch)(function () {
+      return userRoles.value.length;
+    }, function (new_value) {
+      if (new_value === 1) {
+        var index = myApp.value.findIndex(function (x) {
+          return x.title == 'Roles';
+        });
+        if (index != -1) myApp.value.splice(index, 1);
+      }
+    });
     var __returned__ = {
       pageProps: pageProps,
       theme: theme,
       isDarkTheme: isDarkTheme,
       drawer: drawer,
-      csrf: csrf,
       loadingPage: loadingPage,
       formLogout: formLogout,
       fieldRoles: fieldRoles,
@@ -558,6 +561,9 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       handleSubmit: handleSubmit,
       applyRol: applyRol,
       myApp: myApp,
+      get Link() {
+        return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.Link;
+      },
       get router() {
         return _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_0__.router;
       },
@@ -573,6 +579,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       onMounted: vue__WEBPACK_IMPORTED_MODULE_2__.onMounted,
       reactive: vue__WEBPACK_IMPORTED_MODULE_2__.reactive,
       ref: vue__WEBPACK_IMPORTED_MODULE_2__.ref,
+      watch: vue__WEBPACK_IMPORTED_MODULE_2__.watch,
       get useTheme() {
         return vuetify__WEBPACK_IMPORTED_MODULE_4__.useTheme;
       },
@@ -748,6 +755,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "lazy-validation": ""
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      var _$setup$inputForm$rol, _$setup$inputForm$rol2;
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, {
                         "class": "row-gap-2"
                       }, {
@@ -764,13 +772,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 modelValue: $setup.persona,
                                 "onUpdate:modelValue": [_cache[0] || (_cache[0] = function ($event) {
                                   return $setup.persona = $event;
-                                }), $setup.onChange],
+                                }), _cache[1] || (_cache[1] = function (s) {
+                                  return $setup.onChange(s, 'persona');
+                                })],
                                 "item-title": "fullNombre",
                                 "item-value": "id",
                                 rules: $setup.validate('Persona', 'required'),
                                 items: $props.personas,
                                 autocomplete: "off",
-                                "onUpdate:focused": $setup.focus
+                                "onUpdate:focused": _cache[2] || (_cache[2] = function (s) {
+                                  return $setup.focus(s, 'persona');
+                                })
                               }, {
                                 item: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
                                   var props = _ref2.props,
@@ -793,7 +805,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "nick_name",
                                 label: "Nick",
                                 modelValue: $setup.inputForm.nick_name,
-                                "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
                                   return $setup.inputForm.nick_name = $event;
                                 }),
                                 disabled: "",
@@ -809,7 +821,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "class": "row-gap-2"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-col v-if=\"action !== CRUD.create\" cols=\"12\" sm=\"6\">\n                <v-text-field id=\"id\" name=\"id\" label=\"ID\" v-model=\"inputForm.id\" disabled\n                  :error-messages=\"inputForm.errors.id\" />\n              </v-col> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-col v-if=\"action !== CRUD.create\" cols=\"12\" sm=\"6\">\r\n                <v-text-field id=\"id\" name=\"id\" label=\"ID\" v-model=\"inputForm.id\" disabled\r\n                  :error-messages=\"inputForm.errors.id\" />\r\n              </v-col> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, {
                             cols: "12",
                             sm: "6"
                           }, {
@@ -819,7 +831,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "Nombre",
                                 label: "Nombre",
                                 modelValue: $setup.inputForm.nombreApellido,
-                                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
                                   return $setup.inputForm.nombreApellido = $event;
                                 }),
                                 disabled: "",
@@ -838,7 +850,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                                 name: "email",
                                 label: "Correo",
                                 modelValue: $setup.inputForm.email,
-                                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
                                   return $setup.inputForm.email = $event;
                                 }),
                                 disabled: "",
@@ -880,8 +892,42 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           }), 128 /* KEYED_FRAGMENT */))];
                         }),
                         _: 1 /* STABLE */
-                      }), !$setup.isDisabled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_row, {
-                        key: 0,
+                      }), (_$setup$inputForm$rol = $setup.inputForm.roles) !== null && _$setup$inputForm$rol !== void 0 && (_$setup$inputForm$rol2 = _$setup$inputForm$rol[1]) !== null && _$setup$inputForm$rol2 !== void 0 && _$setup$inputForm$rol2.activo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_row, {
+                        key: 0
+                      }, {
+                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_col, null, {
+                            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_combobox, {
+                                id: "curriculums",
+                                name: "curriculums",
+                                modelValue: $setup.inputForm.curriculums,
+                                "onUpdate:modelValue": [_cache[6] || (_cache[6] = function ($event) {
+                                  return $setup.inputForm.curriculums = $event;
+                                }), _cache[7] || (_cache[7] = function (s) {
+                                  return $setup.onChange(s, 'curriculums');
+                                })],
+                                disabled: $setup.isDisabled,
+                                "error-messages": $setup.inputForm.errors.curriculums,
+                                items: $props.curriculums,
+                                "item-title": "nombre",
+                                "item-value": "id",
+                                autocomplete: "off",
+                                clearable: "",
+                                chips: "",
+                                multiple: "",
+                                label: "Curriculumns Asignados para Coordinador",
+                                "onUpdate:focused": _cache[8] || (_cache[8] = function (s) {
+                                  return $setup.focus(s, 'curriculums');
+                                })
+                              }, null, 8 /* PROPS */, ["modelValue", "disabled", "error-messages", "items"])];
+                            }),
+                            _: 1 /* STABLE */
+                          })];
+                        }),
+                        _: 1 /* STABLE */
+                      })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$setup.isDisabled ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_row, {
+                        key: 1,
                         "class": "my-3"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -978,7 +1024,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "mr-auto ml-2"
+  "class": "mr-auto ml-2 d-flex"
 };
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
   src: "/img/logos/logo_global_blanco.png",
@@ -1016,7 +1062,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_app_bar_nav_icon, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+            "class": "v-btn--icon v-btn--density-default my-auto",
+            href: _ctx.route('home')
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [_hoisted_2];
+            }),
+            _: 1 /* STABLE */
+          }, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_app_bar_nav_icon, {
             onClick: $setup.toggleDrawer
           })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$setup.isDarkTheme ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, {
             key: 0,
@@ -1157,7 +1211,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\n        <v-hover>\n          <template v-slot:default=\"{ isHovering, props }\">\n            <v-list-item\n              :title=\"item.title\"\n              :to=\"item.link\"\n              v-bind=\"props\"\n              :class=\"\n                classnames({\n                  'bg-navbar-hover': isHovering,\n                  'text-navbar-hover-text': isHovering,\n                })\n              \"\n            >\n            </v-list-item>\n          </template>\n</v-hover>\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dynamic Menu Init"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\r\n        <v-hover>\r\n          <template v-slot:default=\"{ isHovering, props }\">\r\n            <v-list-item\r\n              :title=\"item.title\"\r\n              :to=\"item.link\"\r\n              v-bind=\"props\"\r\n              :class=\"\r\n                classnames({\r\n                  'bg-navbar-hover': isHovering,\r\n                  'text-navbar-hover-text': isHovering,\r\n                })\r\n              \"\r\n            >\r\n            </v-list-item>\r\n          </template>\r\n</v-hover>\r\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dynamic Menu Init"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.dynamicMenu, function (menu, index) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {

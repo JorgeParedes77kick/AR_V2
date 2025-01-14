@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\RolHelper;
 use App\Models\Curriculum;
 use App\Models\Temporada;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,10 @@ use Inertia\Inertia;
 class HomeController extends Controller {
     public function index() {
 
+        $rol = session()->get('rol_id');
+        if ($rol === RolHelper::$ADMIN) {
+            return redirect()->route('dashboard');
+        }
         // * Esto es para pre saber las rutas basicas previo a indexacion al navbar
         // Obtener las rutas como colección
         $rutas = collect(Route::getRoutes());
@@ -43,6 +48,15 @@ class HomeController extends Controller {
             })
             ->get();
 
+        if ($rol === RolHelper::$COORDINADOR) {
+            return Inertia::render('Home/coordinadorHome', []);
+        }
+        if ($rol === RolHelper::$LIDER) {
+            return Inertia::render('Home/liderHome', []);
+        }
+        if ($rol === RolHelper::$MONITOR) {
+            return Inertia::render('Home/monitorHome', []);
+        }
         // Renderizar la vista de Inertia
         return Inertia::render('Home/index', [
             'rutas' => $rutasFiltradas->values(), // Pasar las rutas filtradas a la vista

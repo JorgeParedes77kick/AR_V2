@@ -35,7 +35,7 @@
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/"
     },
-    "files":[
+    "files": [
       "app/Helpers/Arm.php"
     ]
   },
@@ -43,7 +43,7 @@
     "psr-4": {
       "Tests\\": "tests/"
     },
-    "files":[
+    "files": [
       "app/Helpers/Arm.php"
     ]
   },

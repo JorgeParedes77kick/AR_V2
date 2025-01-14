@@ -21,6 +21,8 @@ jobs:
         run: test -f composer.json || { echo "composer.json not found"; exit 1; }
       - name: Install Dependencies with Composer
         run: composer install --no-ansi --no-interaction --no-scripts --prefer-dist
+      - name: composer autoload
+        run: composer dump-autoload
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -62,7 +64,7 @@ jobs:
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftp.armgp.org  # ${{ secrets.FTP_SERVER }}
+          server: ftp.armgp.org # ${{ secrets.FTP_SERVER }}
           username: userarmgp # ${{ secrets.FTP_USERNAME }}
           password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
           protocol: ftp

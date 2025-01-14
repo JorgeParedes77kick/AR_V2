@@ -74,7 +74,7 @@
   max-width: fit-content !important;
 }
 
-@for $i from 1 through 100 {
+@for $i from 1 through 99 {
   .h-#{$i} {
     height: calc(#{$i} * 1%) !important;
   }
