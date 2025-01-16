@@ -138,7 +138,7 @@
         <v-card-title> TEMPORADAS </v-card-title>
         <div>
           <v-row class="">
-            <v-col class="d-flex justify-end ga-2">
+            <v-col class="gridBtns" style="">
               <v-btn color="secondary" @click="() => calificarAlumnos()" class="ms-auto">
                 Calificar Temporadas
               </v-btn>

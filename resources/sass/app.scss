@@ -237,3 +237,15 @@ input:-webkit-autofill:active {
 // input:-webkit-autofill:active {
 //   -webkit-box-shadow: 0 0 0 30px white inset !important;
 // }
+
+.gridBtns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end; /* Alinea los elementos al final */
+}
+
+.gridBtns > * {
+  min-width: 150px; /* Ancho mínimo */
+  flex: 1 1 1 1 auto; /* Permite que los elementos crezcan y se encojan */
+  margin: 0.5rem; /* Espaciado entre elementos */
+}
