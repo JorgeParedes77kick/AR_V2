@@ -65,7 +65,7 @@
   //       const index = props.usuarios - equipo.findIndex(x => x.id === item.id)
   //       if (response?.data?.message) {
   //         const { message } = response.data;
-  //         Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+  //         Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
   //         props.usuarios - equipo.splice(index, 1)
   //       }
   //     } catch (err) {

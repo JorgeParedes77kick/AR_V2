@@ -106,7 +106,7 @@
       if (response?.data?.message) {
         setOverlay(false);
         const { message } = response.data;
-        await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+        await Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
         // window.location.href = 'home';
         router.visit(route('home'));
       }

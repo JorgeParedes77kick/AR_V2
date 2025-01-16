@@ -18579,10 +18579,6 @@ body {
   overflow-y: scroll !important;
 }
 
-.white-space-normal {
-  white-space: normal !important;
-}
-
 .align-baseline {
   vertical-align: baseline !important;
 }
@@ -18605,6 +18601,10 @@ body {
 
 .align-text-top {
   vertical-align: text-top !important;
+}
+
+.white-space-normal {
+  white-space: normal !important;
 }
 
 @media (max-width: 959.98px) {
@@ -18844,5 +18844,17 @@ input:-webkit-autofill:active {
   -webkit-background-clip: text;
   -webkit-text-fill-color: #ffffff;
   box-shadow: inset 0 0 20px 20px rgba(35, 35, 35, 0.1607843137);
+}
+
+.gridBtns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end; /* Alinea los elementos al final */
+}
+
+.gridBtns > * {
+  min-width: 150px; /* Ancho mínimo */
+  flex: 1 1 1 1 auto; /* Permite que los elementos crezcan y se encojan */
+  margin: 0.5rem; /* Espaciado entre elementos */
 }
 

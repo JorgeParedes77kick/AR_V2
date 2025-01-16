@@ -39,7 +39,7 @@
         const index = props.inscripciones.findIndex((x) => x.id === item.id);
         if (response?.data?.message) {
           const { message } = response.data;
-          Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+          Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
           props.inscripciones.splice(index, 1);
         }
       } catch (err) {

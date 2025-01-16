@@ -1,32 +1,32 @@
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3';
-import { defineProps, onMounted, ref } from 'vue';
+  import { useForm } from '@inertiajs/inertia-vue3';
+  import { defineProps, onMounted, ref } from 'vue';
 
-import ButtonBack from '../../components/ButtonBack';
+  import ButtonBack from '../../components/ButtonBack';
 
-import MainLayout from '../../components/Layout';
-import { CRUD, TEXT_BUTTON } from '../../constants/form';
+  import MainLayout from '../../components/Layout';
+  import { CRUD, TEXT_BUTTON } from '../../constants/form';
 
-// const validate = inject('$validation');
+  // const validate = inject('$validation');
 
-const props = defineProps({
-  action: String,
-  grupoPequeno: { type: Object, default: {} },
-  // estadosInscripcion: { type: Array, default: [] },
-  status: String,
-});
+  const props = defineProps({
+    action: String,
+    grupoPequeno: { type: Object, default: {} },
+    // estadosInscripcion: { type: Array, default: [] },
+    status: String,
+  });
 
-const loading = ref(false);
-const isDisabled = ref(props.action === CRUD.show);
+  const loading = ref(false);
+  const isDisabled = ref(props.action === CRUD.show);
 
-const inputForm = useForm({
-  ...props.grupoPequeno,
-});
-const form = ref(null);
+  const inputForm = useForm({
+    ...props.grupoPequeno,
+  });
+  const form = ref(null);
 
-onMounted(() => {
-  console.log(props);
-});
+  onMounted(() => {
+    console.log(props);
+  });
 </script>
 
 <template>
@@ -44,15 +44,31 @@ onMounted(() => {
           <v-form ref="form" lazy-validation>
             <v-row class="row-gap-2">
               <v-col cols="12" sm="4">
-                <v-text-field id="Temporada" name="Temporada" label="Temporada" v-model="grupoPequeno.temporada.prefijo"
-                  disabled />
+                <v-text-field
+                  id="Temporada"
+                  name="Temporada"
+                  label="Temporada"
+                  v-model="grupoPequeno.temporada.prefijo"
+                  disabled
+                />
               </v-col>
               <v-col cols="12" sm="4">
-                <v-text-field id="Curriculum" name="Curriculum" label="Curriculum"
-                  v-model="grupoPequeno.ciclo.curriculum.nombre" disabled />
+                <v-text-field
+                  id="Curriculum"
+                  name="Curriculum"
+                  label="Curriculum"
+                  v-model="grupoPequeno.ciclo.curriculum.nombre"
+                  disabled
+                />
               </v-col>
               <v-col cols="12" sm="4">
-                <v-text-field id="Ciclo" name="Ciclo" label="Ciclo" v-model="grupoPequeno.ciclo.nombre" disabled />
+                <v-text-field
+                  id="Ciclo"
+                  name="Ciclo"
+                  label="Ciclo"
+                  v-model="grupoPequeno.ciclo.nombre"
+                  disabled
+                />
               </v-col>
             </v-row>
             <v-row class="row-gap-2">
@@ -91,14 +107,17 @@ onMounted(() => {
               </v-col>
               <v-col cols="12" class="py-0">
                 <v-list>
-                  <v-list-item v-for="alumno in grupoPequeno.alumnos" :key="alumno.id">
+                  <v-list-item
+                    v-for="inscripcion in grupoPequeno.inscripciones_alumnos"
+                    :key="inscripcion.id"
+                  >
                     <template v-slot:subtitle>
                       <div class="d-grid" style="grid-template-columns: 2fr 2fr 1fr">
-                        <div>{{ `${alumno.persona.nombre} ${alumno.persona.apellido}` }}</div>
-                        <div>{{ alumno.email }}</div>
-                        <!-- <div> {{ alumno.persona.telefono }} </div> -->
+                        <div>{{ inscripcion.usuario.nombreCompleto }}</div>
+                        <div>{{ inscripcion.usuario.email }}</div>
+                        <!-- <div>{{ inscripcion.usuario.persona.telefono }}</div> -->
                         <div class="text-right">
-                          {{ alumno.inscripcion.estado_inscripcion.estado }}
+                          {{ inscripcion.estado_inscripcion.estado }}
                         </div>
                       </div>
                     </template>

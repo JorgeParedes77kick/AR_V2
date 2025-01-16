@@ -1,24 +1,24 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
-import { computed, defineProps, onMounted, ref } from 'vue';
-import { useTheme } from 'vuetify';
-import MainLayout from '../../components/Layout.vue';
+  import { Link } from '@inertiajs/vue3';
+  import { computed, defineProps, onMounted, ref } from 'vue';
+  import { useTheme } from 'vuetify';
+  import MainLayout from '../../components/Layout.vue';
 
-const props = defineProps({
-  curriculum: { type: Object, default: {} },
-  grupospequenos: { type: Array, default: [] },
-});
-const theme = useTheme();
+  const props = defineProps({
+    curriculum: { type: Object, default: {} },
+    grupospequenos: { type: Array, default: [] },
+  });
+  const theme = useTheme();
 
-const loading = ref(false);
-const isDisabled = ref(false);
+  const loading = ref(false);
+  const isDisabled = ref(false);
 
-onMounted(() => {
-  // console.log('pageProps:', pageProps);
-  // console.log('Props:', props);
-  console.log('vuetify:', theme);
-});
-const isDark = computed(() => theme.current.value.dark);
+  onMounted(() => {
+    // console.log('pageProps:', pageProps);
+    // console.log('Props:', props);
+    console.log('vuetify:', theme);
+  });
+  const isDark = computed(() => theme.current.value.dark);
 </script>
 
 <template>
@@ -32,10 +32,8 @@ const isDark = computed(() => theme.current.value.dark);
         <v-divider></v-divider>
 
         <v-row>
-          <v-col cols="12" class="text-subtitle-1">
-            <b><i>Selecciona tu ciclo:</i></b>
-          </v-col>
-          <v-col v-for="grupo in grupospequenos" :key="grupo.id" cols="12" sm="6" md="4">
+          <v-col cols="12" class="text-subtitle-1"> Selecciona tu ciclo: </v-col>
+          <v-col v-for="grupo in grupospequenos" :key="grupo.id" cols="12" sm="6" md="4" lg="3">
             <v-hover v-slot:default="{ isHovering, props }">
               <Link
                 :href="
@@ -44,16 +42,17 @@ const isDark = computed(() => theme.current.value.dark);
                     id: grupo.id,
                   })
                 "
+                style="text-decoration: none; color: inherit"
                 ><v-card
-                  class="rounded-pill border-md w-100 border-info h-auto px-3 py-1 text-center"
+                  class="rounded-pill border-md w-100 h-auto px-3 py-1 text-center"
                   v-ripple
                   :elevation="isHovering ? 10 : 2"
-                  :color="isDark ? 'gray' : 'ayrface'"
+                  color="info"
                   v-bind="props"
                 >
                   <div :class="isHovering ? 'font-weight-medium' : ''">
-                    {{ curriculum.nombre }} {{ grupo.ciclo.nombre }} - {{ grupo.dia_curso }}
-                    {{ grupo.hora }}
+                    <p>{{ curriculum.nombre }} {{ grupo.ciclo.nombre }}</p>
+                    <p>{{ grupo.dia_curso }} {{ grupo.hora }}</p>
                   </div>
                 </v-card>
               </Link>

@@ -114,6 +114,12 @@ const vuetify = createVuetify({
     VSelect: {
       noDataText: 'No hay opciones disponibles',
     },
+    VCardTitle: {
+      style: {
+        whiteSpace: 'normal', // Estilo directo
+        wordBreak: 'auto-phrase',
+      },
+    },
     // Agrega más componentes si es necesario
   },
   components,

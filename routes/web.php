@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/mis-recursos', App\Http\Controllers\Alumno\RecursosController::class)->only(['index', 'show']);
         //LIDER
         Route::resource('/mis-salones', App\Http\Controllers\Lider\SalonesController::class)->only(['index', 'update']);
-        Route::get('/mis-salones/{idGrupo}/asistencia', [App\Http\Controllers\Lider\SalonesController::class, 'misSalonesAsistencia'])->name('mis-salones.asistencia');
+        Route::get('/mis-salones/{idGrupo}/asistencia', [App\Http\Controllers\AsistenciaController::class, 'misSalonesAsistencia'])->name('mis-salones.asistencia');
         Route::get('/mis-salones/{idCryptCurriculum}/{id}', [App\Http\Controllers\Lider\SalonesController::class, 'misAlumnos'])->name('mis-salones.grupo');
         Route::get('/mis-salones/{idCryptCurriculum}', [App\Http\Controllers\Lider\SalonesController::class, 'curriculum'])->name('mis-salones.curriculum');
 
@@ -76,6 +76,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/grupos-pequenos/horario', [App\Http\Controllers\GrupoPequenoController::class, 'horario'])->name('grupos-pequenos.horarios');
         Route::resource('/grupos-pequenos', App\Http\Controllers\GrupoPequenoController::class);
+        Route::get('/asistencias/grupo/{idGrupo}', [App\Http\Controllers\AsistenciaController::class, 'getAsistenciaGrupo'])->name('asistencias.grupo');
         Route::resource('/asistencias', App\Http\Controllers\AsistenciaController::class)->only(['index', 'show']);
         Route::get('/mi-perfil', [App\Http\Controllers\PersonaController::class, 'perfil'])->name('mi-perfil');
         Route::post('/persona/find', [App\Http\Controllers\PersonaController::class, 'find'])->name('personas.find');

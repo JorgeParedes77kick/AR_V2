@@ -1,12 +1,15 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Helpers\AsistenciaHelper;
+use App\Helpers\RolHelper;
 use App\Models\Curriculum;
+use App\Models\EstadoAsistencia;
 use App\Models\GrupoPequeno;
+use App\Models\Inscripcion;
 use App\Models\Semana;
 use App\Models\Temporada;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -17,38 +20,67 @@ class AsistenciaController extends Controller {
     }
     public function index() {
         $temporadas = Temporada::activo()->get();
-        $temporadasId = $temporadas->pluck('id');
 
-        // Obtener los curriculums con los ciclos y contar los alumnos en grupos pequeños
-        $curriculums = Curriculum::activo()
-            ->whereHas('ciclos.grupospequenos', function ($query) {
-                $query->whereIn('temporada_id', $this->temporadasId);
+        $rol         = session()->get('rol_id');
+        $curriculums = collect();
+        $user        = Auth::user();
+        if ($rol === RolHelper::$COORDINADOR) {
+
+            $curriculums = Curriculum::activo()
+                ->whereHas('ciclos.grupospequenos', function ($query) {
+                    $query->whereIn('temporada_id', $this->temporadasId);
+                })->whereHas('usuarios', function ($q) use ($user) {
+                $q->where('usuarios.id', $user->id);
             })->get();
+
+        } else if ($rol === RolHelper::$MONITOR) {
+            $curriculums = Curriculum::activo()
+                ->whereHas('ciclos.grupospequenos', function ($query) use ($user) {
+                    $query->whereIn('temporada_id', $this->temporadasId)
+                        ->whereHas('monitores', function ($q) use ($user) {
+                            $q->where('usuarios.id', $user->id);
+                        });
+                })->get();
+        } else if ($rol === RolHelper::$LIDER) {
+            $curriculums = Curriculum::activo()
+                ->whereHas('ciclos.grupospequenos', function ($query) use ($user) {
+                    $query->whereIn('temporada_id', $this->temporadasId)
+                        ->whereHas('lideres', function ($q) use ($user) {
+                            $q->where('usuarios.id', $user->id);
+                        });
+                })->get();
+        } else {
+            $curriculums = Curriculum::activo()
+                ->whereHas('ciclos.grupospequenos', function ($query) {
+                    $query->whereIn('temporada_id', $this->temporadasId);
+                })->get();
+        }
+        // Obtener los curriculums con los ciclos y contar los alumnos en grupos pequeños
         return Inertia::render('Asistencia/index', [
-            'temporadas' => $temporadas,
+            'temporadas'  => $temporadas,
             'curriculums' => $curriculums,
         ]);
     }
 
     public function show($idCryptCurriculum) {
         $curriculumId = base64_decode($idCryptCurriculum);
-        $curriculum = Curriculum::find($curriculumId);
+        $curriculum   = Curriculum::find($curriculumId);
         // $usuario = Auth::user();
-        $semanas = Semana::whereIn('temporada_id', $this->temporadasId)->orderBy('temporada_id')->orderBy('id')->get();
-        $gruposAsistencias = $this->asistenciaByGrupo($curriculumId);
-        $ciclosAsistencias = $this->asistenciaByCiclo($curriculumId, $gruposAsistencias);
+        $semanas               = Semana::whereIn('temporada_id', $this->temporadasId)->orderBy('temporada_id')->orderBy('id')->get();
+        $gruposAsistencias     = $this->asistenciaByGrupo($curriculumId);
+        $ciclosAsistencias     = $this->asistenciaByCiclo($curriculumId, $gruposAsistencias);
         $curriculumAsistencias = $this->asistenciaByCurriculum($curriculumId, $gruposAsistencias);
 
         return Inertia::render('Asistencia/show', [
             'curriculumAsistencias' => $curriculumAsistencias,
-            'ciclosAsistencias' => $ciclosAsistencias,
-            'gruposAsistencias' => $gruposAsistencias,
-            'semanas' => $semanas,
-            'curriculum' => $curriculum,
+            'ciclosAsistencias'     => $ciclosAsistencias,
+            'gruposAsistencias'     => $gruposAsistencias,
+            'semanas'               => $semanas,
+            'curriculum'            => $curriculum,
         ]);
     }
     private function asistenciaByGrupo($curriculumId) {
-        $grupos = $this->basicQueryGrupos($curriculumId);
+        $grupos          = $this->basicQueryGrupos($curriculumId);
         $grupos_pequenos = $grupos->groupBy('id')->map(function ($grupos) {
             return $this->mapSemanas($grupos);
         })->values();
@@ -62,7 +94,7 @@ class AsistenciaController extends Controller {
             })->values();
 
         } else {
-            $grupos = $this->basicQueryGrupos($curriculumId);
+            $grupos            = $this->basicQueryGrupos($curriculumId);
             $ciclosAsistencias = $grupos->groupBy('ciclo_id')->map(function ($grupos) {
                 return $this->mapSemanas($grupos);
             })->values();
@@ -76,7 +108,7 @@ class AsistenciaController extends Controller {
         if ($grupos_pequenos) {
             $curriculumAsistencias = collect([$this->forSemanasSum($grupos_pequenos)]);
         } else {
-            $grupos = $this->basicQueryGrupos($curriculumId);
+            $grupos                = $this->basicQueryGrupos($curriculumId);
             $curriculumAsistencias = collect([$this->mapSemanas($grupos)]);
         }
 
@@ -84,6 +116,9 @@ class AsistenciaController extends Controller {
     }
 
     private function basicQueryGrupos($curriculumId) {
+        $user = Auth::user();
+        $rol  = session()->get('rol_id');
+
         $grupos = GrupoPequeno::
             whereIn('grupo_pequenos.temporada_id', $this->temporadasId)
             ->whereIn('s.temporada_id', $this->temporadasId)
@@ -104,8 +139,18 @@ class AsistenciaController extends Controller {
                 'c.nombre as nombre_ciclo',
                 'c2.nombre  as nombre_curriculum',
             )
-            ->with('lideres')
-            ->groupBy('s.id')->groupBy('ea.id')->groupBy('grupo_pequenos.id')
+            ->with('lideres');
+
+        if ($rol === RolHelper::$MONITOR) {
+            $grupos = $grupos->whereHas('monitores', function ($q) use ($user) {
+                $q->where('usuarios.id', $user->id);
+            });
+        } else if ($rol === RolHelper::$LIDER) {
+            $grupos = $grupos->whereHas('lideres', function ($q) use ($user) {
+                $q->where('usuarios.id', $user->id);
+            });
+        }
+        $grupos = $grupos->groupBy('s.id')->groupBy('ea.id')->groupBy('grupo_pequenos.id')
             ->orderBy('grupo_pequenos.id')->orderBy('s.id')
             ->get();
 
@@ -139,18 +184,18 @@ class AsistenciaController extends Controller {
         });
         return (object) [
             "grupo_pequenos_id" => $grupos[0]->id,
-            "ciclo_id" => $grupos[0]->ciclo_id,
-            "nombre_ciclo" => $grupos[0]->nombre_ciclo,
+            "ciclo_id"          => $grupos[0]->ciclo_id,
+            "nombre_ciclo"      => $grupos[0]->nombre_ciclo,
             "nombre_curriculum" => $grupos[0]->nombre_curriculum,
-            "lideres" => $grupos[0]->lideres,
-            "semanas" => $semanas->values(),
-            "total_inscritos" => $semanas->values()->first()->total,
+            "lideres"           => $grupos[0]->lideres,
+            "semanas"           => $semanas->values(),
+            "total_inscritos"   => $semanas->values()->first()->total,
         ];
 
     }
     private function forSemanasSum($grupos) {
         $countSemanas = $grupos[0]->semanas->count();
-        $semanas = collect([]);
+        $semanas      = collect([]);
         for ($i = 0; $i < $countSemanas; $i++) {
             $total = $grupos->sum(function ($grupo) use ($i) {return $grupo->semanas[$i]->total;});
             $ausentes = $grupos->sum(function ($grupo) use ($i) {return $grupo->semanas[$i]->ausentes;});
@@ -159,19 +204,44 @@ class AsistenciaController extends Controller {
             $no_aplica = $grupos->sum(function ($grupo) use ($i) {return $grupo->semanas[$i]->no_aplica;});
             $recuperados = $grupos->sum(function ($grupo) use ($i) {return $grupo->semanas[$i]->recuperados;});
             $semanas->push((object) [
-                "total" => $total, "ausentes" => $ausentes, "inscritos" => $inscritos,
+                "total"     => $total, "ausentes"      => $ausentes, "inscritos"    => $inscritos,
                 "presentes" => $presentes, "no_aplica" => $no_aplica, "recuperados" => $recuperados,
             ]);
         }
         return (object) [
             "grupo_pequenos_id" => $grupos[0]->grupo_pequenos_id,
-            "ciclo_id" => $grupos[0]->ciclo_id,
-            "nombre_ciclo" => $grupos[0]->nombre_ciclo,
+            "ciclo_id"          => $grupos[0]->ciclo_id,
+            "nombre_ciclo"      => $grupos[0]->nombre_ciclo,
             "nombre_curriculum" => $grupos[0]->nombre_curriculum,
-            "lideres" => $grupos[0]->lideres,
-            "semanas" => $semanas->values(),
-            "total_inscritos" => $semanas->values()->first()->total,
+            "lideres"           => $grupos[0]->lideres,
+            "semanas"           => $semanas->values(),
+            "total_inscritos"   => $semanas->values()->first()->total,
         ];
+    }
+    public function misSalonesAsistencia(int $idGrupo) {
+        $usuario = Auth::user();
+        return $this->getAsistenciaGrupo($idGrupo, $usuario->id);
+    }
+    public function getAsistenciaGrupo($idGrupo, $liderId = null) {
+        $temporadasId  = Temporada::activo()->pluck('id')->values();
+        $inscripciones = Inscripcion::
+            where('grupo_pequeno_id', $idGrupo)
+            ->when($liderId, function ($q) use ($liderId) {
+                $q->whereHas('grupoPequeno.lideres', function ($q) use ($liderId) {
+                    $q->where('usuarios.id', $liderId);
+                });
+            })
+            ->whereHas('grupoPequeno', function ($q) use ($temporadasId) {$q->whereIn('temporada_id', $temporadasId);})
+            ->alumno()
+            ->with('asistencias', 'asistencias.estadoAsistencia', 'usuario')
+            ->get();
+        $semanas           = GrupoPequeno::whereId($idGrupo)->first()->temporada->semanas;
+        $estadosAsistencia = EstadoAsistencia::all();
+        return response()->json([
+            'inscripciones' => $inscripciones,
+            'semanas'       => $semanas,
+            'estados'       => $estadosAsistencia,
+        ], 200);
     }
 
 }

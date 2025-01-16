@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Helpers\Cast;
@@ -30,12 +29,12 @@ class GrupoPequenoController extends Controller {
                 ->makeHidden(['semanas', 'fecha_inicio_w', 'fecha_cierre_w', 'fecha_extension_w']);
         });
         $curriculums = collect();
-        $ciclos = collect();
+        $ciclos      = collect();
         if ($rol === RolHelper::$COORDINADOR) {
             $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
             if ($idsCurriculum->count() > 0) {
                 $curriculums = Curriculum::activo()->whereIn('curriculums.id', $idsCurriculum)->get();
-                $ciclos = Ciclo::whereHas('curriculum', function ($q) use ($idsCurriculum) {
+                $ciclos      = Ciclo::whereHas('curriculum', function ($q) use ($idsCurriculum) {
                     $q->activo()->whereIn('curriculums.id', $idsCurriculum);
                 })->select('nombre')->distinct()->get();
             }
@@ -50,23 +49,23 @@ class GrupoPequenoController extends Controller {
         }
         $dias = collect(['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'none']);
 
-        $form = $request->except('perPage', 'page', 'temporadas');
+        $form         = $request->except('perPage', 'page', 'temporadas');
         $temporadasId = Cast::castParams($request->input('temporadas', []), 'int');
-        $form = array_merge($form, $request->only('buscador'), ['temporadas' => $temporadasId]);
+        $form         = array_merge($form, $request->only('buscador'), ['temporadas' => $temporadasId]);
         return Inertia::render('GruposPequenos/index', [
             'gruposPequenos' => $gruposPequenos,
-            'temporadas' => $temporadas,
-            'curriculums' => $curriculums,
-            'ciclos' => $ciclos,
-            'dias' => $dias,
-            'action' => 'historico',
-            'form' => $form,
+            'temporadas'     => $temporadas,
+            'curriculums'    => $curriculums,
+            'ciclos'         => $ciclos,
+            'dias'           => $dias,
+            'action'         => 'historico',
+            'form'           => $form,
         ]);
     }
 
     public function horario(Request $request) {
         $gruposPequenos = $this->find($request, true);
-        $rol = session()->get('rol_id');
+        $rol            = session()->get('rol_id');
 
         $temporadas = cache()->remember('temporadas', 60 * 20, function () {
             return Temporada::select('id', 'prefijo')->orderBy('prefijo', 'desc')->get()
@@ -74,8 +73,8 @@ class GrupoPequenoController extends Controller {
         });
         if ($rol === RolHelper::$COORDINADOR) {
             $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
-            $curriculums = Curriculum::activo()->whereIn('curriculums.id', $idsCurriculum)->get();
-            $ciclos = Ciclo::whereHas('curriculum', function ($q) use ($idsCurriculum) {
+            $curriculums   = Curriculum::activo()->whereIn('curriculums.id', $idsCurriculum)->get();
+            $ciclos        = Ciclo::whereHas('curriculum', function ($q) use ($idsCurriculum) {
                 $q->activo()->whereIn('curriculums.id', $idsCurriculum);
             })->select('nombre')->distinct()->get();
         } else {
@@ -89,18 +88,18 @@ class GrupoPequenoController extends Controller {
         }
         $dias = collect(['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'none']);
 
-        $form = $request->except('perPage', 'page', 'temporadas');
+        $form         = $request->except('perPage', 'page', 'temporadas');
         $temporadasId = Cast::castParams($request->input('temporadas', []), 'int');
-        $form = array_merge($form, $request->only('buscador'), ['temporadas' => $temporadasId]);
+        $form         = array_merge($form, $request->only('buscador'), ['temporadas' => $temporadasId]);
 
         return Inertia::render('GruposPequenos/index', [
             'gruposPequenos' => $gruposPequenos,
-            'temporadas' => $temporadas,
-            'curriculums' => $curriculums,
-            'ciclos' => $ciclos,
-            'dias' => $dias,
-            'action' => 'horarios',
-            'form' => $form,
+            'temporadas'     => $temporadas,
+            'curriculums'    => $curriculums,
+            'ciclos'         => $ciclos,
+            'dias'           => $dias,
+            'action'         => 'horarios',
+            'form'           => $form,
 
         ]);
     }
@@ -112,7 +111,7 @@ class GrupoPequenoController extends Controller {
     public function create() {
         $temporadas = Temporada::where('activo', true)->select(['id', 'prefijo'])->get();
 
-        $rol = session()->get('rol_id');
+        $rol         = session()->get('rol_id');
         $curriculums = collect();
         if ($rol === RolHelper::$COORDINADOR) {
             $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
@@ -123,7 +122,7 @@ class GrupoPequenoController extends Controller {
             $curriculums = Curriculum::activo()->select(['id', 'nombre'])->with('ciclos:id,nombre,curriculum_id')->get();
         }
 
-        $dias = collect(['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'none']);
+        $dias    = collect(['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'none']);
         $lideres = Usuario::select(['usuarios.id', 'usuarios.nick_name', 'usuarios.email', 'personas.id as persona_id', 'personas.nombre', 'personas.apellido',
             DB::raw("CONCAT(personas.nombre, ' ', personas.apellido, ' - ', usuarios.email) as fullNombre"),
         ])->join('personas', 'usuarios.persona_id', '=', 'personas.id')->whereHas('roles', function ($q) {$q->where('roles.id', 3);})->get();
@@ -135,12 +134,12 @@ class GrupoPequenoController extends Controller {
             ->whereHas('roles', function ($q) {$q->where('roles.id', 4);})->get();
 
         return Inertia::render('GruposPequenos/form', [
-            'action' => 'create',
-            'temporadas' => $temporadas,
+            'action'      => 'create',
+            'temporadas'  => $temporadas,
             'curriculums' => $curriculums,
-            'dias' => $dias,
-            'lideres' => $lideres,
-            'monitores' => $monitores,
+            'dias'        => $dias,
+            'lideres'     => $lideres,
+            'monitores'   => $monitores,
         ]);
     }
 
@@ -151,7 +150,7 @@ class GrupoPequenoController extends Controller {
      */
     public function store(Request $request) {
         // Extraer líderes y monitores
-        $lideres = $request->input('lideres', []);
+        $lideres   = $request->input('lideres', []);
         $monitores = $request->input('monitores', []);
 
         // Remover líderes y monitores de los inputs
@@ -165,22 +164,22 @@ class GrupoPequenoController extends Controller {
             // Preparar inscripciones de líderes
             $lideresInscripciones = array_map(function ($lider) use ($grupopequeno) {
                 return [
-                    'usuario_id' => $lider['id'],
-                    'rol_id' => 4, // Rol de líder
-                    'grupo_pequeno_id' => $grupopequeno->id,
+                    'usuario_id'            => $lider['id'],
+                    'rol_id'                => 4, // Rol de líder
+                    'grupo_pequeno_id'      => $grupopequeno->id,
                     'estado_inscripcion_id' => 5,
-                    'info_adicional' => 'Lider',
+                    'info_adicional'        => 'Lider',
                 ];
             }, $lideres);
 
             // Preparar inscripciones de monitores
             $monitoresInscripciones = array_map(function ($monitor) use ($grupopequeno) {
                 return [
-                    'usuario_id' => $monitor['id'],
-                    'rol_id' => 3, // Rol de monitor
-                    'grupo_pequeno_id' => $grupopequeno->id,
+                    'usuario_id'            => $monitor['id'],
+                    'rol_id'                => 3, // Rol de monitor
+                    'grupo_pequeno_id'      => $grupopequeno->id,
                     'estado_inscripcion_id' => 6,
-                    'info_adicional' => 'Monitor',
+                    'info_adicional'        => 'Monitor',
                 ];
             }, $monitores);
 
@@ -212,35 +211,14 @@ class GrupoPequenoController extends Controller {
     public function show($id) {
         $grupoPequeno = GrupoPequeno::where('id', $id)->with(
             'ciclo.curriculum', 'temporada',
-            'inscripciones.usuario.persona',
-            'inscripciones.estadoInscripcion',
+            'inscripcionesAlumnos.estadoInscripcion',
+            'inscripcionesAlumnos.usuario',
+            'lideres', 'monitores'
         )->orderBy('temporada_id', 'desc')->first();
         // Agrupar los usuarios por su rol (líderes y monitores)
-        $lideres = collect();
-        $monitores = collect();
-        $alumnos = collect();
-        foreach ($grupoPequeno->inscripciones as $inscripcion) {
-            if ($inscripcion->rol_id === 3) {
-                $lideres->push($inscripcion->usuario);
-            } elseif ($inscripcion->rol_id === 4) {
-                $monitores->push($inscripcion->usuario);
-
-            } elseif ($inscripcion->rol_id === 5) {
-                $usuario = $inscripcion->usuario;
-                unset($inscripcion->usuario);
-                $usuario->inscripcion = $inscripcion;
-                $alumnos->push($usuario);
-            }
-        }
-
-        // Asignar líderes y monitores al grupoPequeno
-        $grupoPequeno->alumnos = $alumnos;
-        $grupoPequeno->lideres = $lideres;
-        $grupoPequeno->monitores = $monitores;
-        unset($grupoPequeno->inscripciones);
 
         return Inertia::render('GruposPequenos/show', [
-            'action' => 'show',
+            'action'       => 'show',
             'grupoPequeno' => $grupoPequeno,
         ]);
     }
@@ -270,7 +248,7 @@ class GrupoPequenoController extends Controller {
         $lideres = $grupoPequeno->inscripciones
             ->where('rol_id', 3)
             ->map(function ($inscripcion) {
-                $usuario = $inscripcion->usuario;
+                $usuario             = $inscripcion->usuario;
                 $usuario->fullNombre = "{$usuario->persona->nombre} {$usuario->persona->apellido} - {$usuario->email}";
                 return $usuario;
             })->values();
@@ -278,19 +256,19 @@ class GrupoPequenoController extends Controller {
         $monitores = $grupoPequeno->inscripciones
             ->where('rol_id', 4)
             ->map(function ($inscripcion) {
-                $usuario = $inscripcion->usuario;
+                $usuario             = $inscripcion->usuario;
                 $usuario->fullNombre = "{$usuario->persona->nombre} {$usuario->persona->apellido} - {$usuario->email}";
                 return $usuario;
             })->values();
         // $alumnos_contar = $grupoPequeno->inscripciones->where('rol_id', 5)->count();
-        $grupoPequeno->lideres = $lideres;
+        $grupoPequeno->lideres   = $lideres;
         $grupoPequeno->monitores = $monitores;
         // $grupoPequeno->alumnos_contar = $alumnos_contar;
         // unset($grupoPequeno->inscripciones);
 
         $temporadas = Temporada::where('activo', true)->select(['id', 'prefijo'])->get();
 
-        $rol = session()->get('rol_id');
+        $rol         = session()->get('rol_id');
         $curriculums = collect();
         if ($rol === RolHelper::$COORDINADOR) {
             $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
@@ -300,7 +278,7 @@ class GrupoPequenoController extends Controller {
         } else {
             $curriculums = Curriculum::activo()->select(['id', 'nombre'])->with('ciclos:id,nombre,curriculum_id')->get();
         }
-        $dias = collect(['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'none']);
+        $dias    = collect(['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'none']);
         $lideres = Usuario::select(['usuarios.id', 'usuarios.nick_name', 'usuarios.email', 'personas.id as persona_id', 'personas.nombre', 'personas.apellido',
             DB::raw("CONCAT(personas.nombre, ' ', personas.apellido, ' - ', usuarios.email) as fullNombre"),
         ])->join('personas', 'usuarios.persona_id', '=', 'personas.id')->whereHas('roles', function ($q) {$q->where('roles.id', 3);})->get();
@@ -312,12 +290,12 @@ class GrupoPequenoController extends Controller {
             ->whereHas('roles', function ($q) {$q->where('roles.id', 4);})->get();
 
         return Inertia::render('GruposPequenos/form', [
-            'action' => 'edit',
-            'temporadas' => $temporadas,
-            'curriculums' => $curriculums,
-            'dias' => $dias,
-            'lideres' => $lideres,
-            'monitores' => $monitores,
+            'action'       => 'edit',
+            'temporadas'   => $temporadas,
+            'curriculums'  => $curriculums,
+            'dias'         => $dias,
+            'lideres'      => $lideres,
+            'monitores'    => $monitores,
             'grupoPequeno' => $grupoPequeno,
         ]);
     }
@@ -330,7 +308,7 @@ class GrupoPequenoController extends Controller {
      */
     public function update(Request $request, $id) {
         // Extraer líderes y monitores del request
-        $lideres = $request->input('lideres', []);
+        $lideres   = $request->input('lideres', []);
         $monitores = $request->input('monitores', []);
 
         // Remover líderes y monitores de los inputs para crear el grupo
@@ -349,18 +327,18 @@ class GrupoPequenoController extends Controller {
             $inscripcionesActuales = $grupoPequeno->inscripciones()->whereIn('rol_id', [3, 4])->get();
 
             // Obtener los IDs actuales de líderes y monitores
-            $lideresActuales = $inscripcionesActuales->where('rol_id', 3)->pluck('usuario_id')->toArray();
+            $lideresActuales   = $inscripcionesActuales->where('rol_id', 3)->pluck('usuario_id')->toArray();
             $monitoresActuales = $inscripcionesActuales->where('rol_id', 4)->pluck('usuario_id')->toArray();
 
             // Obtener los nuevos IDs de líderes y monitores desde el request
-            $nuevosLideres = collect($lideres)->pluck('id')->toArray();
+            $nuevosLideres   = collect($lideres)->pluck('id')->toArray();
             $nuevosMonitores = collect($monitores)->pluck('id')->toArray();
 
             // Determinar los líderes y monitores a agregar y a eliminar
-            $lideresAEliminar = array_diff($lideresActuales, $nuevosLideres);
+            $lideresAEliminar   = array_diff($lideresActuales, $nuevosLideres);
             $monitoresAEliminar = array_diff($monitoresActuales, $nuevosMonitores);
 
-            $lideresAAgregar = array_diff($nuevosLideres, $lideresActuales);
+            $lideresAAgregar   = array_diff($nuevosLideres, $lideresActuales);
             $monitoresAAgregar = array_diff($nuevosMonitores, $monitoresActuales);
 
             // Eliminar inscripciones de los líderes y monitores que ya no están
@@ -370,22 +348,22 @@ class GrupoPequenoController extends Controller {
             // Agregar nuevas inscripciones de líderes
             $lideresInscripciones = array_map(function ($lider) use ($grupoPequeno) {
                 return [
-                    'usuario_id' => $lider,
-                    'rol_id' => 3, // Rol de líder
-                    'grupo_pequeno_id' => $grupoPequeno->id,
+                    'usuario_id'            => $lider,
+                    'rol_id'                => 3, // Rol de líder
+                    'grupo_pequeno_id'      => $grupoPequeno->id,
                     'estado_inscripcion_id' => 5, // Estado de inscripción líder
-                    'info_adicional' => 'Lider',
+                    'info_adicional'        => 'Lider',
                 ];
             }, $lideresAAgregar);
 
             // Agregar nuevas inscripciones de monitores
             $monitoresInscripciones = array_map(function ($monitor) use ($grupoPequeno) {
                 return [
-                    'usuario_id' => $monitor,
-                    'rol_id' => 4, // Rol de monitor
-                    'grupo_pequeno_id' => $grupoPequeno->id,
+                    'usuario_id'            => $monitor,
+                    'rol_id'                => 4, // Rol de monitor
+                    'grupo_pequeno_id'      => $grupoPequeno->id,
                     'estado_inscripcion_id' => 6, // Estado de inscripción monitor
-                    'info_adicional' => 'Monitor',
+                    'info_adicional'        => 'Monitor',
                 ];
             }, $monitoresAAgregar);
 
@@ -404,7 +382,7 @@ class GrupoPequenoController extends Controller {
 
             return response()->json([
                 "message" => $th->getMessage(),
-                "server" => "¡El Grupo pequeño no pudo ser actualizado, intente más tarde!",
+                "server"  => "¡El Grupo pequeño no pudo ser actualizado, intente más tarde!",
             ], 500);
         }
     }
@@ -446,12 +424,12 @@ class GrupoPequenoController extends Controller {
 
         $rol = session()->get('rol_id');
 
-        $perPage = trim($request->input('perPage', 20));
-        $temporadas = $request->input('temporadas', []);
+        $perPage     = trim($request->input('perPage', 20));
+        $temporadas  = $request->input('temporadas', []);
         $curriculums = $request->input('curriculums', []);
-        $ciclos = $request->input('ciclos', []);
-        $dias = $request->input('dias', []);
-        $nombre = trim($request->input('nombre'));
+        $ciclos      = $request->input('ciclos', []);
+        $dias        = $request->input('dias', []);
+        $nombre      = trim($request->input('nombre'));
 
         $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
         if ($rol === RolHelper::$COORDINADOR && $idsCurriculum->count() == 0) {
@@ -461,12 +439,12 @@ class GrupoPequenoController extends Controller {
         $gruposPequenos =
         GrupoPequeno::with(
             [
-                'ciclo' => function ($q) {$q->select('id', 'nombre', 'curriculum_id');},
-                'ciclo.curriculum' => function ($q) {$q->select('id', 'nombre');},
-                'temporada' => function ($q) {$q->select('id', 'nombre', 'prefijo', 'activo');},
+                'ciclo'             => function ($q) {$q->select('id', 'nombre', 'curriculum_id');},
+                'ciclo.curriculum'  => function ($q) {$q->select('id', 'nombre');},
+                'temporada'         => function ($q) {$q->select('id', 'nombre', 'prefijo', 'activo');},
                 // 'lideres' => function ($q) {$q->select('id', 'email', 'persona_id');},
                 // 'monitores' => function ($q) {$q->select('id', 'email', 'persona_id');},
-                'lideres.persona' => function ($q) {$q->select('id', 'nombre', 'apellido');},
+                'lideres.persona'   => function ($q) {$q->select('id', 'nombre', 'apellido');},
                 'monitores.persona' => function ($q) {$q->select('id', 'nombre', 'apellido');},
             ]
         )->withCount('alumnos');

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use App\Helpers\InscripcionHelper;
@@ -28,8 +27,8 @@ class GrupoPequeno extends Model {
     ];
 
     protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'created_at'         => 'datetime',
+        'updated_at'         => 'datetime',
         // 'hora_inicio' => 'time',
         // 'hora_fin' => 'time',
         'activo_inscripcion' => 'boolean',

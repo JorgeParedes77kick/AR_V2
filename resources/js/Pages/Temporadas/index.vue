@@ -46,7 +46,7 @@
       const index = props.temporadas.findIndex((x) => x.id === item.id);
       if (response?.data?.message) {
         const { message } = response.data;
-        await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+        await Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
         props.temporadas.splice(index, 1);
       }
     } catch (err) {
@@ -114,7 +114,7 @@
       const response = await axios.post(route(`calificar`), { temporada_id });
       if (response?.data?.message) {
         const { message } = response.data;
-        Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+        Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
       }
     } catch (err) {
       if (err?.response?.data?.server) {
@@ -138,7 +138,7 @@
         <v-card-title> TEMPORADAS </v-card-title>
         <div>
           <v-row class="">
-            <v-col class="d-flex justify-end ga-2">
+            <v-col class="gridBtns" style="">
               <v-btn color="secondary" @click="() => calificarAlumnos()" class="ms-auto">
                 Calificar Temporadas
               </v-btn>

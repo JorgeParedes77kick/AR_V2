@@ -120,7 +120,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               message = response.data.message;
               _context.next = 11;
               return Swal.fire({
-                title: 'Exito!',
+                title: 'Éxito!',
                 text: message,
                 icon: 'success'
               });
@@ -334,7 +334,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
               message = response.data.message;
               _context.next = 13;
               return Swal.fire({
-                title: 'Exito!',
+                title: 'Éxito!',
                 text: message,
                 icon: 'success'
               });
