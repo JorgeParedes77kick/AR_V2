@@ -1,49 +1,45 @@
 <script setup>
-import { Link, usePage } from '@inertiajs/vue3';
-import { defineProps, onMounted, ref } from 'vue';
-import MainLayout from '../../components/Layout.vue';
+  import { Link, usePage } from '@inertiajs/vue3';
+  import { defineProps, onMounted } from 'vue';
+  import MainLayout from '../../components/Layout.vue';
 
-// const { flash } = usePage().props.value;
-const pageProps = usePage().props.value;
+  // const { flash } = usePage().props.value;
+  const pageProps = usePage().props;
 
-const props = defineProps({
-  temporadas: { type: Array, default: [] },
-  curriculums: { type: Array, default: [] },
-  status: Boolean,
-});
+  const props = defineProps({
+    temporadas: { type: Array, default: [] },
+    curriculums: { type: Array, default: [] },
+    status: Boolean,
+  });
 
-const loading = ref(false);
-const isDisabled = ref(false);
-
-onMounted(() => {
-  console.log('pageProps:', pageProps);
-  console.log('Props:', props);
-});
+  onMounted(() => {
+    console.log('pageProps:', pageProps);
+    console.log('Props:', props);
+  });
 </script>
 
 <template>
   <main-layout>
     <v-container fluid>
       <v-card color="background" class="shadow-md px-4 py-2">
+        <template #title>
+          <div class="text-center">
+            <template v-if="temporadas.some((x) => x.activo_inscripcion) && curriculums.length > 0">
+              GRUPOS PEQUEÑOS ABIERTOS ESTA TEMPORADA
+            </template>
+            <template v-else-if="temporadas.length > 0">
+              ¡Ya comenzó la temporada {{ temporadas[0].prefijo }} de grupos pequeños!
+            </template>
+            <template v-else> No existe ninguna temporada activa en este momento! </template>
+          </div>
+        </template>
+        <template
+          #subtitle
+          v-if="temporadas.some((x) => x.activo_inscripcion) && curriculums.length > 0"
+        >
+          Haz clic en el grupo pequeño de tu interes!
+        </template>
         <div>
-          <template v-if="temporadas.some((x) => x.activo_inscripcion) && curriculums.length > 0">
-            <v-card-title class="text-center">GRUPOS PEQUEÑOS ABIERTOS ESTA TEMPORADA</v-card-title>
-            <p class="text-subtitle-1 text-center">Haz clic en el grupo pequeño de tu interes!</p>
-          </template>
-          <template v-else-if="temporadas.length > 0">
-            <v-card-title class="text-center" style="font-size: 30px"
-              >¡Ya comenzó la temporada {{ temporadas[0].prefijo }} de grupos
-              pequeños!</v-card-title
-            >
-            <!-- <img src="@/assets/celebracion.png" width="10%" height="10%" /> -->
-          </template>
-          <template v-else>
-            <v-card-title class="text-center" style="font-size: 30px"
-              >No existe ninguna temporada activa en este momento!</v-card-title
-            >
-            <!-- <img src="@/assets/celebracion.png" width="10%" height="10%" /> -->
-          </template>
-
           <template v-if="status">
             <v-alert type="success" :text="status"></v-alert>
           </template>
@@ -74,37 +70,32 @@ onMounted(() => {
               </v-col>
             </v-row>
           </template>
-          <template v-else-if="temporadas.length > 0">
-            <v-row id="aviso">
-              <v-col cols="12">
-                <v-alert color="info">
-                  <p>
-                    Qué bueno que seas parte de esta familia sin fronteras. Esperamos que estés
-                    disfrutando de todo lo que estas viviendo este tiempo. Recuerda que aquí podrás
-                    tener
-                    <!-- <a :href="editarPerfilRoute">acceso a tu perfil</a>, -->
-                    revisar
-                    <!-- <a :href="misGruposRoute">tus grupos inscritos</a> -->
-                    y muy pronto tendremos nuevas funciones que harán mejor tu experiencia de Grupos
-                    Pequeños Sin Fronteras.
-                  </p>
-                  <p style="text-align: center">
-                    <strong>¡Que tengas una bella temporada!</strong>
-                  </p>
-                </v-alert>
-              </v-col>
-            </v-row>
-          </template>
+
           <template v-else>
             <v-row id="aviso">
               <v-col cols="12">
                 <v-alert color="info">
-                  <p>
-                    Recuerda que aquí podrás tener
-                    <!-- <a :href="editarPerfilRoute">acceso a tu perfil</a>, -->
+                  <p v-if="temporadas.length > 0">
+                    Qué bueno que seas parte de esta familia sin fronteras. Esperamos que estés
+                    disfrutando de todo lo que estás viviendo este tiempo. Recuerda que aquí podrás
+                    tener
+                    <Link :href="route('mi-perfil')"><strong>acceso a tu perfil</strong></Link> y
+                    revisar
+                    <Link :href="route('mis-cursos')"><strong>tus grupos inscritos</strong></Link>
                     <br />
                     Muy pronto tendremos nuevas funciones que harán mejor tu experiencia de Grupos
                     Pequeños Sin Fronteras.
+                  </p>
+                  <p v-else>
+                    Recuerda que aquí podrás tener
+                    <Link :href="route('mi-perfil')"><strong>acceso a tu perfil</strong></Link>
+                    <br />
+                    Muy pronto tendremos nuevas funciones que harán mejor tu experiencia de Grupos
+                    Pequeños Sin Fronteras.
+                  </p>
+
+                  <p style="text-align: center" v-if="temporadas.length > 0">
+                    <strong>¡Que tengas una bella temporada!</strong>
                   </p>
                 </v-alert>
               </v-col>

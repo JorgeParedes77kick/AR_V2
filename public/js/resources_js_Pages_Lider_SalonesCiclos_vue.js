@@ -214,7 +214,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
               message = response.data.message;
               _context.next = 13;
               return Swal.fire({
-                title: 'Exito!',
+                title: 'Éxito!',
                 text: message,
                 icon: 'success'
               });
@@ -440,7 +440,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", null, "Selecciona tu ciclo:")], -1 /* HOISTED */);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_v_card_title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-card-title");
   var _component_v_divider = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-divider");
@@ -475,7 +474,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "class": "text-subtitle-1"
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [_hoisted_1];
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Selecciona tu ciclo: ")];
                     }),
                     _: 1 /* STABLE */
                   }), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.grupospequenos, function (grupo) {
@@ -483,7 +482,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       key: grupo.id,
                       cols: "12",
                       sm: "6",
-                      md: "4"
+                      md: "4",
+                      lg: "3"
                     }, {
                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_hover, null, {
@@ -494,22 +494,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                               href: _ctx.route('mis-salones.grupo', {
                                 idCryptCurriculum: $props.curriculum.idCrypt,
                                 id: grupo.id
-                              })
+                              }),
+                              style: {
+                                "text-decoration": "none",
+                                "color": "inherit"
+                              }
                             }, {
                               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                 return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_card, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
-                                  "class": "rounded-pill border-md w-100 border-info h-auto px-3 py-1 text-center",
+                                  "class": "rounded-pill border-md w-100 h-auto px-3 py-1 text-center",
                                   elevation: isHovering ? 10 : 2,
-                                  color: $setup.isDark ? 'gray' : 'ayrface',
+                                  color: "info",
                                   ref_for: true
                                 }, props), {
                                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                                     return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
                                       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(isHovering ? 'font-weight-medium' : '')
-                                    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.curriculum.nombre) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(grupo.ciclo.nombre) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(grupo.dia_curso) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(grupo.hora), 3 /* TEXT, CLASS */)];
+                                    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.curriculum.nombre) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(grupo.ciclo.nombre), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(grupo.dia_curso) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(grupo.hora), 1 /* TEXT */)], 2 /* CLASS */)];
                                   }),
                                   _: 2 /* DYNAMIC */
-                                }, 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["elevation", "color"])), [[_directive_ripple]])];
+                                }, 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["elevation"])), [[_directive_ripple]])];
                               }),
                               _: 2 /* DYNAMIC */
                             }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"])];

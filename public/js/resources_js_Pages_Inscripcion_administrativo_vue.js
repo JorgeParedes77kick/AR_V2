@@ -359,7 +359,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               message = data.message;
               _context3.next = 31;
               return Swal.fire({
-                title: 'Exito!',
+                title: 'Éxito!',
                 text: message,
                 icon: 'success'
               });
@@ -774,7 +774,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
               message = data.message;
               _context2.next = 32;
               return Swal.fire({
-                title: 'Exito!',
+                title: 'Éxito!',
                 text: message,
                 icon: 'success'
               });
@@ -1050,7 +1050,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
               message = response.data.message;
               _context.next = 13;
               return Swal.fire({
-                title: 'Exito!',
+                title: 'Éxito!',
                 text: message,
                 icon: 'success'
               });

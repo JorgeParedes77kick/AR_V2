@@ -76,7 +76,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               message = response.data.message;
               _context.next = 12;
               return Swal.fire({
-                title: 'Exito!',
+                title: 'Éxito!',
                 text: message,
                 icon: 'success'
               });
@@ -292,7 +292,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
               message = response.data.message;
               _context.next = 13;
               return Swal.fire({
-                title: 'Exito!',
+                title: 'Éxito!',
                 text: message,
                 icon: 'success'
               });

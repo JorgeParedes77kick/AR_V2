@@ -20,7 +20,3 @@ $overflow-values: ('auto', 'hidden', 'visible', 'scroll');
     overflow-y: #{$value} !important;
   }
 }
-
-.white-space-normal {
-  white-space: normal !important;
-}

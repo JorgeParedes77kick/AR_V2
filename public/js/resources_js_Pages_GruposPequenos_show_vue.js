@@ -294,7 +294,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
               message = response.data.message;
               _context.next = 13;
               return Swal.fire({
-                title: 'Exito!',
+                title: 'Éxito!',
                 text: message,
                 icon: 'success'
               });
@@ -746,12 +746,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
                                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.grupoPequeno.alumnos, function (alumno) {
+                                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.grupoPequeno.inscripciones_alumnos, function (inscripcion) {
                                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_list_item, {
-                                      key: alumno.id
+                                      key: inscripcion.id
                                     }, {
                                       subtitle: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("".concat(alumno.persona.nombre, " ").concat(alumno.persona.apellido)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(alumno.email), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div> {{ alumno.persona.telefono }} </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(alumno.inscripcion.estado_inscripcion.estado), 1 /* TEXT */)])];
+                                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.usuario.nombreCompleto), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.usuario.email), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div>{{ inscripcion.usuario.persona.telefono }}</div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(inscripcion.estado_inscripcion.estado), 1 /* TEXT */)])];
                                       }),
                                       _: 2 /* DYNAMIC */
                                     }, 1024 /* DYNAMIC_SLOTS */);

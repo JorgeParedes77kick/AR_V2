@@ -66,7 +66,7 @@
       const response = await axios[method](route(routeName, id), inputForm);
       if (response?.data?.message) {
         const { message } = response.data;
-        await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+        await Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
 
         router.visit(route('usuarios-equipo.index'));
       }

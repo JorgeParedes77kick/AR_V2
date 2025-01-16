@@ -149,6 +149,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     idGrupo: {
       type: Number,
       "default": -1
+    },
+    edit: {
+      type: Boolean,
+      "default": true
+    },
+    textoBtn: {
+      type: String,
+      "default": 'Asistencia'
+    },
+    colorBtn: {
+      type: String,
+      "default": 'success'
     }
   },
   setup: function setup(__props, _ref) {
@@ -156,7 +168,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     __expose();
     var props = __props;
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
-    var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var isDisabled = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(!props.edit);
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {});
     var alumnos = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
     var semanas = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
@@ -185,7 +197,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               loading.value = true;
               _context.prev = 1;
               _context.next = 4;
-              return axios.get(route('mis-salones.asistencia', props.idGrupo));
+              return axios.get(route(props.edit ? 'mis-salones.asistencia' : 'asistencias.grupo', props.idGrupo));
             case 4:
               response = _context.sent;
               data = response.data;
@@ -273,7 +285,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               }
               throw new Error('No message');
             case 13:
-              message = data.message; // Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+              message = data.message; // Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
               _context2.next = 19;
               break;
             case 16:
@@ -475,7 +487,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
               message = response.data.message;
               _context.next = 13;
               return Swal.fire({
-                title: 'Exito!',
+                title: 'Éxito!',
                 text: message,
                 icon: 'success'
               });
@@ -1087,15 +1099,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, {
     activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
       var activatorProps = _ref.props;
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
-        color: "success",
+      return [$props.edit ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
+        key: 0,
+        color: $props.colorBtn,
         onClick: $setup.buscarAsistencias
       }, activatorProps), {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Asistencia ")];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.textoBtn), 1 /* TEXT */)];
         }),
         _: 2 /* DYNAMIC */
-      }, 1040 /* FULL_PROPS, DYNAMIC_SLOTS */)];
+      }, 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["color"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_btn, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)({
+        key: 1,
+        "class": "w-100",
+        color: $props.colorBtn,
+        onClick: $setup.buscarAsistencias
+      }, activatorProps), {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")];
+        }),
+        _: 2 /* DYNAMIC */
+      }, 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["color"]))];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
       var isActive = _ref2.isActive;
@@ -1140,7 +1163,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       activator: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref4) {
                         var _item$asistencias;
                         var props = _ref4.props;
-                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_chip, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)(props, {
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_chip, (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)($props.edit ? props : {}, {
                           color: $setup.colorEstados[(_item$asistencias = item.asistencias[n - 1]) === null || _item$asistencias === void 0 ? void 0 : _item$asistencias.estado_asistencia_id],
                           variant: "elevated",
                           "class": "text-uppercase",
@@ -1186,7 +1209,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               })]), 1032 /* PROPS, DYNAMIC_SLOTS */, ["headers", "items"])];
             }),
             _: 1 /* STABLE */
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_card_actions, null, {
+          }), $props.edit ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_v_card_actions, {
+            key: 0
+          }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
                 color: "secondary",
@@ -1211,12 +1236,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }, 8 /* PROPS */, ["loading"])];
             }),
             _: 2 /* DYNAMIC */
-          }, 1024 /* DYNAMIC_SLOTS */)];
+          }, 1024 /* DYNAMIC_SLOTS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
         }),
         _: 2 /* DYNAMIC */
       }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["loading"])];
     }),
-    _: 1 /* STABLE */
+    _: 3 /* FORWARDED */
   })], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
 }
 

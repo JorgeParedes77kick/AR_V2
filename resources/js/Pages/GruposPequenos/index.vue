@@ -141,7 +141,7 @@
         const index = props.gruposPequenos.findIndex((x) => x.id === item.id);
         if (response?.data?.message) {
           const { message } = response.data;
-          await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+          await Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
           props.gruposPequenos.splice(index, 1);
         }
       } catch (err) {

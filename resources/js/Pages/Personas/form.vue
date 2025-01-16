@@ -63,7 +63,7 @@
         const { message, persona } = response.data;
         inputForm.defaults({ ...persona });
         inputForm.reset();
-        await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+        await Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
       }
     } catch (err) {
       console.log(err?.response);

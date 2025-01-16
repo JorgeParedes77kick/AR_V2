@@ -99,7 +99,7 @@ __webpack_require__.r(__webpack_exports__);
     //       const index = props.usuarios - equipo.findIndex(x => x.id === item.id)
     //       if (response?.data?.message) {
     //         const { message } = response.data;
-    //         Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+    //         Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
     //         props.usuarios - equipo.splice(index, 1)
     //       }
     //     } catch (err) {
@@ -290,7 +290,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
               message = response.data.message;
               _context.next = 13;
               return Swal.fire({
-                title: 'Exito!',
+                title: 'Éxito!',
                 text: message,
                 icon: 'success'
               });

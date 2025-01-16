@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 // Variables
+
 @import '~vuetify/styles';
 @import 'fonts';
 @import 'functions';
@@ -13,6 +14,7 @@
 // @import 'colors/variables-dark';
 // @import 'colors/variables-light';
 @import '~vuetify/lib/styles/settings/variables';
+@import 'text';
 
 @media #{map-get($display-breakpoints, 'sm-and-down')} {
   #loginPanel {

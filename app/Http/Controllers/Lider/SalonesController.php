@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Lider;
 
 use App\Helpers\AsistenciaHelper;
@@ -7,9 +6,7 @@ use App\Helpers\Debug;
 use App\Http\Controllers\Controller;
 use App\Models\Asistencia;
 use App\Models\Curriculum;
-use App\Models\EstadoAsistencia;
 use App\Models\GrupoPequeno;
-use App\Models\Inscripcion;
 use App\Models\Temporada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +17,7 @@ class SalonesController extends Controller {
 
     public function index() {
         $temporadasId = Temporada::activo()->pluck('id')->toArray();
-        $usuario = Auth::user();
+        $usuario      = Auth::user();
 
         $curriculums = Curriculum::whereHas('ciclos.gruposPequenos', function ($query) use ($temporadasId, $usuario) {
             $query->whereIn('temporada_id', $temporadasId)
@@ -36,10 +33,10 @@ class SalonesController extends Controller {
     }
 
     public function curriculum(String $idCryptCurriculum) {
-        $id = base64_decode($idCryptCurriculum);
-        $usuario = Auth::user();
+        $id           = base64_decode($idCryptCurriculum);
+        $usuario      = Auth::user();
         $temporadasId = Temporada::activo()->pluck('id')->values();
-        $curriculum = Curriculum::where('curriculums.id', $id)
+        $curriculum   = Curriculum::where('curriculums.id', $id)
             ->whereHas('ciclos.grupospequenos', function ($query) use ($temporadasId, $usuario) {
                 $query->whereIn('temporada_id', $temporadasId)
                     ->whereHas('lideres', function ($query) use ($usuario) {
@@ -47,7 +44,7 @@ class SalonesController extends Controller {
                     });
             })->first();
 
-        if (!$curriculum) {return redirect()->route('mis-salones')->with(['error' => 'Curriculum no disponible o no existe!']);}
+        if (! $curriculum) {return redirect()->route('mis-salones')->with(['error' => 'Curriculum no disponible o no existe!']);}
 
         $grupospequenos = GrupoPequeno::whereIn('temporada_id', $temporadasId)
             ->whereHas('lideres', function ($query) use ($usuario) {
@@ -60,13 +57,13 @@ class SalonesController extends Controller {
 
         Debug::infoJson($curriculum);
         return Inertia::render('Lider/salonesCiclos', [
-            'curriculum' => $curriculum,
+            'curriculum'     => $curriculum,
             'grupospequenos' => $grupospequenos,
         ]);
     }
     public function misAlumnos(String $idCryptCurriculum, int $id) {
         $idCurriculum = base64_decode($idCryptCurriculum);
-        $usuario = Auth::user();
+        $usuario      = Auth::user();
         $temporadasId = Temporada::activo()->pluck('id')->values();
         $grupopequeno = GrupoPequeno::whereId($id)
             ->with(
@@ -88,7 +85,7 @@ class SalonesController extends Controller {
                 $query->where('curriculums.id', $idCurriculum);
             })
             ->first();
-        if (!$grupopequeno) {
+        if (! $grupopequeno) {
             return redirect()
                 ->route('mis-salones.curriculum', ['idCryptCurriculum' => $idCryptCurriculum])
                 ->with(['error' => 'Grupo pequeño no disponible o no existe!']);
@@ -96,39 +93,19 @@ class SalonesController extends Controller {
         $inscripciones = $grupopequeno->inscripcionesAlumnos;
         unset($grupopequeno->inscripcionesAlumnos);
         return Inertia::render('Lider/misAlumnos', [
-            'grupopequeno' => $grupopequeno,
+            'grupopequeno'  => $grupopequeno,
             'inscripciones' => $inscripciones,
         ]);
     }
 
-    public function misSalonesAsistencia(int $idGrupo) {
-        $usuario = Auth::user();
-        $temporadasId = Temporada::activo()->pluck('id')->values();
-        $inscripciones = Inscripcion::
-            where('grupo_pequeno_id', $idGrupo)
-            ->whereHas('grupoPequeno.lideres', function ($q) use ($usuario) {$q->where('usuarios.id', $usuario->id);})
-            ->whereHas('grupoPequeno', function ($q) use ($temporadasId) {$q->whereIn('temporada_id', $temporadasId);})
-            ->alumno()
-            ->with('asistencias', 'asistencias.estadoAsistencia', 'usuario')
-            ->get();
-        $semanas = GrupoPequeno::whereId($idGrupo)->first()->temporada->semanas;
-        $estadosAsistencia = EstadoAsistencia::all();
-        return response()->json([
-            'inscripciones' => $inscripciones,
-            'semanas' => $semanas,
-            'estados' => $estadosAsistencia,
-        ], 200);
-
-    }
-
     public function update(Request $request, int $id) {
 
-        $inscrito = collect($request->input('inscrito', []))->pluck('id');
-        $presente = collect($request->input('presente', []))->pluck('id');
-        $ausente = collect($request->input('ausente', []))->pluck('id');
+        $inscrito   = collect($request->input('inscrito', []))->pluck('id');
+        $presente   = collect($request->input('presente', []))->pluck('id');
+        $ausente    = collect($request->input('ausente', []))->pluck('id');
         $recuperado = collect($request->input('recuperado', []))->pluck('id');
-        $noAplica = collect($request->input('noAplica', []))->pluck('id');
-        $otros = collect($request->input('otros', []))->pluck('id');
+        $noAplica   = collect($request->input('noAplica', []))->pluck('id');
+        $otros      = collect($request->input('otros', []))->pluck('id');
 
         try {
             DB::beginTransaction();

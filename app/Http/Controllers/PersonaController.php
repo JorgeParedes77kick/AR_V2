@@ -155,13 +155,13 @@ class PersonaController extends Controller {
             }
             DB::commit();
             if ($state) {
-                return response()->json(["message" => "El Persona fue actualizada exitosamente!", "persona" => $persona], 200);
+                return response()->json(["message" => "Actualizado exitosamente!", "persona" => $persona], 200);
             } else {
-                return response()->json(["message" => "", 'server' => '¡El Persona no pudo ser actualizada, intente más tarde!'], 400);
+                return response()->json(["message" => "", 'server' => '¡No pudo ser actualizado, intente más tarde!'], 400);
             }
         } catch (Throwable $th) {
             DB::rollBack();
-            return response()->json(["message" => $th->getMessage(), 'server' => '¡El Persona no pudo ser actualizada, intente más tarde!'], 500);
+            return response()->json(["message" => $th->getMessage(), 'server' => '¡No pudo ser actualizado, intente más tarde!'], 500);
 
         }
     }

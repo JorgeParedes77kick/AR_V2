@@ -56,7 +56,7 @@
       console.log('response:', response);
       if (response?.data?.message) {
         const { message } = response.data;
-        await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+        await Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
         router.visit(route('inscripcion.index'));
       }
     } catch (err) {

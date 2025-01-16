@@ -18579,10 +18579,6 @@ body {
   overflow-y: scroll !important;
 }
 
-.white-space-normal {
-  white-space: normal !important;
-}
-
 .align-baseline {
   vertical-align: baseline !important;
 }
@@ -18605,6 +18601,10 @@ body {
 
 .align-text-top {
   vertical-align: text-top !important;
+}
+
+.white-space-normal {
+  white-space: normal !important;
 }
 
 @media (max-width: 959.98px) {

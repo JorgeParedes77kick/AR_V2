@@ -1,67 +1,67 @@
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3';
-import { router } from '@inertiajs/vue3';
-import { defineProps, inject, ref } from 'vue';
+  import { useForm } from '@inertiajs/inertia-vue3';
+  import { router } from '@inertiajs/vue3';
+  import { defineProps, inject, ref } from 'vue';
 
-import ButtonBack from '../../components/ButtonBack';
+  import ButtonBack from '../../components/ButtonBack';
 
-import axios from 'axios';
-import MainLayout from '../../components/Layout';
-import { ACCION, CRUD, TEXT_BUTTON } from '../../constants/form';
+  import axios from 'axios';
+  import MainLayout from '../../components/Layout';
+  import { ACCION, CRUD, TEXT_BUTTON } from '../../constants/form';
 
-const validate = inject('$validation');
+  const validate = inject('$validation');
 
-const props = defineProps({
-  action: String,
-  estInscripcion: { type: Object, default: {} },
-  status: String,
-});
+  const props = defineProps({
+    action: String,
+    estInscripcion: { type: Object, default: {} },
+    status: String,
+  });
 
-const loading = ref(false);
-const isDisabled = ref(props.action === CRUD.show);
+  const loading = ref(false);
+  const isDisabled = ref(props.action === CRUD.show);
 
-const inputForm = useForm({
-  estado: '',
-  ...props.estInscripcion,
-});
-const form = ref(null);
+  const inputForm = useForm({
+    estado: '',
+    ...props.estInscripcion,
+  });
+  const form = ref(null);
 
-const validateForm = async (e) => {
-  e.preventDefault();
-  inputForm.clearErrors();
-  const { valid } = await form.value.validate();
-  if (valid) submit();
-};
+  const validateForm = async (e) => {
+    e.preventDefault();
+    inputForm.clearErrors();
+    const { valid } = await form.value.validate();
+    if (valid) submit();
+  };
 
-const submit = async (form) => {
-  loading.value = true;
-  const action = props.action === CRUD.edit ? 'update' : 'store';
-  const method = props.action === CRUD.edit ? 'put' : 'post';
-  const routeName = `estados-inscripcion.${action}`;
-  const id = props.action === CRUD.edit ? inputForm.id : null;
+  const submit = async (form) => {
+    loading.value = true;
+    const action = props.action === CRUD.edit ? 'update' : 'store';
+    const method = props.action === CRUD.edit ? 'put' : 'post';
+    const routeName = `estados-inscripcion.${action}`;
+    const id = props.action === CRUD.edit ? inputForm.id : null;
 
-  try {
-    const response = await axios[method](route(routeName, id), inputForm);
-    if (response?.data?.message) {
-      const { message } = response.data;
-      await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+    try {
+      const response = await axios[method](route(routeName, id), inputForm);
+      if (response?.data?.message) {
+        const { message } = response.data;
+        await Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
 
-      router.visit(route('estados-inscripcion.index'));
+        router.visit(route('estados-inscripcion.index'));
+      }
+    } catch (err) {
+      console.log(err?.response);
+      if (err?.response?.data?.server) {
+        const { server: message } = err.response.data;
+        Swal.fire({ title: 'Error!', text: message, icon: 'error' });
+      }
+      if (err?.response?.data?.errors) {
+        const { errors } = err.response.data;
+        inputForm.errors = errors;
+      }
+    } finally {
+      loading.value = false;
     }
-  } catch (err) {
-    console.log(err?.response);
-    if (err?.response?.data?.server) {
-      const { server: message } = err.response.data;
-      Swal.fire({ title: 'Error!', text: message, icon: 'error' });
-    }
-    if (err?.response?.data?.errors) {
-      const { errors } = err.response.data;
-      inputForm.errors = errors;
-    }
-  } finally {
-    loading.value = false;
-  }
-};
+  };
 </script>
 
 <template>
@@ -80,12 +80,25 @@ const submit = async (form) => {
           <v-form @submit="validateForm" ref="form" lazy-validation>
             <v-row class="row-gap-2">
               <v-col v-if="action !== CRUD.create" cols="12" sm="6">
-                <v-text-field id="id" name="id" label="ID" v-model="inputForm.id" disabled
-                  :error-messages="inputForm.errors.id" />
+                <v-text-field
+                  id="id"
+                  name="id"
+                  label="ID"
+                  v-model="inputForm.id"
+                  disabled
+                  :error-messages="inputForm.errors.id"
+                />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field id="estado" name="estado" label="Estado" v-model="inputForm.estado" :disabled="isDisabled"
-                  :rules="validate('Estado', 'required')" :error-messages="inputForm.errors.estado" />
+                <v-text-field
+                  id="estado"
+                  name="estado"
+                  label="Estado"
+                  v-model="inputForm.estado"
+                  :disabled="isDisabled"
+                  :rules="validate('Estado', 'required')"
+                  :error-messages="inputForm.errors.estado"
+                />
               </v-col>
             </v-row>
             <v-row class="my-3" v-if="!isDisabled">

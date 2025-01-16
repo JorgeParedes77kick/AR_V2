@@ -150,7 +150,7 @@
       const { data } = await axios.post(route('inscripcion.store'), inputInscripcion);
       if (!data?.message) throw new Error('No message');
       const { message } = data;
-      await Swal.fire({ title: 'Exito!', text: message, icon: 'success' });
+      await Swal.fire({ title: 'Éxito!', text: message, icon: 'success' });
       const { isConfirmed } = await Swal.fire({
         title: 'Más inscripciones de usuario',
         text: '¿Deseas agregar más inscripciones para este usuario?',
