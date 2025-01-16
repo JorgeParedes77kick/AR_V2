@@ -1,5 +1,4 @@
 <?php
-
 namespace app\Http\Controllers;
 
 use App\Helpers\RolHelper;
@@ -20,14 +19,19 @@ class DashboardController {
     public function index() {
 
         //Nuevos
-        $id = $this->temporadas->first()->id;
-        $usuariosNuevos = $this->getUsuariosTemporadaNuevos($id);
+        $temporada      = $this->temporadas->first();
+        $usuariosNuevos = [];
+        $data           = [];
+        if ($temporada) {
+            $id             = $temporada->id;
+            $usuariosNuevos = $this->getUsuariosTemporadaNuevos($id);
+            $data           = $this->getUsuariosTemporada($id);
+        }
         $totalUsuarios = $this->getTotalUsuarios();
-        $data = $this->getUsuariosTemporada($id);
-        $data = (object) array_merge($data, $totalUsuarios, $usuariosNuevos);
+        $data          = (object) array_merge($data, $totalUsuarios, $usuariosNuevos);
         return Inertia::render('Home/dashboard', [
-            'data' => $data,
-            'temporada' => $this->temporadas->first(),
+            'data'      => $data,
+            'temporada' => $temporada,
         ]);
     }
     private function getTotalUsuarios() {
@@ -48,20 +52,20 @@ class DashboardController {
         return [
             "totalUsuarios" =>
             (object) [
-                'total' => $totalUsuarios,
+                'total'   => $totalUsuarios,
                 'generos' => $cantidadGenero,
-                'roles' => $cantidadRoles,
+                'roles'   => $cantidadRoles,
             ],
         ];
     }
     private function getUsuariosTemporadaNuevos($temporada_id) {
-        $temporada = Temporada::find($temporada_id);
+        $temporada         = Temporada::find($temporada_id);
         $temporadaAnterior = Temporada::find($temporada_id - 1);
 
         $totalUsuarios = Usuario::whereBetween('created_at', [$temporada->fecha_inicio, $temporada->fecha_cierre])->count();
-        $anterior = Usuario::whereBetween('created_at', [$temporadaAnterior->fecha_inicio, $temporadaAnterior->fecha_cierre])->count();
+        $anterior      = Usuario::whereBetween('created_at', [$temporadaAnterior->fecha_inicio, $temporadaAnterior->fecha_cierre])->count();
 
-        $percentage = $this->getPercentage($totalUsuarios, $anterior);
+        $percentage      = $this->getPercentage($totalUsuarios, $anterior);
         $usuariosGeneros = Genero::withCount(['personas' => function ($q) use ($temporada) {
             $q->whereHas('user', function ($q) use ($temporada) {
                 $q->whereBetween('personas.created_at', [$temporada->fecha_inicio, $temporada->fecha_cierre]);
@@ -81,10 +85,10 @@ class DashboardController {
         return [
             "usuariosNuevos" =>
             (object) [
-                'total' => $totalUsuarios,
+                'total'      => $totalUsuarios,
                 'percentage' => $percentage,
-                'generos' => $usuariosGeneros,
-                'roles' => $usuariosRoles,
+                'generos'    => $usuariosGeneros,
+                'roles'      => $usuariosRoles,
             ],
         ];
     }
@@ -104,7 +108,7 @@ class DashboardController {
                 $q->where('temporada_id', $temporada_id - 1);
             })
             ->count();
-        $percentage = $this->getPercentage($totalUsuarios, $anterior);
+        $percentage      = $this->getPercentage($totalUsuarios, $anterior);
         $usuariosGeneros = Genero::withCount(['personas' => function ($q) use ($temporada_id) {
             $q->wherehas('user.inscripciones', function ($q) {
                 $q->where('inscripciones.rol_id', RolHelper::$ALUMNO);
@@ -129,17 +133,17 @@ class DashboardController {
                 return ['nombre' => $rol->nombre, 'total' => $rol->usuarios_count];
             });
 
-        $alumnosRegionPais = $this->getUsuariosByRegionPais($temporada_id);
+        $alumnosRegionPais      = $this->getUsuariosByRegionPais($temporada_id);
         $alumnosCicloCurriculum = $this->getAlumnosByCicloCurriculum($temporada_id);
-        $team = $this->getCursos($temporada_id);
-        $inscripciones = $this->getInscripciones($temporada_id);
+        $team                   = $this->getCursos($temporada_id);
+        $inscripciones          = $this->getInscripciones($temporada_id);
         return array_merge([
             "usuariosInscritos" =>
             (object) [
-                'total' => $totalUsuarios,
+                'total'      => $totalUsuarios,
                 'percentage' => $percentage,
-                'generos' => $usuariosGeneros,
-                'roles' => $usuariosRoles,
+                'generos'    => $usuariosGeneros,
+                'roles'      => $usuariosRoles,
             ],
         ], $alumnosRegionPais, $alumnosCicloCurriculum, $team, $inscripciones);
     }
@@ -177,7 +181,7 @@ class DashboardController {
             ->groupBy('p2.nombre')
             ->get();
         return [
-            'inscripcionesPais' => $usuariosPais,
+            'inscripcionesPais'   => $usuariosPais,
             'inscripcionesRegion' => $usuariosRegion,
         ];
     }
@@ -214,17 +218,17 @@ class DashboardController {
             ->get();
         return [
             'inscripcionesCurriculum' => $inscripcionesCurriculum,
-            'inscripcionesCiclo' => $inscripcionesCiclo,
+            'inscripcionesCiclo'      => $inscripcionesCiclo,
         ];
     }
     private function getCursos($temporada_id) {
-        $actual = GrupoPequeno::where('temporada_id', $temporada_id)->count();
-        $anterior = GrupoPequeno::where('temporada_id', $temporada_id - 1)->count();
+        $actual     = GrupoPequeno::where('temporada_id', $temporada_id)->count();
+        $anterior   = GrupoPequeno::where('temporada_id', $temporada_id - 1)->count();
         $percentage = $this->getPercentage($actual, $anterior);
         return [
             'cursos' => (object) [
-                'actual' => $actual,
-                'anterior' => $anterior,
+                'actual'     => $actual,
+                'anterior'   => $anterior,
                 'percentage' => $percentage,
             ],
         ];
@@ -240,15 +244,15 @@ class DashboardController {
 
         return [
             'inscripciones' => (object) [
-                'actual' => $actual,
-                'anterior' => $anterior,
+                'actual'     => $actual,
+                'anterior'   => $anterior,
                 'percentage' => $percentage,
             ],
         ];
     }
 
     function getPercentage(float $actual, float $anterior) {
-        $diff = $actual - $anterior;
+        $diff       = $actual - $anterior;
         $percentage = '';
         if ($anterior != 0) {
             $percentage = $diff * 100 / $anterior;
