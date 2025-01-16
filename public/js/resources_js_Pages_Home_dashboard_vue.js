@@ -58,17 +58,24 @@ __webpack_require__.r(__webpack_exports__);
       }
     });
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
-      console.log(props.temporada);
       console.log(props.data);
       var _props$data = props.data,
         cursos = _props$data.cursos,
         inscripciones = _props$data.inscripciones,
         usuariosInscritos = _props$data.usuariosInscritos,
         usuariosNuevos = _props$data.usuariosNuevos;
-      chips.value.cursos = getBadgePercentage(cursos.percentage);
-      chips.value.inscripciones = getBadgePercentage(inscripciones.percentage);
-      chips.value.usuariosNuevos = getBadgePercentage(usuariosNuevos.percentage);
-      chips.value.usuariosInscritos = getBadgePercentage(usuariosInscritos.percentage);
+      if (cursos !== null && cursos !== void 0 && cursos.percentage) {
+        chips.value.cursos = getBadgePercentage(cursos.percentage);
+      }
+      if (inscripciones !== null && inscripciones !== void 0 && inscripciones.percentage) {
+        chips.value.inscripciones = getBadgePercentage(inscripciones.percentage);
+      }
+      if (usuariosNuevos !== null && usuariosNuevos !== void 0 && usuariosNuevos.percentage) {
+        chips.value.usuariosNuevos = getBadgePercentage(usuariosNuevos.percentage);
+      }
+      if (usuariosInscritos !== null && usuariosInscritos !== void 0 && usuariosInscritos.percentage) {
+        chips.value.usuariosInscritos = getBadgePercentage(usuariosInscritos.percentage);
+      }
     });
 
     /**
