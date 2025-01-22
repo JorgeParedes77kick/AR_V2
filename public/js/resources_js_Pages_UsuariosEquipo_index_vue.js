@@ -650,7 +650,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tiene_curriculums ? "SI (".concat(item.tiene_curriculums, ")") : ''), 1 /* TEXT */)];
                       })), _defineProperty(_createVNode2, "item.acciones", (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref5) {
                         var item = _ref5.item;
-                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Link :href=\"route('usuarios-equipo.show', item)\">\r\n                    <v-btn as=\"v-btn\" color=\"info\" small> Ver </v-btn>\r\n                    </Link> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Link :href=\"route('usuarios-equipo.show', item)\">\n                    <v-btn as=\"v-btn\" color=\"info\" small> Ver </v-btn>\n                    </Link> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
                           href: _ctx.route('usuarios-equipo.edit', item)
                         }, {
                           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -665,7 +665,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             })];
                           }),
                           _: 2 /* DYNAMIC */
-                        }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-btn color=\"error\" small @click=\"onClickDelete(item)\">Eliminar\r\n                    </v-btn> ")])];
+                        }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-btn color=\"error\" small @click=\"onClickDelete(item)\">Eliminar\n                    </v-btn> ")])];
                       })), _defineProperty(_createVNode2, "_", 2), _createVNode2), 1032 /* PROPS, DYNAMIC_SLOTS */, ["items"])];
                     }),
                     _: 1 /* STABLE */
@@ -887,7 +887,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "text-navbar-text"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\r\n        <v-hover>\r\n          <template v-slot:default=\"{ isHovering, props }\">\r\n            <v-list-item\r\n              :title=\"item.title\"\r\n              :to=\"item.link\"\r\n              v-bind=\"props\"\r\n              :class=\"\r\n                classnames({\r\n                  'bg-navbar-hover': isHovering,\r\n                  'text-navbar-hover-text': isHovering,\r\n                })\r\n              \"\r\n            >\r\n            </v-list-item>\r\n          </template>\r\n</v-hover>\r\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dynamic Menu Init"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-for=\"(item, index) in items\" :key=\"index\">\n        <v-hover>\n          <template v-slot:default=\"{ isHovering, props }\">\n            <v-list-item\n              :title=\"item.title\"\n              :to=\"item.link\"\n              v-bind=\"props\"\n              :class=\"\n                classnames({\n                  'bg-navbar-hover': isHovering,\n                  'text-navbar-hover-text': isHovering,\n                })\n              \"\n            >\n            </v-list-item>\n          </template>\n</v-hover>\n</template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dynamic Menu Init"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_list, null, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.dynamicMenu, function (menu, index) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
