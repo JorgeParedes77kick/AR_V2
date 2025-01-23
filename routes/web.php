@@ -84,6 +84,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/temporadas', App\Http\Controllers\TemporadaController::class);
         Route::post('/calificar-alumnos', [App\Http\Controllers\TemporadaController::class, 'calificarAlumnos'])->name('calificar');
 
+        // Excel
+        Route::get('/exportar/usuarios', [App\Http\Controllers\Excel\ExcelExportController::class, 'exportPersonas'])->name('exportar.usuarios');
     });
 
 });

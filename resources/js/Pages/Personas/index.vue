@@ -90,6 +90,26 @@
     options.value.perPage = perPage;
     options.value.page = 1; // Reinicia la página al cambiar el tamaño
   };
+
+  const downloadExcel = () => {
+    axios
+      .get(route('exportar.usuarios'), {
+        responseType: 'blob', // Asegúrate de que la respuesta sea un blob
+        ...inputForm.value,
+      })
+      .then((response) => {
+        console.log('response:', response);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'data.xlsx'); // Nombre del archivo
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((error) => {
+        console.error('Error al descargar el archivo:', error);
+      });
+  };
 </script>
 
 <template>
@@ -171,7 +191,19 @@
             </v-col>
           </v-row>
         </v-form>
-
+        <v-row>
+          <v-col cols="12" class="d-flex">
+            <v-btn
+              class="ms-auto"
+              type=""
+              color="success"
+              :loading="loading"
+              @click="downloadExcel"
+            >
+              Exportar
+            </v-btn>
+          </v-col>
+        </v-row>
         <!-- Tabla -->
         <v-row>
           <v-col>
