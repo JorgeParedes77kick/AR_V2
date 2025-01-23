@@ -76,35 +76,35 @@ jobs:
             **/vendor*/**
           timeout: 60000
           port: 21
-#      - name: Upload Artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: artifactARv2
-#          path: ./
-#          overwrite: true
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifactARv2
+          path: ./
+          overwrite: true
 
-#  deploy-vendor:
-#    runs-on: ubuntu-latest
-#    needs: deploy-code
-#    steps:
-#      - name: Download Artifact
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: artifactARv2
-#      - name: Deploy to cPanel
-#        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-#        with:
-#          server: ftp.armgp.org  # ${{ secrets.FTP_SERVER }}
-#          username: userarmgp # ${{ secrets.FTP_USERNAME }}
-#          password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
-#          protocol: ftp
-#          server-dir: /public_html/dev/ # Directorio en el servidor cPanel
-#          exclude: |
-#            *
-#            !vendor/
-#            !vendor/**
-#          timeout: 60000
-#          port: 21
+  deploy-vendor:
+    runs-on: ubuntu-latest
+    needs: deploy-code
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: artifactARv2
+      - name: Deploy to cPanel
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.armgp.org  # ${{ secrets.FTP_SERVER }}
+          username: userarmgp # ${{ secrets.FTP_USERNAME }}
+          password: TGA&7f&a.@y.wF@*#] # ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          server-dir: /public_html/dev/ # Directorio en el servidor cPanel
+          exclude: |
+            *
+            !vendor/
+            !vendor/**
+          timeout: 60000
+          port: 21
 #      - name: Upload Artifact
 #        uses: actions/upload-artifact@v4
 #        with:

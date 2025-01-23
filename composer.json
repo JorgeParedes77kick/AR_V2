@@ -19,6 +19,7 @@
     "laravel/tinker": "^2.0",
     "laravel/ui": "^3.4",
     "maatwebsite/excel": "^3.1.42",
+    "laraveles/spanish": "^1.5",
     "nesbot/carbon": "^2.72",
     "tightenco/ziggy": "^1.8"
   },
