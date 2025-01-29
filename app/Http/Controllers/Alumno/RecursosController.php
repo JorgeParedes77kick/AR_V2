@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Alumno;
 
 use App\Helpers\RolHelper;
@@ -7,14 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Inscripcion;
 use App\Models\Recurso;
 use App\Models\Temporada;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class RecursosController extends Controller {
 
     public function index() {
-        $usuario = Auth::user();
-        $temporadasId = Temporada::activo()->pluck('id')->toArray();
+        $usuario       = Usuario::auth();
+        $temporadasId  = Temporada::activo()->pluck('id')->toArray();
         $inscripciones = Inscripcion::where('usuario_id', $usuario->id)->where('rol_id', RolHelper::$ALUMNO)
             ->whereHas('grupoPequeno', function ($query) use ($temporadasId) {
                 $query->whereIn('temporada_id', $temporadasId);
@@ -33,10 +33,10 @@ class RecursosController extends Controller {
         ]);
     }
     public function show(int $inscripcion_id) {
-        $usuario = Auth::user();
+        $usuario = Usuario::auth();
 
         $temporadasId = Temporada::activo()->pluck('id')->toArray();
-        $inscripcion = Inscripcion::where('usuario_id', $usuario->id)
+        $inscripcion  = Inscripcion::where('usuario_id', $usuario->id)
             ->where('rol_id', RolHelper::$ALUMNO)
             ->where('id', $inscripcion_id)
             ->get();
@@ -52,7 +52,7 @@ class RecursosController extends Controller {
 
         return Inertia::render('Alumno/recursosShow', [
             'recursos' => $recursos,
-            'ciclo' => $ciclo,
+            'ciclo'    => $ciclo,
         ]);
     }
 

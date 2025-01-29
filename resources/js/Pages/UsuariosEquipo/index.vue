@@ -5,6 +5,7 @@
   import { computed, defineProps, onMounted, ref } from 'vue';
 
   import MainLayout from '../../components/Layout';
+  import { excelDescarga, excelError } from '../../utils/blob';
   dayjs.extend(isBetween);
 
   const props = defineProps({
@@ -14,6 +15,7 @@
   onMounted(() => {
     // console.log(props.usuarios)
   });
+  const loading = ref(false);
 
   const headers = [
     // { title: 'ID', key: 'id' },
@@ -81,15 +83,36 @@
     console.log('item:', item);
     return {};
   };
+
+  const downloadExcel = async (e) => {
+    e?.preventDefault();
+    loading.value = true;
+    try {
+      const response = await axios.get(route('exportar.usuarios-roles'), {
+        responseType: 'blob',
+      });
+
+      // Llama a la función para manejar la descarga
+      await excelDescarga(response.data, 'usuariosRoles.xlsx');
+    } catch (error) {
+      // Llama a la función para manejar el error
+      excelError(error);
+    } finally {
+      loading.value = false;
+    }
+  };
 </script>
 <template>
   <MainLayout>
     <v-container>
-      <v-card color="background" class="px-4 py-2">
+      <v-card color="background" class="px-4 py-2" :loading="loading">
         <v-card-title> ASIGNACIÓN DE ROLES A USUARIOS </v-card-title>
         <div>
           <v-row>
-            <v-col class="d-flex justify-end">
+            <v-col class="gridBtns">
+              <v-btn class="" type="" color="surface" :loading="loading" @click="downloadExcel">
+                Exportar
+              </v-btn>
               <Link :href="route('usuarios-equipo.create')">
                 <v-btn color="success" class="ms-auto"> Asignar Roles a alumno </v-btn>
               </Link>

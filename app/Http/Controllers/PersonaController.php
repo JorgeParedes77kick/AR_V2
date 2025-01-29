@@ -123,7 +123,7 @@ class PersonaController extends Controller {
         // user
         return Inertia::render('Personas/form', [
             'action'         => 'edit',
-            'mi-perfil'      => Auth::user()->id == $id,
+            'mi-perfil'      => Usuario::auth()->id == $id,
             'usuario'        => $usuario,
             'generos'        => $genero,
             'estadosCivil'   => $estadoCivil,
@@ -176,7 +176,7 @@ class PersonaController extends Controller {
     }
 
     public function perfil() {
-        $ID = Auth::user()->id;
+        $ID = Usuario::auth()->id;
         $ID = base64_encode($ID);
         return $this->edit($ID);
     }

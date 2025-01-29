@@ -4,6 +4,7 @@
 
   import MainLayout from '../../components/Layout.vue';
   import Pagination from '../../components/Pagination.vue';
+  import { excelDescarga, excelError } from '../../utils/blob';
 
   const props = defineProps({
     genero: { type: Array, default: () => [] },
@@ -91,31 +92,32 @@
     options.value.page = 1; // Reinicia la página al cambiar el tamaño
   };
 
-  const downloadExcel = () => {
-    axios
-      .get(route('exportar.usuarios'), {
-        responseType: 'blob', // Asegúrate de que la respuesta sea un blob
-        ...inputForm.value,
-      })
-      .then((response) => {
-        console.log('response:', response);
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'data.xlsx'); // Nombre del archivo
-        document.body.appendChild(link);
-        link.click();
-      })
-      .catch((error) => {
-        console.error('Error al descargar el archivo:', error);
+  const downloadExcel = async (e) => {
+    e?.preventDefault();
+    loading.value = true;
+    try {
+      const response = await axios.get(route('exportar.usuarios'), {
+        responseType: 'blob',
+        params: {
+          ...inputForm.value,
+        },
       });
+
+      // Llama a la función para manejar la descarga
+      await excelDescarga(response.data, 'personas.xlsx');
+    } catch (error) {
+      // Llama a la función para manejar el error
+      excelError(error);
+    } finally {
+      loading.value = false;
+    }
   };
 </script>
 
 <template>
   <MainLayout>
     <v-container fluid>
-      <v-card color="background" class="shadow-md px-4 py-2">
+      <v-card color="background" class="shadow-md px-4 py-2" :loading="loading">
         <v-card-title> Personas </v-card-title>
 
         <!-- Formulario de búsqueda -->
@@ -186,24 +188,15 @@
           </v-expansion-panels>
 
           <v-row>
-            <v-col cols="12" class="d-flex">
-              <v-btn class="ms-auto" type="submit" color="info" :loading="loading"> BUSCAR </v-btn>
+            <v-col class="d-flex justify-end ga-2">
+              <v-btn class="" type="" color="surface" :loading="loading" @click="downloadExcel">
+                Exportar
+              </v-btn>
+              <v-btn class="" type="submit" color="info" :loading="loading"> BUSCAR </v-btn>
             </v-col>
           </v-row>
         </v-form>
-        <v-row>
-          <v-col cols="12" class="d-flex">
-            <v-btn
-              class="ms-auto"
-              type=""
-              color="success"
-              :loading="loading"
-              @click="downloadExcel"
-            >
-              Exportar
-            </v-btn>
-          </v-col>
-        </v-row>
+
         <!-- Tabla -->
         <v-row>
           <v-col>

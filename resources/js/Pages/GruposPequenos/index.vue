@@ -6,6 +6,7 @@
   import isBetween from 'dayjs/plugin/isBetween';
 
   import { defineProps, onMounted, ref, watch } from 'vue';
+  import { excelDescarga, excelError } from '../../utils/blob';
 
   import MainLayout from '../../components/Layout';
   import Pagination from '../../components/Pagination.vue';
@@ -174,18 +175,47 @@
     const { curriculums } = props;
     if (rol_selected == 2 && curriculums.length === 0) coorNodata.value = true;
   });
+
+  const downloadExcel = async (e) => {
+    e?.preventDefault();
+    loading.value = true;
+
+    try {
+      const response = await axios.get(route('exportar.grupos-pequenos'), {
+        responseType: 'blob',
+        params: {
+          ...searchForm.value,
+          temporadasActivas: props.action === 'horarios',
+        },
+      });
+
+      // Llama a la función para manejar la descarga
+      await excelDescarga(response.data, 'grupos-pequenos.xlsx');
+    } catch (error) {
+      // Llama a la función para manejar el error
+      excelError(error);
+    } finally {
+      loading.value = false;
+    }
+  };
 </script>
 <template>
   <MainLayout>
-    <v-container fluid>
+    <v-container fluid :loading="loading">
       <v-card color="background" class="px-4 py-2">
         <v-card-title>
           GRUPOS PEQUEÑOS - {{ action === 'horarios' ? 'HORARIOS' : 'HISTÓRICO' }}</v-card-title
         >
-        <div v-if="action === 'horarios'">
+        <div>
           <v-row class="pb-2">
-            <v-col class="d-flex justify-end">
-              <Link v-if="!coorNodata" :href="route('grupos-pequenos.create')">
+            <v-col class="gridBtns">
+              <v-btn class="" type="" color="surface" :loading="loading" @click="downloadExcel">
+                Exportar
+              </v-btn>
+              <Link
+                v-if="action === 'horarios' && !coorNodata"
+                :href="route('grupos-pequenos.create')"
+              >
                 <v-btn color="success" class="ms-auto"> Nuevo Horario </v-btn>
               </Link>
             </v-col>
@@ -262,8 +292,8 @@
                     />
                   </v-col>
                   <v-col class="d-flex justify-end ga-2">
-                    <v-btn size="x-small" @click="onClickClean">Limpiar</v-btn>
-                    <v-btn size="x-small" type="submit" color="info" :loading="loading">
+                    <v-btn size="small" @click="onClickClean">Limpiar</v-btn>
+                    <v-btn size="small" type="submit" color="info" :loading="loading">
                       BUSCAR
                     </v-btn>
                   </v-col>

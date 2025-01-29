@@ -46,6 +46,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     curriculum: {
       type: Object,
       "default": {}
+    },
+    estados: {
+      type: Array,
+      "default": []
     }
   },
   setup: function setup(__props, _ref) {
@@ -489,9 +493,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 var _hoisted_1 = {
   "class": "text-center"
 };
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_2 = {
   "class": "text-center font-weight-medium"
-}, " Inscritos: I Presentes: P Ausentes: A Recuperado: R ", -1 /* HOISTED */);
+};
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("text", {
   "class": "text-h6"
 }, "Asistencias por Curriculum", -1 /* HOISTED */);
@@ -522,7 +526,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, "Asistencias " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$props$curriculum = $props.curriculum) === null || _$props$curriculum === void 0 ? void 0 : (_$props$curriculum$no = _$props$curriculum.nombre) === null || _$props$curriculum$no === void 0 ? void 0 : _$props$curriculum$no.toUpperCase()), 1 /* TEXT */)];
             }),
             subtitle: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [_hoisted_2];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.estados.map(function (x) {
+                return "".concat(x.estado, ": ").concat(x.key);
+              }).join(' ')), 1 /* TEXT */)];
             }),
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_row, null, {
@@ -544,10 +550,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         return {
                           name: "item.semana_".concat(n),
                           fn: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
-                            var _item$semanas, _item$semanas2, _item$semanas3, _item$semanas4;
                             var item = _ref.item,
                               index = _ref.index;
-                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "I - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas = item.semanas[n - 1]) === null || _item$semanas === void 0 ? void 0 : _item$semanas.inscritos), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "P - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas2 = item.semanas[n - 1]) === null || _item$semanas2 === void 0 ? void 0 : _item$semanas2.presentes), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "A - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas3 = item.semanas[n - 1]) === null || _item$semanas3 === void 0 ? void 0 : _item$semanas3.ausentes), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "R - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas4 = item.semanas[n - 1]) === null || _item$semanas4 === void 0 ? void 0 : _item$semanas4.recuperados), 1 /* TEXT */)];
+                            return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.estados, function (estado) {
+                              var _item$semanas;
+                              return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+                                key: estado.id
+                              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(estado.key) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas = item.semanas[n - 1]) === null || _item$semanas === void 0 ? void 0 : _item$semanas[estado.estado]), 1 /* TEXT */);
+                            }), 128 /* KEYED_FRAGMENT */))];
                           })
                         };
                       })]), 1032 /* PROPS, DYNAMIC_SLOTS */, ["headers", "items", "hide-default-footer"])];
@@ -575,10 +585,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         return {
                           name: "item.semana_".concat(n),
                           fn: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
-                            var _item$semanas5, _item$semanas6, _item$semanas7, _item$semanas8;
                             var item = _ref2.item,
                               index = _ref2.index;
-                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "I - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas5 = item.semanas[n - 1]) === null || _item$semanas5 === void 0 ? void 0 : _item$semanas5.inscritos), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "P - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas6 = item.semanas[n - 1]) === null || _item$semanas6 === void 0 ? void 0 : _item$semanas6.presentes), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "A - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas7 = item.semanas[n - 1]) === null || _item$semanas7 === void 0 ? void 0 : _item$semanas7.ausentes), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "R - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas8 = item.semanas[n - 1]) === null || _item$semanas8 === void 0 ? void 0 : _item$semanas8.recuperados), 1 /* TEXT */)];
+                            return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.estados, function (estado) {
+                              var _item$semanas2;
+                              return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+                                key: estado.id
+                              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(estado.key) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas2 = item.semanas[n - 1]) === null || _item$semanas2 === void 0 ? void 0 : _item$semanas2[estado.estado]), 1 /* TEXT */);
+                            }), 128 /* KEYED_FRAGMENT */))];
                           })
                         };
                       })]), 1032 /* PROPS, DYNAMIC_SLOTS */, ["headers", "items", "hide-default-footer"])];
@@ -615,10 +629,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         return {
                           name: "item.semana_".concat(n),
                           fn: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref4) {
-                            var _item$semanas9, _item$semanas10, _item$semanas11, _item$semanas12;
                             var item = _ref4.item,
                               index = _ref4.index;
-                            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "I - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas9 = item.semanas[n - 1]) === null || _item$semanas9 === void 0 ? void 0 : _item$semanas9.inscritos), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "P - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas10 = item.semanas[n - 1]) === null || _item$semanas10 === void 0 ? void 0 : _item$semanas10.presentes), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "A - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas11 = item.semanas[n - 1]) === null || _item$semanas11 === void 0 ? void 0 : _item$semanas11.ausentes), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "R - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas12 = item.semanas[n - 1]) === null || _item$semanas12 === void 0 ? void 0 : _item$semanas12.recuperados), 1 /* TEXT */)];
+                            return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.estados, function (estado) {
+                              var _item$semanas3;
+                              return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+                                key: estado.id
+                              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(estado.key) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_item$semanas3 = item.semanas[n - 1]) === null || _item$semanas3 === void 0 ? void 0 : _item$semanas3[estado.estado]), 1 /* TEXT */);
+                            }), 128 /* KEYED_FRAGMENT */))];
                           })
                         };
                       })]), 1032 /* PROPS, DYNAMIC_SLOTS */, ["headers", "items", "hide-default-footer"])];

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Excel;
 
+use App\Helpers\Debug;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -19,6 +20,7 @@ class GenericExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     }
 
     public function headings(): array {
+        Debug::info($this->data->first());
         return array_keys($this->data->first()->toArray()); // Obtiene los nombres de las columnas automáticamente
     }
     public function styles(Worksheet $sheet) {

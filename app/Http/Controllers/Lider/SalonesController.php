@@ -8,6 +8,7 @@ use App\Models\Asistencia;
 use App\Models\Curriculum;
 use App\Models\GrupoPequeno;
 use App\Models\Temporada;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ class SalonesController extends Controller {
 
     public function index() {
         $temporadasId = Temporada::activo()->pluck('id')->toArray();
-        $usuario      = Auth::user();
+        $usuario      = Usuario::auth();
 
         $curriculums = Curriculum::whereHas('ciclos.gruposPequenos', function ($query) use ($temporadasId, $usuario) {
             $query->whereIn('temporada_id', $temporadasId)
@@ -34,7 +35,7 @@ class SalonesController extends Controller {
 
     public function curriculum(String $idCryptCurriculum) {
         $id           = base64_decode($idCryptCurriculum);
-        $usuario      = Auth::user();
+        $usuario      = Usuario::auth();
         $temporadasId = Temporada::activo()->pluck('id')->values();
         $curriculum   = Curriculum::where('curriculums.id', $id)
             ->whereHas('ciclos.grupospequenos', function ($query) use ($temporadasId, $usuario) {
@@ -63,7 +64,7 @@ class SalonesController extends Controller {
     }
     public function misAlumnos(String $idCryptCurriculum, int $id) {
         $idCurriculum = base64_decode($idCryptCurriculum);
-        $usuario      = Auth::user();
+        $usuario      = Usuario::auth();
         $temporadasId = Temporada::activo()->pluck('id')->values();
         $grupopequeno = GrupoPequeno::whereId($id)
             ->with(
