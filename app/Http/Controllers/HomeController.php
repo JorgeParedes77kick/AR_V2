@@ -5,6 +5,7 @@ use App\Helpers\RolHelper;
 use App\Models\Curriculum;
 use App\Models\GrupoPequeno;
 use App\Models\Temporada;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,7 +38,7 @@ class HomeController extends Controller {
 
         $temporadasIns = Temporada::activo()->enInscripcion()->get();
 
-        $persona = Auth::user()->persona;
+        $persona = Usuario::auth()->persona;
         // Obtener los curriculums con los ciclos y contar los alumnos en grupos pequeños
 
         $curriculums = collect();
@@ -61,7 +62,7 @@ class HomeController extends Controller {
     }
 
     public function coordinadorHome() {
-        $user = Auth::user();
+        $user = Usuario::auth();
         // Obtener las temporadas activas y sus IDs
         $temporadasId = Temporada::activo()->pluck('id');
 
@@ -82,7 +83,7 @@ class HomeController extends Controller {
         return Inertia::render('Home/coordinadorHome', ['curriculums' => $curriculums]);
     }
     public function monitorHome() {
-        $user = Auth::user();
+        $user = Usuario::auth();
         // Obtener las temporadas activas y sus IDs
         $temporadasId = Temporada::activo()->pluck('id');
 
@@ -100,7 +101,7 @@ class HomeController extends Controller {
             'grupospequenos' => $grupospequenos]);
     }
     public function lideresHome() {
-        $user = Auth::user();
+        $user = Usuario::auth();
         // Obtener las temporadas activas y sus IDs
         $temporadasId = Temporada::activo()->pluck('id');
 

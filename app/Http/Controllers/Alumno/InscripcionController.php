@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Alumno;
 
 use App\Helpers\Debug;
@@ -17,6 +16,7 @@ use App\Models\Requisito;
 use App\Models\Restriccion;
 use App\Models\Semana;
 use App\Models\Temporada;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,8 +25,8 @@ use Inertia\Inertia;
 class InscripcionController extends Controller {
 
     public function curriculum(String $idCrypt) {
-        $id = base64_decode($idCrypt);
-        $temporadas = Temporada::activo()->get();
+        $id           = base64_decode($idCrypt);
+        $temporadas   = Temporada::activo()->get();
         $temporadasId = $temporadas->pluck('id');
 
         $curriculum = Curriculum::where('curriculums.id', $id)->activo()
@@ -40,7 +40,7 @@ class InscripcionController extends Controller {
 
         // if (!$curriculum) {return redirect()->route('home')->with(['error' => 'Curriculum no disponible o no existe!']);}
 
-        $parejasId = Restriccion::parejas()->pluck('curriculum_id')->toArray();
+        $parejasId           = Restriccion::parejas()->pluck('curriculum_id')->toArray();
         $curriculum->parejas = in_array($curriculum->id, $parejasId);
 
         // manejar el caso en que se encuentra un currículum activo con ese nombre
@@ -53,7 +53,7 @@ class InscripcionController extends Controller {
     }
 
     public function inscribir(Request $request) {
-        $usuario = Auth::user();
+        $usuario = Usuario::auth();
 
         // Obtener los parámetros necesarios del request
         $temporada_id = $request->input('temporada_id');
@@ -67,7 +67,7 @@ class InscripcionController extends Controller {
 
         $retorno = $this->validacionInscripcion($request, $usuario->id);
 
-        if (!$retorno->status) {
+        if (! $retorno->status) {
             return $retorno->response;
         }
 
@@ -78,11 +78,11 @@ class InscripcionController extends Controller {
 
             // Crear la inscripción
             $inscripcion = Inscripcion::create([
-                'usuario_id' => $usuario->id,
-                'rol_id' => RolHelper::$ALUMNO,
-                'grupo_pequeno_id' => $grupo->id,
+                'usuario_id'            => $usuario->id,
+                'rol_id'                => RolHelper::$ALUMNO,
+                'grupo_pequeno_id'      => $grupo->id,
                 'estado_inscripcion_id' => InscripcionHelper::$INSCRITO,
-                'info_adicional' => '',
+                'info_adicional'        => '',
             ]);
 
             // Obtener las semanas de la temporada (solo los IDs)
@@ -101,14 +101,14 @@ class InscripcionController extends Controller {
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
-                'server' => '¡Error al realizar la inscripción, intente más tarde!',
+                'server'  => '¡Error al realizar la inscripción, intente más tarde!',
                 'message' => $th->getMessage(),
             ], 500);
         }
     }
 
     public function cursos() {
-        $usuario = Auth::user();
+        $usuario      = Usuario::auth();
         $temporadasId = Temporada::activo()->pluck('id')->toArray();
 
         $inscripciones = Inscripcion::where('usuario_id', $usuario->id)->where('rol_id', RolHelper::$ALUMNO)
@@ -129,9 +129,9 @@ class InscripcionController extends Controller {
     }
 
     public function desinscribir(String $idCrypt) {
-        $id = base64_decode($idCrypt);
+        $id          = base64_decode($idCrypt);
         $inscripcion = Inscripcion::find($id);
-        if (!$inscripcion) {
+        if (! $inscripcion) {
             return response()->json(['server' => 'No existe esta inscripción'], 400);
         }
         try {
@@ -147,7 +147,7 @@ class InscripcionController extends Controller {
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
-                'server' => '¡La inscripción no pudo ser eliminada, intente más tarde!',
+                'server'  => '¡La inscripción no pudo ser eliminada, intente más tarde!',
                 'message' => $th->getMessage(),
             ], 500);
         }
@@ -163,10 +163,10 @@ class InscripcionController extends Controller {
 
         // Obtener los parámetros necesarios del request
         $temporada_id = $request->input('temporada_id');
-        $ciclo_id = $request->input('ciclo_id');
-        $dia_curso = $request->input('dia_curso');
-        $hora_inicio = $request->input('hora_inicio');
-        $hora_fin = $request->input('hora_fin');
+        $ciclo_id     = $request->input('ciclo_id');
+        $dia_curso    = $request->input('dia_curso');
+        $hora_inicio  = $request->input('hora_inicio');
+        $hora_fin     = $request->input('hora_fin');
 
         // Obtener las inscripciones del usuario en la temporada enviada
         // Verificar si el usuario ya alcanzó el número máximo de inscripciones permitidas
@@ -208,7 +208,7 @@ class InscripcionController extends Controller {
         }
 
         // Valida que tengas todos los prerequisitos de ciclos
-        $idsCicloRequisitos = Requisito::where('ciclo_id', $ciclo_id)->orderBy('ciclo_pre_id', 'asc')->pluck('ciclo_pre_id');
+        $idsCicloRequisitos    = Requisito::where('ciclo_id', $ciclo_id)->orderBy('ciclo_pre_id', 'asc')->pluck('ciclo_pre_id');
         $incripcionesAprobadas = Inscripcion::join('grupo_pequenos as grupo', 'grupo_pequeno_id', 'grupo.id')
             ->whereIn('ciclo_id', $idsCicloRequisitos)
             ->where('usuario_id', $usuario_id)
@@ -236,7 +236,7 @@ class InscripcionController extends Controller {
             ->first();
 
         // Si no hay grupos disponibles, retornar una respuesta
-        if (!$grupo) {
+        if (! $grupo) {
             return (object) ['status' => false, 'response' => response()->json(['server' => 'No hay inscripciones disponibles en este grupo.'], 400)];
         }
         return (object) ['status' => true, 'grupo' => $grupo];

@@ -1,53 +1,54 @@
 <script setup>
-import { defineProps, onMounted, ref } from 'vue';
-import MainLayout from '../../components/Layout.vue';
+  import { defineProps, onMounted, ref } from 'vue';
+  import MainLayout from '../../components/Layout.vue';
 
-// const validate = inject('validation');
+  // const validate = inject('validation');
 
-const props = defineProps({
-  curriculumAsistencias: { type: Array, default: [] },
-  ciclosAsistencias: { type: Array, default: [] },
-  gruposAsistencias: { type: Array, default: [] },
-  semanas: { type: Array, default: [] },
-  curriculum: { type: Object, default: {} },
-});
+  const props = defineProps({
+    curriculumAsistencias: { type: Array, default: [] },
+    ciclosAsistencias: { type: Array, default: [] },
+    gruposAsistencias: { type: Array, default: [] },
+    semanas: { type: Array, default: [] },
+    curriculum: { type: Object, default: {} },
+    estados: { type: Array, default: [] },
+  });
 
-const headers = ref({
-  curriculum: [],
-  ciclo: [],
-  grupo: [],
-});
+  const headers = ref({
+    curriculum: [],
+    ciclo: [],
+    grupo: [],
+  });
 
-const alumnos = ref([]);
+  const alumnos = ref([]);
 
-const loading = ref(false);
-const isDisabled = ref(false);
+  const loading = ref(false);
+  const isDisabled = ref(false);
 
-const generateSemanaHeaders = (semanas) => {
-  return semanas.map((_, i) => ({
-    title: `Semana ${i + 1}`,
-    key: `semana_${i + 1}`,
-    sortable: false,
-    minWidth: '1rem',
-    align: 'center',
-  }));
-};
+  const generateSemanaHeaders = (semanas) => {
+    return semanas.map((_, i) => ({
+      title: `Semana ${i + 1}`,
+      key: `semana_${i + 1}`,
+      sortable: false,
+      minWidth: '1rem',
+      align: 'center',
+    }));
+  };
 
-onMounted(() => {
-  console.log(props);
-  const { semanas } = props;
-  const semanaHeaders = generateSemanaHeaders(semanas);
+  onMounted(() => {
+    console.log(props);
+    const { semanas } = props;
+    const semanaHeaders = generateSemanaHeaders(semanas);
 
-  const baseHeader = { title: 'Total Alumnos', key: 'total_inscritos', maxWidth: '3rem' };
-  headers.value.curriculum = [baseHeader, ...semanaHeaders];
-  headers.value.ciclo = [{ title: 'Ciclo', key: 'nombre_ciclo' }, baseHeader, ...semanaHeaders];
-  headers.value.grupo = [
-    { title: 'Lideres', key: 'lideres' },
-    { title: 'Ciclo', key: 'nombre_ciclo', maxWidth: '5rem' },
-    baseHeader,
-    ...semanaHeaders,
-  ];
-});
+    const baseHeader = { title: 'Total Alumnos', key: 'total_inscritos', maxWidth: '3rem' };
+    headers.value.curriculum = [baseHeader, ...semanaHeaders];
+    headers.value.ciclo = [{ title: 'Ciclo', key: 'nombre_ciclo' }, baseHeader, ...semanaHeaders];
+    headers.value.grupo = [
+      { title: 'Lideres', key: 'lideres' },
+      { title: 'Ciclo', key: 'nombre_ciclo', maxWidth: '5rem' },
+      baseHeader,
+      ...semanaHeaders,
+    ];
+  });
 </script>
 
 <template>
@@ -59,7 +60,13 @@ onMounted(() => {
         </template>
         <template v-slot:subtitle>
           <div class="text-center font-weight-medium">
-            Inscritos: I&emsp;Presentes: P&emsp;Ausentes: A&emsp;Recuperado: R
+            {{
+              estados
+                .map((x) => {
+                  return `${x.estado}: ${x.key}`;
+                })
+                .join('&emsp;')
+            }}
           </div>
         </template>
         <v-row
@@ -79,10 +86,9 @@ onMounted(() => {
                 :key="`semana_${n}`"
                 v-slot:[`item.semana_${n}`]="{ item, index }"
               >
-                <p>I - {{ item.semanas[n - 1]?.inscritos }}</p>
-                <p>P - {{ item.semanas[n - 1]?.presentes }}</p>
-                <p>A - {{ item.semanas[n - 1]?.ausentes }}</p>
-                <p>R - {{ item.semanas[n - 1]?.recuperados }}</p>
+                <p v-for="estado in estados" :key="estado.id">
+                  {{ estado.key }} - {{ item.semanas[n - 1]?.[estado.estado] }}
+                </p>
               </template>
             </v-data-table>
           </v-col></v-row
@@ -104,10 +110,9 @@ onMounted(() => {
                 :key="`semana_${n}`"
                 v-slot:[`item.semana_${n}`]="{ item, index }"
               >
-                <p>I - {{ item.semanas[n - 1]?.inscritos }}</p>
-                <p>P - {{ item.semanas[n - 1]?.presentes }}</p>
-                <p>A - {{ item.semanas[n - 1]?.ausentes }}</p>
-                <p>R - {{ item.semanas[n - 1]?.recuperados }}</p>
+                <p v-for="estado in estados" :key="estado.id">
+                  {{ estado.key }} - {{ item.semanas[n - 1]?.[estado.estado] }}
+                </p>
               </template>
             </v-data-table>
           </v-col></v-row
@@ -134,10 +139,9 @@ onMounted(() => {
                 :key="`semana_${n}`"
                 v-slot:[`item.semana_${n}`]="{ item, index }"
               >
-                <p>I - {{ item.semanas[n - 1]?.inscritos }}</p>
-                <p>P - {{ item.semanas[n - 1]?.presentes }}</p>
-                <p>A - {{ item.semanas[n - 1]?.ausentes }}</p>
-                <p>R - {{ item.semanas[n - 1]?.recuperados }}</p>
+                <p v-for="estado in estados" :key="estado.id">
+                  {{ estado.key }} - {{ item.semanas[n - 1]?.[estado.estado] }}
+                </p>
               </template>
             </v-data-table>
           </v-col></v-row

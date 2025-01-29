@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -9,9 +8,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class Usuario extends Authenticatable {
     use HasFactory, Notifiable;
+
+    /**
+     * @return \App\Models\Usuario|null
+     */
+    public static function auth() {
+        return Auth::user();
+    }
 
     protected $table = 'usuarios';
 
@@ -33,8 +40,8 @@ class Usuario extends Authenticatable {
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'created_at'        => 'datetime',
+        'updated_at'        => 'datetime',
     ];
 
     protected $appends = ['fullNombre', 'nombreCompleto', 'idCrypt'];

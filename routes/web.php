@@ -84,6 +84,13 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/temporadas', App\Http\Controllers\TemporadaController::class);
         Route::post('/calificar-alumnos', [App\Http\Controllers\TemporadaController::class, 'calificarAlumnos'])->name('calificar');
 
+        // Excel
+        Route::get('/exportar/usuarios', [App\Http\Controllers\Excel\ExcelExportController::class, 'exportPersonas'])->name('exportar.usuarios');
+        Route::get('/exportar/curriculums', [App\Http\Controllers\Excel\ExcelExportController::class, 'exportCurriculums'])->name('exportar.curriculums');
+        Route::get('/exportar/ciclos', [App\Http\Controllers\Excel\ExcelExportController::class, 'exportCiclos'])->name('exportar.ciclos');
+        Route::get('/exportar/usuariosRoles', [App\Http\Controllers\Excel\ExcelExportController::class, 'exportUsuariosRoles'])->name('exportar.usuarios-roles');
+        Route::get('/exportar/gruposPequenos', [App\Http\Controllers\Excel\ExcelExportController::class, 'exportGruposPequeno'])->name('exportar.grupos-pequenos');
+        // Route::get('/exportar/usuarios', [App\Http\Controllers\Excel\ExcelExportController::class, 'exportPersonas'])->name('exportar.usuarios');
     });
 
 });

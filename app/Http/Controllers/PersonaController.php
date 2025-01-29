@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Actions\Fortify\CreateNewUser;
@@ -14,7 +13,6 @@ use App\Models\Nacionalidad;
 use App\Models\Pais;
 use App\Models\Persona;
 use App\Models\Usuario;
-use function App\Helpers\castParams;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,12 +43,12 @@ class PersonaController extends Controller {
         $form = Cast::castParams($request->except('perPage', 'page', 'buscador'), 'int');
         $form = array_merge($form, $request->only('buscador'));
         return Inertia::render('Personas/index', [
-            'genero' => $genero,
-            'estadoCivil' => $estadoCivil,
-            'pais' => $pais,
+            'genero'       => $genero,
+            'estadoCivil'  => $estadoCivil,
+            'pais'         => $pais,
             'nacionalidad' => $nacionalidad,
-            'usuarios' => $usuarios,
-            'form' => $form,
+            'usuarios'     => $usuarios,
+            'form'         => $form,
 
         ]);
     }
@@ -77,10 +75,10 @@ class PersonaController extends Controller {
                 // $request->persona_id = $person->id;
 
                 $createUser = new CreateNewUser();
-                $user = $createUser->create([
-                    'nick_name' => $request->nick_name,
-                    'email' => $request->email,
-                    'password' => $request->password,
+                $user       = $createUser->create([
+                    'nick_name'  => $request->nick_name,
+                    'email'      => $request->email,
+                    'password'   => $request->password,
                     'persona_id' => $person->id,
                 ]);
                 if ($user instanceof Usuario) {
@@ -118,18 +116,18 @@ class PersonaController extends Controller {
             ->select('id', 'nick_name', 'email', 'persona_id')
             ->first();
 
-        $genero = Genero::all();
-        $estadoCivil = EstadoCivil::all();
-        $pais = Pais::with('regiones')->orderBy('nombre', 'asc')->get();
+        $genero       = Genero::all();
+        $estadoCivil  = EstadoCivil::all();
+        $pais         = Pais::with('regiones')->orderBy('nombre', 'asc')->get();
         $nacionalidad = Nacionalidad::all();
         // user
         return Inertia::render('Personas/form', [
-            'action' => 'edit',
-            'mi-perfil' => Auth::user()->id == $id,
-            'usuario' => $usuario,
-            'generos' => $genero,
-            'estadosCivil' => $estadoCivil,
-            'paises' => $pais,
+            'action'         => 'edit',
+            'mi-perfil'      => Usuario::auth()->id == $id,
+            'usuario'        => $usuario,
+            'generos'        => $genero,
+            'estadosCivil'   => $estadoCivil,
+            'paises'         => $pais,
             'nacionalidades' => $nacionalidad,
         ]
         );
@@ -141,11 +139,11 @@ class PersonaController extends Controller {
      *
      */
     public function update(UpdatePersonaRequest $request, String $idCrypt) {
-        $id = base64_decode($idCrypt);
-        $data = $request->validated();
+        $id            = base64_decode($idCrypt);
+        $data          = $request->validated();
         $newContrasena = $request->input('newContrasena');
-        $usuario = Usuario::find($id);
-        $persona = $usuario->persona;
+        $usuario       = Usuario::find($id);
+        $persona       = $usuario->persona;
 
         try {
             DB::beginTransaction();
@@ -178,7 +176,7 @@ class PersonaController extends Controller {
     }
 
     public function perfil() {
-        $ID = Auth::user()->id;
+        $ID = Usuario::auth()->id;
         $ID = base64_encode($ID);
         return $this->edit($ID);
     }
@@ -187,7 +185,7 @@ class PersonaController extends Controller {
         $all = $request->all();
         Debug::info($all);
         $buscador = trim($request->input('buscador', ''));
-        $perPage = trim($request->input('perPage', 20));
+        $perPage  = trim($request->input('perPage', 20));
 
         $usuarios = Usuario::with('persona')->whereHas('persona', function ($query) use ($request, $buscador) {
             if ($buscador != '') {
@@ -203,13 +201,13 @@ class PersonaController extends Controller {
             // Filtrar por género, estado civil, nacionalidad y región si están presentes
             foreach (['genero', 'estado_civil', 'nacionalidad', 'region'] as $field) {
                 $value = $request->input($field, null);
-                if (!is_null($value)) {
+                if (! is_null($value)) {
                     $query->where($field . '_id', $value);
                 }
             }
             // Filtrar por país
             $pais_id = $request->input('pais', null);
-            if (!is_null($pais_id)) {
+            if (! is_null($pais_id)) {
                 $query->whereHas('region.pais', function ($q) use ($pais_id) {
                     $q->where('paises.id', $pais_id);
                 });

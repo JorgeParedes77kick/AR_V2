@@ -31,7 +31,7 @@ class GrupoPequenoController extends Controller {
         $curriculums = collect();
         $ciclos      = collect();
         if ($rol === RolHelper::$COORDINADOR) {
-            $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
+            $idsCurriculum = Usuario::auth()->curriculums()->pluck('curriculums.id');
             if ($idsCurriculum->count() > 0) {
                 $curriculums = Curriculum::activo()->whereIn('curriculums.id', $idsCurriculum)->get();
                 $ciclos      = Ciclo::whereHas('curriculum', function ($q) use ($idsCurriculum) {
@@ -67,12 +67,12 @@ class GrupoPequenoController extends Controller {
         $gruposPequenos = $this->find($request, true);
         $rol            = session()->get('rol_id');
 
-        $temporadas = cache()->remember('temporadas', 60 * 20, function () {
-            return Temporada::select('id', 'prefijo')->orderBy('prefijo', 'desc')->get()
+        $temporadas = cache()->remember('temporadasActiva', 60 * 20, function () {
+            return Temporada::select('id', 'prefijo')->orderBy('prefijo', 'desc')->activo()->get()
                 ->makeHidden(['semanas', 'fecha_inicio_w', 'fecha_cierre_w', 'fecha_extension_w']);
         });
         if ($rol === RolHelper::$COORDINADOR) {
-            $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
+            $idsCurriculum = Usuario::auth()->curriculums()->pluck('curriculums.id');
             $curriculums   = Curriculum::activo()->whereIn('curriculums.id', $idsCurriculum)->get();
             $ciclos        = Ciclo::whereHas('curriculum', function ($q) use ($idsCurriculum) {
                 $q->activo()->whereIn('curriculums.id', $idsCurriculum);
@@ -114,7 +114,7 @@ class GrupoPequenoController extends Controller {
         $rol         = session()->get('rol_id');
         $curriculums = collect();
         if ($rol === RolHelper::$COORDINADOR) {
-            $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
+            $idsCurriculum = Usuario::auth()->curriculums()->pluck('curriculums.id');
             if ($idsCurriculum->count() > 0) {
                 $curriculums = Curriculum::activo()->select(['id', 'nombre'])->with('ciclos:id,nombre,curriculum_id')->whereIn('curriculums.id', $idsCurriculum)->get();
             }
@@ -271,7 +271,7 @@ class GrupoPequenoController extends Controller {
         $rol         = session()->get('rol_id');
         $curriculums = collect();
         if ($rol === RolHelper::$COORDINADOR) {
-            $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
+            $idsCurriculum = Usuario::auth()->curriculums()->pluck('curriculums.id');
             if ($idsCurriculum->count() > 0) {
                 $curriculums = Curriculum::activo()->select(['id', 'nombre'])->with('ciclos:id,nombre,curriculum_id')->whereIn('curriculums.id', $idsCurriculum)->get();
             }
@@ -431,7 +431,7 @@ class GrupoPequenoController extends Controller {
         $dias        = $request->input('dias', []);
         $nombre      = trim($request->input('nombre'));
 
-        $idsCurriculum = Auth::user()->curriculums()->pluck('curriculums.id');
+        $idsCurriculum = Usuario::auth()->curriculums()->pluck('curriculums.id');
         if ($rol === RolHelper::$COORDINADOR && $idsCurriculum->count() == 0) {
             return collect([]);
         }
@@ -442,8 +442,6 @@ class GrupoPequenoController extends Controller {
                 'ciclo'             => function ($q) {$q->select('id', 'nombre', 'curriculum_id');},
                 'ciclo.curriculum'  => function ($q) {$q->select('id', 'nombre');},
                 'temporada'         => function ($q) {$q->select('id', 'nombre', 'prefijo', 'activo');},
-                // 'lideres' => function ($q) {$q->select('id', 'email', 'persona_id');},
-                // 'monitores' => function ($q) {$q->select('id', 'email', 'persona_id');},
                 'lideres.persona'   => function ($q) {$q->select('id', 'nombre', 'apellido');},
                 'monitores.persona' => function ($q) {$q->select('id', 'nombre', 'apellido');},
             ]

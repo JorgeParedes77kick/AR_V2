@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Helpers\AsistenciaHelper;
 use App\Helpers\RolHelper;
 use App\Models\Curriculum;
 use App\Models\EstadoAsistencia;
@@ -9,21 +8,25 @@ use App\Models\GrupoPequeno;
 use App\Models\Inscripcion;
 use App\Models\Semana;
 use App\Models\Temporada;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class AsistenciaController extends Controller {
     private $temporadasId = [];
+    private $estados;
     public function __construct() {
         $this->temporadasId = Temporada::activo()->pluck('id');
+        $this->estados      = EstadoAsistencia::select('id', 'estado')->get();
+
     }
     public function index() {
         $temporadas = Temporada::activo()->get();
 
         $rol         = session()->get('rol_id');
         $curriculums = collect();
-        $user        = Auth::user();
+        $user        = Usuario::auth();
         if ($rol === RolHelper::$COORDINADOR) {
 
             $curriculums = Curriculum::activo()
@@ -65,7 +68,7 @@ class AsistenciaController extends Controller {
     public function show($idCryptCurriculum) {
         $curriculumId = base64_decode($idCryptCurriculum);
         $curriculum   = Curriculum::find($curriculumId);
-        // $usuario = Auth::user();
+        // $usuario = ;
         $semanas               = Semana::whereIn('temporada_id', $this->temporadasId)->orderBy('temporada_id')->orderBy('id')->get();
         $gruposAsistencias     = $this->asistenciaByGrupo($curriculumId);
         $ciclosAsistencias     = $this->asistenciaByCiclo($curriculumId, $gruposAsistencias);
@@ -77,6 +80,7 @@ class AsistenciaController extends Controller {
             'gruposAsistencias'     => $gruposAsistencias,
             'semanas'               => $semanas,
             'curriculum'            => $curriculum,
+            'estados'               => $this->estados,
         ]);
     }
     private function asistenciaByGrupo($curriculumId) {
@@ -116,7 +120,7 @@ class AsistenciaController extends Controller {
     }
 
     private function basicQueryGrupos($curriculumId) {
-        $user = Auth::user();
+        $user = Usuario::auth();
         $rol  = session()->get('rol_id');
 
         $grupos = GrupoPequeno::
@@ -158,26 +162,19 @@ class AsistenciaController extends Controller {
     }
     private function mapSemanas($grupos) {
         $semanas = $grupos->groupBy('semana_id')->map(function ($semanas) {
-            $resultados = ['total' => 0, 'ausentes' => 0, 'inscritos' => 0, 'presentes' => 0, 'no_aplica' => 0, 'recuperados' => 0];
+            $resultados = ['total' => 0];
+            // Agregar los estados dinámicamente al array de resultados
+            foreach ($this->estados as $estado) {
+                $resultados[$estado->estado] = 0; // Inicializa cada estado en 0
+            }
             foreach ($semanas as $asistencia) {
                 $resultados['total'] += $asistencia->total_asistencias;
+                // Encuentra el estado correspondiente al id de asistencia
+                $estadoCorrespondiente = $this->estados->firstWhere('id', $asistencia->estado_asistencia_id);
 
-                switch ($asistencia->estado_asistencia_id) {
-                case AsistenciaHelper::$AUSENTE:
-                    $resultados['ausentes'] += $asistencia->total_asistencias;
-                    break;
-                case AsistenciaHelper::$INSCRITO:
-                    $resultados['inscritos'] += $asistencia->total_asistencias;
-                    break;
-                case AsistenciaHelper::$PRESENTE:
-                    $resultados['presentes'] += $asistencia->total_asistencias;
-                    break;
-                case AsistenciaHelper::$NO_APLICA:
-                    $resultados['no_aplica'] += $asistencia->total_asistencias;
-                    break;
-                case AsistenciaHelper::$RECUPERADO:
-                    $resultados['recuperados'] += $asistencia->total_asistencias;
-                    break;
+                if ($estadoCorrespondiente) {
+                    // Incrementa el contador del estado correspondiente
+                    $resultados[$estadoCorrespondiente->estado] += $asistencia->total_asistencias;
                 }
             }
             return (object) $resultados;
@@ -197,16 +194,12 @@ class AsistenciaController extends Controller {
         $countSemanas = $grupos[0]->semanas->count();
         $semanas      = collect([]);
         for ($i = 0; $i < $countSemanas; $i++) {
-            $total = $grupos->sum(function ($grupo) use ($i) {return $grupo->semanas[$i]->total;});
-            $ausentes = $grupos->sum(function ($grupo) use ($i) {return $grupo->semanas[$i]->ausentes;});
-            $inscritos = $grupos->sum(function ($grupo) use ($i) {return $grupo->semanas[$i]->inscritos;});
-            $presentes = $grupos->sum(function ($grupo) use ($i) {return $grupo->semanas[$i]->presentes;});
-            $no_aplica = $grupos->sum(function ($grupo) use ($i) {return $grupo->semanas[$i]->no_aplica;});
-            $recuperados = $grupos->sum(function ($grupo) use ($i) {return $grupo->semanas[$i]->recuperados;});
-            $semanas->push((object) [
-                "total"     => $total, "ausentes"      => $ausentes, "inscritos"    => $inscritos,
-                "presentes" => $presentes, "no_aplica" => $no_aplica, "recuperados" => $recuperados,
-            ]);
+            $resultados = ['total' => $grupos->sum(function ($grupo) use ($i) {return $grupo->semanas[$i]->total;})];
+            foreach ($this->estados as $estado) {
+                $aux = $grupos->sum(function ($grupo) use ($i, $estado) {return $grupo->semanas[$i]->{$estado->estado};});
+                $resultados[$estado->estado] = $aux;
+            }
+            $semanas->push((object) $resultados);
         }
         return (object) [
             "grupo_pequenos_id" => $grupos[0]->grupo_pequenos_id,
@@ -219,7 +212,7 @@ class AsistenciaController extends Controller {
         ];
     }
     public function misSalonesAsistencia(int $idGrupo) {
-        $usuario = Auth::user();
+        $usuario = Usuario::auth();
         return $this->getAsistenciaGrupo($idGrupo, $usuario->id);
     }
     public function getAsistenciaGrupo($idGrupo, $liderId = null) {
